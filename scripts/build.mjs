@@ -1,0 +1,7 @@
+import {readFile,readdir,stat} from 'node:fs/promises';
+import {execFileSync} from 'node:child_process';
+async function walk(dir){for(const name of await readdir(dir)){const p=`${dir}/${name}`;if((await stat(p)).isDirectory())await walk(p);else if(name.endsWith('.js'))execFileSync(process.execPath,['--check',p]);}}
+await walk('dist');const html=await readFile('dist/index.html','utf8');if(!html.includes('lang="ja"')||!html.includes('manifest'))throw Error('Document metadata missing');
+const sample=JSON.parse(await readFile('dist/sample.json'));if(!sample.sample)throw Error('Public dataset must be original sample');
+const manifest=JSON.parse(await readFile('dist/manifest.webmanifest'));for(const icon of manifest.icons)await stat('dist/'+icon.src);
+console.log('Static application checked. Serve dist/ at any path.');
