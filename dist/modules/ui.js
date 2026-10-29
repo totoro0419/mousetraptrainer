@@ -9,14 +9,14 @@ let invoker,onClose,currentCleanup;
 export const isSheetOpen=()=>document.querySelector('#sheet').open;
 export function closeSheet(){document.querySelector('#sheet').close();}
 export function openSheet(title,content,{wide=false,onclose,setup}={}){
- const d=document.querySelector('#sheet');if(d.open)d.close();invoker=document.activeElement;onClose=onclose;
+ const d=document.querySelector('#sheet'),wasOpen=d.open;currentCleanup?.();currentCleanup=null;if(!wasOpen)invoker=document.activeElement;onClose=onclose;
  d.className=wide?'sheet expanded':'sheet';d.innerHTML=`<header class="sheet-head"><button class="sheet-handle" aria-label="シートの高さを切り替える" aria-expanded="${wide}"><span></span></button><div class="sheet-heading"><h2 id="sheet-title">${esc(title)}</h2><div><button class="icon-button expand-sheet" aria-label="${wide?'小さく表示':'大きく表示'}">${icon(wide?'down':'up')}</button><button class="icon-button close-sheet" aria-label="閉じる">${icon('close')}</button></div></div></header><div class="sheet-body">${content}</div>`;
  const expand=()=>{d.classList.toggle('expanded');d.querySelector('.sheet-handle').setAttribute('aria-expanded',d.classList.contains('expanded'));};
  d.querySelector('.close-sheet').onclick=closeSheet;d.querySelector('.expand-sheet').onclick=expand;d.querySelector('.sheet-handle').onclick=expand;
  d.onclose=()=>{currentCleanup?.();currentCleanup=null;onClose?.();if(invoker?.isConnected)invoker.focus({preventScroll:true});};
  d.onclick=e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientY<r.top||e.clientX<r.left||e.clientX>r.right)d.close();}};
  let y=0;const handle=d.querySelector('.sheet-head');handle.onpointerdown=e=>{if(e.target.closest('button'))return;y=e.clientY;handle.setPointerCapture(e.pointerId);};handle.onpointerup=e=>{if(!y)return;const dy=e.clientY-y;y=0;if(dy>90)d.close();else if(dy<-35)d.classList.add('expanded');};
- d.showModal();d.querySelector('.close-sheet').focus({preventScroll:true});currentCleanup=setup?.(d);
+ if(!wasOpen)d.showModal();d.querySelector('.close-sheet').focus({preventScroll:true});currentCleanup=setup?.(d);
  return d;
 }
 export function empty(title,body){return `<div class="empty"><div class="empty-icon">${icon('book')}</div><h2>${esc(title)}</h2><p>${esc(body)}</p></div>`;}

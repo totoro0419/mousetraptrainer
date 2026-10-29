@@ -31,7 +31,10 @@ export function normalizeBundle(input){
  for(const l of lines){
   if(translations[l.id]&&!record(translations[l.id])&&typeof translations[l.id]!=='string')throw Error('翻訳の形式が不正です。');
   for(const m of [vocabulary,grammar])if(l.id in m&&!Array.isArray(m[l.id]))throw Error(`${l.id}: 語彙・文法は配列が必要です。`);
+  for(const g of grammar[l.id]||[])if(!record(g)||typeof g.pattern!=='string'||typeof g.description!=='string')throw Error(`${l.id}: 文法項目の形式が不正です。`);
+  for(const v of vocabulary[l.id]||[])if(!record(v)||typeof v.surface!=='string'||typeof v.meaning!=='string')throw Error(`${l.id}: 語彙項目の形式が不正です。`);
  }
+ for(const d of Object.values(dictionary))if(!record(d))throw Error('辞書項目の形式が不正です。');
  return {version:1,id:plain(input.id)||(lines[0].id.startsWith('act1-scene1-speech-')?'mousetrap-private':'local-'+lines[0].id),title:plain(input.title)||'The Mousetrap',sample:input.sample===true,scenes,lines,translations,vocabulary,grammar,dictionary,warnings,importedAt:Date.now()};
 }
 export function stats(data,progress,role){
@@ -84,7 +87,7 @@ export function assemble(files){
  const result={};const names={mousetrap_script_data:'script',mousetrap_line_translations:'translations',mousetrap_line_vocabulary:'vocabulary',mousetrap_line_grammar:'grammar',mousetrap_word_dictionary:'dictionary',mousetrap_directions:'directions'};
  for(const [filename,content] of Object.entries(files)){
   if(content?.format==='mousetrap-backup-v1')return {backup:content};
-  if(content?.script){Object.assign(result,content);continue;}
+  if(record(content?.script)&&Object.values(content.script).some(v=>Array.isArray(v?.speeches))){for(const k of ['script','translations','vocabulary','grammar','dictionary','directions','id','title','sample'])if(k in content)result[k]=content[k];continue;}
   const key=Object.keys(names).find(n=>filename.replace(/\(\d+\)/g,'').startsWith(n));if(key)result[names[key]]=content;
   else if(record(content)&&Object.values(content).some(v=>Array.isArray(v?.speeches)))result.script=content;
  }
@@ -96,4 +99,11 @@ export async function readFiles(files){
   if(f.name.toLowerCase().endsWith('.zip'))Object.assign(entries,await unzipJSON(await f.arrayBuffer()));
   else if(f.name.toLowerCase().endsWith('.json'))entries[f.name]=JSON.parse(await f.text());else throw Error('JSONまたはZIPを選んでください。');
  }return assemble(entries);
+}
+// Some supplied entries attach an unrelated -ing explanation to perfect forms.
+// Repair only that exact known mismatch; preserve the original in imported data.
+export function grammarDescription(entry){
+ const rules={"'d + 過去分詞（had の縮約）":"'d が had を表す場合、had + 過去分詞で過去完了を作る。過去の基準時より前の出来事・状態を表す。","'s + 過去分詞（has の縮約）":"'s が has を表す場合、has + 過去分詞で現在完了を作る。過去の出来事を現在とのつながりの中で捉える。",'have just + 過去分詞':'have / has just + 過去分詞は、たった今起きたことを表す現在完了。','may/might have + 過去分詞':'may / might have + 過去分詞は、過去の出来事について「〜したかもしれない」と可能性を示す。','would have + 過去分詞':'would have + 過去分詞は、仮定の条件のもとで起きたであろう過去の結果などを表す。','should have + 過去分詞':'should have + 過去分詞は「〜すべきだった」など、過去についての判断を表す。文脈によって「〜したはずだ」という推量にもなる。','could have + 過去分詞':'could have + 過去分詞は、過去に実現できた可能性や「〜だったかもしれない」という推量などを表す。','must have + 過去分詞':'must have + 過去分詞は、過去の出来事について「〜したに違いない」と強く推量する。','why + S + should have + 過去分詞':'why を伴う should have + 過去分詞は、過去の出来事への疑問や意外さを表すことがある。前後の文脈で話者の態度を確認する。'};
+ if(entry?.description?.includes('-ing形の役割')&&rules[entry.pattern]){const quote=entry.description.match(/原文では「([^」]+)」/);return {text:rules[entry.pattern]+(quote?` 原文の「${quote[1]}」を確認する。`:''),corrected:true};}
+ return {text:plain(entry?.description),corrected:false};
 }
