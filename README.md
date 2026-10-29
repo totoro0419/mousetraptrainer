@@ -1,5 +1,5 @@
 # Mousetrap Trainer
 
-英語劇の台本学習・セリフ暗記アプリ。提供台本は端末内で読み込み、公開リポジトリには含めません。
+英語劇のセリフ暗記・台本学習アプリ。台本データは端末内で読み込みます。
 
-Implementation in progress. See subsequent milestone commits.
+Development milestones are recorded as separate commits. See docs for data and audio integration.

@@ -1,0 +1,5 @@
+node_modules/
+private-data/
+qa-private/
+*.local.json
+.openai/
