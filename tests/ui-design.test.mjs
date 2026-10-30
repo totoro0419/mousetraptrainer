@@ -53,3 +53,32 @@ test('design v2: basic stylesheet delimiter integrity',()=>{
  }
  assert.equal(depth,0,'unbalanced CSS declaration blocks');
 });
+
+
+test('design v2: PNG PWA icons are valid and match required dimensions',async()=>{
+ const zlib=await import('node:zlib');
+ for(const size of [192,512]){
+  const buf=await readFile(new URL('../dist/icon-'+size+'.png',import.meta.url));
+  assert.equal(buf.subarray(0,8).toString('hex'),'89504e470d0a1a0a','PNG signature');
+  let o=8,idat=[],palette,seenIEND=false;
+  const crc=(data)=>{let n=0xffffffff;for(const byte of data){n^=byte;for(let j=0;j<8;j++)n=(n>>>1)^((n&1)?0xedb88320:0)}return(n^0xffffffff)>>>0};
+  while(o<buf.length){
+   const length=buf.readUInt32BE(o),kind=buf.toString('ascii',o+4,o+8);
+   const end=o+12+length;
+   assert.ok(end<=buf.length,'PNG chunk fits file');
+   assert.equal(crc(buf.subarray(o+4,o+8+length)),buf.readUInt32BE(o+8+length),'PNG chunk CRC: '+kind);
+   if(kind==='IHDR'){
+    assert.equal(buf.readUInt32BE(o+8),size);
+    assert.equal(buf.readUInt32BE(o+12),size);
+   }
+   if(kind==='PLTE')palette=buf.subarray(o+8,o+8+length);
+   if(kind==='IDAT')idat.push(buf.subarray(o+8,o+8+length));
+   if(kind==='IEND')seenIEND=true;
+   o=end;
+  }
+  assert.ok(seenIEND,'PNG IEND');
+  assert.ok(zlib.inflateSync(Buffer.concat(idat)).length>=size,'image rows inflate');
+  // Require a blue in the palette, guarding against old warm-color launcher icons.
+  if(palette){let blue=false;for(let j=0;j<palette.length;j+=3)if(palette[j+2]>palette[j]+30&&palette[j+2]>palette[j+1]+10)blue=true;assert.ok(blue,'blue palette')}
+ }
+});
