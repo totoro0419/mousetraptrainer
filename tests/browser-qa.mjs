@@ -37,6 +37,7 @@ try{
  console.log('PASS: role picker uses in-app choices, persists selection and dispatches change');
 
  await page.locator('.global-settings').click();
+ await page.locator('.settings-page').waitFor();
  assert.equal(await page.locator('.bottom-nav a[href="#settings"]').count(),0,'No bottom settings tab');
  assert.equal(await page.locator('.bottom-nav a.nav-item').count(),3,'Bottom bar has three destinations');
  assert.equal(await page.locator('.global-settings').getAttribute('aria-label'),'設定を閉じる');
