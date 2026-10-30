@@ -135,9 +135,12 @@ try{
  await restored.locator('.speech-inner').click({position:{x:6,y:6}});
  assert.equal(await page.locator('#sheet').evaluate(el=>el.open),true,'Row background opens analysis');
  const headings=await page.locator('#sheet .sheet-body h3').allTextContents();
- const translation=headings.indexOf('日本語訳'),context=headings.indexOf('場面・セリフの意図');
+ const translation=headings.indexOf('日本語訳'),context=headings.indexOf('会話の流れ・文脈');
  const acting=headings.indexOf('演技のポイント'),grammar=headings.indexOf('文法・構文');
  assert.ok(translation>=0&&context>translation&&acting>context&&grammar>acting,'Translation, context and acting precede grammar');
+ assert.ok(await page.locator('#sheet .analysis-neighbor').count()>=1,'Supplied neighboring translations are shown as context');
+ assert.equal(await page.locator('#sheet .analysis-context .subtle').first().textContent(),'前後の発話を、提供済みの日本語訳から表示しています。');
+
  await page.locator('#sheet .close-sheet').click();
  const word=restored.locator('.word').first();
  if(await word.count()){await word.click();assert.equal(await page.locator('#sheet .sheet-body .dictionary-word').count(),1,'Word tap opens dictionary instead of analysis');await page.locator('#sheet .close-sheet').click();}
