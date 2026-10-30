@@ -1,6 +1,6 @@
 import {sceneName,stats,labels,normalizeBundle,readFiles,plain} from './modules/data.js';
 import * as storage from './modules/storage.js';
-import {icon,esc,button,el,toast,openSheet,closeSheet} from './modules/ui.js';
+import {icon,esc,button,el,toast,openSheet,closeSheet,enhanceSelects} from './modules/ui.js';
 import {loadStartupScript} from './modules/bundled.js';
 let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,updateRequested=false;
 const defaults={role:'',scene:'all',font:20,leading:1.9,stick:true,read:{},sessions:{},range:{scene:'all',from:1,to:0},rate:1};
@@ -19,6 +19,7 @@ async function render(){const epoch=++renderEpoch;cleanup();cleanup=()=>{};if(do
  else if(route==='settings')renderSettings(main);else renderHome(main);
  app.querySelector('[data-action=settings-sheet]')?.addEventListener('click',()=>{location.hash='settings';});
  app.querySelector('[data-action=choose-role]')?.addEventListener('click',openRolePicker);
+ enhanceSelects(main);
 }
 function context(){return {data,small,progress,save,setProgress,roles,go:(route)=>{location.hash=route;},openImport,changeRole,openRolePicker,settings:()=>{location.hash='settings';}};}
 async function changeRole(next){
