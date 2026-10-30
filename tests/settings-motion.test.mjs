@@ -30,7 +30,8 @@ test('critical low-frequency operations remain available through management',()=
 test('no duplicate settings gear and obsolete offline row remain',()=>{
  assert.doesNotMatch(app,/data-action="settings-sheet"|class="topbar-title desktop-only"/);
  assert.doesNotMatch(app,/refreshOffline\(\)|id="offline-note"/);
- assert.match(app,/navItem\('settings','設定','settings'\)/);
+ assert.match(app,/data-action="open-settings"/);
+ assert.doesNotMatch(app,/navItem\('settings','設定','settings'\)/);
 });
 
 test('intentional motion covers entrances, press states, sheet snap and reduced-motion setting',()=>{
