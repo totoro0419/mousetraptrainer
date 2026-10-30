@@ -68,6 +68,26 @@ try{
  console.log('PASS: dragging down from top of sheet content dismisses it');
  await page.screenshot({path:'test-results/settings-mobile.png'});
 
+
+ assert.equal(await page.locator('.settings-page').count(),1,'Minimal settings screen renders');
+ assert.equal(await page.locator('.settings-page h2').count(),2,'Only two groups remain');
+ assert.equal(await page.locator('.settings-page .setting-row').count(),4,'Only core controls remain');
+ assert.equal(await page.locator('.settings-page .version,.settings-page #offline-note').count(),0,'Redundant status UI removed');
+ const animationName=await page.locator('.settings-page').evaluate(el=>getComputedStyle(el).animationName);
+ assert.ok(animationName.includes('page-enter'),'Settings has enter motion');
+ const beforeStick=await page.locator('#show-stick').isChecked();
+ await page.locator('#show-stick').check({force:!beforeStick}).catch(async()=>page.locator('#show-stick').click());
+ assert.notEqual(await page.locator('#show-stick').isChecked(),beforeStick,'Custom switch toggles');
+ const rate=page.locator('#playback-rate');
+ assert.equal(await rate.isVisible(),false,'Playback rate uses hidden native select');
+ const manage=page.locator('[data-action="manage-data"]');
+ await manage.click();
+ assert.equal(await page.locator('#sheet .management-action').count(),5,'Management options preserved');
+ assert.equal(await page.locator('#sheet .management-note').count(),1);
+ await page.locator('#sheet [data-action="import"]').click();
+ assert.equal(await page.locator('#sheet #import-result').count(),1,'Import accessible through management');
+ await page.locator('#sheet .close-sheet').click();
+ console.log('PASS: minimal settings, persistent controls, animations and management operations');
  await page.locator('.bottom-nav a[href="#script"]').click();
  await page.locator('.speech').first().waitFor({timeout:25000});
  await page.screenshot({path:'test-results/reader-mobile.png'});
