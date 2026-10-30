@@ -1,9 +1,36 @@
-const CACHE='mousetrap-shell-20261030-bookmark-blue-v4-icon-v2';
+// Each release refreshes cached assets online, while retaining a complete offline shell.
+const CACHE='mousetrap-shell-20261031-network-first-v5';
 const ASSETS=['./','./index.html','./styles.css','./app.js','./data/mousetrap.json','./icon-v2-192.png','./icon-v2-512.png','./icon-v2-maskable-512.png','./manifest.webmanifest','./modules/data.js','./modules/bundled.js','./modules/storage.js','./modules/ui.js','./modules/reader.js','./modules/stick.js','./modules/session.js','./modules/audio.js','./modules/rehearsal.js'];
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
-self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('mousetrap-shell-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener('message',e=>{if(e.data==='activate')self.skipWaiting();});
-self.addEventListener('fetch',event=>{if(self.location.hostname==='terminal.local')return;const u=new URL(event.request.url);if(event.request.method!=='GET'||u.origin!==self.location.origin||!u.href.startsWith(self.registration.scope))return;
- if(event.request.mode==='navigate')event.respondWith(fetch(event.request).catch(()=>caches.match(new URL('./index.html',self.registration.scope))));
- else if(ASSETS.some(p=>new URL(p,self.registration.scope).href===u.href))event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request)));
+const assetURL=path=>new URL(path,self.registration.scope).href;
+const stored=async path=>caches.match(assetURL(path));
+async function freshOrCached(request,path,event){
+ try{
+  // Bypass HTTP and service-worker caches: a successful deploy must not show old JS/CSS.
+  const response=await fetch(request,{cache:'no-store'});
+  if(!response.ok)throw Error('HTTP '+response.status);
+  event.waitUntil(caches.open(CACHE).then(cache=>cache.put(assetURL(path),response.clone())));
+  return response;
+ }catch(err){
+  const cached=await stored(path);
+  if(cached)return cached;
+  throw err;
+ }
+}
+self.addEventListener('install',event=>event.waitUntil(
+ caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())
+));
+self.addEventListener('activate',event=>event.waitUntil(
+ caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('mousetrap-shell-')&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())
+));
+self.addEventListener('message',event=>{if(event.data==='activate')self.skipWaiting();});
+self.addEventListener('fetch',event=>{
+ if(self.location.hostname==='terminal.local')return;
+ const request=event.request,u=new URL(request.url);
+ if(request.method!=='GET'||u.origin!==self.location.origin||!u.href.startsWith(self.registration.scope))return;
+ if(request.mode==='navigate'){
+  event.respondWith(freshOrCached(request,'./index.html',event));
+  return;
+ }
+ const asset=ASSETS.find(path=>assetURL(path)===u.href);
+ if(asset)event.respondWith(freshOrCached(request,asset,event));
 });
