@@ -12,12 +12,11 @@ function save(){try{storage.saveSmall(key(),small);storage.saveSmall(`mt-progres
 function setProgress(id,value){const old=progress[id]?{...progress[id]}:undefined;progress[id]=value;save();toast(value.review?'要復習に追加しました':`学習状態: ${labels[value.level||0]}`,()=>{if(old)progress[id]=old;else delete progress[id];save();window.dispatchEvent(new CustomEvent('progresschange',{detail:id}));});window.dispatchEvent(new CustomEvent('progresschange',{detail:id}));}
 function navItem(route,text,ico){return `<a class="nav-item" href="#${route}" ${route===(location.hash.slice(1)||'home')?'aria-current="page"':''}>${icon(ico)}<span>${text}</span></a>`;}
 document.querySelector('.skip').onclick=e=>{e.preventDefault();const m=document.querySelector('#main .page-scroll')||document.querySelector('#main');m?.setAttribute('tabindex','-1');m?.focus({preventScroll:true});};
-function shell(){app.innerHTML=`<div class="app-layout" data-route="${esc(location.hash.slice(1)||'home')}"><aside class="sidebar"><a href="#home" class="brand"><img src="./icon.svg" alt=""><span>Mousetrap<br>Trainer</span></a><nav class="nav-items" aria-label="メイン">${navItem('home','ホーム','home')}${navItem('script','台本','book')}${navItem('rehearse','稽古','play')}</nav><div class="sidebar-bottom">${navItem('settings','設定','settings')}</div></aside><div class="main-shell"><header class="topbar"><a class="brand mobile-brand" href="#home"><img src="./icon.svg" alt=""><span>Mousetrap Trainer</span></a><span class="topbar-title desktop-only">Mousetrap Trainer</span><div class="toolbar-actions"><button type="button" class="role-trigger" data-action="choose-role" aria-label="自分の役を選ぶ。現在: ${esc(small.role)}"><span><small>自分の役</small><strong>${esc(small.role)}</strong></span>${icon('down')}</button><button class="icon-button" data-action="settings-sheet" aria-label="設定を開く">${icon('settings')}</button></div></header><main id="main" class="main-content" style="display:contents"></main></div><nav class="bottom-nav" aria-label="メイン">${navItem('home','ホーム','home')}${navItem('script','台本','book')}${navItem('rehearse','稽古','play')}${navItem('settings','設定','settings')}</nav></div>`;}
+function shell(){app.innerHTML=`<div class="app-layout" data-route="${esc(location.hash.slice(1)||'home')}"><aside class="sidebar"><a href="#home" class="brand"><img src="./icon.svg" alt=""><span>Mousetrap<br>Trainer</span></a><nav class="nav-items" aria-label="メイン">${navItem('home','ホーム','home')}${navItem('script','台本','book')}${navItem('rehearse','稽古','play')}</nav><div class="sidebar-bottom">${navItem('settings','設定','settings')}</div></aside><div class="main-shell"><header class="topbar"><a class="brand mobile-brand" href="#home"><img src="./icon.svg" alt=""><span>Mousetrap Trainer</span></a><div class="toolbar-actions"><button type="button" class="role-trigger" data-action="choose-role" aria-label="自分の役を選ぶ。現在: ${esc(small.role)}"><span><small>自分の役</small><strong>${esc(small.role)}</strong></span>${icon('down')}</button></div></header><main id="main" class="main-content" style="display:contents"></main></div><nav class="bottom-nav" aria-label="メイン">${navItem('home','ホーム','home')}${navItem('script','台本','book')}${navItem('rehearse','稽古','play')}${navItem('settings','設定','settings')}</nav></div>`;}
 async function render(){const epoch=++renderEpoch;cleanup();cleanup=()=>{};if(document.querySelector('#sheet').open)closeSheet();shell();const main=app.querySelector('#main'),route=location.hash.slice(1)||'home';
  if(route==='script'){const {mountReader}=await import('./modules/reader.js');if(epoch!==renderEpoch)return;cleanup=mountReader(main,context());}
  else if(route==='rehearse'){const {mountRehearsal}=await import('./modules/rehearsal.js');if(epoch!==renderEpoch)return;cleanup=mountRehearsal(main,context());}
  else if(route==='settings')renderSettings(main);else renderHome(main);
- app.querySelector('[data-action=settings-sheet]')?.addEventListener('click',()=>{location.hash='settings';});
  app.querySelector('[data-action=choose-role]')?.addEventListener('click',openRolePicker);
  enhanceSelects(main);
 }
@@ -40,16 +39,58 @@ function renderHome(main){
  main.querySelectorAll('[data-scene]').forEach(b=>b.onclick=()=>{small.scene=b.dataset.scene;small.read={};save();location.hash='script';});
  main.querySelector('[data-action=review]')?.addEventListener('click',()=>{small.scene='all';small.speaker=small.role;small.reviewOnly=true;save();location.hash='script';});
 }
-function renderSettings(main){main.innerHTML=`<div class="page-scroll"><div class="page" style="max-width:900px"><div class="page-intro"><h1>設定</h1><p class="subtle">読みやすさも、稽古のペースも、自分に合わせて。</p></div><section class="setting-group"><h2>読む</h2><div class="setting-row"><label for="font-size">英文の文字サイズ<p><output id="font-output">${small.font}</output> px</p></label><input id="font-size" type="range" min="16" max="32" step="1" value="${small.font}"></div><div class="setting-row"><label for="line-height">行間</label><select id="line-height"><option value="1.6">コンパクト</option><option value="1.9">標準</option><option value="2.2">ゆったり</option></select></div><div class="setting-row"><label for="show-stick">スクロールスティック<p>上下に倒して移動。同方向に素早く2回で自分のセリフへ。</p></label><input id="show-stick" type="checkbox" ${small.stick?'checked':''}></div></section><section class="setting-group"><h2>音声</h2><div class="setting-row"><div><strong>録音ファイル</strong><p>発話ID.mp3 など。音声は端末内に保存します。</p></div>${button('音声を追加','audio-import','secondary','audio')}</div><div class="setting-row"><label for="playback-rate">再生速度</label><select id="playback-rate">${[.75,1,1.25,1.5].map(n=>`<option value="${n}">${n}倍</option>`).join('')}</select></div></section><section class="setting-group"><h2>台本と学習記録</h2><div class="setting-row"><div><strong>${esc(data.title)}</strong><p>${data.lines.length} 発話 · ${data.scenes.length} 場面 · ${Object.keys(data.dictionary).length} 辞書項目</p></div>${button('読み込む','import','secondary','upload')}</div><div class="setting-row"><div><strong>バックアップを保存</strong><p>台本・進捗・閲覧位置・稽古の続きをJSONで保存。音声は含みません。</p></div>${button('保存','export','secondary','download')}</div><div class="setting-row"><div><strong>バックアップから復元</strong><p>同じ発話の進捗は、新しい更新日時の記録を優先します。</p></div>${button('選択','restore','secondary','refresh')}</div><div class="setting-row"><div><strong>保存した台本</strong></div>${button('台本一覧','library','secondary')}</div></section><section class="setting-group"><h2>アプリ</h2><div class="setting-row"><div><strong>ホーム画面に追加</strong><p id="install-note">インストールすると、アプリとしてすぐに開けます。</p></div>${button('インストール','install','secondary','download')}</div><div class="setting-row"><div><strong>オフライン</strong><p id="offline-note">状態を確認しています…</p></div>${button('更新を確認','update','secondary','refresh')}</div></section><div class="notice">学習データはこのブラウザーに保存されます。端末の変更やブラウザーのデータ削除に備えて、バックアップを保存してください。</div><p class="version">Mousetrap Trainer 1.1</p></div></div>`;
- main.querySelector('#line-height').value=small.leading;main.querySelector('#playback-rate').value=small.rate;
- main.querySelector('#font-size').oninput=e=>{small.font=+e.target.value;main.querySelector('#font-output').textContent=small.font;save();};main.querySelector('#line-height').onchange=e=>{small.leading=+e.target.value;save();};main.querySelector('#show-stick').onchange=e=>{small.stick=e.target.checked;save();};main.querySelector('#playback-rate').onchange=e=>{small.rate=+e.target.value;save();};
- const actions={import:openImport,restore:openImport,export:exportBackup,library:showLibrary,'audio-import':async()=>{const {openAudioImport}=await import('./modules/audio.js');openAudioImport(context());},install:installApp,update:checkUpdate};
- for(const [a,fn] of Object.entries(actions))main.querySelector(`[data-action=${a}]`)?.addEventListener('click',fn);
- refreshOffline();
+function renderSettings(main){
+ main.innerHTML=`<div class="page-scroll"><div class="page settings-page">
+  <header class="page-intro"><h1>設定</h1></header>
+  <section class="setting-group" aria-labelledby="settings-display"><h2 id="settings-display">表示</h2>
+   <div class="setting-row"><label for="font-size">文字サイズ</label><div class="setting-control"><output id="font-output" for="font-size">${small.font}px</output><input id="font-size" type="range" min="16" max="32" step="1" value="${small.font}"></div></div>
+   <div class="setting-row"><label for="line-height">行間</label><select id="line-height"><option value="1.6">狭い</option><option value="1.9">標準</option><option value="2.2">広い</option></select></div>
+   <div class="setting-row"><label for="show-stick">スクロールスティック</label><input id="show-stick" type="checkbox" ${small.stick?'checked':''}></div>
+  </section>
+  <section class="setting-group" aria-labelledby="settings-audio"><h2 id="settings-audio">音声</h2>
+   <div class="setting-row"><label for="playback-rate">再生速度</label><select id="playback-rate">${[.75,1,1.25,1.5].map(n=>`<option value="${n}">${n}倍</option>`).join('')}</select></div>
+   <button class="setting-link" type="button" data-action="audio-import"><span>音声を追加</span>${icon('chevron')}</button>
+  </section>
+  <button class="setting-link setting-manage" type="button" data-action="manage-data"><span>データとアプリ</span>${icon('chevron')}</button>
+ </div></div>`;
+ main.querySelector('#line-height').value=small.leading;
+ main.querySelector('#playback-rate').value=small.rate;
+ main.querySelector('#font-size').oninput=e=>{
+  small.font=+e.target.value;main.querySelector('#font-output').textContent=small.font+'px';save();
+ };
+ main.querySelector('#line-height').onchange=e=>{small.leading=+e.target.value;save();};
+ main.querySelector('#show-stick').onchange=e=>{small.stick=e.target.checked;save();};
+ main.querySelector('#playback-rate').onchange=e=>{small.rate=+e.target.value;save();};
+ main.querySelector('[data-action=audio-import]').onclick=async()=>{
+  const {openAudioImport}=await import('./modules/audio.js');openAudioImport(context());
+ };
+ main.querySelector('[data-action=manage-data]').onclick=openDataManagement;
 }
+function openDataManagement(){
+ openSheet('データとアプリ',`<div class="management-list">
+  <button class="management-action" type="button" data-action="import"><span>台本・バックアップを読み込む</span>${icon('chevron')}</button>
+  <button class="management-action" type="button" data-action="library"><span>保存済みの台本</span>${icon('chevron')}</button>
+  <button class="management-action" type="button" data-action="export"><span>バックアップを保存</span>${icon('chevron')}</button>
+  <button class="management-action" type="button" data-action="install"><span>アプリをインストール</span>${icon('chevron')}</button>
+  <button class="management-action" type="button" data-action="update"><span>更新を確認</span>${icon('chevron')}</button>
+  <p class="management-note">学習記録は端末に保存されます。バックアップに音声ファイルは含まれません。</p>
+ </div>`,{wide:true,setup:d=>{
+  const actions={import:openImport,library:showLibrary,export:exportBackup,install:installApp,update:checkUpdate};
+  for(const [name,handler] of Object.entries(actions))
+   d.querySelector('[data-action='+name+']').onclick=handler;
+ }});
+}
+
 async function activate(next){await storage.atomicPut([[`script:${next.id}`,next],['active-script',next.id]]);data=next;loadState();save();}
 async function showLibrary(){const ids=await storage.get('script-list')||[];const items=[];for(const id of ids){const d=await storage.get(`script:${id}`);if(d&&!d.sample)items.push(d);}openSheet('保存した台本',items.length?items.map(d=>`<button class="scene-link" data-work="${esc(d.id)}"><span class="scene-link-text"><strong>${esc(d.title)}</strong><small>${d.lines.length}発話</small></span>${icon('chevron')}</button>`).join(''):'<p>まだ読み込んだ台本はありません。</p>',{setup:d=>{d.querySelectorAll('[data-work]').forEach(b=>b.onclick=async()=>{const next=await storage.get(`script:${b.dataset.work}`);await activate(next);closeSheet();render();});}});}
-function openImport(){openSheet('台本データを読み込む',`<p>バックアップZIPを1つ、または台本・翻訳・語彙・文法・辞書のJSONをまとめて選んでください。</p><p class="subtle" style="margin-top:12px">JSON / ZIP · 1ファイル50MB以内。データは端末内で処理・保存します。</p><div style="margin-top:24px">${button('ファイルを選ぶ','choose-files','primary','upload')}</div><div id="import-result" class="sheet-section"><h3>対応ファイル</h3><p class="subtle">mousetrap_script_data.json ほか<br>The_Mousetrap_Production_Data_DEPLOY_READY.zip<br>このアプリから保存したバックアップJSON</p></div>`,{setup:d=>{d.querySelector('[data-action=choose-files]').onclick=()=>document.querySelector('#data-files').click();}});}
+function openImport(){
+ openSheet('台本を読み込む',`<p class="import-hint">JSON・ZIPファイルを選択してください。複数のJSONもまとめて選べます。</p>
+  <div class="import-select">${button('ファイルを選ぶ','choose-files','primary','upload')}</div>
+  <div id="import-result" class="sheet-section" aria-live="polite"></div>`,{
+  setup:d=>{d.querySelector('[data-action=choose-files]').onclick=()=>document.querySelector('#data-files').click();}
+ });
+}
+
 document.querySelector('#data-files').onchange=async e=>{
  const files=[...e.target.files];e.target.value='';if(!files.length)return;const result=document.querySelector('#import-result');if(!result)return;result.innerHTML='<p role="status">データの対応を確認しています…</p>';
  try{const read=await readFiles(files);let next=read.data,backup=read.backup;
