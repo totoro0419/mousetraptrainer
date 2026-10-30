@@ -1,0 +1,17 @@
+{
+  "comparison": "Speaker order plus lowercase ASCII letters/digits; punctuation and whitespace are not compared.",
+  "pdfSpeechLabels": 1164,
+  "sourceSpeeches": 1164,
+  "speakerOrderMatches": true,
+  "exactBlocksBeforeSceneRemoval": 1160,
+  "sceneDescriptionsSeparated": [
+    "act1-scene1-speech-0001",
+    "act1-scene1-speech-0190",
+    "act1-scene2-speech-0336",
+    "act2-speech-0638"
+  ],
+  "normalizedSpeechMatches": 1164,
+  "errors": [],
+  "pdfSha256": "94d46d2afe7504d2010c10b3ef4f1017bc3adfe0c09ab86bfd837167357c397b",
+  "sourceSha256": "022dc48dd68c85773e9ce8307a7d3f1e2a3bceafc20a4a9b8db83e472a81a7b6"
+}
