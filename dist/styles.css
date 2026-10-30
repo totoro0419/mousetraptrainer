@@ -461,3 +461,13 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 .speech-bookmark[aria-pressed="true"] .icon{fill:rgba(69,104,223,.2)}
 .speech-bookmark:active{transform:scale(.94)}
 @media print{.speech-bookmark{display:none!important}}
+
+/* Context and performance cues sourced from the supplied translation and stage-direction data. */
+.analysis-context .subtle{margin-bottom:9px}
+.analysis-neighbor{padding:10px 0;border-top:1px solid var(--line)}
+.analysis-neighbor-label{font-size:11px;color:var(--accent);font-weight:650;letter-spacing:.03em}
+.sheet-body .analysis-neighbor p{font-size:14px;line-height:1.65;margin-top:3px}
+.analysis-stage-cue{font-weight:600;color:var(--ink)}
+.analysis-acting .analysis-stage-original,.analysis-personal{margin-top:12px}
+.analysis-acting .analysis-stage-original summary,.analysis-personal summary{color:var(--muted);font-size:12px;cursor:pointer}
+.analysis-intent{margin:8px 0 13px}
