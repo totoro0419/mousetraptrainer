@@ -76,7 +76,7 @@ try{
  const animationName=await page.locator('.settings-page').evaluate(el=>getComputedStyle(el).animationName);
  assert.ok(animationName.includes('page-enter'),'Settings has enter motion');
  const beforeStick=await page.locator('#show-stick').isChecked();
- await page.locator('#show-stick').check({force:!beforeStick}).catch(async()=>page.locator('#show-stick').click());
+ if(beforeStick)await page.locator('#show-stick').uncheck();else await page.locator('#show-stick').check();
  assert.notEqual(await page.locator('#show-stick').isChecked(),beforeStick,'Custom switch toggles');
  const rate=page.locator('#playback-rate');
  assert.equal(await rate.isVisible(),false,'Playback rate uses hidden native select');
