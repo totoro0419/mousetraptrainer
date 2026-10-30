@@ -1,6 +1,6 @@
 # Mousetrap Trainer — Luminous Minimalism Design System v2
 
-Status: **implementation-ready design proposal** (design only; no implementation in this PR)  
+Status: **implemented in PR #1; source and CI verified; device visual QA pending**  
 Scope: Home / Script / Cloze rehearsal / Audio rehearsal / Bottom sheets / Settings / Navigation / Scroll stick  
 Baseline: the default-branch files inspected on 2026-10-30. A QA pass is mandatory before adopting.
 
@@ -232,4 +232,4 @@ Functional regression:
 - Apple HIG: visual hierarchy and depth should communicate meaningful separation, not arbitrary ornament. https://developer.apple.com/design/human-interface-guidelines/spatial-layout/
 - Material Design 3: elevation can use restrained tonal difference and shadow rather than only borders. https://developer.android.com/develop/ui/compose/designsystems/material3
 
-**Note:** These are the product's proposed design choices, not claims that Apple or Google prescribe these exact token values. This document specifies a target design, not implementation completion.
+**Note:** These are product-specific design choices, not values prescribed by Apple or Google. Implementation is included in PR #1; passing CI does not substitute for visual and device testing.
