@@ -1,0 +1,19 @@
+name: Verify PR UI and data
+on:
+  push:
+    branches:
+      - 'design/**'
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - run: npm test
+      - run: npm run build
