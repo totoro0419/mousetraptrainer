@@ -56,10 +56,17 @@ export function openSheet(title,content,{wide=false,onclose,setup}={}){
  // Header: pointer capture keeps the gesture even when the finger leaves the handle.
  let drag=null;
  const translate=dy=>{d.style.transform=dy>0?`translateY(${dy}px)`:'';};
+ const settle=dy=>{
+  d.style.transform='';
+  if(dy>0&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&typeof d.animate==='function'){
+   d.animate([{transform:`translateY(${Math.min(dy,600)}px)`},{transform:'translateY(0)'}],
+    {duration:210,easing:'cubic-bezier(.22,1,.36,1)'});
+  }
+ };
  const finish=(dy,dx,ms)=>{
   const action=sheetSwipeDecision(dy,dx,ms);
   if(action==='dismiss')animateSheetDismiss(d,dy);
-  else{translate(0);if(action==='expand'&&!d.classList.contains('expanded'))toggleExpanded();}
+  else{settle(dy);if(action==='expand'&&!d.classList.contains('expanded'))toggleExpanded();}
  };
  header.onpointerdown=e=>{
   if(e.button!==0||e.target.closest('.sheet-heading button'))return;
