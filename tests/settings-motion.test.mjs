@@ -24,7 +24,7 @@ test('critical low-frequency operations remain available through management',()=
  assert.match(section,/install:installApp/);
  assert.match(section,/update:checkUpdate/);
  assert.match(app,/function openImport\(\)/);
- assert.match(app,/data-action=confirm-import/);
+ assert.match(app,/'confirm-import'/);
 });
 
 test('no duplicate settings gear and obsolete offline row remain',()=>{
