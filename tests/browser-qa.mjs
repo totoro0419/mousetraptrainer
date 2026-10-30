@@ -37,7 +37,7 @@ try{
  console.log('PASS: role picker uses in-app choices, persists selection and dispatches change');
 
  await page.locator('.bottom-nav a[href="#settings"]').click();
- await page.locator('#line-height').waitFor();
+ await page.locator('#line-height').waitFor({state:'attached'});
  assert.equal(await page.locator('#line-height').isVisible(),false);
  const setting=page.locator('.setting-row .app-select-trigger').first();
  await setting.click();
