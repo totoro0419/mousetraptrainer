@@ -27,3 +27,10 @@ test('decisive clue references preserve chronology and point to the actual revea
  assert.ok(data['act2-speech-0582'].relatedLineIds.includes('act2-speech-0584'));
  assert.ok(data['act2-speech-0620'].premise.includes('推量'));
 });
+test('saved validation reports describe these exact current data bytes',async()=>{
+ const current=await inspect();
+ const recorded=JSON.parse(await readFile(new URL('../docs/dramaturgy/validation.json',import.meta.url),'utf8'));
+ assert.deepEqual(recorded,current);
+ const pdf=JSON.parse(await readFile(new URL('../docs/dramaturgy/source-validation.json',import.meta.url),'utf8'));
+ assert.equal(pdf.sourceSha256,current.sourceSha256);assert.equal(pdf.normalizedSpeechMatches,1164);assert.equal(pdf.speakerOrderMatches,true);assert.deepEqual(pdf.errors,[]);
+});
