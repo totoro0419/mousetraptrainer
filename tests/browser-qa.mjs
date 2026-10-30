@@ -183,6 +183,7 @@ try{
  assert.ok(await desktop.locator('.role-menu [role=option]').count()>1,'Desktop header role uses anchored menu');
  await desktop.keyboard.press('Escape');
  assert.equal(await desktop.locator('.role-menu').count(),0);
+ await desktop.locator('.nav-items a[href="#home"]').click();
  await desktop.screenshot({path:'test-results/home-desktop.png'});
  console.log('PASS: desktop layout booted');
 }finally{
