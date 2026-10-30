@@ -36,7 +36,11 @@ try{
  assert.ok((await own.textContent()).includes(second.trim()));
  console.log('PASS: role picker uses in-app choices, persists selection and dispatches change');
 
- await page.locator('.bottom-nav a[href="#settings"]').click();
+ await page.locator('.global-settings').click();
+ await page.locator('.settings-page').waitFor();
+ assert.equal(await page.locator('.bottom-nav a[href="#settings"]').count(),0,'No bottom settings tab');
+ assert.equal(await page.locator('.bottom-nav a.nav-item').count(),3,'Bottom bar has three destinations');
+ assert.equal(await page.locator('.global-settings').getAttribute('aria-label'),'設定を閉じる');
  await page.locator('#line-height').waitFor({state:'attached'});
  assert.equal(await page.locator('#line-height').isVisible(),false);
  const setting=page.locator('.setting-row .app-select-trigger').first();
@@ -93,6 +97,16 @@ try{
  await page.locator('.bottom-nav a[href="#script"]').click();
  await page.locator('.speech').first().waitFor({timeout:25000});
  await page.screenshot({path:'test-results/reader-mobile.png'});
+ assert.equal(await page.locator('.global-settings').count(),1,'Reader has a settings gear');
+ const position=await page.locator('.global-settings').boundingBox();
+ assert.ok(position && position.x>page.viewportSize().width-85 && position.y<65,'Gear stays in the top right corner');
+ await page.locator('.global-settings').click();
+ await page.locator('.settings-page').waitFor();
+ assert.equal(await page.locator('.global-settings').getAttribute('aria-label'),'設定を閉じる');
+ await page.locator('.global-settings').click();
+ await page.locator('.script-body .speech').first().waitFor();
+ assert.equal(new URL(page.url()).hash,'#script','Closing settings returns to script');
+ console.log('PASS: reader settings gear opens and closes settings without losing route');
  const widths=await page.locator('.script-body .speech').first().evaluate(el=>({
   row:el.getBoundingClientRect().width,parent:el.parentElement.getBoundingClientRect().width
  }));

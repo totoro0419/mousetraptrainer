@@ -399,3 +399,48 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
   transition:none!important
  }
 }
+
+
+/* Navigation v3 — top-right settings action is the only settings entry. */
+.main-shell>.global-settings{
+ position:absolute;top:9px;right:22px;z-index:8;
+ display:inline-flex;align-items:center;justify-content:center;
+ width:44px;height:44px;min-width:44px;min-height:44px;
+ padding:0;border:0;border-radius:12px;
+ color:var(--ui-text-secondary);background:transparent;
+ transition:color .17s var(--ui-ease),background .17s var(--ui-ease),transform .17s var(--ui-ease)
+}
+.main-shell>.global-settings .icon{width:23px;height:23px;stroke-width:1.65;transition:transform .22s var(--ui-ease)}
+.main-shell>.global-settings:hover{color:var(--ui-accent);background:var(--ui-accent-wash)}
+.main-shell>.global-settings:hover .icon{transform:rotate(22deg)}
+.main-shell>.global-settings:active{transform:scale(.93)}
+.main-shell>.global-settings:focus-visible{outline:2px solid var(--ui-focus);outline-offset:2px}
+.topbar{padding-right:78px}
+.reader-top{padding-right:82px}
+.app-layout[data-route=settings] .topbar,.app-layout[data-route=rehearse] .topbar{display:none}
+.bottom-nav{justify-content:space-evenly}
+@media(max-width:1050px){
+ .main-shell>.global-settings{right:12px}
+ .topbar{padding-right:70px}
+ .reader-top{padding-right:72px}
+}
+@media(max-width:700px){
+ .main-shell>.global-settings{right:8px;top:7px;width:44px;height:44px}
+ .topbar{padding-right:60px}
+ .reader-top{padding-right:60px}
+ .reader-heading{min-width:0}
+ .reader-heading h1{overflow:hidden;text-overflow:ellipsis}
+ .reader-tools{flex-shrink:0}
+ .bottom-nav .nav-item{min-width:72px}
+}
+@media(max-width:360px){
+ .main-shell>.global-settings{right:4px}
+ .reader-top{padding-right:52px}
+ .reader-role{max-width:95px}
+ .reader-tools .icon-button{width:34px}
+ .bottom-nav .nav-item{min-width:66px}
+}
+@media(prefers-reduced-motion:reduce){
+ .main-shell>.global-settings,.main-shell>.global-settings .icon{transition:none!important}
+ .main-shell>.global-settings:hover .icon{transform:none}
+}
