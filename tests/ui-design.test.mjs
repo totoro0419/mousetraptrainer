@@ -65,7 +65,7 @@ test('design v2: PNG PWA icons are valid and match required dimensions',async()=
   while(o<buf.length){
    const length=buf.readUInt32BE(o),kind=buf.toString('ascii',o+4,o+8);
    const end=o+12+length;
-   assert.ok(end<=buf.length,'PNG chunk fits file');
+   assert.ok(end<=buf.length,`PNG chunk fits file: size=${size} chunk=${kind} offset=${o} len=${length} total=${buf.length}`);
    assert.equal(crc(buf.subarray(o+4,o+8+length)),buf.readUInt32BE(o+8+length),'PNG chunk CRC: '+kind);
    if(kind==='IHDR'){
     assert.equal(buf.readUInt32BE(o+8),size);
