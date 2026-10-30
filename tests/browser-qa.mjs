@@ -116,6 +116,47 @@ try{
  assert.ok(under.includes('underline'),'Clickable vocabulary has underline');
  console.log('PASS: full-width reader and clickable dictionary affordance');
 
+ // Regression: a per-line bookmark never opens analysis, survives reload and remains independent of review.
+ const myRow=page.locator('.reader-scroll .speech.mine').first();
+ await myRow.scrollIntoViewIfNeeded();
+ const myId=await myRow.getAttribute('data-id');
+ assert.equal(await myRow.evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(238, 246, 255)','Own lines have a persistent pale-blue background');
+ assert.equal(await page.locator('.speech-analysis').count(),0,'Ellipsis analysis buttons have been removed');
+ const myBookmark=myRow.locator('.speech-bookmark');
+ assert.equal(await myBookmark.getAttribute('aria-pressed'),'false');
+ await myBookmark.click();
+ assert.equal(await myBookmark.getAttribute('aria-pressed'),'true','Bookmark toggles directly');
+ assert.equal(await page.locator('#sheet').evaluate(el=>el.open),false,'Bookmark action must not open analysis');
+ await page.reload({waitUntil:'domcontentloaded'});
+ const restored=page.locator('.reader-scroll .speech[data-id="'+myId+'"]');
+ await restored.waitFor({timeout:25000});
+ assert.equal(await restored.locator('.speech-bookmark').getAttribute('aria-pressed'),'true','Bookmark survives a reload');
+ // The empty space of the script row is the analysis trigger; words remain dictionary triggers.
+ await restored.locator('.speech-inner').click({position:{x:6,y:6}});
+ assert.equal(await page.locator('#sheet').evaluate(el=>el.open),true,'Row background opens analysis');
+ const headings=await page.locator('#sheet .sheet-body h3').allTextContents();
+ const translation=headings.indexOf('日本語訳'),context=headings.indexOf('場面・セリフの意図');
+ const acting=headings.indexOf('演技のポイント'),grammar=headings.indexOf('文法・構文');
+ assert.ok(translation>=0&&context>translation&&acting>context&&grammar>acting,'Translation, context and acting precede grammar');
+ await page.locator('#sheet .close-sheet').click();
+ const word=restored.locator('.word').first();
+ if(await word.count()){await word.click();assert.equal(await page.locator('#sheet .sheet-body .dictionary-word').count(),1,'Word tap opens dictionary instead of analysis');await page.locator('#sheet .close-sheet').click();}
+ await page.evaluate(()=>{const select=document.querySelector('#review-filter');select.value='bookmarked';select.dispatchEvent(new Event('change',{bubbles:true}));});
+ await page.waitForFunction(()=>document.querySelectorAll('.reader-scroll .speech').length===1);
+ assert.equal(await page.locator('.reader-scroll .speech').first().getAttribute('data-id'),myId,'Bookmark filter selects saved line');
+ await page.locator('.reader-scroll .speech-bookmark').first().click();
+ await page.waitForFunction(()=>document.querySelectorAll('.reader-scroll .speech').length===0);
+ assert.equal(await page.locator('.reader-scroll .empty').count(),1,'Removing a bookmark immediately updates bookmark-only view');
+ await page.evaluate(()=>{const select=document.querySelector('#review-filter');select.value='all';select.dispatchEvent(new Event('change',{bubbles:true}));});
+ await page.locator('.reader-scroll .speech').first().waitFor();
+ const keyboardLine=page.locator('.reader-scroll .speech').first();
+ await keyboardLine.focus();
+ await keyboardLine.press('Enter');
+ assert.equal(await page.locator('#sheet').evaluate(el=>el.open),true,'Keyboard users can open analysis without an ellipsis');
+ await page.locator('#sheet .close-sheet').click();
+ console.log('PASS: pale-blue owned lines, independent saved bookmarks, background analysis, prioritized context and dictionary');
+
+
  const desktop=await browser.newPage({viewport:{width:1280,height:800},locale:'ja-JP'});
  await desktop.goto(base+'/',{waitUntil:'domcontentloaded'});
  await desktop.locator('.home-role-row .app-select-trigger').waitFor({timeout:25000});
