@@ -308,3 +308,94 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 @media(prefers-reduced-motion:reduce){
  .app-select-trigger,input[type=checkbox],input[type=checkbox]::before{transition:none}
 }
+
+
+/* ===== Settings cleanup & interaction motion ===== */
+.settings-page{width:min(100%,680px);max-width:680px;padding:54px 36px 80px}
+.settings-page .page-intro{margin-bottom:43px}
+.settings-page h1{font-size:clamp(29px,3vw,36px);letter-spacing:-.035em}
+.settings-page .setting-group{margin-bottom:40px}
+.settings-page .setting-group h2{margin-bottom:11px;font-size:12px;letter-spacing:.015em;font-weight:650;color:var(--muted)}
+.settings-page .setting-row{min-height:68px;padding:13px 0;gap:18px;border-color:var(--line)}
+.settings-page .setting-row label{font-size:14px;color:var(--ink);font-weight:550}
+.settings-page .app-select{width:min(164px,48%)}
+.settings-page .app-select-trigger{border:0;box-shadow:none;background:transparent;justify-content:flex-end;text-align:right;padding:8px 5px 8px 12px}
+.settings-page .app-select-trigger:hover{background:var(--accent-soft)}
+.settings-page .setting-control{display:flex;align-items:center;gap:16px}
+.settings-page .setting-control output{font-size:12px;min-width:38px;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.settings-page .setting-control input[type=range]{width:154px}
+.setting-link,.management-action{display:flex;justify-content:space-between;align-items:center;gap:16px;width:100%;min-height:59px;padding:15px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;text-align:left;font-size:14px;font-weight:550;color:var(--ink);transition:color .16s var(--ui-ease),background-color .16s var(--ui-ease)}
+.setting-link .icon,.management-action .icon{width:17px;height:17px;color:#8291a8;transition:transform .22s var(--ui-ease),color .16s var(--ui-ease)}
+.setting-link:hover,.management-action:hover{color:var(--accent)}
+.setting-link:hover .icon,.management-action:hover .icon{transform:translateX(4px);color:var(--accent)}
+.setting-manage{border-top:1px solid var(--line);font-weight:600}
+.management-list{display:grid}
+.management-action{min-height:58px}
+.management-action:first-child{padding-top:8px}
+.management-note{margin-top:20px;font-size:12px!important;line-height:1.65;color:var(--muted)}
+.import-hint{font-size:13px!important;color:var(--muted)}
+.import-select{margin:24px 0 0}
+.import-select .primary{min-height:50px}
+#sheet #import-result:empty{display:none}
+#sheet #import-result:not(:empty){margin-top:20px}
+.app-layout[data-route=home] .topbar{display:none}
+.toolbar-actions{margin-left:auto}
+/* Motion has an intentional visual hierarchy: routes, sheets, press states, content feedback. */
+:root{--motion-quick:130ms;--motion-standard:210ms;--motion-sheet:260ms}
+.page-scroll>.page{animation:page-enter .22s var(--ui-ease) both}
+.reader-top{animation:toolbar-enter .2s var(--ui-ease) both}
+@keyframes page-enter{from{opacity:.62;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@keyframes toolbar-enter{from{opacity:.55;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes choice-enter{from{opacity:.45;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes tab-enter{from{opacity:.6;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+@keyframes content-reveal{from{opacity:.4;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes backdrop-enter{from{background:rgba(20,32,58,0)}to{background:rgba(20,32,58,.25)}}
+.primary,.secondary,.mode-option,.scene-link,.icon-button,.nav-item,.app-select-trigger,.app-choice,.reveal-mask{
+ transition:transform .17s var(--ui-ease),box-shadow .17s var(--ui-ease),background-color .17s var(--ui-ease),color .17s var(--ui-ease),border-color .17s var(--ui-ease)
+}
+.primary:active,.secondary:active,.mode-option:active,.app-select-trigger:active,.app-choice:active{
+ transform:translateY(1px) scale(.985)
+}
+.icon-button:active{transform:scale(.91)}
+.scene-link:active,.setting-link:active,.management-action:active{background:rgba(69,104,223,.045)}
+.nav-item[aria-current=page] .icon{animation:tab-enter .19s var(--ui-ease) both}
+.app-select-trigger[aria-expanded=true]{background:var(--accent-soft);color:var(--accent);border-color:#bac9e4}
+.app-select-trigger .icon{transition:transform .21s var(--ui-ease)}
+.app-select-trigger[aria-expanded=true] .icon{transform:rotate(180deg)}
+.app-choice-list .app-choice{animation:choice-enter .19s var(--ui-ease) both}
+.app-choice-list .app-choice:nth-child(2){animation-delay:18ms}
+.app-choice-list .app-choice:nth-child(3){animation-delay:32ms}
+.app-choice-list .app-choice:nth-child(4){animation-delay:46ms}
+.app-choice-list .app-choice:nth-child(n+5){animation-delay:54ms}
+.sheet[open]{animation:sheet-in var(--motion-sheet) var(--ui-ease)}
+.sheet[open]::backdrop{animation:backdrop-enter .22s ease-out both}
+.rehearsal .speech.current .line-content>.speech-text,.audio-inner .audio-answer{animation:content-reveal .19s var(--ui-ease) both}
+@media(hover:hover) and (pointer:fine){
+ .primary:hover,.secondary:hover{transform:translateY(-1px)}
+ .primary:active,.secondary:active{transform:translateY(1px) scale(.985)}
+}
+@media(max-width:700px){
+ .app-layout[data-route=home] .topbar{display:flex}
+ .settings-page{padding:35px 23px 60px}
+ .settings-page .page-intro{margin-bottom:35px}
+ .settings-page .setting-control input[type=range]{width:110px}
+ .settings-page .setting-control{gap:8px}
+ .management-action{min-height:57px}
+}
+@media(max-width:360px){
+ .settings-page{padding:32px 19px 50px}
+ .settings-page .setting-control input[type=range]{width:93px}
+ .settings-page .setting-row{gap:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ .page-scroll>.page,.reader-top,.nav-item[aria-current=page] .icon,
+ .app-choice-list .app-choice,.sheet[open],.sheet[open]::backdrop,
+ .rehearsal .speech.current .line-content>.speech-text,.audio-inner .audio-answer{
+  animation:none!important
+ }
+ .primary,.secondary,.mode-option,.scene-link,.icon-button,.nav-item,
+ .app-select-trigger,.app-select-trigger .icon,.app-choice,.reveal-mask,
+ .setting-link,.management-action,.setting-link .icon,.management-action .icon{
+  transition:none!important
+ }
+}

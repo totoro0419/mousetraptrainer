@@ -24,7 +24,7 @@ function animateSheetDismiss(d,offset=0){
  d.style.transform='';d.style.pointerEvents='none';
  if(matchMedia('(prefers-reduced-motion: reduce)').matches||typeof d.animate!=='function'){closeSheet();return;}
  const animation=d.animate([{transform:`translateY(${Math.max(0,offset)}px)`,opacity:1},{transform:'translateY(100%)',opacity:.96}],{duration:190,easing:'cubic-bezier(.22,1,.36,1)',fill:'forwards'});
- animation.finished.then(()=>{if(d.open)closeSheet()}).catch(()=>{if(d.open)closeSheet()});
+ animation.finished.then(()=>{if(d.open)closeSheet();},()=>{if(d.open)closeSheet();}).finally(()=>{animation.cancel();});
 }
 export function openSheet(title,content,{wide=false,onclose,setup}={}){
  const d=document.querySelector('#sheet'),wasOpen=d.open;
@@ -56,10 +56,17 @@ export function openSheet(title,content,{wide=false,onclose,setup}={}){
  // Header: pointer capture keeps the gesture even when the finger leaves the handle.
  let drag=null;
  const translate=dy=>{d.style.transform=dy>0?`translateY(${dy}px)`:'';};
+ const settle=dy=>{
+  d.style.transform='';
+  if(dy>0&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&typeof d.animate==='function'){
+   d.animate([{transform:`translateY(${Math.min(dy,600)}px)`},{transform:'translateY(0)'}],
+    {duration:210,easing:'cubic-bezier(.22,1,.36,1)'});
+  }
+ };
  const finish=(dy,dx,ms)=>{
   const action=sheetSwipeDecision(dy,dx,ms);
   if(action==='dismiss')animateSheetDismiss(d,dy);
-  else{translate(0);if(action==='expand'&&!d.classList.contains('expanded'))toggleExpanded();}
+  else{settle(dy);if(action==='expand'&&!d.classList.contains('expanded'))toggleExpanded();}
  };
  header.onpointerdown=e=>{
   if(e.button!==0||e.target.closest('.sheet-heading button'))return;
