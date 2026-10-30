@@ -444,3 +444,20 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
  .main-shell>.global-settings,.main-shell>.global-settings .icon{transition:none!important}
  .main-shell>.global-settings:hover .icon{transform:none}
 }
+
+/* Reader: selected character, independent bookmark and full-row analysis gesture. */
+.reader-scroll .speech.mine{background:#eef6ff;border-bottom-color:#d9e7fa;box-shadow:inset 3px 0 0 #90b2f2}
+.reader-scroll .speech.mine .speech-text{color:#173251}
+.reader-scroll .speech.mine .speaker{color:#355bc4}
+.reader-scroll .speech.mine.highlight{background:#e4f0ff}
+.reader-scroll .speech.mine:hover{background:#e8f2ff}
+.speech-actions{display:inline-flex;align-items:center;gap:8px;margin-left:auto}
+.speech-status{display:inline-flex;align-items:center;gap:5px;min-height:30px}
+.speech-status[hidden],.review-state[hidden]{display:none!important}
+.speech-bookmark{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;flex:none;border:0;border-radius:10px;background:transparent;color:#8796ac;touch-action:manipulation}
+.speech-bookmark .icon{width:19px;height:19px;stroke-width:1.8}
+.speech-bookmark:hover,.speech-bookmark:focus-visible{background:rgba(69,104,223,.09);color:#4568df}
+.speech-bookmark[aria-pressed="true"]{color:#355bc4;background:rgba(69,104,223,.11)}
+.speech-bookmark[aria-pressed="true"] .icon{fill:rgba(69,104,223,.2)}
+.speech-bookmark:active{transform:scale(.94)}
+@media print{.speech-bookmark{display:none!important}}
