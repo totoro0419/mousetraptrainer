@@ -94,5 +94,5 @@ test('freshness strategy keeps full new UI in source and does not rollback previ
  assert.match(reader,/会話の流れ・文脈/);
  assert.match(reader,/analysisNeighbor/);
  assert.match(html,/styles\.css/);
- assert.match(workerSource,/const CACHE='mousetrap-shell-20261031-network-first-v5'/);
+ assert.match(workerSource,/const CACHE='mousetrap-shell-20261031-role-dropdown-v6'/);
 });
