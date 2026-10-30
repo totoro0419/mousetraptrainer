@@ -1,5 +1,5 @@
-export const SCENE_NAMES={'act1-scene1':'第1幕・第1場','act1-scene2':'第1幕・第2場',act2:'第2幕','sample-scene1':'第1場 · 駅の待合室','sample-scene2':'第2場 · 再会','sample-scene3':'第3場 · 帰り道'};
-export const sceneName=id=>SCENE_NAMES[id]||id;
+export const SCENE_NAMES={'act1-scene1':'第1幕・第1場','act1-scene2':'第1幕・第2場',act2:'第2幕'};
+export const sceneName=id=>id==='all'?'全幕':SCENE_NAMES[id]||id;
 export const plain=value=>typeof value==='string'?value:'';
 const record=v=>v&&typeof v==='object'&&!Array.isArray(v);
 export function normalizeBundle(input){

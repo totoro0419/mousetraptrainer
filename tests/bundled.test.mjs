@@ -6,7 +6,7 @@ import {normalizeBundle} from '../dist/modules/data.js';
 
 const raw=JSON.parse(await readFile(new URL('../dist/data/mousetrap.json',import.meta.url),'utf8'));
 const real=normalizeBundle(raw);
-const sample=normalizeBundle(JSON.parse(await readFile(new URL('../dist/sample.json',import.meta.url),'utf8')));
+const sample=normalizeBundle(JSON.parse(await readFile(new URL('./fixtures/script.json',import.meta.url),'utf8')));
 function storage(initial=[]){
  const records=new Map(initial);
  return {records,get:async k=>records.get(k),atomicPut:async entries=>{for(const [k,v] of entries)records.set(k,v);}};
@@ -35,9 +35,9 @@ test('a user-selected imported script remains active while the built-in script i
  assert.equal((await loadStartupScript(s,load)).data.id,imported.id);assert.equal(s.records.get('active-script'),imported.id);
  assert.deepEqual(s.records.get('script-list'),[imported.id,real.id]);
 });
-test('explicit sample selection after installation survives offline reload',async()=>{
+test('legacy sample selection returns to the production script after removal',async()=>{
  const s=storage([['active-script',sample.id],[`script:${sample.id}`,sample],[`script:${real.id}`,real],['bundled-script-revision',BUNDLED_SCRIPT.revision]]);
- const result=await loadStartupScript(s,()=>{throw Error('must not fetch');});assert.equal(result.data.id,sample.id);
+ const result=await loadStartupScript(s,()=>{throw Error('must not fetch');});assert.equal(result.data.id,real.id);assert.equal(s.records.get('active-script'),real.id);
 });
 test('installed production script starts offline without fetching or losing records',async()=>{
  const s=storage([['active-script',real.id],[`script:${real.id}`,real],['bundled-script-revision',BUNDLED_SCRIPT.revision]]);

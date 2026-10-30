@@ -3,15 +3,14 @@ import {normalizeBundle} from './data.js';
 export const BUNDLED_SCRIPT={id:'mousetrap-private',revision:'2026-10-30-builtin-1',url:'./data/mousetrap.json',lines:1164};
 
 // Keep stable script/line IDs: learning records and recordings use those keys.
-// The revision marker also distinguishes the old default sample from a sample
-// deliberately selected after installing the built-in production script.
+// Old sample selections migrate to the actual script; no sample is shipped.
 export async function loadStartupScript(storage,fetchJSON){
  const spec=BUNDLED_SCRIPT;
  const active=await storage.get('active-script');
  const current=active?await storage.get(`script:${active}`):null;
  const revision=await storage.get('bundled-script-revision');
  let bundled=await storage.get(`script:${spec.id}`),warning='';
- const useDefault=!current||(current.sample&&!revision);
+ const useDefault=!current||current.sample;
  const entries=[];
  if(revision!==spec.revision||!bundled){
   try{
@@ -25,8 +24,10 @@ export async function loadStartupScript(storage,fetchJSON){
   }
  }
  if(bundled){
-  const list=await storage.get('script-list')||[];
-  if(!list.includes(spec.id))entries.push(['script-list',[...list,spec.id]]);
+  const previousList=await storage.get('script-list')||[];
+  const list=previousList.filter(id=>id!=='open-sample-v1');
+  if(!list.includes(spec.id))list.push(spec.id);
+  if(list.length!==previousList.length||list.some((id,i)=>id!==previousList[i]))entries.push(['script-list',list]);
   if(useDefault)entries.push(['active-script',spec.id]);
  }
  if(entries.length)await storage.atomicPut(entries);

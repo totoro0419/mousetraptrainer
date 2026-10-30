@@ -3,8 +3,8 @@ import {normalizeBundle,tokenize,assemble,stats,filterLines,unzipJSON,advancePro
 import {createSession,transition,selectRange} from '../dist/modules/session.js';
 import {FlickDetector} from '../dist/modules/stick.js';
 import {audioEntries,AudioPlayer} from '../dist/modules/audio.js';
-const sample=JSON.parse(await readFile(new URL('../dist/sample.json',import.meta.url))),data=normalizeBundle(sample);
-test('public sample is clearly separated, stable IDs and scenes',()=>{assert.equal(data.lines.length,12);assert.equal(data.scenes.length,3);assert.equal(data.sample,true);assert.equal(data.id,'open-sample-v1');});
+const sample=JSON.parse(await readFile(new URL('./fixtures/script.json',import.meta.url))),data=normalizeBundle(sample);
+test('test fixture has stable IDs and scenes',()=>{assert.equal(data.lines.length,12);assert.equal(data.scenes.length,3);assert.equal(data.sample,true);assert.equal(data.id,'open-sample-v1');});
 test('duplicate IDs rejected before import',()=>{const c=structuredClone(sample);c.script['sample-scene1'].speeches[1].id='sample-001';assert.throws(()=>normalizeBundle(c),/重複/);});
 test('orphan translation IDs rejected',()=>{assert.throws(()=>normalizeBundle({...sample,translations:{bad:{translation:'x'}}}),/一致しない/);});
 test('bad grammar shapes rejected',()=>{assert.throws(()=>normalizeBundle({...sample,grammar:{'sample-001':{bad:true}}}),/配列/);});

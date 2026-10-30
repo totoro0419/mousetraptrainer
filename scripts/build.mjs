@@ -3,7 +3,6 @@ import {execFileSync} from 'node:child_process';
 import {normalizeBundle} from '../dist/modules/data.js';
 async function walk(dir){for(const name of await readdir(dir)){const p=`${dir}/${name}`;if((await stat(p)).isDirectory())await walk(p);else if(name.endsWith('.js'))execFileSync(process.execPath,['--check',p]);}}
 await walk('dist');const html=await readFile('dist/index.html','utf8');if(!html.includes('lang="ja"')||!html.includes('manifest'))throw Error('Document metadata missing');
-const sample=JSON.parse(await readFile('dist/sample.json'));if(!sample.sample)throw Error('Practice sample must be marked as sample');
 const production=normalizeBundle(JSON.parse(await readFile('dist/data/mousetrap.json','utf8')));if(production.id!=='mousetrap-private'||production.sample||production.lines.length!==1164||production.warnings.length)throw Error('Built-in production dataset missing or inconsistent');
 const manifest=JSON.parse(await readFile('dist/manifest.webmanifest'));for(const icon of manifest.icons)await stat('dist/'+icon.src);
 console.log('Static application checked. Serve dist/ at any path.');
