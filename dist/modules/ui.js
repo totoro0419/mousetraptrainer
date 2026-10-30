@@ -6,17 +6,153 @@ export function el(html){const t=document.createElement('template');t.innerHTML=
 let toastTimer,undoAction;
 export function toast(message,undo){clearTimeout(toastTimer);undoAction=undo;const t=document.querySelector('#toast');t.replaceChildren();t.append(document.createTextNode(message));if(undo){const b=document.createElement('button');b.textContent='取り消す';b.onclick=()=>{undoAction?.();t.classList.remove('show');};t.append(b);}t.classList.add('show');toastTimer=setTimeout(()=>t.classList.remove('show'),undo?9000:4500);}
 let invoker,onClose,currentCleanup;
+
+export function sheetSwipeDecision(dy,dx,elapsed){
+ const velocity=Math.abs(dy)/Math.max(1,elapsed);
+ if(Math.abs(dx)>Math.abs(dy)*1.15)return 'snap';
+ if(dy>96||(dy>38&&velocity>.78))return 'dismiss';
+ if(dy< -65)return 'expand';
+ return 'snap';
+}
 export const isSheetOpen=()=>document.querySelector('#sheet').open;
-export function closeSheet(){document.querySelector('#sheet').close();}
+export function closeSheet(){
+ const d=document.querySelector('#sheet');if(d?.open)d.close();
+}
+function animateSheetDismiss(d,offset=0){
+ if(!d.open||d.dataset.dismissing==='true')return;
+ d.dataset.dismissing='true';
+ d.style.transform='';d.style.pointerEvents='none';
+ if(matchMedia('(prefers-reduced-motion: reduce)').matches||typeof d.animate!=='function'){closeSheet();return;}
+ const animation=d.animate([{transform:`translateY(${Math.max(0,offset)}px)`,opacity:1},{transform:'translateY(100%)',opacity:.96}],{duration:190,easing:'cubic-bezier(.22,1,.36,1)',fill:'forwards'});
+ animation.finished.then(()=>{if(d.open)closeSheet()}).catch(()=>{if(d.open)closeSheet()});
+}
 export function openSheet(title,content,{wide=false,onclose,setup}={}){
- const d=document.querySelector('#sheet'),wasOpen=d.open;currentCleanup?.();currentCleanup=null;if(!wasOpen)invoker=document.activeElement;onClose=onclose;
- d.className=wide?'sheet expanded':'sheet';d.innerHTML=`<header class="sheet-head"><button class="sheet-handle" aria-label="シートの高さを切り替える" aria-expanded="${wide}"><span></span></button><div class="sheet-heading"><h2 id="sheet-title">${esc(title)}</h2><div><button class="icon-button expand-sheet" aria-label="${wide?'小さく表示':'大きく表示'}">${icon(wide?'down':'up')}</button><button class="icon-button close-sheet" aria-label="閉じる">${icon('close')}</button></div></div></header><div class="sheet-body">${content}</div>`;
- const expand=()=>{d.classList.toggle('expanded');d.querySelector('.sheet-handle').setAttribute('aria-expanded',d.classList.contains('expanded'));};
- d.querySelector('.close-sheet').onclick=closeSheet;d.querySelector('.expand-sheet').onclick=expand;d.querySelector('.sheet-handle').onclick=expand;
- d.onclose=()=>{currentCleanup?.();currentCleanup=null;onClose?.();if(invoker?.isConnected)invoker.focus({preventScroll:true});};
- d.onclick=e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientY<r.top||e.clientX<r.left||e.clientX>r.right)d.close();}};
- let y=0;const handle=d.querySelector('.sheet-head');handle.onpointerdown=e=>{if(e.target.closest('button'))return;y=e.clientY;handle.setPointerCapture(e.pointerId);};handle.onpointerup=e=>{if(!y)return;const dy=e.clientY-y;y=0;if(dy>90)d.close();else if(dy<-35)d.classList.add('expanded');};
- if(!wasOpen)d.showModal();d.querySelector('.close-sheet').focus({preventScroll:true});currentCleanup=setup?.(d);
+ const d=document.querySelector('#sheet'),wasOpen=d.open;
+ currentCleanup?.();currentCleanup=null;
+ if(!wasOpen)invoker=document.activeElement;
+ onClose=onclose;
+ d.style.transform='';d.style.pointerEvents='';delete d.dataset.dismissing;
+ d.className=wide?'sheet expanded':'sheet';
+ d.innerHTML=`<header class="sheet-head"><button class="sheet-handle" type="button" aria-label="シートを上下に動かす" aria-expanded="${wide}"><span></span></button><div class="sheet-heading"><h2 id="sheet-title">${esc(title)}</h2><div><button type="button" class="icon-button expand-sheet" aria-label="${wide?'小さく表示':'大きく表示'}">${icon(wide?'down':'up')}</button><button type="button" class="icon-button close-sheet" aria-label="閉じる">${icon('close')}</button></div></div></header><div class="sheet-body">${content}</div>`;
+ const header=d.querySelector('.sheet-head'),body=d.querySelector('.sheet-body'),handle=d.querySelector('.sheet-handle');
+ const toggleExpanded=()=>{
+  d.classList.toggle('expanded');
+  const expanded=d.classList.contains('expanded');
+  handle.setAttribute('aria-expanded',String(expanded));
+  const b=d.querySelector('.expand-sheet');
+  b.setAttribute('aria-label',expanded?'小さく表示':'大きく表示');b.innerHTML=icon(expanded?'down':'up');
+ };
+ let ignoreHandleClick=false;
+ d.querySelector('.close-sheet').onclick=closeSheet;
+ d.querySelector('.expand-sheet').onclick=toggleExpanded;
+ handle.onclick=()=>{if(!ignoreHandleClick)toggleExpanded();};
+ d.onclose=()=>{
+  currentCleanup?.();currentCleanup=null;
+  d.style.transform='';d.style.pointerEvents='';delete d.dataset.dismissing;
+  onClose?.();
+  if(invoker?.isConnected)invoker.focus({preventScroll:true});
+ };
+ d.onclick=e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientY<r.top||e.clientX<r.left||e.clientX>r.right)closeSheet();}};
+ // Header: pointer capture keeps the gesture even when the finger leaves the handle.
+ let drag=null;
+ const translate=dy=>{d.style.transform=dy>0?`translateY(${dy}px)`:'';};
+ const finish=(dy,dx,ms)=>{
+  const action=sheetSwipeDecision(dy,dx,ms);
+  if(action==='dismiss')animateSheetDismiss(d,dy);
+  else{translate(0);if(action==='expand'&&!d.classList.contains('expanded'))toggleExpanded();}
+ };
+ header.onpointerdown=e=>{
+  if(e.button!==0||e.target.closest('.sheet-heading button'))return;
+  drag={id:e.pointerId,x:e.clientX,y:e.clientY,t:performance.now(),moved:false};
+  header.setPointerCapture(e.pointerId);
+ };
+ header.onpointermove=e=>{
+  if(!drag||e.pointerId!==drag.id)return;
+  const dy=e.clientY-drag.y,dx=e.clientX-drag.x;
+  if(Math.abs(dy)>9&&Math.abs(dy)>Math.abs(dx)*1.15){drag.moved=true;translate(dy);}
+ };
+ header.onpointerup=e=>{
+  if(!drag||e.pointerId!==drag.id)return;
+  const a=drag;drag=null;
+  if(a.moved){ignoreHandleClick=true;setTimeout(()=>{ignoreHandleClick=false;},0);}
+  finish(e.clientY-a.y,e.clientX-a.x,performance.now()-a.t);
+ };
+ header.onpointercancel=()=>{drag=null;translate(0)};
+ header.onlostpointercapture=()=>{if(drag){drag=null;translate(0)}};
+ // Body: drag down only when the scroll area is already at the top.
+ let touch=null;
+ body.addEventListener('touchstart',e=>{
+  if(e.touches.length!==1||e.target.closest('input,textarea,select,[contenteditable="true"]')){touch=null;return;}
+  const t=e.touches[0];
+  touch={x:t.clientX,y:t.clientY,time:performance.now(),active:false,blocked:body.scrollTop>1};
+ },{passive:true});
+ body.addEventListener('touchmove',e=>{
+  if(!touch||e.touches.length!==1)return;
+  const t=e.touches[0],dy=t.clientY-touch.y,dx=t.clientX-touch.x;
+  if(touch.blocked||dy<0||Math.abs(dx)>Math.abs(dy)*1.15){if(!touch.active)touch.blocked=true;return;}
+  if(!touch.active&&dy>12&&body.scrollTop<=1)touch.active=true;
+  if(touch.active){e.preventDefault();translate(Math.max(0,dy));}
+ },{passive:false});
+ body.addEventListener('touchend',e=>{
+  if(!touch)return;
+  const a=touch;touch=null;
+  if(!a.active){translate(0);return;}
+  const t=e.changedTouches[0];finish(t.clientY-a.y,t.clientX-a.x,performance.now()-a.time);
+ },{passive:true});
+ body.addEventListener('touchcancel',()=>{touch=null;translate(0)},{passive:true});
+ if(!wasOpen)d.showModal();
+ d.querySelector('.close-sheet').focus({preventScroll:true});
+ currentCleanup=setup?.(d);
+ enhanceSelects(d);
  return d;
+}
+// Native SELECT elements retain their values and existing onchange handlers, but
+// are hidden from interaction. In-app choice sheets replace OS-native pickers.
+export function syncSelects(root=document){
+ root.querySelectorAll('.app-select').forEach(wrapper=>{
+  const source=wrapper.querySelector('select');
+  const label=wrapper.querySelector('.app-select-value');
+  if(source&&label)label.textContent=source.selectedOptions[0]?.textContent||'選択してください';
+  wrapper.querySelector('.app-select-trigger')?.setAttribute('aria-disabled',String(!!source?.disabled));
+ });
+}
+export function enhanceSelects(root=document){
+ root.querySelectorAll('select:not(.native-select-source)').forEach(source=>{
+  const wrapper=document.createElement('span');wrapper.className='app-select';
+  const trigger=document.createElement('button');trigger.type='button';trigger.className='app-select-trigger';
+  const textLabel=source.getAttribute('aria-label')||
+   (source.id?document.querySelector(`label[for="${CSS.escape(source.id)}"]`)?.textContent?.trim():'')||
+   source.closest('label')?.firstChild?.textContent?.trim()||'選択';
+  trigger.setAttribute('aria-label',textLabel);
+  trigger.setAttribute('aria-haspopup','dialog');
+  trigger.setAttribute('aria-expanded','false');
+  trigger.innerHTML=`<span class="app-select-value"></span>${icon('down')}`;
+  source.before(wrapper);wrapper.append(source,trigger);
+  source.classList.add('native-select-source');
+  source.hidden=true;source.setAttribute('aria-hidden','true');source.tabIndex=-1;
+  const label=source.id?document.querySelector(`label[for="${CSS.escape(source.id)}"]`):null;
+  if(label)label.addEventListener('click',e=>{if(e.target===label){e.preventDefault();trigger.click()}});
+  trigger.onclick=()=>{
+   if(source.disabled)return;
+   trigger.setAttribute('aria-expanded','true');
+   const options=[...source.options].filter(o=>!o.disabled);
+   const content=`<div class="app-choice-list" role="group" aria-label="${esc(textLabel)}">${options.map(o=>
+    `<button type="button" class="app-choice" aria-current="${o.value===source.value?'true':'false'}"><span>${esc(o.textContent)}</span>${o.value===source.value?icon('check'):''}</button>`
+   ).join('')}</div>`;
+   const sheet=openSheet(textLabel,content,{setup:d=>{
+    d.querySelectorAll('.app-choice').forEach((choice,i)=>choice.onclick=()=>{
+     const next=options[i]?.value;
+     closeSheet();
+     if(next===undefined||!source.isConnected||source.value===next)return;
+     source.value=next;
+     syncSelects(wrapper.parentElement||document);
+     source.dispatchEvent(new Event('input',{bubbles:true}));
+     source.dispatchEvent(new Event('change',{bubbles:true}));
+    });
+   },onclose:()=>{if(trigger.isConnected)trigger.setAttribute('aria-expanded','false');}});
+   sheet.querySelector('.app-choice[aria-current="true"]')?.focus({preventScroll:true});
+  };
+ });
+ syncSelects(root);
 }
 export function empty(title,body){return `<div class="empty"><div class="empty-icon">${icon('book')}</div><h2>${esc(title)}</h2><p>${esc(body)}</p></div>`;}

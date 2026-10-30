@@ -1,5 +1,5 @@
 import {sceneName,labels} from './data.js';
-import {icon,esc,el,button,toast,openSheet,closeSheet,isSheetOpen} from './ui.js';
+import {icon,esc,el,button,toast,openSheet,closeSheet,isSheetOpen,enhanceSelects} from './ui.js';
 import {createSession,transition,selectRange} from './session.js';
 import {directionText} from './reader.js';
 import {getClip,AudioPlayer} from './audio.js';
@@ -12,6 +12,7 @@ export function mountRehearsal(main,ctx){const {data,small,progress,save}=ctx;le
  if(!small.range.to)to.value=count();scene.onchange=()=>update(true);from.oninput=()=>update();to.oninput=()=>update();update();holder.querySelector('#rehearsal-role').onchange=e=>ctx.changeRole(e.target.value);
  holder.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{try{const range={scene:scene.value,from:+from.value,to:+to.value};const lines=selectRange(data,range);start(b.dataset.mode,range,lines,0);}catch(err){holder.querySelector('#range-error').innerHTML=`<p class="notice error" role="alert" style="margin-top:14px">${esc(err.message)}</p>`;}});
  holder.querySelectorAll('[data-resume]').forEach(b=>b.onclick=()=>{const s=small.sessions[b.dataset.resume];try{const lines=selectRange(data,s.range);start(b.dataset.resume,s.range,lines,Math.max(0,lines.findIndex(l=>l.id===s.lineId)));}catch(err){toast('前回の範囲を復元できません。範囲を選び直してください。');}});
+ enhanceSelects(holder);
  }
  function start(mode,range,lines,index){cleanup();player.stop();let state=createSession(lines,small.role,mode,index),epoch=0,playingError='',revealed=new Set(),lineNodes=[],scroller,body,controls,stage;
  active={mode,range};const persist=()=>{small.sessions||={};if(state.phase==='complete')delete small.sessions[mode];else small.sessions[mode]={role:small.role,range,index:state.index,lineId:lines[state.index].id};save();};

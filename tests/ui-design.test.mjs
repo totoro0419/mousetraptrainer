@@ -36,7 +36,7 @@ test('design v2: PWA assets and theme use consistent light background',()=>{
  assert.match(html,/name="theme-color" content="#f7f9fd"/);
  const m=JSON.parse(manifest);
  assert.equal(m.theme_color,'#f7f9fd');assert.equal(m.background_color,'#f7f9fd');
- assert.ok(sw.includes('luminous-v2'));
+ assert.ok(sw.includes('custom-ui-v3'));
  assert.ok(app.includes('id="home-role"'));
  assert.ok(app.includes('data-action="choose-role"'));
 });

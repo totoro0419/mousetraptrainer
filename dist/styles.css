@@ -250,3 +250,61 @@ input[type=range],input[type=checkbox]{accent-color:var(--accent)}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+
+/* ===== In-app controls (no Android/browser stock dropdowns or toggles) ===== */
+.app-select{display:inline-flex;align-items:stretch;position:relative;min-width:0;max-width:100%;vertical-align:middle}
+.app-select .native-select-source{display:none!important}
+.app-select-trigger{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;width:100%;min-width:0;padding:10px 13px;border:1px solid #dce4ef;border-radius:12px;background:linear-gradient(180deg,#fff,#fdfefe);color:var(--ink);text-align:left;font-size:14px;font-weight:550;box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 2px 8px rgba(28,50,95,.035);transition:border-color .15s,box-shadow .15s,background .15s}
+.app-select-trigger:hover{background:#f9fbff;border-color:#bac9e4}
+.app-select-trigger:active{background:#f1f5ff;box-shadow:none}
+.app-select-trigger:focus-visible{outline:2px solid var(--ui-focus);outline-offset:2px}
+.app-select-trigger .icon{width:15px;height:15px;color:var(--muted)}
+.app-select-value{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.app-select-trigger[aria-disabled=true]{opacity:.5;pointer-events:none}
+.home-role-row .app-select{margin-left:auto;max-width:75%;justify-content:end}
+.home-role-row .app-select-trigger{border:0;background:transparent;box-shadow:none;text-align:right;padding-right:5px;justify-content:end}
+.home-role-row .app-select-value{font-weight:600}
+.home-role-row .app-select-trigger:hover{background:var(--accent-soft)}
+.role-box .app-select{width:100%}
+.reader-filter .app-select{width:100%}
+.reader-filter .app-select-trigger{font-size:13px}
+.range-form .app-select{width:100%}
+.setting-row .app-select{min-width:138px}
+.app-choice-list{display:grid}
+.app-choice{display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;min-height:55px;padding:12px 4px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:#fff;color:var(--ink);text-align:left;font-size:15px;font-weight:500}
+.app-choice:last-child{border-bottom:0}
+.app-choice:hover,.app-choice:focus-visible{background:#f5f7ff}
+.app-choice[aria-current=true]{color:var(--accent);font-weight:600}
+.app-choice .icon{width:19px;height:19px;color:var(--accent)}
+.sheet:not(.expanded):has(.app-choice-list){height:auto;max-height:80dvh}
+.sheet:has(.app-choice-list) .sheet-body{padding-top:8px;padding-bottom:calc(20px + env(safe-area-inset-bottom));max-height:65dvh}
+.sheet-head{touch-action:none;user-select:none}
+.sheet-handle{touch-action:none}
+.sheet-body{overscroll-behavior-y:contain}
+.sheet[open]{will-change:transform}
+.role-choice{position:relative}
+.role-choice input[type=radio]{appearance:none;-webkit-appearance:none;position:absolute;width:1px;height:1px;min-height:1px;padding:0;border:0;margin:0;opacity:0;pointer-events:none}
+.role-choice:has(input:checked)::after{content:"✓";font-size:18px;color:var(--accent);margin-left:auto}
+.role-choice:focus-within{outline:2px solid var(--ui-focus);outline-offset:2px;border-radius:8px}
+input[type=checkbox]:not(.native-select-source){appearance:none;-webkit-appearance:none;width:43px;height:26px;min-height:26px;flex:0 0 43px;margin:0;padding:0;border:1px solid #cad4e3;border-radius:999px;background:#dce4ee;position:relative;cursor:pointer;transition:background .16s,border-color .16s}
+input[type=checkbox]::before{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(27,48,81,.16);transition:transform .16s}
+input[type=checkbox]:checked{background:var(--accent);border-color:var(--accent)}
+input[type=checkbox]:checked::before{transform:translateX(17px)}
+input[type=range]{appearance:none;-webkit-appearance:none;width:160px;min-height:30px;height:30px;border:0;background:transparent;padding:0;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:5px;background:#e1e8f5;border-radius:10px}
+input[type=range]::-moz-range-track{height:5px;background:#e1e8f5;border-radius:10px}
+input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:20px;height:20px;border:4px solid #fff;border-radius:50%;margin-top:-7.5px;background:var(--accent);box-shadow:0 2px 7px rgba(32,58,110,.22),0 0 0 1px #d6e0f4}
+input[type=range]::-moz-range-thumb{width:13px;height:13px;border:4px solid #fff;border-radius:50%;background:var(--accent);box-shadow:0 2px 7px rgba(32,58,110,.22)}
+input[type=number]{appearance:textfield;-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+@media(max-width:700px){
+ .app-select-trigger{min-height:46px}
+ .reader-filter .app-select,.range-form .app-select{width:100%}
+ .home-role-row .app-select{max-width:70%}
+ .setting-row .app-select{min-width:110px;max-width:52%}
+}
+@media(prefers-reduced-motion:reduce){
+ .app-select-trigger,input[type=checkbox],input[type=checkbox]::before{transition:none}
+}
