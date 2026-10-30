@@ -178,9 +178,10 @@ try{
  await desktop.goto(base+'/',{waitUntil:'domcontentloaded'});
  await desktop.locator('.home-role-row .app-select-trigger').waitFor({timeout:25000});
  await desktop.locator('.nav-items a[href="#script"]').click();
- const desktopRole=desktop.locator('.topbar .role-trigger');
+ const desktopRole=desktop.locator('.reader-role');
  await desktopRole.click();
- assert.ok(await desktop.locator('.role-menu [role=option]').count()>1,'Desktop header role uses anchored menu');
+ assert.ok(await desktop.locator('.role-menu [role=option]').count()>1,'Desktop reader role uses anchored menu');
+ assert.equal(await desktop.locator('#sheet').evaluate(el=>el.open),false);
  await desktop.keyboard.press('Escape');
  assert.equal(await desktop.locator('.role-menu').count(),0);
  await desktop.locator('.nav-items a[href="#home"]').click();
