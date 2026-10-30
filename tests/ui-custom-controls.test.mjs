@@ -28,7 +28,8 @@ test('all select widgets are wired to the in-app picker',async()=>{
  assert.match(ui,/source\.hidden=true/);
  assert.match(ui,/source\.dispatchEvent\(new Event\('change'/);
  assert.match(ui,/sheet\.querySelector\('\.app-choice\[aria-current="true"\]'\)/);
- assert.match(ui,/aria-haspopup','dialog'/);
+ assert.match(ui,/roleMenu\?'listbox':'dialog'/);
+ assert.match(ui,/openRoleMenu\(trigger,options\.map/);
  assert.match(ui,/body\.addEventListener\('touchmove'/);
  assert.match(ui,/header\.onpointerup/);
  assert.match(ui,/e\.preventDefault\(\);translate/);
@@ -47,10 +48,10 @@ test('custom controls use no native popup or stock switch appearance',async()=>{
  assert.match(css,/\.role-choice input\[type=radio\]\{appearance:none/);
 });
 
-test('plain radio inputs retain semantic names and stored role behavior',async()=>{
+test('role selectors use anchored menus while preserving stored role behavior',async()=>{
  const app=await source('app.js');
- assert.match(app,/name="role"/);
- assert.match(app,/input\[name=role\]:checked/);
+ assert.match(app,/openRoleMenu\(trigger,roles\(\),small\.role,changeRole\)/);
+ assert.match(app,/data-role-menu="true"/);
  assert.match(app,/changeRole\(next\)/);
  assert.match(app,/id="home-role"/);
  assert.match(app,/onchange=e=>changeRole/);
