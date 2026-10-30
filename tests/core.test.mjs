@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';
-import {normalizeBundle,tokenize,assemble,stats,filterLines,unzipJSON,advanceProgress,grammarDescription} from '../dist/modules/data.js';
+import {normalizeBundle,tokenize,lookupDictionary,assemble,stats,filterLines,unzipJSON,advanceProgress,grammarDescription} from '../dist/modules/data.js';
 import {createSession,transition,selectRange} from '../dist/modules/session.js';
 import {FlickDetector} from '../dist/modules/stick.js';
 import {audioEntries,AudioPlayer} from '../dist/modules/audio.js';
@@ -13,6 +13,8 @@ test('renamed numbered JSON filenames assemble',()=>{const d=assemble({'mousetra
 test('longest phrase selected without corrupting text',()=>{const text='Take your time, then take a seat.';const parts=tokenize(text,[{surface:'Take',lemma:'take'},{surface:'Take your time',lemma:'take your time'}]);assert.equal(parts.map(p=>p.text).join(''),text);assert.equal(parts[0].entry.lemma,'take your time');});
 test('word boundaries stop partial phrase matches',()=>{assert.ok(!tokenize('reheated',[{surface:'heated'}]).some(p=>p.entry));});
 test('Unicode punctuation preserved',()=>{const text='“I’m cold”—isn’t it?';assert.equal(tokenize(text).map(t=>t.text).join(''),text);});
+test('dictionary resolution uses vocabulary lemmas and case-insensitive dictionary aliases',()=>{const d={MURDER:{lemma:'murder',coreMeaning:'殺害する'},entry:{lemma:'Gosh',coreMeaning:'うわあ'}};assert.equal(lookupDictionary(d,{text:'murdered',entry:{lemma:'murder'}}),d.MURDER);assert.equal(lookupDictionary(d,{text:'GOSH'}),d.entry);});
+test('unregistered words and inherited object names have no dictionary definition',()=>{const d={cold:{lemma:'cold',coreMeaning:'寒い'}};assert.equal(lookupDictionary(d,{text:'unregistered'}),undefined);assert.equal(lookupDictionary(d,{text:'constructor'}),undefined);assert.equal(lookupDictionary(d,{text:'cold'}),d.cold);});
 test('progress cycles and review survives',()=>{let p={review:true};for(let i=1;i<=3;i++){p=advanceProgress(p);assert.equal(p.level,i%3);assert.equal(p.review,true);}});
 test('progress denominator is selected role',()=>{const s=stats(data,{'sample-001':{level:2},'sample-002':{level:2}},'ALEX');assert.equal(s.total,6);assert.equal(s.counts[2],1);assert.equal(s.percent,17);});
 test('search covers translations, speaker, scene and review',()=>{assert.equal(filterLines(data,{query:'静か'}).length,1);assert.equal(filterLines(data,{speaker:'JAMIE',scene:'sample-scene1'}).length,2);assert.equal(filterLines(data,{reviewOnly:true,progress:{'sample-001':{review:true}}}).length,1);});

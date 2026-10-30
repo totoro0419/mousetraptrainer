@@ -47,6 +47,17 @@ export function advanceProgress(old={}){return {...old,level:((old.level||0)+1)%
 export function filterLines(data,{scene='all',speaker='all',query='',reviewOnly=false,progress={}}={}){
  const q=query.trim().toLocaleLowerCase();return data.lines.filter(l=>(scene==='all'||l.scene===scene)&&(speaker==='all'||speaker===l.speaker)&&(!reviewOnly||progress[l.id]?.review)&&(!q||`${l.text} ${l.speaker} ${plain(data.translations[l.id]?.translation||data.translations[l.id])}`.toLocaleLowerCase().includes(q)));
 }
+const dictionaryIndexes=new WeakMap();
+export function lookupDictionary(dictionary,token){
+ if(!dictionary||typeof dictionary!=='object')return;
+ let index=dictionaryIndexes.get(dictionary);
+ if(!index){
+  index=new Map(Object.entries(dictionary).map(([key,value])=>[key.toLowerCase(),value]));
+  for(const value of Object.values(dictionary)){const lemma=plain(value?.lemma).toLowerCase();if(lemma&&!index.has(lemma))index.set(lemma,value);}
+  dictionaryIndexes.set(dictionary,index);
+ }
+ return index.get(String(token.entry?.lemma||token.text).toLowerCase());
+}
 export function tokenize(text,entries=[]){
  const phrases=entries.filter(e=>plain(e.surface)).slice().sort((a,b)=>b.surface.length-a.surface.length),out=[];
  const pattern=/[A-Za-z]+(?:['’\-][A-Za-z]+)*/g;let i=0;
