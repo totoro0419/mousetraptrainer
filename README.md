@@ -2,13 +2,13 @@
 
 読む、理解する、声にする。英語劇の台本学習・セリフ暗記アプリ。
 
-公開先: https://mousetrap-trainer-ibuki.ibukioike2009.chatgpt.site
+公開先（GitHub Pages）: https://totoro0419.github.io/mousetraptrainer/
 
 ## はじめる
 
 The Mousetrapの提供済みデータ（1,164発話・3場面・日本語訳・語彙・文法・辞書・補完ト書き）を `dist/data/mousetrap.json` に収録しています。開くと自動で本編を読み込みます。ファイルの選択は不要です。
 
-1. 自分の役を選ぶ。
+1. 画面上部の「自分の役」を押し、一覧から担当する役を選んで「この役にする」を押す。ホームの選択欄からも変更できます。
 2. 「台本を読む」または「稽古を始める」を押す。
 
 旧版でサンプルだけを使っていた場合も自動で本編へ移ります。同じデータID・発話IDの学習状態、閲覧位置、稽古の続き、録音の対応は維持します。自分で読み込んだ別の台本は切り替えません。別データの読み込みやバックアップの復元は引き続き利用できます。
@@ -50,3 +50,7 @@ PRIVATE_ZIP=/absolute/path/to/backup.zip npm test
 [構成・データ](docs/architecture.md) / [検証記録と制約](docs/qa.md)
 
 台本と録音の権利は各権利者に帰属します。データの由来・公開方針は [docs/data-source.md](docs/data-source.md) を参照してください。
+
+## GitHub Pagesへの公開
+
+`main` へのpushで `.github/workflows/pages.yml` がテスト・ビルドを行い、`dist/` をGitHub Pagesに公開します。Pagesの公開元はGitHub Actionsを使用します。
