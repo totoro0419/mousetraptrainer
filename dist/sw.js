@@ -1,4 +1,4 @@
-const CACHE='mousetrap-shell-20261030-copy-gear-v3';
+const CACHE='mousetrap-shell-20261030-bookmark-blue-v4';
 const ASSETS=['./','./index.html','./styles.css','./app.js','./data/mousetrap.json','./icon-192.png','./icon-512.png','./icon-maskable-512.png','./manifest.webmanifest','./modules/data.js','./modules/bundled.js','./modules/storage.js','./modules/ui.js','./modules/reader.js','./modules/stick.js','./modules/session.js','./modules/audio.js','./modules/rehearsal.js'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('mousetrap-shell-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
