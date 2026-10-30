@@ -471,3 +471,15 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 .analysis-acting .analysis-stage-original,.analysis-personal{margin-top:12px}
 .analysis-acting .analysis-stage-original summary,.analysis-personal summary{color:var(--muted);font-size:12px;cursor:pointer}
 .analysis-intent{margin:8px 0 13px}
+
+/* The role selector is an anchored dropdown, not a bottom sheet. */
+.role-menu{position:fixed;z-index:100;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;min-width:0;padding:6px;border:1px solid #dfe6f0;border-radius:14px;background:var(--paper);box-shadow:0 15px 42px rgba(27,44,73,.15),0 2px 8px rgba(27,44,73,.06)}
+.role-menu-option{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:11px 12px;background:transparent;border:0;border-radius:9px;text-align:left;font-size:13px;font-weight:550;line-height:1.45;color:var(--ink)}
+.role-menu-option:hover,.role-menu-option:focus-visible{background:#f3f6ff}
+.role-menu-option[aria-selected="true"]{color:var(--accent-ink);background:#eff4ff;font-weight:650}
+.role-menu-name{min-width:0;overflow-wrap:anywhere;flex:1}
+.role-menu-check{flex:none;font-size:16px;line-height:1}
+.role-menu-option:focus-visible{outline:2px solid #3155d5;outline-offset:-2px}
+.role-trigger[aria-expanded="true"],.reader-role[aria-expanded="true"]{background:var(--accent-soft);color:var(--accent-ink)}
+.role-trigger[aria-expanded="true"]>.icon,.reader-role[aria-expanded="true"]>.icon,.home-role-row .app-select-trigger[aria-expanded="true"]>.icon{transform:rotate(180deg)}
+@media(prefers-reduced-motion:reduce){.role-trigger .icon,.reader-role .icon{transition:none!important}}

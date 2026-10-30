@@ -1,6 +1,6 @@
 // Each release refreshes cached assets online, while retaining a complete offline shell.
-const CACHE='mousetrap-shell-20261031-network-first-v5';
-const ASSETS=['./','./index.html','./styles.css','./app.js','./data/mousetrap.json','./icon-v2-192.png','./icon-v2-512.png','./icon-v2-maskable-512.png','./manifest.webmanifest','./modules/data.js','./modules/bundled.js','./modules/storage.js','./modules/ui.js','./modules/reader.js','./modules/stick.js','./modules/session.js','./modules/audio.js','./modules/rehearsal.js'];
+const CACHE='mousetrap-shell-20261031-role-dropdown-v6';
+const ASSETS=['./','./index.html','./styles.css','./app.js','./data/mousetrap.json','./icon-v2-192.png','./icon-v2-512.png','./icon-v2-maskable-512.png','./manifest.webmanifest','./modules/data.js','./modules/bundled.js','./modules/storage.js','./modules/ui.js','./modules/reader.js','./modules/role-menu.js','./modules/stick.js','./modules/session.js','./modules/audio.js','./modules/rehearsal.js'];
 const assetURL=path=>new URL(path,self.registration.scope).href;
 const stored=async path=>caches.match(assetURL(path));
 async function freshOrCached(request,path,event){

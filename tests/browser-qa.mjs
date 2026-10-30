@@ -27,14 +27,22 @@ try{
  await page.screenshot({path:'test-results/home-mobile.png'});
  const own=page.locator('.home-role-row .app-select-trigger');
  await own.click();
- assert.equal(await page.locator('#sheet').evaluate(el=>el.open),true);
- const choices=page.locator('#sheet .app-choice');
- assert.ok(await choices.count()>1,'role choices are rendered in app');
- const second=await choices.nth(1).textContent();
+ assert.equal(await page.locator('#sheet').evaluate(el=>el.open),false,'Role dropdown must not open a bottom sheet');
+ assert.equal(await own.getAttribute('aria-haspopup'),'listbox');
+ const choices=page.locator('.role-menu [role=option]');
+ assert.ok(await choices.count()>1,'Role options open in an anchored listbox');
+ const rect1=await own.boundingBox(),rect2=await page.locator('.role-menu').boundingBox();
+ assert.ok(rect2&&rect1&&Math.abs(rect2.y-(rect1.y+rect1.height))<55,'Role menu is positioned beside the trigger');
+ const second=await choices.nth(1).locator('.role-menu-name').textContent();
  await choices.nth(1).click();
  await page.waitForFunction(value=>document.querySelector('#home-role')?.value!==value,original);
+ assert.equal(await page.locator('.role-menu').count(),0,'Selection immediately dismisses the dropdown');
  assert.ok((await own.textContent()).includes(second.trim()));
- console.log('PASS: role picker uses in-app choices, persists selection and dispatches change');
+ await own.click();
+ await page.locator('.role-menu [role=option]').first().press('Escape');
+ assert.equal(await page.locator('.role-menu').count(),0,'Escape closes role menu');
+ assert.equal(await own.getAttribute('aria-expanded'),'false');
+ console.log('PASS: anchored role menu opens by button, persists role immediately and supports Escape');
 
  await page.locator('.global-settings').click();
  await page.locator('.settings-page').waitFor();
@@ -96,6 +104,12 @@ try{
  console.log('PASS: minimal settings, persistent controls, animations and management operations');
  await page.locator('.bottom-nav a[href="#script"]').click();
  await page.locator('.speech').first().waitFor({timeout:25000});
+ const readerRole=page.locator('.reader-role');
+ await readerRole.click();
+ assert.equal(await page.locator('.role-menu [role=option]').count()>1,true,'Reader role uses the same anchored dropdown');
+ assert.equal(await page.locator('#sheet').evaluate(el=>el.open),false,'Reader role does not use a bottom sheet');
+ await page.keyboard.press('Escape');
+ assert.equal(await page.locator('.role-menu').count(),0);
  await page.screenshot({path:'test-results/reader-mobile.png'});
  assert.equal(await page.locator('.global-settings').count(),1,'Reader has a settings gear');
  const position=await page.locator('.global-settings').boundingBox();
@@ -163,6 +177,14 @@ try{
  const desktop=await browser.newPage({viewport:{width:1280,height:800},locale:'ja-JP'});
  await desktop.goto(base+'/',{waitUntil:'domcontentloaded'});
  await desktop.locator('.home-role-row .app-select-trigger').waitFor({timeout:25000});
+ await desktop.locator('.nav-items a[href="#script"]').click();
+ const desktopRole=desktop.locator('.reader-role');
+ await desktopRole.click();
+ assert.ok(await desktop.locator('.role-menu [role=option]').count()>1,'Desktop reader role uses anchored menu');
+ assert.equal(await desktop.locator('#sheet').evaluate(el=>el.open),false);
+ await desktop.keyboard.press('Escape');
+ assert.equal(await desktop.locator('.role-menu').count(),0);
+ await desktop.locator('.nav-items a[href="#home"]').click();
  await desktop.screenshot({path:'test-results/home-desktop.png'});
  console.log('PASS: desktop layout booted');
 }finally{
