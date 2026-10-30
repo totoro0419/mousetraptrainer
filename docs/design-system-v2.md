@@ -233,3 +233,12 @@ Functional regression:
 - Material Design 3: elevation can use restrained tonal difference and shadow rather than only borders. https://developer.android.com/develop/ui/compose/designsystems/material3
 
 **Note:** These are product-specific design choices, not values prescribed by Apple or Google. Implementation is included in PR #1; passing CI does not substitute for visual and device testing.
+
+## 9. Custom controls and sheet swipe behavior (2026-10-30 extension)
+
+- **No platform-native select menus:** every select control retains its semantic value internally but is visually replaced by an in-app text trigger and accessible choice sheet. Applies to home role, script filters, rehearsal role/scene and settings.
+- **No stock Android form skins:** checkbox toggles, role radio choices, range sliders, number-field spinners and focus indicators follow the app's custom design tokens. The OS keyboard, external file picker and permission dialogs remain delegated to the operating system.
+- **Native change events preserved:** selecting an option updates the existing select value, emits input and change events and refreshes the visual trigger, preserving state and save logic.
+- **Swipe dismiss:** the header or handle can be dragged down. The sheet body can also be pulled down when its scroll position is at the top. Over 96px, or over 38px at greater than 0.78px/ms, dismisses with a short downward animation. Short and horizontal gestures do not close. Upward header movement greater than 65px expands the sheet.
+- **Accessibility:** visible focus, labeled controls, selected-choice indication, aria-haspopup dialog semantics and focus restoration after close.
+- **Verification:** existing tests and automated Chromium phone/desktop interaction checks. Physical Android QA remains separate.
