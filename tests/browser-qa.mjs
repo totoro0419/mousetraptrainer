@@ -144,8 +144,16 @@ try{
  await page.evaluate(()=>{const select=document.querySelector('#review-filter');select.value='bookmarked';select.dispatchEvent(new Event('change',{bubbles:true}));});
  await page.waitForFunction(()=>document.querySelectorAll('.reader-scroll .speech').length===1);
  assert.equal(await page.locator('.reader-scroll .speech').first().getAttribute('data-id'),myId,'Bookmark filter selects saved line');
+ await page.locator('.reader-scroll .speech-bookmark').first().click();
+ await page.waitForFunction(()=>document.querySelectorAll('.reader-scroll .speech').length===0);
+ assert.equal(await page.locator('.reader-scroll .empty').count(),1,'Removing a bookmark immediately updates bookmark-only view');
  await page.evaluate(()=>{const select=document.querySelector('#review-filter');select.value='all';select.dispatchEvent(new Event('change',{bubbles:true}));});
  await page.locator('.reader-scroll .speech').first().waitFor();
+ const keyboardLine=page.locator('.reader-scroll .speech').first();
+ await keyboardLine.focus();
+ await keyboardLine.press('Enter');
+ assert.equal(await page.locator('#sheet').evaluate(el=>el.open),true,'Keyboard users can open analysis without an ellipsis');
+ await page.locator('#sheet .close-sheet').click();
  console.log('PASS: pale-blue owned lines, independent saved bookmarks, background analysis, prioritized context and dictionary');
 
 
