@@ -83,6 +83,8 @@ try{
  const manage=page.locator('[data-action="manage-data"]');
  await manage.click();
  assert.equal(await page.locator('#sheet .management-action').count(),5,'Management options preserved');
+ const managementRect=await page.locator('#sheet').boundingBox();
+ assert.ok(managementRect&&managementRect.y>=0&&managementRect.y<page.viewportSize().height,'New sheet remains on screen after previous swipe animations');
  assert.equal(await page.locator('#sheet .management-note').count(),1);
  await page.locator('#sheet [data-action="import"]').click();
  assert.equal(await page.locator('#sheet #import-result').count(),1,'Import accessible through management');
