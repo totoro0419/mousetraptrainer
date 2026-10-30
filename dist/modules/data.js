@@ -44,8 +44,8 @@ export function stats(data,progress,role){
 }
 export const labels=['未着手','練習中','暗記済み'];
 export function advanceProgress(old={}){return {...old,level:((old.level||0)+1)%3,updatedAt:Date.now()};}
-export function filterLines(data,{scene='all',speaker='all',query='',reviewOnly=false,progress={}}={}){
- const q=query.trim().toLocaleLowerCase();return data.lines.filter(l=>(scene==='all'||l.scene===scene)&&(speaker==='all'||speaker===l.speaker)&&(!reviewOnly||progress[l.id]?.review)&&(!q||`${l.text} ${l.speaker} ${plain(data.translations[l.id]?.translation||data.translations[l.id])}`.toLocaleLowerCase().includes(q)));
+export function filterLines(data,{scene='all',speaker='all',query='',reviewOnly=false,bookmarkedOnly=false,progress={}}={}){
+ const q=query.trim().toLocaleLowerCase();return data.lines.filter(l=>(scene==='all'||l.scene===scene)&&(speaker==='all'||speaker===l.speaker)&&(!reviewOnly||progress[l.id]?.review)&&(!bookmarkedOnly||progress[l.id]?.bookmarked)&&(!q||`${l.text} ${l.speaker} ${plain(data.translations[l.id]?.translation||data.translations[l.id])}`.toLocaleLowerCase().includes(q)));
 }
 const dictionaryIndexes=new WeakMap();
 export function lookupDictionary(dictionary,token){
