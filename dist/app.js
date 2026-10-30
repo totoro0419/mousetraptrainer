@@ -43,7 +43,7 @@ function renderHome(main){
  main.querySelectorAll('[data-action=practice]').forEach(b=>b.onclick=()=>{location.hash='rehearse';});
  main.querySelector('#home-role').onchange=e=>changeRole(e.target.value);
  main.querySelectorAll('[data-scene]').forEach(b=>b.onclick=()=>{small.scene=b.dataset.scene;small.read={};save();location.hash='script';});
- main.querySelector('[data-action=review]')?.addEventListener('click',()=>{small.scene='all';small.speaker=small.role;small.reviewOnly=true;save();location.hash='script';});
+ main.querySelector('[data-action=review]')?.addEventListener('click',()=>{small.scene='all';small.speaker=small.role;small.reviewOnly=true;small.bookmarkOnly=false;save();location.hash='script';});
 }
 function renderSettings(main){
  main.innerHTML=`<div class="page-scroll"><div class="page settings-page">
