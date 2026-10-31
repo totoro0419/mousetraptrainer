@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "stage": 0,
+  "stage": 2,
   "branch": "feature/integrated-audio-rehearsal-20261031",
   "target": 1164,
-  "committedMp3": 0,
-  "remaining": 1164,
+  "committedMp3": 10,
+  "remaining": 1154,
   "nextBatch": {
-    "start": 1,
-    "count": 10,
-    "firstId": "act1-scene1-speech-0001"
+    "start": 11,
+    "count": 25,
+    "firstId": "act1-scene1-speech-0011"
   },
   "source": {
     "archive": "The_Mousetrap_Audio_For_App.zip",
@@ -23,10 +23,16 @@
     "firstTenMp3SizesAndSha256MatchPr11Manifest": true,
     "batchToolSyntaxAndOfflineDryRun": true,
     "batchToolTenFileStagingAndIdempotentRerun": true,
-    "githubBinaryTransfer": false,
+    "githubBinaryTransfer": true,
     "liveGithubPagesPlayback": false
   },
-  "notes": "Source ZIP recovered and locally verified. No MP3 is yet committed. A new GitHub Actions release-asset-to-batch importer has been configured, but the ZIP must first be uploaded once to the named repository release. The workflow then uses nextBatch only when this checkpoint file is changed; old HTTP 403 downloader is removed.",
+  "notes": "Ten original MP3 blobs committed as GitHub tree entries after matching SHA-256 and exact Git blob SHA locally. Main and public Pages unchanged. Subsequent import can use the same verified direct path without a Release upload.",
   "updated": "2026-10-31",
-  "sourceReleaseTag": "audio-source-2026-10-31"
+  "sourceReleaseTag": "audio-source-2026-10-31",
+  "lastImported": {
+    "start": 1,
+    "requestedCount": 10,
+    "verifiedCount": 10,
+    "method": "Git Data API: exact MP3 blob SHAs matched locally computed Git blob hashes"
+  }
 }
