@@ -11,6 +11,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import tempfile
 import zipfile
@@ -55,7 +56,7 @@ def main():
         raise ValueError('Duplicate IDs or filenames in manifest')
     for c in clips:
         expected = f"audio/lines/{c['scene']}/{c['id']}.mp3"
-        if c['file'] != expected or '/' in c['scene'] or '/' in c['id']:
+        if c['file'] != expected or not re.fullmatch(r'[a-z0-9-]+', c['scene']) or not re.fullmatch(r'[a-z0-9-]+', c['id']):
             raise ValueError(f'Unsafe manifest filename: {c["id"]}')
     before = inspect_staged(clips)
     added = []
