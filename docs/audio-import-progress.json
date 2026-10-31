@@ -26,6 +26,7 @@
     "githubBinaryTransfer": false,
     "liveGithubPagesPlayback": false
   },
-  "notes": "Source ZIP recovered from the user's Library. Offline staging QA used an independently reconstructed manifest from the ZIP. No MP3s have been committed to this branch. The original 403 downloader is disabled. Actual transfer of binary files into GitHub must be verified in stage 1.",
-  "updated": "2026-10-31"
+  "notes": "Source ZIP recovered and locally verified. No MP3 is yet committed. A new GitHub Actions release-asset-to-batch importer has been configured, but the ZIP must first be uploaded once to the named repository release. The workflow then uses nextBatch only when this checkpoint file is changed; old HTTP 403 downloader is removed.",
+  "updated": "2026-10-31",
+  "sourceReleaseTag": "audio-source-2026-10-31"
 }
