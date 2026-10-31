@@ -38,7 +38,7 @@ self.addEventListener('fetch',event=>{
    const cache=await caches.open('mousetrap-audio-runtime-v1');
    try{
     const response=await fetch(request);
-    if(response.ok)event.waitUntil(cache.put(request,response.clone()));
+    if(response.status===200&&!request.headers.has('range'))event.waitUntil(cache.put(request,response.clone()));
     return response;
    }catch(err){
     const cached=await cache.match(request);
