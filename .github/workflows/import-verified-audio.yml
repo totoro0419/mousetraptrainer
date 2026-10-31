@@ -1,48 +1,19 @@
-name: Import verified audio assets
+name: Inspect staged audio batches
 on:
-  push:
-    branches: [feature/integrated-audio-rehearsal-20261031]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 permissions:
-  contents: write
-concurrency:
-  group: verified-audio-import
-  cancel-in-progress: false
+  contents: read
 jobs:
-  import-audio:
-    if: github.repository == 'totoro0419/mousetraptrainer' && (github.event_name == 'push' || (github.event.pull_request.head.repo.full_name == 'totoro0419/mousetraptrainer' && github.event.pull_request.head.ref == 'feature/integrated-audio-rehearsal-20261031'))
+  staged-audio:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.ref == 'feature/integrated-audio-rehearsal-20261031'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
         with:
-          ref: feature/integrated-audio-rehearsal-20261031
-      - name: Fetch provided MP3s and verify every SHA-256
-        run: |
-          python3 - <<'PYTHON'
-          import concurrent.futures,hashlib,json,pathlib,urllib.request
-          manifest=json.load(open('dist/data/audio-manifest.json'))
-          base='https://mousetrap-trainer-ibuki.ibukioike2009.chatgpt.site/'
-          def copy(c):
-              p=pathlib.Path('dist')/c['file']
-              if p.exists() and hashlib.sha256(p.read_bytes()).hexdigest()==c['sha256']:return
-              assert str(p).startswith('dist/audio/lines/') and '..' not in str(p)
-              with urllib.request.urlopen(base+c['file'],timeout=60) as response:
-                  body=response.read()
-              assert len(body)==c['bytes'] and hashlib.sha256(body).hexdigest()==c['sha256'],c['id']
-              p.parent.mkdir(parents=True,exist_ok=True)
-              p.write_bytes(body)
-          with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
-              list(pool.map(copy,manifest['clips']))
-          print('Verified',len(manifest['clips']),'MP3 assets')
-          PYTHON
-      - name: Commit exact verified assets to the implementation branch
-        run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add dist/audio
-          if ! git diff --cached --quiet; then
-            git commit -m 'assets: import 1164 SHA-256 verified provided MP3s'
-            git push origin HEAD:feature/integrated-audio-rehearsal-20261031
-          fi
+          python-version: '3.12'
+      - name: Verify every currently staged MP3 against the audited manifest
+        run: python3 scripts/stage-audio-batch.py --status
