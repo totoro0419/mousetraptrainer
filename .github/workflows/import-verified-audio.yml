@@ -2,6 +2,8 @@ name: Import verified audio assets
 on:
   push:
     branches: [feature/integrated-audio-rehearsal-20261031]
+  pull_request:
+    branches: [main]
 permissions:
   contents: write
 concurrency:
@@ -9,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   import-audio:
-    if: github.repository == 'totoro0419/mousetraptrainer'
+    if: github.repository == 'totoro0419/mousetraptrainer' && (github.event_name == 'push' || (github.event.pull_request.head.repo.full_name == 'totoro0419/mousetraptrainer' && github.event.pull_request.head.ref == 'feature/integrated-audio-rehearsal-20261031'))
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
