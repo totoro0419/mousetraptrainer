@@ -92,7 +92,10 @@ test('freshness strategy keeps full new UI in source and does not rollback previ
  assert.match(reader,/data-action="bookmark"/);
  assert.doesNotMatch(reader,/class="speech-analysis"/);
  assert.match(reader,/会話の流れ・文脈/);
+ assert.match(reader,/そのセリフの解説/);
+ assert.match(workerSource,/data\/mousetrap-dramaturgy\.ja\.json/);
+ assert.match(workerSource,/modules\/dramaturgy\.js/);
  assert.match(reader,/analysisNeighbor/);
  assert.match(html,/styles\.css/);
- assert.match(workerSource,/const CACHE='mousetrap-shell-20261031-role-dropdown-v6'/);
+ assert.match(workerSource,/const CACHE='mousetrap-shell-20261031-dramaturgy-v7'/);
 });

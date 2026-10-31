@@ -483,3 +483,16 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 .role-trigger[aria-expanded="true"],.reader-role[aria-expanded="true"]{background:var(--accent-soft);color:var(--accent-ink)}
 .role-trigger[aria-expanded="true"]>.icon,.reader-role[aria-expanded="true"]>.icon,.home-role-row .app-select-trigger[aria-expanded="true"]>.icon{transform:rotate(180deg)}
 @media(prefers-reduced-motion:reduce){.role-trigger .icon,.reader-role .icon{transition:none!important}}
+
+/* Audited dramaturgy: a readable primary paragraph, optional compact disclosures. */
+.analysis-explanation{margin-top:10px;font-size:15px;line-height:1.85;overflow-wrap:anywhere}
+.analysis-supplement,.analysis-related{margin-top:14px}
+.analysis-supplement summary,.analysis-related summary{color:var(--accent-ink);font-size:13px;cursor:pointer;padding:7px 0;line-height:1.6}
+.analysis-supplement dl{margin:8px 0 0;font-size:14px}
+.analysis-supplement dl>div{margin:12px 0}
+.analysis-supplement dt{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:4px}
+.analysis-supplement dd{margin:0;line-height:1.8;overflow-wrap:anywhere}
+.analysis-spoiler>p,.analysis-acting>p{margin-top:10px;overflow-wrap:anywhere}
+.analysis-acting .analysis-stage-cue{margin-top:12px;font-size:13px;color:var(--muted);font-weight:400}
+.analysis-related .scene-link{font-size:14px;min-height:48px;text-align:left}
+.analysis-personal{padding-top:8px}
