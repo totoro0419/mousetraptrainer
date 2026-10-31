@@ -1,19 +1,64 @@
-name: Inspect staged audio batches
+name: Import verified audio batches
 on:
-  pull_request:
-    branches: [main]
+  push:
+    branches: [feature/integrated-audio-rehearsal-20261031]
+    paths: [docs/audio-import-progress.json]
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
+concurrency:
+  group: mousetrap-audio-batch-import
+  cancel-in-progress: false
 jobs:
-  staged-audio:
-    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.ref == 'feature/integrated-audio-rehearsal-20261031'
+  import-batch:
+    if: github.ref == 'refs/heads/feature/integrated-audio-rehearsal-20261031'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: feature/integrated-audio-rehearsal-20261031
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - name: Verify every currently staged MP3 against the audited manifest
+      - name: Download original archive from this repository's release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/mousetrap-audio"
+          gh release download audio-source-2026-10-31 \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern 'The_Mousetrap_Audio_For_App.zip' \
+            --dir "$RUNNER_TEMP/mousetrap-audio"
+      - name: Import exactly the requested bounded batch
+        run: |
+          python3 - <<'PY'
+          import json,os,pathlib,subprocess,sys
+          checkpoint=pathlib.Path('docs/audio-import-progress.json')
+          data=json.loads(checkpoint.read_text())
+          batch=data['nextBatch']
+          start,count=batch['start'],batch['count']
+          if not (1<=start<=1164 and 1<=count<=50):
+              raise ValueError('Unsafe batch boundaries')
+          source=pathlib.Path(os.environ['RUNNER_TEMP'])/'mousetrap-audio/The_Mousetrap_Audio_For_App.zip'
+          subprocess.run([sys.executable,'scripts/stage-audio-batch.py',str(source),'--start',str(start),'--count',str(count)],check=True)
+          status=json.loads(subprocess.check_output([sys.executable,'scripts/stage-audio-batch.py','--status']))
+          data.update(committedMp3=status['verified_on_disk'],remaining=status['remaining'])
+          data['lastImported']={'start':start,'requestedCount':count,'verifiedCount':status['verified_on_disk']}
+          nxt=status['next_start']
+          clips=json.loads(pathlib.Path('dist/data/audio-manifest.json').read_text())['clips']
+          data['nextBatch']={'start':nxt,'count':min(25 if status['verified_on_disk']==10 else 50,status['remaining']),'firstId':clips[nxt-1]['id']} if nxt else None
+          data['stage']=4 if status['complete'] else (2 if status['verified_on_disk']>=10 else 1)
+          checkpoint.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
+          PY
+      - name: Commit verified MP3s and checkpoint
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/audio/lines docs/audio-import-progress.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'assets(audio): stage verified MP3 batch and record checkpoint'
+            git push origin HEAD:feature/integrated-audio-rehearsal-20261031
+          fi
+      - name: Print verified staged-file status
         run: python3 scripts/stage-audio-batch.py --status
