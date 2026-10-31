@@ -8,18 +8,18 @@
   "fields": {
     "explanation": 1164,
     "spoiler": 52,
-    "relatedLineIds": 243,
+    "relatedLineIds": 244,
     "premise": 34,
     "acting": 49,
-    "devices": 97,
+    "devices": 98,
     "subtext": 12,
     "intention": 13,
     "emotion": 18,
     "cause": 4
   },
-  "referenceCount": 519,
+  "referenceCount": 524,
   "errors": [],
   "warnings": [],
   "sourceSha256": "022dc48dd68c85773e9ce8307a7d3f1e2a3bceafc20a4a9b8db83e472a81a7b6",
-  "datasetSha256": "7a405ef09958f75f162c81567611280b6a006b88adb5c1f6a07feecd411957a4"
+  "datasetSha256": "457fa0c8e5adbbf0454048f0ab2ec74b778b475e81520ac94200ad2684a6a350"
 }
