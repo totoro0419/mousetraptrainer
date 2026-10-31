@@ -60,7 +60,7 @@ function renderSettings(main){
   </section>
   <section class="setting-group" aria-labelledby="settings-audio"><h2 id="settings-audio">音声</h2>
    <div class="setting-row"><label for="playback-rate">再生速度</label><select id="playback-rate">${[.75,1,1.25,1.5].map(n=>`<option value="${n}">${n}倍</option>`).join('')}</select></div>
-   <p class="subtle">音声はGitHubから配信します。アプリへの取り込みは不要です。</p>
+   <p class="subtle">GitHubに音声を配置すると自動で利用できます。アプリでの取り込みは不要です。</p>
   </section>
   <button class="setting-link setting-manage" type="button" data-action="manage-data"><span>データとアプリ</span>${icon('chevron')}</button>
  </div></div>`;
