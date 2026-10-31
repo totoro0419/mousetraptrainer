@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "stage": 0,
+  "branch": "feature/integrated-audio-rehearsal-20261031",
+  "target": 1164,
+  "committedMp3": 0,
+  "remaining": 1164,
+  "nextBatch": {
+    "start": 1,
+    "count": 10,
+    "firstId": "act1-scene1-speech-0001"
+  },
+  "source": {
+    "archive": "The_Mousetrap_Audio_For_App.zip",
+    "bytes": 32873703,
+    "sha256": "eeb77658464532962888fdbfcf4bd5d382c125a89210f37d716f5b712a238533",
+    "crc": "pass",
+    "mp3Files": 1164,
+    "duplicateOrMissingMp3Files": 0
+  },
+  "verified": {
+    "archiveShaMatchesPr11Manifest": true,
+    "firstTenMp3SizesAndSha256MatchPr11Manifest": true,
+    "batchToolSyntaxAndOfflineDryRun": true,
+    "batchToolTenFileStagingAndIdempotentRerun": true,
+    "githubBinaryTransfer": false,
+    "liveGithubPagesPlayback": false
+  },
+  "notes": "Source ZIP recovered from the user's Library. Offline staging QA used an independently reconstructed manifest from the ZIP. No MP3s have been committed to this branch. The original 403 downloader is disabled. Actual transfer of binary files into GitHub must be verified in stage 1.",
+  "updated": "2026-10-31"
+}
