@@ -36,6 +36,6 @@ test('reader highlights own lines subtly and prioritizes meaning and context ove
  assert.match(css,/\.reader-scroll \.speech\.mine\{background:#eef6ff/);
  assert.match(css,/\.speech-bookmark\[aria-pressed="true"\]/);
  const template=reader.slice(reader.indexOf('export function showAnalysis'),reader.indexOf('export function speechNode'));
- const inOrder=['日本語訳','会話の流れ・文脈','演技のポイント','文法・構文','重要表現','学習状態'].map(word=>template.indexOf(word));
+ const inOrder=['日本語訳','analysisNarrative(line,data)','文法・構文','重要表現','学習状態'].map(word=>template.indexOf(word));
  assert.ok(inOrder.every((value,index)=>value>=0&&(!index||value>inOrder[index-1])),'Prioritized analysis order');
 });

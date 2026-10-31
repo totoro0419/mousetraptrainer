@@ -1,0 +1,44 @@
+{
+  "coverage": {
+    "rendered": 1164,
+    "references": 526
+  },
+  "layout": [
+    {
+      "width": 320,
+      "document": 320,
+      "viewport": 320,
+      "sheet": 318,
+      "client": 318
+    },
+    {
+      "width": 390,
+      "document": 390,
+      "viewport": 390,
+      "sheet": 388,
+      "client": 388
+    },
+    {
+      "width": 768,
+      "document": 768,
+      "viewport": 768,
+      "sheet": 738,
+      "client": 738
+    },
+    {
+      "width": 1280,
+      "document": 1280,
+      "viewport": 1280,
+      "sheet": 738,
+      "client": 738
+    }
+  ],
+  "textScale": "200% sheet text stress",
+  "offline": true,
+  "errors": [],
+  "limitations": [
+    "Android physical devices",
+    "OS text scaling",
+    "TalkBack/VoiceOver"
+  ]
+}
