@@ -11,17 +11,20 @@
 - GitHub runnerから外部ChatGPTサイトを取得する方式は HTTP 403 で失敗するため廃止。**そのURLへの自動再試行は禁止**。代わりに元ZIPの原本確認後、ローカルで検証済みMP3を作業ブランチへ送る。
 - 原本ZIPおよび生成元ZIPをGitHubへ丸ごとコミットしない。音声は `dist/audio/lines/...` に必要なMP3のみ配置。
 
-## GitHub Actions での分割取り込み（推奨）
+## 採用した転送経路（段階1で実証）
 
-GitHub接続経由では現状、作業環境にある32MBのZIPを直接GitHubのバイナリ保存先へ転送できないため、**最初の1回だけ**GitHub Releasesに元ZIPをアップロードする方式に変更しました。
+**GitHub Releasesへの元ZIPアップロードは不要です。** ローカルで原ZIPと既存マニフェストをSHA-256照合し、GitHubのGit Data APIでMP3をbase64エンコードしたblobとして送信します。GitHubが返したblob SHAを元MP3からローカル計算したGit blob SHAと照合してから、**10件分を1つのtree・commitとして作業ブランチへ反映**します。直後にGitHub側のtreeを再取得して存在・サイズ・blob SHAを確認します。
 
-1. 本リポジトリの「Releases → Draft a new release」でタグ `audio-source-2026-10-31` のリリースを用意します。
-2. `The_Mousetrap_Audio_For_App.zip` を**ファイル名を変えずに**アセットとして添付し、リリースを公開します。公開リポジトリなのでこのZIPも公開されます。
-3. 次のバッチ開始時に `docs/audio-import-progress.json` をGitHub上で更新すると `.github/workflows/import-verified-audio.yml` が実行されます。スクリプトはReleaseからZIPを取得し、SHA-256・CRCと対象MP3ハッシュを確認してから、`nextBatch`指定件数のみPR #11ブランチにコミットします。
-4. Actionが進捗JSONを実登録数で更新し、次に追加すべき先頭IDと件数を記録します。Actionsボットによるコミットで同じ処理が無限再起動することはありません。
-5. リリースアセット未配置の場合は通知のみで終了し、ブランチやデータを変更しません。ZIPが置かれた後も、次のチェックポイント更新まで勝手に取り込みを開始しません。
+1. `docs/audio-import-progress.json` の `nextBatch` と GitHub側の実ファイル数を照合。
+2. 原ZIP内の対象ファイルのサイズ・SHA-256を `dist/data/audio-manifest.json` と照合。
+3. 各ファイルをGit Data APIの `create_blob` に `encoding=base64` で送信。
+4. ローカルで求めたGit blob SHAと返されたSHAが完全一致することを確認。
+5. 既存treeを基準に対象blobを追加、progressを更新したcommitを作成、PR #11のbranchへfast-forward。
+6. GitHub APIでtreeとprogressを読み直し、**登録成功を独立確認**。
 
-これは音声データをローカルに展開してGit pushする代替経路です。**リリースへのアップロードと初回のGitHub上の取り込みは段階0ではまだ未実施**です。
+音声の受け渡しに使った一時的なライブラリデータは完了後に整理し、GitHubには原ZIPを入れません。`.github/workflows/import-verified-audio.yml` は取り込みを行わず、PRブランチへ置かれた音声のSHA-256とチェックポイント整合性を検査します。未収録分を埋めるまでは `npm test` / `npm run build` の全件必須検査は成功しません。
+
+**段階1実績:** 2026-10-31。第1場面の0001〜0010を登録。登録件数10、音声バイト合計351,216、残り1,154。コミット `6e8dde727de7f00d816f5315e61b3d53755f34bd` で元音声とGit blob SHAが一致し、GitHubリモートtreeで10件の存在・サイズを確認。次は0011から25件。
 
 ## バッチ投入
 
@@ -33,7 +36,7 @@ python3 scripts/stage-audio-batch.py /path/to/The_Mousetrap_Audio_For_App.zip --
 python3 scripts/stage-audio-batch.py --status
 ```
 
-初回10件が遠隔ブランチ上に存在し、正しく取得できることを検証してから次へ進みます。次は11件目から25件、その後は最大50件ずつ進行します。ステータスの`next_start`を確認し、**追加MP3だけ**をPRブランチへコミットします。ハッシュが一致しないファイルは置換・強行せず原因を特定します。1バッチごとに `docs/audio-import-progress.json` を実際のリモート確認結果で更新します。
+最初の10件は遠隔ブランチ上で確認済みです。次は11件目から25件、その後は最大50件ずつ進行します。ステータスの`next_start`を確認し、**追加MP3だけ**をPRブランチへコミットします。ハッシュが一致しないファイルは置換・強行せず原因を特定します。1バッチごとに `docs/audio-import-progress.json` を実際のリモート確認結果で更新します。
 
 GitHubへMP3を転送するには、元ZIPを展開できる認証済みの作業環境からGit pushするか、検証済みバイト列をGitHub Git Data APIに渡す必要があります。**この2つはGitHub側に実ファイルが配置されるまで成功と見なさない**。ファイルを作業環境内に取り出しただけでは登録数に含めません。
 
