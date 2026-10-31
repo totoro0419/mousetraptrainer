@@ -97,5 +97,5 @@ test('freshness strategy keeps full new UI in source and does not rollback previ
  assert.match(workerSource,/modules\/dramaturgy\.js/);
  assert.match(reader,/analysisNeighbor/);
  assert.match(html,/styles\.css/);
- assert.match(workerSource,/const CACHE='mousetrap-shell-20261031-dramaturgy-v7'/);
+ assert.match(workerSource,/const CACHE='mousetrap-shell-20261031-audio-v8'/);
 });

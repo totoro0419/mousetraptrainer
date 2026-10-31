@@ -1,0 +1,33 @@
+name: Verify staged audio batches
+on:
+  push:
+    branches: [feature/integrated-audio-rehearsal-20261031]
+    paths:
+      - 'dist/audio/lines/**'
+      - 'docs/audio-import-progress.json'
+      - 'scripts/stage-audio-batch.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-batch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Verify staged MP3 hashes and checkpoint
+        run: |
+          python3 scripts/stage-audio-batch.py --status > "$RUNNER_TEMP/staged-status.json"
+          python3 - <<'PY'
+          import json,os,pathlib
+          status=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'staged-status.json').read_text())
+          progress=json.loads(pathlib.Path('docs/audio-import-progress.json').read_text())
+          assert progress['target']==status['total']==1164
+          assert progress['committedMp3']==status['verified_on_disk']
+          assert progress['remaining']==status['remaining']
+          assert progress['nextBatch'] is None if status['complete'] else progress['nextBatch']['start']==status['next_start']
+          print('Staged audio verified:',status)
+          PY

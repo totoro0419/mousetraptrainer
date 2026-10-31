@@ -27,7 +27,7 @@ test('design v2: full width script, hairline and clickable word indicator',()=>{
 
 test('design v2: rehearsal keeps semantics without decorative monogram or audio emblem',()=>{
  assert.doesNotMatch(rehearsal,/class="role-monogram"|class="audio-symbol"|TURN WORDS INTO YOUR VOICE/);
- for(const term of ['createSession','transition(','selectRange(','data-action=advance','data-action=previous','data-resume','getClip('])assert.ok(rehearsal.includes(term),term);
+ for(const term of ['selectRange(','data-action="advance"','data-action="previous"','data-resume','s.startPractice(','openSheet(','showAnalysis('])assert.ok(rehearsal.includes(term),term);
  assert.match(css,/\.stick-base[^{}]*\{[^}]*border-radius:50%/);
  assert.doesNotMatch(css,/\.stick-base[^{}]*\{[^}]*background-image/i);
 });
@@ -36,7 +36,7 @@ test('design v2: PWA assets and theme use consistent light background',()=>{
  assert.match(html,/name="theme-color" content="#f7f9fd"/);
  const m=JSON.parse(manifest);
  assert.equal(m.theme_color,'#f7f9fd');assert.equal(m.background_color,'#f7f9fd');
- assert.ok(sw.includes('mousetrap-shell-20261031-dramaturgy-v7'));
+ assert.ok(sw.includes('mousetrap-shell-20261031-audio-v8'));
  for(const icon of m.icons)assert.ok(sw.includes(icon.src),`offline shell must include ${icon.src}`);
  assert.ok(app.includes('id="home-role"'));
  assert.ok(app.includes('data-action="choose-role"'));

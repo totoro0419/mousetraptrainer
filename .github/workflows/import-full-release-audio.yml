@@ -1,0 +1,73 @@
+name: Import complete audio from verified release ZIP
+on:
+  push:
+    branches: [feature/integrated-audio-rehearsal-20261031]
+    paths: ['docs/audio-import-request.json']
+permissions:
+  contents: write
+concurrency:
+  group: mousetrap-full-audio-import
+  cancel-in-progress: false
+jobs:
+  import-full-audio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: feature/integrated-audio-rehearsal-20261031
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Verify import request
+        run: |
+          python3 - <<'PY'
+          import json
+          request=json.load(open('docs/audio-import-request.json'))
+          if request.get('tag')!='audio-source-2026-10-31':
+              raise ValueError('Wrong audio source release tag')
+          if request.get('expectedCount')!=1164:
+              raise ValueError('Wrong requested number of MP3 files')
+          PY
+      - name: Download user-provided original ZIP from GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/mousetrap-source"
+          gh release download audio-source-2026-10-31 --repo "$GITHUB_REPOSITORY" \
+            --pattern 'The_Mousetrap_Audio_For_App.zip' --dir "$RUNNER_TEMP/mousetrap-source"
+          test -s "$RUNNER_TEMP/mousetrap-source/The_Mousetrap_Audio_For_App.zip"
+      - name: Verify ZIP and unpack all 1,164 original MP3 files
+        run: |
+          python3 scripts/import-full-audio.py "$RUNNER_TEMP/mousetrap-source/The_Mousetrap_Audio_For_App.zip"
+          python3 scripts/stage-audio-batch.py --status > "$RUNNER_TEMP/complete-audio-status.json"
+          python3 - <<'PY'
+          import json,os,pathlib
+          d=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'complete-audio-status.json').read_text())
+          if d['verified_on_disk']!=1164 or not d['complete'] or d['remaining']!=0:
+              raise ValueError('Missing MP3s after full import')
+          print('Full MP3 verification successful:',d['verified_on_disk'])
+          PY
+      - name: Run exact audio/script regression tests and build
+        run: |
+          npm test
+          npm run build
+      - name: Commit audio and verified checkpoint only after tests pass
+        run: |
+          python3 - <<'PY'
+          import json,pathlib
+          path=pathlib.Path('docs/audio-import-progress.json')
+          progress=json.loads(path.read_text())
+          progress.update(stage=4,committedMp3=1164,remaining=0,nextBatch=None)
+          progress['lastImported']={'method':'GitHub Release complete import','verifiedCount':1164}
+          progress.setdefault('verified',{})['fullArchiveImportedAndBuildPassed']=True
+          progress['notes']='All 1164 original MP3s verified and imported. Final deployment and Android playback checks remain.'
+          path.write_text(json.dumps(progress,ensure_ascii=False,indent=2)+'\n')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/audio/lines docs/audio-import-progress.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'assets(audio): import all 1164 verified original MP3s'
+            git push origin HEAD:feature/integrated-audio-rehearsal-20261031
+          fi

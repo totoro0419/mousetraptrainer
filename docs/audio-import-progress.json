@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "stage": 2,
+  "branch": "feature/integrated-audio-rehearsal-20261031",
+  "target": 1164,
+  "committedMp3": 10,
+  "remaining": 1154,
+  "nextBatch": {
+    "start": 11,
+    "count": 25,
+    "firstId": "act1-scene1-speech-0011"
+  },
+  "source": {
+    "archive": "The_Mousetrap_Audio_For_App.zip",
+    "bytes": 32873703,
+    "sha256": "eeb77658464532962888fdbfcf4bd5d382c125a89210f37d716f5b712a238533",
+    "crc": "pass",
+    "mp3Files": 1164,
+    "duplicateOrMissingMp3Files": 0
+  },
+  "verified": {
+    "archiveShaMatchesPr11Manifest": true,
+    "firstTenMp3SizesAndSha256MatchPr11Manifest": true,
+    "batchToolSyntaxAndOfflineDryRun": true,
+    "batchToolTenFileStagingAndIdempotentRerun": true,
+    "githubBinaryTransfer": true,
+    "liveGithubPagesPlayback": false,
+    "remoteTreeCountAndGitBlobHashes": true,
+    "firstTenFfmpegDecode": true
+  },
+  "notes": "Stage 1: 10 original MP3s committed directly via Git Data API to PR #11. Remote Git tree independently confirms 10 entries, exact sizes and Git blob SHAs computed from original local MP3 bytes. All 10 decode with ffmpeg. Next batch starts at item 11 for 25 items. No Release ZIP upload is required. Main and public Pages remain unchanged.",
+  "updated": "2026-10-31",
+  "lastImported": {
+    "start": 1,
+    "requestedCount": 10,
+    "verifiedCount": 10,
+    "method": "Git Data API: exact MP3 blob SHAs matched locally computed Git blob hashes"
+  },
+  "stage1Commit": "6e8dde727de7f00d816f5315e61b3d53755f34bd"
+}

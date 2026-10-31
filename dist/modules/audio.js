@@ -26,13 +26,20 @@ export class AudioPlayer{
  constructor(factory=()=>new Audio()){this.factory=factory;this.audio=null;this.url=null;this.token=0;}
  stop(){this.token++;if(this.audio){this.audio.pause();this.audio.removeAttribute('src');this.audio.load?.();this.audio=null;}if(this.url){URL.revokeObjectURL(this.url);this.url=null;}}
  pause(){this.audio?.pause();}
+ get position(){return this.audio?.currentTime||0;}
+ seek(seconds){if(this.audio)this.audio.currentTime=Math.max(0,seconds);}
+ setRate(rate){if(this.audio)this.audio.playbackRate=rate;}
  async resume(){if(!this.audio)throw Error('再生する音声がありません。');await this.audio.play();}
- async play(clip,{rate=1,onended=()=>{},onerror=()=>{}}={}){
-  this.stop();const token=this.token;const a=this.factory();this.audio=a;this.url=URL.createObjectURL(clip.blob);a.preload='auto';a.playbackRate=rate;a.src=this.url;
+ async play(clip,{rate=1,position=null,onended=()=>{},onerror=()=>{},ontime=()=>{},onready=()=>{},onwaiting=()=>{}}={}){
+  this.stop();const token=this.token;const a=this.element||=this.factory();this.audio=a;
+  if(clip.blob)this.url=URL.createObjectURL(clip.blob);
+  a.preload='auto';a.playbackRate=rate;a.src=clip.url||this.url;
   let done=false;const finish=()=>{if(token!==this.token||done)return;done=true;a.pause();onended();};
   a.onended=finish;a.onerror=()=>{if(token===this.token&&!done){done=true;onerror(Error('音声を再生できません。形式・ファイルの破損を確認してください。'));}};
-  a.onloadedmetadata=()=>{if(token!==this.token)return;if(clip.start>=a.duration||(clip.end!==null&&clip.end>a.duration+.2)){a.pause();done=true;onerror(Error('音声の再生区間がファイルの長さを超えています。'));return;}a.currentTime=clip.start||0;};
-  a.ontimeupdate=()=>{if(clip.end!==null&&a.currentTime>=clip.end)finish();};
+  a.onloadedmetadata=()=>{if(token!==this.token)return;if(clip.start>=a.duration||(clip.end!=null&&clip.end>a.duration+.2)){a.pause();done=true;onerror(Error('音声の再生区間がファイルの長さを超えています。'));return;}a.currentTime=Math.max(clip.start||0,Math.min(position??clip.start??0,(clip.end??a.duration)-.01));};
+  a.ontimeupdate=()=>{if(token!==this.token||done)return;ontime(a.currentTime,a.duration);if(clip.end!=null&&a.currentTime>=clip.end)finish();};
+  a.onwaiting=()=>{if(token===this.token&&!done)onwaiting();};
+  a.onplaying=()=>{if(token===this.token&&!done)onready();};
   try{await a.play();}catch(err){if(token===this.token){a.pause();throw err;}}
  }
 }
