@@ -60,7 +60,7 @@ function renderSettings(main){
   </section>
   <section class="setting-group" aria-labelledby="settings-audio"><h2 id="settings-audio">音声</h2>
    <div class="setting-row"><label for="playback-rate">再生速度</label><select id="playback-rate">${[.75,1,1.25,1.5].map(n=>`<option value="${n}">${n}倍</option>`).join('')}</select></div>
-   <button class="setting-link" type="button" data-action="audio-import"><span>音声を追加</span>${icon('chevron')}</button>
+   <p class="subtle">音声はGitHubから配信します。アプリへの取り込みは不要です。</p>
   </section>
   <button class="setting-link setting-manage" type="button" data-action="manage-data"><span>データとアプリ</span>${icon('chevron')}</button>
  </div></div>`;
@@ -72,9 +72,6 @@ function renderSettings(main){
  main.querySelector('#line-height').onchange=e=>{small.leading=+e.target.value;save();};
  main.querySelector('#show-stick').onchange=e=>{small.stick=e.target.checked;save();};
  main.querySelector('#playback-rate').onchange=e=>{small.rate=+e.target.value;save();};
- main.querySelector('[data-action=audio-import]').onclick=async()=>{
-  const {openAudioImport}=await import('./modules/audio.js');openAudioImport(context());
- };
  main.querySelector('[data-action=manage-data]').onclick=openDataManagement;
 }
 function openDataManagement(){

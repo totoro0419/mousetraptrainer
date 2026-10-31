@@ -12,7 +12,25 @@ export function audioEntries(files,manifest,validIds){
  for(const f of files){const id=f.name.replace(/\.[^.]+$/,'');if(!used.has(f.name)&&validIds.has(id)){output.push([id,{blob:f,name:f.name,start:0,end:null}]);used.add(f.name);}}
  return {output,unused:files.filter(f=>!used.has(f.name)).map(f=>f.name)};
 }
-export async function getClip(dataset,id){const clip=await storage.get(`audio:${dataset}:${id}`);if(!clip)return null;if(clip.blob)return clip;const blob=await storage.get(clip.fileKey);if(!blob)throw Error('登録された音声ファイルが見つかりません。再度追加してください。');return {...clip,blob};}
+let hostedIndexPromise;
+async function hostedIndex(){
+ if(!hostedIndexPromise)hostedIndexPromise=fetch(new URL('../audio/index.json',import.meta.url))
+   .then(response=>response.ok?response.json():null).catch(()=>null);
+ return hostedIndexPromise;
+}
+export async function getClip(dataset,id){
+ const clip=await storage.get(`audio:${dataset}:${id}`);
+ if(clip){
+  if(clip.blob)return clip;
+  const blob=await storage.get(clip.fileKey);
+  if(!blob)throw Error('登録された音声ファイルが見つかりません。再度追加してください。');
+  return {...clip,blob};
+ }
+ if(dataset!=='mousetrap-private')return null;
+ const index=await hostedIndex(),file=index?.clips?.[id];
+ if(typeof file!=='string'||!/^lines\/(act1-scene1|act1-scene2|act2)\/[a-z0-9-]+\.mp3$/.test(file))return null;
+ return {url:new URL(`../audio/${file}`,import.meta.url).href,start:0,end:null};
+}
 export async function openAudioImport(ctx){
  openSheet('音声ファイルを追加',`<p>ファイル名を <strong>発話ID.mp3</strong> などにすると、自動で対応付けます。複数のファイルをまとめて選べます。</p><p class="subtle" style="margin-top:12px">MP3 / M4A / OGG / WAV / WebM / AAC / FLAC。1ファイル100MB、合計500MB以内。音声マップJSONも同時に選べます。</p><div style="margin-top:20px">${button('音声ファイルを選ぶ','pick-audio','primary','audio')}</div><div id="audio-import-result" class="sheet-section"><h3>1つの録音を区切って使う場合</h3><p class="subtle">clips の各発話IDに file・start・end（秒）を指定する音声マップを追加できます。手順はリポジトリの docs/audio.md を参照。</p></div>`,{setup:d=>{d.querySelector('[data-action=pick-audio]').onclick=()=>document.querySelector('#audio-files').click();}});
  const input=document.querySelector('#audio-files');input.onchange=async e=>{const chosen=[...e.target.files];e.target.value='';const result=document.querySelector('#audio-import-result');if(!result||!chosen.length)return;
@@ -28,7 +46,7 @@ export class AudioPlayer{
  pause(){this.audio?.pause();}
  async resume(){if(!this.audio)throw Error('再生する音声がありません。');await this.audio.play();}
  async play(clip,{rate=1,onended=()=>{},onerror=()=>{}}={}){
-  this.stop();const token=this.token;const a=this.factory();this.audio=a;this.url=URL.createObjectURL(clip.blob);a.preload='auto';a.playbackRate=rate;a.src=this.url;
+  this.stop();const token=this.token;const a=this.factory();this.audio=a;this.url=clip.blob?URL.createObjectURL(clip.blob):null;if(!this.url&&!clip.url)throw Error('音声の参照先がありません。');a.preload='auto';a.playbackRate=rate;a.src=this.url||clip.url;
   let done=false;const finish=()=>{if(token!==this.token||done)return;done=true;a.pause();onended();};
   a.onended=finish;a.onerror=()=>{if(token===this.token&&!done){done=true;onerror(Error('音声を再生できません。形式・ファイルの破損を確認してください。'));}};
   a.onloadedmetadata=()=>{if(token!==this.token)return;if(clip.start>=a.duration||(clip.end!==null&&clip.end>a.duration+.2)){a.pause();done=true;onerror(Error('音声の再生区間がファイルの長さを超えています。'));return;}a.currentTime=clip.start||0;};

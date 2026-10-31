@@ -37,9 +37,20 @@ The Mousetrapの提供済みデータ（1,164発話・3場面・日本語訳・�
 
 [独立監査・34件の修正](docs/dramaturgy/independent-audit.md) / [全件判断と変更前後](docs/dramaturgy/independent-audit.json)
 
-## 音声を追加
+## GitHubから配信する音声
 
-「設定 → 音声を追加」で `発話ID.mp3` などの音声を選択します。任意名や1つの録音を区切って使う方法は [docs/audio.md](docs/audio.md) を参照してください。録音本体は未収録です。
+アプリ内で音声ZIPを読み込む必要はありません。リポジトリの `audio-packs/` に
+`mousetrap-audio-act1.zip`（526件）と `mousetrap-audio-act2.zip`（638件）を追加して
+main に反映すると、GitHub Actions が合計1,164件を検査して `dist/audio/` へ展開し、
+GitHub Pages から必要なMP3だけを配信します。
+
+- ファイルは **解凍せず** GitHub の `audio-packs/` に2つともアップロードします。
+- 片方だけ存在する場合や件数・ID・ZIPが不正な場合はデプロイを中止します。
+- 音声は再生時に取得し、取得済み音声はブラウザーにキャッシュします（全件の事前オフライン保存は保証しません）。
+- 音声未配置でも台本と通常の学習機能は利用できます。
+- 公開リポジトリに置いた録音は第三者にも取得できるため、公開権限を確認してください。
+
+詳細は [GitHub音声配置手順](docs/audio.md) を参照。
 
 ## 開発と検証
 
