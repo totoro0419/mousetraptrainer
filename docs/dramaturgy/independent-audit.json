@@ -1,5 +1,5 @@
 {
-  "status": "in_progress",
+  "status": "completed",
   "date": "2026-10-31",
   "baselineCommit": "3d8e1d197ecb4331ad8f2bb4fa1861222315c4e0",
   "pdfSha256": "94d46d2afe7504d2010c10b3ef4f1017bc3adfe0c09ab86bfd837167357c397b",
@@ -2325,6 +2325,1654 @@
     },
     "act2-speech-0164": {
       "decision": "maintained"
+    },
+    "act2-speech-0165": {
+      "decision": "maintained"
+    },
+    "act2-speech-0166": {
+      "decision": "maintained"
+    },
+    "act2-speech-0167": {
+      "decision": "maintained"
+    },
+    "act2-speech-0168": {
+      "decision": "maintained"
+    },
+    "act2-speech-0169": {
+      "decision": "maintained"
+    },
+    "act2-speech-0170": {
+      "decision": "maintained"
+    },
+    "act2-speech-0171": {
+      "decision": "maintained"
+    },
+    "act2-speech-0172": {
+      "decision": "maintained"
+    },
+    "act2-speech-0173": {
+      "decision": "maintained"
+    },
+    "act2-speech-0174": {
+      "decision": "maintained"
+    },
+    "act2-speech-0175": {
+      "decision": "maintained"
+    },
+    "act2-speech-0176": {
+      "decision": "maintained"
+    },
+    "act2-speech-0177": {
+      "decision": "maintained"
+    },
+    "act2-speech-0178": {
+      "decision": "maintained"
+    },
+    "act2-speech-0179": {
+      "decision": "maintained"
+    },
+    "act2-speech-0180": {
+      "decision": "maintained"
+    },
+    "act2-speech-0181": {
+      "decision": "maintained"
+    },
+    "act2-speech-0182": {
+      "decision": "maintained"
+    },
+    "act2-speech-0183": {
+      "decision": "maintained"
+    },
+    "act2-speech-0184": {
+      "decision": "maintained"
+    },
+    "act2-speech-0185": {
+      "decision": "maintained"
+    },
+    "act2-speech-0186": {
+      "decision": "maintained"
+    },
+    "act2-speech-0187": {
+      "decision": "maintained"
+    },
+    "act2-speech-0188": {
+      "decision": "maintained"
+    },
+    "act2-speech-0189": {
+      "decision": "maintained"
+    },
+    "act2-speech-0190": {
+      "decision": "maintained"
+    },
+    "act2-speech-0191": {
+      "decision": "maintained"
+    },
+    "act2-speech-0192": {
+      "decision": "maintained"
+    },
+    "act2-speech-0193": {
+      "decision": "maintained"
+    },
+    "act2-speech-0194": {
+      "decision": "maintained"
+    },
+    "act2-speech-0195": {
+      "decision": "maintained"
+    },
+    "act2-speech-0196": {
+      "decision": "maintained"
+    },
+    "act2-speech-0197": {
+      "decision": "maintained"
+    },
+    "act2-speech-0198": {
+      "decision": "maintained"
+    },
+    "act2-speech-0199": {
+      "decision": "maintained"
+    },
+    "act2-speech-0200": {
+      "decision": "maintained"
+    },
+    "act2-speech-0201": {
+      "decision": "maintained"
+    },
+    "act2-speech-0202": {
+      "decision": "maintained"
+    },
+    "act2-speech-0203": {
+      "decision": "maintained"
+    },
+    "act2-speech-0204": {
+      "decision": "maintained"
+    },
+    "act2-speech-0205": {
+      "decision": "maintained"
+    },
+    "act2-speech-0206": {
+      "decision": "maintained"
+    },
+    "act2-speech-0207": {
+      "decision": "maintained"
+    },
+    "act2-speech-0208": {
+      "decision": "maintained"
+    },
+    "act2-speech-0209": {
+      "decision": "maintained"
+    },
+    "act2-speech-0210": {
+      "decision": "maintained"
+    },
+    "act2-speech-0211": {
+      "decision": "maintained"
+    },
+    "act2-speech-0212": {
+      "decision": "maintained"
+    },
+    "act2-speech-0213": {
+      "decision": "maintained"
+    },
+    "act2-speech-0214": {
+      "decision": "maintained"
+    },
+    "act2-speech-0215": {
+      "decision": "maintained"
+    },
+    "act2-speech-0216": {
+      "decision": "maintained"
+    },
+    "act2-speech-0217": {
+      "decision": "maintained"
+    },
+    "act2-speech-0218": {
+      "decision": "maintained"
+    },
+    "act2-speech-0219": {
+      "decision": "maintained"
+    },
+    "act2-speech-0220": {
+      "decision": "maintained"
+    },
+    "act2-speech-0221": {
+      "decision": "maintained"
+    },
+    "act2-speech-0222": {
+      "decision": "maintained"
+    },
+    "act2-speech-0223": {
+      "decision": "maintained"
+    },
+    "act2-speech-0224": {
+      "decision": "maintained"
+    },
+    "act2-speech-0225": {
+      "decision": "maintained"
+    },
+    "act2-speech-0226": {
+      "decision": "maintained"
+    },
+    "act2-speech-0227": {
+      "decision": "maintained"
+    },
+    "act2-speech-0228": {
+      "decision": "maintained"
+    },
+    "act2-speech-0229": {
+      "decision": "maintained"
+    },
+    "act2-speech-0230": {
+      "decision": "maintained"
+    },
+    "act2-speech-0231": {
+      "decision": "maintained"
+    },
+    "act2-speech-0232": {
+      "decision": "maintained"
+    },
+    "act2-speech-0233": {
+      "decision": "maintained"
+    },
+    "act2-speech-0234": {
+      "decision": "maintained"
+    },
+    "act2-speech-0235": {
+      "decision": "maintained"
+    },
+    "act2-speech-0236": {
+      "decision": "maintained"
+    },
+    "act2-speech-0237": {
+      "decision": "maintained"
+    },
+    "act2-speech-0238": {
+      "decision": "maintained"
+    },
+    "act2-speech-0239": {
+      "decision": "maintained"
+    },
+    "act2-speech-0240": {
+      "decision": "maintained"
+    },
+    "act2-speech-0241": {
+      "decision": "maintained"
+    },
+    "act2-speech-0242": {
+      "decision": "maintained"
+    },
+    "act2-speech-0243": {
+      "decision": "maintained"
+    },
+    "act2-speech-0244": {
+      "decision": "maintained"
+    },
+    "act2-speech-0245": {
+      "decision": "maintained"
+    },
+    "act2-speech-0246": {
+      "decision": "maintained"
+    },
+    "act2-speech-0247": {
+      "decision": "maintained"
+    },
+    "act2-speech-0248": {
+      "decision": "maintained"
+    },
+    "act2-speech-0249": {
+      "decision": "maintained"
+    },
+    "act2-speech-0250": {
+      "decision": "maintained"
+    },
+    "act2-speech-0251": {
+      "decision": "maintained"
+    },
+    "act2-speech-0252": {
+      "decision": "maintained"
+    },
+    "act2-speech-0253": {
+      "decision": "maintained"
+    },
+    "act2-speech-0254": {
+      "decision": "maintained"
+    },
+    "act2-speech-0255": {
+      "decision": "maintained"
+    },
+    "act2-speech-0256": {
+      "decision": "maintained"
+    },
+    "act2-speech-0257": {
+      "decision": "maintained"
+    },
+    "act2-speech-0258": {
+      "decision": "revised",
+      "issues": [
+        "主語・関係の明確化"
+      ],
+      "reason": "「自分も妻の安全」はレン自身の妻とも読める。モリーとジャイルズの関係を明示。",
+      "changes": [
+        {
+          "field": "explanation",
+          "before": "自分も妻の安全を心配し、夫と二人きりにできないと逆転させる。二人とも相手が危険だと考え、同じ保護の言葉で衝突する。",
+          "after": "モリーを守りたいのは自分も同じだと返し、夫のジャイルズと二人きりにできないと主張する。夕刊の話を聞いたレンは夫のほうを疑い、二人の男が同じ保護の理由で互いを排除しようとする。"
+        }
+      ]
+    },
+    "act2-speech-0259": {
+      "decision": "maintained"
+    },
+    "act2-speech-0260": {
+      "decision": "maintained"
+    },
+    "act2-speech-0261": {
+      "decision": "maintained"
+    },
+    "act2-speech-0262": {
+      "decision": "maintained"
+    },
+    "act2-speech-0263": {
+      "decision": "maintained"
+    },
+    "act2-speech-0264": {
+      "decision": "maintained"
+    },
+    "act2-speech-0265": {
+      "decision": "maintained"
+    },
+    "act2-speech-0266": {
+      "decision": "maintained"
+    },
+    "act2-speech-0267": {
+      "decision": "maintained"
+    },
+    "act2-speech-0268": {
+      "decision": "maintained"
+    },
+    "act2-speech-0269": {
+      "decision": "maintained"
+    },
+    "act2-speech-0270": {
+      "decision": "maintained"
+    },
+    "act2-speech-0271": {
+      "decision": "maintained"
+    },
+    "act2-speech-0272": {
+      "decision": "maintained"
+    },
+    "act2-speech-0273": {
+      "decision": "maintained"
+    },
+    "act2-speech-0274": {
+      "decision": "maintained"
+    },
+    "act2-speech-0275": {
+      "decision": "maintained"
+    },
+    "act2-speech-0276": {
+      "decision": "maintained"
+    },
+    "act2-speech-0277": {
+      "decision": "maintained"
+    },
+    "act2-speech-0278": {
+      "decision": "maintained"
+    },
+    "act2-speech-0279": {
+      "decision": "maintained"
+    },
+    "act2-speech-0280": {
+      "decision": "maintained"
+    },
+    "act2-speech-0281": {
+      "decision": "maintained"
+    },
+    "act2-speech-0282": {
+      "decision": "maintained"
+    },
+    "act2-speech-0283": {
+      "decision": "maintained"
+    },
+    "act2-speech-0284": {
+      "decision": "maintained"
+    },
+    "act2-speech-0285": {
+      "decision": "maintained"
+    },
+    "act2-speech-0286": {
+      "decision": "maintained"
+    },
+    "act2-speech-0287": {
+      "decision": "maintained"
+    },
+    "act2-speech-0288": {
+      "decision": "maintained"
+    },
+    "act2-speech-0289": {
+      "decision": "maintained"
+    },
+    "act2-speech-0290": {
+      "decision": "maintained"
+    },
+    "act2-speech-0291": {
+      "decision": "maintained"
+    },
+    "act2-speech-0292": {
+      "decision": "maintained"
+    },
+    "act2-speech-0293": {
+      "decision": "maintained"
+    },
+    "act2-speech-0294": {
+      "decision": "maintained"
+    },
+    "act2-speech-0295": {
+      "decision": "maintained"
+    },
+    "act2-speech-0296": {
+      "decision": "maintained"
+    },
+    "act2-speech-0297": {
+      "decision": "maintained"
+    },
+    "act2-speech-0298": {
+      "decision": "maintained"
+    },
+    "act2-speech-0299": {
+      "decision": "revised",
+      "issues": [
+        "動作と心理の区別"
+      ],
+      "reason": "C298–300はcomes nearer/followingで、抱き寄せようとしたとはト書きにない。",
+      "changes": [
+        {
+          "field": "explanation",
+          "before": "夫が犯人かもしれない恐怖から距離を求める。抱き寄せようとする親密な動作が、今は脅威に変わっている。",
+          "after": "夫が犯人かもしれない恐怖から、近づかず離れてほしいと求める。事情を聞こうとする夫の接近が、妻には危険な相手との距離を詰められる動きに変わる。"
+        }
+      ]
+    },
+    "act2-speech-0300": {
+      "decision": "maintained"
+    },
+    "act2-speech-0301": {
+      "decision": "maintained"
+    },
+    "act2-speech-0302": {
+      "decision": "maintained"
+    },
+    "act2-speech-0303": {
+      "decision": "maintained"
+    },
+    "act2-speech-0304": {
+      "decision": "maintained"
+    },
+    "act2-speech-0305": {
+      "decision": "maintained"
+    },
+    "act2-speech-0306": {
+      "decision": "maintained"
+    },
+    "act2-speech-0307": {
+      "decision": "maintained"
+    },
+    "act2-speech-0308": {
+      "decision": "maintained"
+    },
+    "act2-speech-0309": {
+      "decision": "maintained"
+    },
+    "act2-speech-0310": {
+      "decision": "maintained"
+    },
+    "act2-speech-0311": {
+      "decision": "maintained"
+    },
+    "act2-speech-0312": {
+      "decision": "maintained"
+    },
+    "act2-speech-0313": {
+      "decision": "maintained"
+    },
+    "act2-speech-0314": {
+      "decision": "maintained"
+    },
+    "act2-speech-0315": {
+      "decision": "maintained"
+    },
+    "act2-speech-0316": {
+      "decision": "maintained"
+    },
+    "act2-speech-0317": {
+      "decision": "maintained"
+    },
+    "act2-speech-0318": {
+      "decision": "maintained"
+    },
+    "act2-speech-0319": {
+      "decision": "maintained"
+    },
+    "act2-speech-0320": {
+      "decision": "maintained"
+    },
+    "act2-speech-0321": {
+      "decision": "maintained"
+    },
+    "act2-speech-0322": {
+      "decision": "maintained"
+    },
+    "act2-speech-0323": {
+      "decision": "maintained"
+    },
+    "act2-speech-0324": {
+      "decision": "maintained"
+    },
+    "act2-speech-0325": {
+      "decision": "maintained"
+    },
+    "act2-speech-0326": {
+      "decision": "maintained"
+    },
+    "act2-speech-0327": {
+      "decision": "maintained"
+    },
+    "act2-speech-0328": {
+      "decision": "maintained"
+    },
+    "act2-speech-0329": {
+      "decision": "maintained"
+    },
+    "act2-speech-0330": {
+      "decision": "maintained"
+    },
+    "act2-speech-0331": {
+      "decision": "maintained"
+    },
+    "act2-speech-0332": {
+      "decision": "maintained"
+    },
+    "act2-speech-0333": {
+      "decision": "maintained"
+    },
+    "act2-speech-0334": {
+      "decision": "maintained"
+    },
+    "act2-speech-0335": {
+      "decision": "maintained"
+    },
+    "act2-speech-0336": {
+      "decision": "maintained"
+    },
+    "act2-speech-0337": {
+      "decision": "maintained"
+    },
+    "act2-speech-0338": {
+      "decision": "maintained"
+    },
+    "act2-speech-0339": {
+      "decision": "revised",
+      "issues": [
+        "定型的な分類の除去"
+      ],
+      "reason": "段取りの発言という分類を除き、本人の観察の不確かさと招集の目的を具体化。",
+      "changes": [
+        {
+          "field": "explanation",
+          "before": "ケースウェルの居場所を階上だと伝え、集めるための情報を提供する。ここは彼女を見つけに行く段取りの発言。",
+          "after": "全員を呼ぶよう命じられ、ケースウェルは階上だと思うと居場所を伝える。自分が連れて来たと断定せず、モリーが探しに行くための手がかりを渡す。"
+        }
+      ]
+    },
+    "act2-speech-0340": {
+      "decision": "maintained"
+    },
+    "act2-speech-0341": {
+      "decision": "maintained"
+    },
+    "act2-speech-0342": {
+      "decision": "maintained"
+    },
+    "act2-speech-0343": {
+      "decision": "maintained"
+    },
+    "act2-speech-0344": {
+      "decision": "maintained"
+    },
+    "act2-speech-0345": {
+      "decision": "maintained"
+    },
+    "act2-speech-0346": {
+      "decision": "maintained"
+    },
+    "act2-speech-0347": {
+      "decision": "maintained"
+    },
+    "act2-speech-0348": {
+      "decision": "maintained"
+    },
+    "act2-speech-0349": {
+      "decision": "maintained"
+    },
+    "act2-speech-0350": {
+      "decision": "maintained"
+    },
+    "act2-speech-0351": {
+      "decision": "maintained"
+    },
+    "act2-speech-0352": {
+      "decision": "maintained"
+    },
+    "act2-speech-0353": {
+      "decision": "maintained"
+    },
+    "act2-speech-0354": {
+      "decision": "maintained"
+    },
+    "act2-speech-0355": {
+      "decision": "maintained"
+    },
+    "act2-speech-0356": {
+      "decision": "maintained"
+    },
+    "act2-speech-0357": {
+      "decision": "maintained"
+    },
+    "act2-speech-0358": {
+      "decision": "maintained"
+    },
+    "act2-speech-0359": {
+      "decision": "maintained"
+    },
+    "act2-speech-0360": {
+      "decision": "maintained"
+    },
+    "act2-speech-0361": {
+      "decision": "maintained"
+    },
+    "act2-speech-0362": {
+      "decision": "maintained"
+    },
+    "act2-speech-0363": {
+      "decision": "maintained"
+    },
+    "act2-speech-0364": {
+      "decision": "maintained"
+    },
+    "act2-speech-0365": {
+      "decision": "maintained"
+    },
+    "act2-speech-0366": {
+      "decision": "maintained"
+    },
+    "act2-speech-0367": {
+      "decision": "maintained"
+    },
+    "act2-speech-0368": {
+      "decision": "maintained"
+    },
+    "act2-speech-0369": {
+      "decision": "maintained"
+    },
+    "act2-speech-0370": {
+      "decision": "maintained"
+    },
+    "act2-speech-0371": {
+      "decision": "maintained"
+    },
+    "act2-speech-0372": {
+      "decision": "maintained"
+    },
+    "act2-speech-0373": {
+      "decision": "maintained"
+    },
+    "act2-speech-0374": {
+      "decision": "maintained"
+    },
+    "act2-speech-0375": {
+      "decision": "revised",
+      "issues": [
+        "ブラックユーモアの具体化"
+      ],
+      "reason": "sadistic/dishonourableの対比を具体化し、殺人への警戒と色恋の口説きが重なる仕組みを説明。腕を振り払う動作はactingに維持。",
+      "changes": [
+        {
+          "field": "explanation",
+          "before": "夫の介入を危険への用心と男女の邪魔に重ね、わざと不穏で馴れ馴れしく語る。妻が二人の腕を振り払う動作は、勝手に扱われることへの拒否。",
+          "after": "夫が恐れるのは自分の色恋の下心ではなく残虐さだ、と言い換えて笑う。殺人への警戒と女主人への口説きを混ぜ、夫を邪魔者扱いすることで二人を挑発する。自分の危険な性向を実際に告白したと断定する言葉ではない。"
+        }
+      ]
+    },
+    "act2-speech-0376": {
+      "decision": "maintained"
+    },
+    "act2-speech-0377": {
+      "decision": "maintained"
+    },
+    "act2-speech-0378": {
+      "decision": "maintained"
+    },
+    "act2-speech-0379": {
+      "decision": "maintained"
+    },
+    "act2-speech-0380": {
+      "decision": "maintained"
+    },
+    "act2-speech-0381": {
+      "decision": "maintained"
+    },
+    "act2-speech-0382": {
+      "decision": "maintained"
+    },
+    "act2-speech-0383": {
+      "decision": "maintained"
+    },
+    "act2-speech-0384": {
+      "decision": "maintained"
+    },
+    "act2-speech-0385": {
+      "decision": "maintained"
+    },
+    "act2-speech-0386": {
+      "decision": "maintained"
+    },
+    "act2-speech-0387": {
+      "decision": "maintained"
+    },
+    "act2-speech-0388": {
+      "decision": "maintained"
+    },
+    "act2-speech-0389": {
+      "decision": "maintained"
+    },
+    "act2-speech-0390": {
+      "decision": "maintained"
+    },
+    "act2-speech-0391": {
+      "decision": "maintained"
+    },
+    "act2-speech-0392": {
+      "decision": "maintained"
+    },
+    "act2-speech-0393": {
+      "decision": "maintained"
+    },
+    "act2-speech-0394": {
+      "decision": "maintained"
+    },
+    "act2-speech-0395": {
+      "decision": "maintained"
+    },
+    "act2-speech-0396": {
+      "decision": "maintained"
+    },
+    "act2-speech-0397": {
+      "decision": "maintained"
+    },
+    "act2-speech-0398": {
+      "decision": "maintained"
+    },
+    "act2-speech-0399": {
+      "decision": "maintained"
+    },
+    "act2-speech-0400": {
+      "decision": "maintained"
+    },
+    "act2-speech-0401": {
+      "decision": "maintained"
+    },
+    "act2-speech-0402": {
+      "decision": "maintained"
+    },
+    "act2-speech-0403": {
+      "decision": "maintained"
+    },
+    "act2-speech-0404": {
+      "decision": "maintained"
+    },
+    "act2-speech-0405": {
+      "decision": "maintained"
+    },
+    "act2-speech-0406": {
+      "decision": "maintained"
+    },
+    "act2-speech-0407": {
+      "decision": "maintained"
+    },
+    "act2-speech-0408": {
+      "decision": "maintained"
+    },
+    "act2-speech-0409": {
+      "decision": "maintained"
+    },
+    "act2-speech-0410": {
+      "decision": "maintained"
+    },
+    "act2-speech-0411": {
+      "decision": "maintained"
+    },
+    "act2-speech-0412": {
+      "decision": "maintained"
+    },
+    "act2-speech-0413": {
+      "decision": "maintained"
+    },
+    "act2-speech-0414": {
+      "decision": "maintained"
+    },
+    "act2-speech-0415": {
+      "decision": "maintained"
+    },
+    "act2-speech-0416": {
+      "decision": "maintained"
+    },
+    "act2-speech-0417": {
+      "decision": "maintained"
+    },
+    "act2-speech-0418": {
+      "decision": "maintained"
+    },
+    "act2-speech-0419": {
+      "decision": "maintained"
+    },
+    "act2-speech-0420": {
+      "decision": "maintained"
+    },
+    "act2-speech-0421": {
+      "decision": "maintained"
+    },
+    "act2-speech-0422": {
+      "decision": "maintained"
+    },
+    "act2-speech-0423": {
+      "decision": "maintained"
+    },
+    "act2-speech-0424": {
+      "decision": "maintained"
+    },
+    "act2-speech-0425": {
+      "decision": "maintained"
+    },
+    "act2-speech-0426": {
+      "decision": "maintained"
+    },
+    "act2-speech-0427": {
+      "decision": "maintained"
+    },
+    "act2-speech-0428": {
+      "decision": "maintained"
+    },
+    "act2-speech-0429": {
+      "decision": "maintained"
+    },
+    "act2-speech-0430": {
+      "decision": "maintained"
+    },
+    "act2-speech-0431": {
+      "decision": "maintained"
+    },
+    "act2-speech-0432": {
+      "decision": "maintained"
+    },
+    "act2-speech-0433": {
+      "decision": "maintained"
+    },
+    "act2-speech-0434": {
+      "decision": "maintained"
+    },
+    "act2-speech-0435": {
+      "decision": "maintained"
+    },
+    "act2-speech-0436": {
+      "decision": "maintained"
+    },
+    "act2-speech-0437": {
+      "decision": "maintained"
+    },
+    "act2-speech-0438": {
+      "decision": "maintained"
+    },
+    "act2-speech-0439": {
+      "decision": "maintained"
+    },
+    "act2-speech-0440": {
+      "decision": "maintained"
+    },
+    "act2-speech-0441": {
+      "decision": "maintained"
+    },
+    "act2-speech-0442": {
+      "decision": "maintained"
+    },
+    "act2-speech-0443": {
+      "decision": "maintained"
+    },
+    "act2-speech-0444": {
+      "decision": "maintained"
+    },
+    "act2-speech-0445": {
+      "decision": "maintained"
+    },
+    "act2-speech-0446": {
+      "decision": "maintained"
+    },
+    "act2-speech-0447": {
+      "decision": "maintained"
+    },
+    "act2-speech-0448": {
+      "decision": "maintained"
+    },
+    "act2-speech-0449": {
+      "decision": "maintained"
+    },
+    "act2-speech-0450": {
+      "decision": "maintained"
+    },
+    "act2-speech-0451": {
+      "decision": "revised",
+      "issues": [
+        "演技提案とト書きの区別"
+      ],
+      "reason": "PDFは返答後に髪の動作へ気づくと記し、返答の途中とまでは固定していない。",
+      "changes": [
+        {
+          "field": "acting",
+          "before": "質問への返答の途中で相手の手へ目が止まり、追及されても注意が戻らない変化を作る。台本の認識の手がかりを動作で見せる。",
+          "after": "用件への返答から、髪をねじる手への注視へ移る変化を見せる。その後の問いにも注意が戻らない。気づく瞬間を返答のどの語に置くかは、ト書きだけでは固定されていない。"
+        }
+      ]
+    },
+    "act2-speech-0452": {
+      "decision": "maintained"
+    },
+    "act2-speech-0453": {
+      "decision": "maintained"
+    },
+    "act2-speech-0454": {
+      "decision": "maintained"
+    },
+    "act2-speech-0455": {
+      "decision": "maintained"
+    },
+    "act2-speech-0456": {
+      "decision": "maintained"
+    },
+    "act2-speech-0457": {
+      "decision": "maintained"
+    },
+    "act2-speech-0458": {
+      "decision": "maintained"
+    },
+    "act2-speech-0459": {
+      "decision": "maintained"
+    },
+    "act2-speech-0460": {
+      "decision": "maintained"
+    },
+    "act2-speech-0461": {
+      "decision": "maintained"
+    },
+    "act2-speech-0462": {
+      "decision": "maintained"
+    },
+    "act2-speech-0463": {
+      "decision": "maintained"
+    },
+    "act2-speech-0464": {
+      "decision": "maintained"
+    },
+    "act2-speech-0465": {
+      "decision": "revised",
+      "issues": [
+        "意味の訂正"
+      ],
+      "reason": "solicitorへの照会は本人の保証の話で、法務担当を割り当てる話ではない。C464への応答として修正。",
+      "changes": [
+        {
+          "field": "explanation",
+          "before": "資金は銀行、法務は弁護士に確認できると答えるが、私生活の推薦者は出せないと区切る。具体的な証明と人間関係の開示を分ける。",
+          "after": "銀行と口の堅い弁護士を照会先として示し、資力などを確かめる手段は渡す。一方、昔からの知人など私生活を保証する人は出せないと区切り、海外暮らしを理由に人間関係への踏み込みをかわす。"
+        }
+      ]
+    },
+    "act2-speech-0466": {
+      "decision": "maintained"
+    },
+    "act2-speech-0467": {
+      "decision": "maintained"
+    },
+    "act2-speech-0468": {
+      "decision": "maintained"
+    },
+    "act2-speech-0469": {
+      "decision": "maintained"
+    },
+    "act2-speech-0470": {
+      "decision": "maintained"
+    },
+    "act2-speech-0471": {
+      "decision": "maintained"
+    },
+    "act2-speech-0472": {
+      "decision": "maintained"
+    },
+    "act2-speech-0473": {
+      "decision": "maintained"
+    },
+    "act2-speech-0474": {
+      "decision": "maintained"
+    },
+    "act2-speech-0475": {
+      "decision": "revised",
+      "issues": [
+        "心理の断定抑制"
+      ],
+      "reason": "概数への言い直しだけから意図的な抵抗を断定しない。",
+      "changes": [
+        {
+          "field": "explanation",
+          "before": "十二、十三歳くらいと言い直し、正確な年齢を固定しない。過去を細かく特定されることへの抵抗が見える。",
+          "after": "十三歳という先の返答を、十二〜十三歳くらいへ緩める。過去を具体化させる追及の中で、きっぱり答えていた調子にも揺れが出る。曖昧な年齢の答えを受け、次には当時の姓まで問われる。"
+        }
+      ]
+    },
+    "act2-speech-0476": {
+      "decision": "maintained"
+    },
+    "act2-speech-0477": {
+      "decision": "maintained"
+    },
+    "act2-speech-0478": {
+      "decision": "maintained"
+    },
+    "act2-speech-0479": {
+      "decision": "maintained"
+    },
+    "act2-speech-0480": {
+      "decision": "maintained"
+    },
+    "act2-speech-0481": {
+      "decision": "maintained"
+    },
+    "act2-speech-0482": {
+      "decision": "maintained"
+    },
+    "act2-speech-0483": {
+      "decision": "maintained"
+    },
+    "act2-speech-0484": {
+      "decision": "maintained"
+    },
+    "act2-speech-0485": {
+      "decision": "maintained"
+    },
+    "act2-speech-0486": {
+      "decision": "maintained"
+    },
+    "act2-speech-0487": {
+      "decision": "maintained"
+    },
+    "act2-speech-0488": {
+      "decision": "maintained"
+    },
+    "act2-speech-0489": {
+      "decision": "maintained"
+    },
+    "act2-speech-0490": {
+      "decision": "maintained"
+    },
+    "act2-speech-0491": {
+      "decision": "maintained"
+    },
+    "act2-speech-0492": {
+      "decision": "maintained"
+    },
+    "act2-speech-0493": {
+      "decision": "maintained"
+    },
+    "act2-speech-0494": {
+      "decision": "maintained"
+    },
+    "act2-speech-0495": {
+      "decision": "maintained"
+    },
+    "act2-speech-0496": {
+      "decision": "maintained"
+    },
+    "act2-speech-0497": {
+      "decision": "maintained"
+    },
+    "act2-speech-0498": {
+      "decision": "maintained"
+    },
+    "act2-speech-0499": {
+      "decision": "maintained"
+    },
+    "act2-speech-0500": {
+      "decision": "maintained"
+    },
+    "act2-speech-0501": {
+      "decision": "maintained"
+    },
+    "act2-speech-0502": {
+      "decision": "maintained"
+    },
+    "act2-speech-0503": {
+      "decision": "maintained"
+    },
+    "act2-speech-0504": {
+      "decision": "maintained"
+    },
+    "act2-speech-0505": {
+      "decision": "maintained"
+    },
+    "act2-speech-0506": {
+      "decision": "maintained"
+    },
+    "act2-speech-0507": {
+      "decision": "maintained"
+    },
+    "act2-speech-0508": {
+      "decision": "maintained"
+    },
+    "act2-speech-0509": {
+      "decision": "maintained"
+    },
+    "act2-speech-0510": {
+      "decision": "maintained"
+    },
+    "act2-speech-0511": {
+      "decision": "maintained"
+    },
+    "act2-speech-0512": {
+      "decision": "maintained"
+    },
+    "act2-speech-0513": {
+      "decision": "maintained"
+    },
+    "act2-speech-0514": {
+      "decision": "maintained"
+    },
+    "act2-speech-0515": {
+      "decision": "maintained"
+    },
+    "act2-speech-0516": {
+      "decision": "revised",
+      "issues": [
+        "相談時刻の訂正"
+      ],
+      "reason": "C618は相談が介入に間に合ったと述べるだけで、再招集前に済んでいたと特定できない。",
+      "changes": [
+        {
+          "field": "explanation",
+          "before": "落ち着きを取り戻して戻り、集められた目的を尋ねる。弟の件で相談した後でも、他の客へ秘密を明かす口調は取らない。",
+          "after": "平静を取り戻して戻り、再び集められた理由を尋ねる。弟だと認識した衝撃は先ほどの涙に出たが、他の客たちの前では事情を明かさず、落ち着いた応対をする。"
+        },
+        {
+          "field": "premise",
+          "before": null,
+          "after": "本当の警官へ相談したのは終盤の介入までにと分かるが、再招集前か、再現で分散した後かは台本に明示されない。"
+        }
+      ]
+    },
+    "act2-speech-0517": {
+      "decision": "maintained"
+    },
+    "act2-speech-0518": {
+      "decision": "maintained"
+    },
+    "act2-speech-0519": {
+      "decision": "revised",
+      "issues": [
+        "論理の明確化"
+      ],
+      "reason": "候補は六人であり二択という表現は不正確。未検証の人数限定と嘘＝犯人という飛躍を分ける。",
+      "changes": [
+        {
+          "field": "explanation",
+          "before": "六人の申告のうち五つは真、一つは嘘と決めて犯人探しの枠を作る。真犯人である自分の偽証を数えないため、この二択そのものが誘導。",
+          "after": "未検証の六人の申告を「五人は本当、一人は嘘」と決めつけ、その嘘を見破れば犯人が分かると誘う。偽警官である自分を候補に数えず、殺人以外の理由で嘘をつく可能性も落とした筋書きで、全員を再現に従わせようとする。"
+        }
+      ]
+    },
+    "act2-speech-0520": {
+      "decision": "maintained"
+    },
+    "act2-speech-0521": {
+      "decision": "maintained"
+    },
+    "act2-speech-0522": {
+      "decision": "maintained"
+    },
+    "act2-speech-0523": {
+      "decision": "maintained"
+    },
+    "act2-speech-0524": {
+      "decision": "maintained"
+    },
+    "act2-speech-0525": {
+      "decision": "maintained"
+    },
+    "act2-speech-0526": {
+      "decision": "maintained"
+    },
+    "act2-speech-0527": {
+      "decision": "maintained"
+    },
+    "act2-speech-0528": {
+      "decision": "maintained"
+    },
+    "act2-speech-0529": {
+      "decision": "maintained"
+    },
+    "act2-speech-0530": {
+      "decision": "maintained"
+    },
+    "act2-speech-0531": {
+      "decision": "maintained"
+    },
+    "act2-speech-0532": {
+      "decision": "maintained"
+    },
+    "act2-speech-0533": {
+      "decision": "maintained"
+    },
+    "act2-speech-0534": {
+      "decision": "maintained"
+    },
+    "act2-speech-0535": {
+      "decision": "maintained"
+    },
+    "act2-speech-0536": {
+      "decision": "maintained"
+    },
+    "act2-speech-0537": {
+      "decision": "maintained"
+    },
+    "act2-speech-0538": {
+      "decision": "maintained"
+    },
+    "act2-speech-0539": {
+      "decision": "maintained"
+    },
+    "act2-speech-0540": {
+      "decision": "maintained"
+    },
+    "act2-speech-0541": {
+      "decision": "revised",
+      "issues": [
+        "実装説明の除去"
+      ],
+      "reason": "発話データの区切り方でなく、呼びかける相手と同意の取りまとめを説明。",
+      "changes": [
+        {
+          "field": "explanation",
+          "before": "レンの了承を求めてからケースウェルへ問いを移す。一発話内で二人に向けるので、相手を固定しない。",
+          "after": "レンに参加の了承を求め、うなずきを受けてケースウェルへ呼びかける。警官の計画に疑問を持っていた人たちから、主人が一人ずつ同意を取りつけていく。"
+        }
+      ]
+    },
+    "act2-speech-0542": {
+      "decision": "revised",
+      "issues": [
+        "空疎な否定の除去",
+        "状況の具体化"
+      ],
+      "reason": "「内心の全ての保証ではない」という一般論を、弟を認識した後も客の立場で応じる状況へ置換。",
+      "changes": [
+        {
+          "field": "explanation",
+          "before": "再現への参加を認める。内心の判断や警官への信頼の全てを保証する返答ではない。",
+          "after": "先ほどの動揺を収めたケースウェルが、再現への参加を短く承諾する。弟だと認識した事情は皆の前では明かさず、表向きは一人の客として指示を受ける。"
+        }
+      ]
+    },
+    "act2-speech-0543": {
+      "decision": "maintained"
+    },
+    "act2-speech-0544": {
+      "decision": "maintained"
+    },
+    "act2-speech-0545": {
+      "decision": "maintained"
+    },
+    "act2-speech-0546": {
+      "decision": "maintained"
+    },
+    "act2-speech-0547": {
+      "decision": "maintained"
+    },
+    "act2-speech-0548": {
+      "decision": "maintained"
+    },
+    "act2-speech-0549": {
+      "decision": "maintained"
+    },
+    "act2-speech-0550": {
+      "decision": "maintained"
+    },
+    "act2-speech-0551": {
+      "decision": "revised",
+      "issues": [
+        "心理の断定抑制"
+      ],
+      "reason": "C531/C533で罠と疑っており、単なる普通の能力確認と受け止めたという内心は示されない。",
+      "changes": [
+        {
+          "field": "explanation",
+          "before": "ピアノを弾けると答える。能力への普通の確認だと思っており、孤立させる配置の一部とはまだ知らない。",
+          "after": "ピアノを弾けると認める。この肯定が、パラヴィチーニの演奏を彼女に代わらせる根拠に使われ、他の人々から離して応接間へ送る指示につながる。"
+        }
+      ]
+    },
+    "act2-speech-0552": {
+      "decision": "maintained"
+    },
+    "act2-speech-0553": {
+      "decision": "maintained"
+    },
+    "act2-speech-0554": {
+      "decision": "maintained"
+    },
+    "act2-speech-0555": {
+      "decision": "maintained"
+    },
+    "act2-speech-0556": {
+      "decision": "maintained"
+    },
+    "act2-speech-0557": {
+      "decision": "maintained"
+    },
+    "act2-speech-0558": {
+      "decision": "maintained"
+    },
+    "act2-speech-0559": {
+      "decision": "maintained"
+    },
+    "act2-speech-0560": {
+      "decision": "maintained"
+    },
+    "act2-speech-0561": {
+      "decision": "maintained"
+    },
+    "act2-speech-0562": {
+      "decision": "maintained"
+    },
+    "act2-speech-0563": {
+      "decision": "maintained"
+    },
+    "act2-speech-0564": {
+      "decision": "maintained"
+    },
+    "act2-speech-0565": {
+      "decision": "maintained"
+    },
+    "act2-speech-0566": {
+      "decision": "maintained"
+    },
+    "act2-speech-0567": {
+      "decision": "maintained"
+    },
+    "act2-speech-0568": {
+      "decision": "maintained"
+    },
+    "act2-speech-0569": {
+      "decision": "maintained"
+    },
+    "act2-speech-0570": {
+      "decision": "maintained"
+    },
+    "act2-speech-0571": {
+      "decision": "maintained"
+    },
+    "act2-speech-0572": {
+      "decision": "maintained"
+    },
+    "act2-speech-0573": {
+      "decision": "maintained"
+    },
+    "act2-speech-0574": {
+      "decision": "maintained"
+    },
+    "act2-speech-0575": {
+      "decision": "maintained"
+    },
+    "act2-speech-0576": {
+      "decision": "maintained"
+    },
+    "act2-speech-0577": {
+      "decision": "maintained"
+    },
+    "act2-speech-0578": {
+      "decision": "maintained"
+    },
+    "act2-speech-0579": {
+      "decision": "maintained"
+    },
+    "act2-speech-0580": {
+      "decision": "maintained"
+    },
+    "act2-speech-0581": {
+      "decision": "maintained"
+    },
+    "act2-speech-0582": {
+      "decision": "maintained"
+    },
+    "act2-speech-0583": {
+      "decision": "maintained"
+    },
+    "act2-speech-0584": {
+      "decision": "maintained"
+    },
+    "act2-speech-0585": {
+      "decision": "maintained"
+    },
+    "act2-speech-0586": {
+      "decision": "maintained"
+    },
+    "act2-speech-0587": {
+      "decision": "revised",
+      "issues": [
+        "日本語の明確化"
+      ],
+      "reason": "「弟の兄」という分かりにくい表現を、原文の固有名に対応する「ジミーの兄」に修正。",
+      "changes": [
+        {
+          "field": "explanation",
+          "before": "警官ではないと明かし、公衆電話と断線の工作、弟の兄という正体を一気に告白する。保護と捜査の説明が、復讐のための侵入の手順に反転する核心。",
+          "after": "警官ではないと明かし、公衆電話と断線の工作、ジミーの兄という正体を一気に告白する。保護と捜査の説明が、復讐のための侵入の手順に反転する核心。"
+        }
+      ]
+    },
+    "act2-speech-0588": {
+      "decision": "maintained"
+    },
+    "act2-speech-0589": {
+      "decision": "maintained"
+    },
+    "act2-speech-0590": {
+      "decision": "maintained"
+    },
+    "act2-speech-0591": {
+      "decision": "maintained"
+    },
+    "act2-speech-0592": {
+      "decision": "maintained"
+    },
+    "act2-speech-0593": {
+      "decision": "maintained"
+    },
+    "act2-speech-0594": {
+      "decision": "maintained"
+    },
+    "act2-speech-0595": {
+      "decision": "maintained"
+    },
+    "act2-speech-0596": {
+      "decision": "maintained"
+    },
+    "act2-speech-0597": {
+      "decision": "maintained"
+    },
+    "act2-speech-0598": {
+      "decision": "maintained"
+    },
+    "act2-speech-0599": {
+      "decision": "maintained"
+    },
+    "act2-speech-0600": {
+      "decision": "maintained"
+    },
+    "act2-speech-0601": {
+      "decision": "maintained"
+    },
+    "act2-speech-0602": {
+      "decision": "maintained"
+    },
+    "act2-speech-0603": {
+      "decision": "maintained"
+    },
+    "act2-speech-0604": {
+      "decision": "maintained"
+    },
+    "act2-speech-0605": {
+      "decision": "maintained"
+    },
+    "act2-speech-0606": {
+      "decision": "maintained"
+    },
+    "act2-speech-0607": {
+      "decision": "maintained"
+    },
+    "act2-speech-0608": {
+      "decision": "maintained"
+    },
+    "act2-speech-0609": {
+      "decision": "maintained"
+    },
+    "act2-speech-0610": {
+      "decision": "maintained"
+    },
+    "act2-speech-0611": {
+      "decision": "maintained"
+    },
+    "act2-speech-0612": {
+      "decision": "maintained"
+    },
+    "act2-speech-0613": {
+      "decision": "maintained"
+    },
+    "act2-speech-0614": {
+      "decision": "maintained"
+    },
+    "act2-speech-0615": {
+      "decision": "maintained"
+    },
+    "act2-speech-0616": {
+      "decision": "maintained"
+    },
+    "act2-speech-0617": {
+      "decision": "maintained"
+    },
+    "act2-speech-0618": {
+      "decision": "maintained"
+    },
+    "act2-speech-0619": {
+      "decision": "maintained"
+    },
+    "act2-speech-0620": {
+      "decision": "revised",
+      "issues": [
+        "発言後半の意図の欠落"
+      ],
+      "reason": "時計の推量だけを説明し、Mollie, I believe you thought I was...という夫婦への話題の転換が抜けていた。",
+      "changes": [
+        {
+          "field": "explanation",
+          "before": "車の調査と時計の隠し場所を推量し、殺人とは別の怪しさへ整理する。夫の発言には確定しない内容があり、時計が発見された事実としては記さない。",
+          "after": "時計を隠した怪しい商売ではと推量し、パラヴィチーニへの疑いを殺人とは別に整理する。続けて、モリーは自分を犯人と思ったのではと言いかける。客の秘密が解けても残る夫婦の不信を、今度は本人同士で確かめようとする。"
+        },
+        {
+          "field": "relatedLineIds",
+          "before": [
+            "act2-speech-0417",
+            "act2-speech-0419"
+          ],
+          "after": [
+            "act2-speech-0417",
+            "act2-speech-0419",
+            "act2-speech-0621",
+            "act2-speech-0622"
+          ]
+        }
+      ]
+    },
+    "act2-speech-0621": {
+      "decision": "maintained"
+    },
+    "act2-speech-0622": {
+      "decision": "maintained"
+    },
+    "act2-speech-0623": {
+      "decision": "maintained"
+    },
+    "act2-speech-0624": {
+      "decision": "maintained"
+    },
+    "act2-speech-0625": {
+      "decision": "maintained"
+    },
+    "act2-speech-0626": {
+      "decision": "maintained"
+    },
+    "act2-speech-0627": {
+      "decision": "maintained"
+    },
+    "act2-speech-0628": {
+      "decision": "maintained"
+    },
+    "act2-speech-0629": {
+      "decision": "maintained"
+    },
+    "act2-speech-0630": {
+      "decision": "maintained"
+    },
+    "act2-speech-0631": {
+      "decision": "maintained"
+    },
+    "act2-speech-0632": {
+      "decision": "maintained"
+    },
+    "act2-speech-0633": {
+      "decision": "revised",
+      "issues": [
+        "空疎な否定の除去",
+        "喜劇の具体化"
+      ],
+      "reason": "似合うかの客観評価ではないという注記でなく、C631の戸惑いから夫の善意を受け止める流れを説明。",
+      "changes": [
+        {
+          "field": "explanation",
+          "before": "帽子を持ち上げて褒め、贈り物の善意を受け止める。似合うかどうかの客観的評価まで確定する言葉ではない。",
+          "after": "実物を取り出すと「素敵」と褒め、夫の贈り物に愛情で応じる。直前には普段帽子をかぶらないと戸惑っており、互いの気遣いの中にも好みの小さなずれが残る可笑しさがある。"
+        }
+      ]
+    },
+    "act2-speech-0634": {
+      "decision": "maintained"
+    },
+    "act2-speech-0635": {
+      "decision": "maintained"
+    },
+    "act2-speech-0636": {
+      "decision": "maintained"
+    },
+    "act2-speech-0637": {
+      "decision": "maintained"
+    },
+    "act2-speech-0638": {
+      "decision": "maintained"
+    }
+  },
+  "datasetSha256": "492b0822db008d4cb126f87410701a74146660bc991abfd8b42b9b302c5cbc39",
+  "summary": {
+    "audited": 1164,
+    "issuesFound": 34,
+    "revised": 34,
+    "maintained": 1130,
+    "unmatchedToPdf": 0,
+    "issueCategories": {
+      "推測の抑制": 1,
+      "風刺の具体化": 1,
+      "嫌味の補強": 1,
+      "発言意図の補強": 1,
+      "実装説明の除去": 2,
+      "揶揄の補強": 1,
+      "心理の断定抑制": 4,
+      "具体性": 1,
+      "日本語の明確化": 2,
+      "情報の時点の訂正": 1,
+      "話者の知識と真相の区別": 1,
+      "風刺の対象の明確化": 1,
+      "動線・音の意味の補強": 1,
+      "解説とデータ注記の分離": 1,
+      "指示の結果と伏線の補強": 1,
+      "証拠の強さの訂正": 1,
+      "基本解説の焦点": 1,
+      "発言の働きの具体化": 1,
+      "解釈の留保": 1,
+      "主語・関係の明確化": 1,
+      "動作と心理の区別": 1,
+      "定型的な分類の除去": 1,
+      "ブラックユーモアの具体化": 1,
+      "演技提案とト書きの区別": 1,
+      "意味の訂正": 1,
+      "相談時刻の訂正": 1,
+      "論理の明確化": 1,
+      "空疎な否定の除去": 2,
+      "状況の具体化": 1,
+      "発言後半の意図の欠落": 1,
+      "喜劇の具体化": 1
     }
   }
 }
