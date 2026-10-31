@@ -21,16 +21,21 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - name: Download original archive from this repository's release
+      - name: Check for original archive in the repository release
+        id: source
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          mkdir -p "$RUNNER_TEMP/mousetrap-audio"
-          gh release download audio-source-2026-10-31 \
-            --repo "$GITHUB_REPOSITORY" \
-            --pattern 'The_Mousetrap_Audio_For_App.zip' \
-            --dir "$RUNNER_TEMP/mousetrap-audio"
+          if gh release view audio-source-2026-10-31 --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' | grep -Fxq 'The_Mousetrap_Audio_For_App.zip'; then
+            mkdir -p "$RUNNER_TEMP/mousetrap-audio"
+            gh release download audio-source-2026-10-31 --repo "$GITHUB_REPOSITORY" --pattern 'The_Mousetrap_Audio_For_App.zip' --dir "$RUNNER_TEMP/mousetrap-audio"
+            echo 'ready=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'ready=false' >> "$GITHUB_OUTPUT"
+            echo '::notice::The original ZIP release asset is not uploaded; skipping audio import without changing the repository.'
+          fi
       - name: Import exactly the requested bounded batch
+        if: steps.source.outputs.ready == 'true'
         run: |
           python3 - <<'PY'
           import json,os,pathlib,subprocess,sys
@@ -52,6 +57,7 @@ jobs:
           checkpoint.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
           PY
       - name: Commit verified MP3s and checkpoint
+        if: steps.source.outputs.ready == 'true'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -61,4 +67,5 @@ jobs:
             git push origin HEAD:feature/integrated-audio-rehearsal-20261031
           fi
       - name: Print verified staged-file status
+        if: steps.source.outputs.ready == 'true'
         run: python3 scripts/stage-audio-batch.py --status
