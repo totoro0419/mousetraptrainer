@@ -496,3 +496,38 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 .analysis-acting .analysis-stage-cue{margin-top:12px;font-size:13px;color:var(--muted);font-weight:400}
 .analysis-related .scene-link{font-size:14px;min-height:48px;text-align:left}
 .analysis-personal{padding-top:8px}
+
+/* Audio, analysis and rehearsal share the same sheet, tokens and focus behavior. */
+.role-menu[popover]{inset:auto;margin:0;color:var(--ui-text);background:var(--ui-surface)}
+.line-audio{margin:0 0 24px;padding-bottom:18px;border-bottom:1px solid var(--ui-line)}
+.audio-transport{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.audio-toggle{min-width:116px}
+.audio-status{margin-top:8px;font-size:12px;min-height:22px}
+.audio-error,.practice-error{margin-top:12px;font-size:13px}
+.audio-options,.practice-options{margin-top:12px;border-top:1px solid var(--ui-line);padding-top:12px}
+.audio-options summary,.practice-options summary{min-height:36px;cursor:pointer;font-size:13px;color:var(--ui-text-secondary);padding:8px 0}
+.audio-options-body{display:grid;gap:16px;padding:14px 0 4px}
+.audio-options-body>label{display:flex;gap:16px;align-items:center;justify-content:space-between;font-size:13px;min-height:42px}
+.audio-options-body .app-select{max-width:170px}
+.audio-options-body .toggle-row input{flex-shrink:0}
+.audio-options-body input[type=number]{width:88px;min-height:44px;padding:10px;border:1px solid var(--ui-line);border-radius:12px}
+.audio-options-body .seek-label{display:grid;grid-template-columns:auto 1fr;gap:10px}
+.seek-label input{width:100%;min-width:0;grid-column:1/-1}
+.seek-label output{font-size:12px;color:var(--ui-text-secondary)}
+.reader-audio-mini{display:flex;align-items:center;min-height:48px;padding:2px 24px;gap:8px;border-bottom:1px solid var(--ui-line);background:var(--ui-accent-wash);flex-shrink:0}
+.reader-audio-mini .mini-label{background:none;border:0;text-align:left;min-height:44px;padding:8px 0;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;color:var(--ui-accent)}
+.reader-scroll .speech.audio-current{box-shadow:inset 3px 0 0 var(--ui-accent);background:var(--ui-accent-wash)}
+.practice-topline{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
+.practice-topline .subtle{font-size:12px}
+.practice-status{font-size:12px;color:var(--ui-accent);margin-bottom:12px}
+.practice-speaker{font-size:15px;font-weight:650;margin-bottom:14px;overflow-wrap:anywhere}
+.practice-text{font-size:clamp(18px,2.5vw,23px);line-height:1.8;overflow-wrap:anywhere;min-height:100px}
+.practice-actions{position:sticky;bottom:-1px;display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--ui-surface);padding:16px 0 12px;border-top:1px solid var(--ui-line);margin-top:24px;z-index:1}
+.practice-actions .primary,.practice-actions .secondary{padding:10px 14px}
+.practice-tools{display:flex;gap:4px;flex-wrap:wrap;padding-bottom:4px}
+.practice-tools .text-button{font-size:12px;min-height:44px;padding:10px 12px}
+.practice-complete{padding:30px 0}.practice-complete .button-row{margin-top:22px}
+body:has(#sheet .practice-panel) .reader-scroll .speech.mine .speech-text{visibility:hidden}
+body:has(#sheet [data-practice=showOwn]:checked) .reader-scroll .speech.mine .speech-text{visibility:visible}
+@media(max-width:700px){.reader-audio-mini{padding:2px 18px}.reader-tools .icon-button{width:40px;min-height:44px}.practice-text{font-size:20px}.practice-topline .text-button{font-size:12px}}
+@media(max-width:360px){.reader-role{max-width:100px}.reader-top{padding-left:14px;padding-right:14px;gap:4px}.reader-tools .icon-button{width:36px}.reader-heading .reader-count{display:none}.practice-actions{gap:5px}.practice-actions .primary,.practice-actions .secondary{padding:10px;font-size:12px}}

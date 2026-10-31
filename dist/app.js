@@ -3,6 +3,8 @@ import * as storage from './modules/storage.js';
 import {icon,esc,button,el,toast,openSheet,closeSheet,enhanceSelects} from './modules/ui.js';
 import {loadStartupScript} from './modules/bundled.js';
 import {loadDramaturgy} from './modules/dramaturgy.js';
+import {AudioSession} from './modules/audio-session.js';
+let audioController;
 async function fetchData(url){const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error(`HTTP ${response.status}`);return response.json();}
 import {openRoleMenu,closeRoleMenu} from './modules/role-menu.js';
 let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,updateRequested=false,lastContentRoute='home';
@@ -16,7 +18,7 @@ function setProgress(id,value){const old=progress[id]?{...progress[id]}:undefine
 function navItem(route,text,ico){return `<a class="nav-item" href="#${route}" ${route===(location.hash.slice(1)||'home')?'aria-current="page"':''}>${icon(ico)}<span>${text}</span></a>`;}
 document.querySelector('.skip').onclick=e=>{e.preventDefault();const m=document.querySelector('#main .page-scroll')||document.querySelector('#main');m?.setAttribute('tabindex','-1');m?.focus({preventScroll:true});};
 function shell(){app.innerHTML=`<div class="app-layout" data-route="${esc(location.hash.slice(1)||'home')}"><aside class="sidebar"><a href="#home" class="brand"><img src="./icon-v2-192.png" alt=""><span>Mousetrap<br>Trainer</span></a><nav class="nav-items" aria-label="メイン">${navItem('home','ホーム','home')}${navItem('script','台本','book')}${navItem('rehearse','練習','play')}</nav></aside><div class="main-shell"><button type="button" class="icon-button global-settings" data-action="open-settings" aria-label="設定を開く" title="設定">${icon('settings')}</button><header class="topbar"><a class="brand mobile-brand" href="#home"><img src="./icon-v2-192.png" alt=""><span>Mousetrap Trainer</span></a><div class="toolbar-actions"><button type="button" class="role-trigger" data-action="choose-role" aria-haspopup="listbox" aria-expanded="false" aria-label="担当する役を変更。現在: ${esc(small.role)}"><span><small>担当する役</small><strong>${esc(small.role)}</strong></span>${icon('down')}</button></div></header><main id="main" class="main-content" style="display:contents"></main></div><nav class="bottom-nav" aria-label="メイン">${navItem('home','ホーム','home')}${navItem('script','台本','book')}${navItem('rehearse','練習','play')}</nav></div>`;}
-async function render(){const epoch=++renderEpoch;closeRoleMenu();cleanup();cleanup=()=>{};if(document.querySelector('#sheet').open)closeSheet();shell();const main=app.querySelector('#main'),route=location.hash.slice(1)||'home';
+async function render(){const epoch=++renderEpoch;closeRoleMenu();cleanup();cleanup=()=>{};audioController?.pause();if(document.querySelector('#sheet').open)closeSheet({all:true});shell();const main=app.querySelector('#main'),route=location.hash.slice(1)||'home';
  if(route!=='settings')lastContentRoute=route;
  const gear=app.querySelector('[data-action=open-settings]');
  gear.setAttribute('aria-label',route==='settings'?'設定を閉じる':'設定を開く');
@@ -29,11 +31,17 @@ async function render(){const epoch=++renderEpoch;closeRoleMenu();cleanup();clea
  app.querySelector('[data-action=choose-role]')?.addEventListener('click',openRolePicker);
  enhanceSelects(main);
 }
-function context(){return {data,small,progress,save,setProgress,roles,go:(route)=>{location.hash=route;},openImport,changeRole,openRolePicker,settings:()=>{location.hash='settings';}};}
+function context(){
+ const ctx={data,small,progress,save,setProgress,roles,go:(route)=>{location.hash=route;},openImport,changeRole,openRolePicker,settings:()=>{location.hash='settings';}};
+ if(!audioController||audioController.ctx.data!==data){audioController?.dispose();audioController=new AudioSession(ctx);audioController.restoreRead();}
+ audioController.ctx=ctx;ctx.audio=audioController;
+ ctx.openPractice=options=>import('./modules/rehearsal.js').then(({openPractice})=>openPractice(ctx,options));
+ return ctx;
+}
 async function changeRole(next){
  if(!roles().includes(next)||next===small.role)return;
  // Persist/stop the current rehearsal under its original role before changing it.
- cleanup();cleanup=()=>{};small.role=next;save();await render();toast(`担当する役を「${next}」に変更しました`);
+ cleanup();cleanup=()=>{};audioController?.stop();small.role=next;save();await render();toast(`担当する役を「${next}」に変更しました`);
 }
 function openRolePicker(event){
  const trigger=event?.currentTarget;

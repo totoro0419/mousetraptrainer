@@ -6,7 +6,8 @@ export const button=(text,action,cls='secondary',ico='')=>`<button type="button"
 export function el(html){const t=document.createElement('template');t.innerHTML=html;return t.content.firstElementChild;}
 let toastTimer,undoAction;
 export function toast(message,undo){clearTimeout(toastTimer);undoAction=undo;const t=document.querySelector('#toast');t.replaceChildren();t.append(document.createTextNode(message));if(undo){const b=document.createElement('button');b.textContent='取り消す';b.onclick=()=>{undoAction?.();t.classList.remove('show');};t.append(b);}t.classList.add('show');toastTimer=setTimeout(()=>t.classList.remove('show'),undo?9000:4500);}
-let invoker,onClose,currentCleanup;
+let invoker,onClose,currentCleanup,onRestore,finalizeSheet;
+const sheetStack=[];
 
 export function sheetSwipeDecision(dy,dx,elapsed){
  const velocity=Math.abs(dy)/Math.max(1,elapsed);
@@ -16,8 +17,18 @@ export function sheetSwipeDecision(dy,dx,elapsed){
  return 'snap';
 }
 export const isSheetOpen=()=>document.querySelector('#sheet').open;
-export function closeSheet(){
- const d=document.querySelector('#sheet');if(d?.open)d.close();
+export function closeSheet({all=false}={}){
+ const d=document.querySelector('#sheet');if(!d?.open)return;
+ if(!all&&sheetStack.length){
+  currentCleanup?.();onClose?.();
+  const frame=sheetStack.pop();d.replaceChildren(...frame.nodes);d.className=frame.className;
+  currentCleanup=frame.cleanup;onClose=frame.onclose;onRestore=frame.onrestore;
+  d.style.transform='';d.style.pointerEvents='';delete d.dataset.dismissing;
+  d.querySelector('.sheet-body').scrollTop=frame.scroll;
+  onRestore?.();(frame.focus?.isConnected?frame.focus:d.querySelector('.close-sheet'))?.focus({preventScroll:true});
+  return;
+ }
+ finalizeSheet?.();finalizeSheet=null;d.close();
 }
 function animateSheetDismiss(d,offset=0){
  if(!d.open||d.dataset.dismissing==='true')return;
@@ -27,14 +38,16 @@ function animateSheetDismiss(d,offset=0){
  const animation=d.animate([{transform:`translateY(${Math.max(0,offset)}px)`,opacity:1},{transform:'translateY(100%)',opacity:.96}],{duration:190,easing:'cubic-bezier(.22,1,.36,1)',fill:'forwards'});
  animation.finished.then(()=>{if(d.open)closeSheet();},()=>{if(d.open)closeSheet();}).finally(()=>{animation.cancel();});
 }
-export function openSheet(title,content,{wide=false,onclose,setup}={}){
+export function openSheet(title,content,{wide=false,onclose,onrestore,setup,nested=false}={}){
  const d=document.querySelector('#sheet'),wasOpen=d.open;
- currentCleanup?.();currentCleanup=null;
+ if(wasOpen&&nested)sheetStack.push({nodes:[...d.childNodes],className:d.className,cleanup:currentCleanup,onclose:onClose,onrestore:onRestore,scroll:d.querySelector('.sheet-body').scrollTop,focus:document.activeElement});
+ else currentCleanup?.();
+ currentCleanup=null;
  if(!wasOpen)invoker=document.activeElement;
- onClose=onclose;
+ onClose=onclose;onRestore=onrestore;
  d.style.transform='';d.style.pointerEvents='';delete d.dataset.dismissing;
  d.className=wide?'sheet expanded':'sheet';
- d.innerHTML=`<header class="sheet-head"><button class="sheet-handle" type="button" aria-label="シートを上下に動かす" aria-expanded="${wide}"><span></span></button><div class="sheet-heading"><h2 id="sheet-title">${esc(title)}</h2><div><button type="button" class="icon-button expand-sheet" aria-label="${wide?'小さく表示':'大きく表示'}">${icon(wide?'down':'up')}</button><button type="button" class="icon-button close-sheet" aria-label="閉じる">${icon('close')}</button></div></div></header><div class="sheet-body">${content}</div>`;
+ d.innerHTML=`<header class="sheet-head"><button class="sheet-handle" type="button" aria-label="シートを上下に動かす" aria-expanded="${wide}"><span></span></button><div class="sheet-heading"><h2 id="sheet-title">${esc(title)}</h2><div><button type="button" class="icon-button expand-sheet" aria-label="${wide?'小さく表示':'大きく表示'}">${icon(wide?'down':'up')}</button><button type="button" class="icon-button close-sheet" aria-label="${sheetStack.length?'前のシートに戻る':'閉じる'}">${icon(sheetStack.length?'back':'close')}</button></div></div></header><div class="sheet-body">${content}</div>`;
  const header=d.querySelector('.sheet-head'),body=d.querySelector('.sheet-body'),handle=d.querySelector('.sheet-handle');
  const toggleExpanded=()=>{
   d.classList.toggle('expanded');
@@ -47,12 +60,15 @@ export function openSheet(title,content,{wide=false,onclose,setup}={}){
  d.querySelector('.close-sheet').onclick=closeSheet;
  d.querySelector('.expand-sheet').onclick=toggleExpanded;
  handle.onclick=()=>{if(!ignoreHandleClick)toggleExpanded();};
- d.onclose=()=>{
+ finalizeSheet=()=>{
   currentCleanup?.();currentCleanup=null;
   d.style.transform='';d.style.pointerEvents='';delete d.dataset.dismissing;
-  onClose?.();
+  const callback=onClose;onClose=null;callback?.();
+  while(sheetStack.length){const frame=sheetStack.pop();frame.cleanup?.();frame.onclose?.();}
   if(invoker?.isConnected)invoker.focus({preventScroll:true});
  };
+ d.onclose=()=>{if(!d.open){finalizeSheet?.();finalizeSheet=null;}};
+ d.oncancel=e=>{e.preventDefault();closeSheet();};
  d.onclick=e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientY<r.top||e.clientX<r.left||e.clientX>r.right)closeSheet();}};
  // Header: pointer capture keeps the gesture even when the finger leaves the handle.
  let drag=null;
@@ -66,7 +82,8 @@ export function openSheet(title,content,{wide=false,onclose,setup}={}){
  };
  const finish=(dy,dx,ms)=>{
   const action=sheetSwipeDecision(dy,dx,ms);
-  if(action==='dismiss')animateSheetDismiss(d,dy);
+  if(action==='dismiss'&&d.classList.contains('expanded')){settle(dy);toggleExpanded();}
+  else if(action==='dismiss')animateSheetDismiss(d,dy);
   else{settle(dy);if(action==='expand'&&!d.classList.contains('expanded'))toggleExpanded();}
  };
  header.onpointerdown=e=>{
@@ -159,7 +176,7 @@ export function enhanceSelects(root=document){
    const content=`<div class="app-choice-list" role="group" aria-label="${esc(textLabel)}">${options.map(o=>
     `<button type="button" class="app-choice" aria-current="${o.value===source.value?'true':'false'}"><span>${esc(o.textContent)}</span>${o.value===source.value?icon('check'):''}</button>`
    ).join('')}</div>`;
-   const sheet=openSheet(textLabel,content,{setup:d=>{
+   const sheet=openSheet(textLabel,content,{nested:isSheetOpen(),setup:d=>{
     d.querySelectorAll('.app-choice').forEach((choice,i)=>choice.onclick=()=>{
      const next=options[i]?.value;
      closeSheet();

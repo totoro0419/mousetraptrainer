@@ -6,7 +6,7 @@ export function closeRoleMenu({restoreFocus=false}={}){
  const {trigger,menu,cleanup}=active;
  active=null;
  cleanup();
- menu.remove();
+ if(menu.matches(':popover-open'))menu.hidePopover();menu.remove();
  trigger.setAttribute('aria-expanded','false');
  trigger.removeAttribute('aria-controls');
  if(restoreFocus&&trigger.isConnected)trigger.focus({preventScroll:true});
@@ -45,7 +45,11 @@ export function openRoleMenu(trigger,roles,current,onSelect){
   menu.append(option);
   return option;
  });
- document.body.append(menu);
+ // A menu outside an active modal is inert and hidden behind the top layer.
+ // Keep modal ownership, and use a popover so sheet clipping never hides options.
+ const dialog=trigger.closest('dialog[open]');
+ if(dialog&&typeof menu.showPopover==='function'){menu.setAttribute('popover','manual');dialog.append(menu);menu.showPopover();}
+ else document.body.append(menu);
  trigger.setAttribute('aria-haspopup','listbox');
  trigger.setAttribute('aria-expanded','true');
  trigger.setAttribute('aria-controls',menu.id);
@@ -78,7 +82,7 @@ export function openRoleMenu(trigger,roles,current,onSelect){
   if(e.key==='End')next=buttons.length-1;
   if(next!==null){e.preventDefault();buttons[next].focus({preventScroll:true});}
  };
- const onViewport=e=>{if(e.target===menu||menu.contains(e.target))return;closeRoleMenu();};
+ const onViewport=e=>{if(e.target===menu||menu.contains(e.target))return;if(dialog?.contains(e.target)){position();return;}closeRoleMenu();};
  const cleanup=()=>{
   document.removeEventListener('pointerdown',onPointer,true);
   document.removeEventListener('keydown',onKey,true);

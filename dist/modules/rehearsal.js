@@ -1,48 +1,69 @@
-import {sceneName,labels} from './data.js';
-import {icon,esc,el,button,toast,openSheet,closeSheet,isSheetOpen,enhanceSelects} from './ui.js';
-import {createSession,transition,selectRange} from './session.js';
-import {directionText} from './reader.js';
-import {getClip,AudioPlayer} from './audio.js';
-export function mountRehearsal(main,ctx){const {data,small,progress,save}=ctx;let cleanup=()=>{},disposed=false;const player=new AudioPlayer();
- const holder=el('<div style="display:contents"></div>');main.append(holder);let active=null;
- function chooser(){cleanup();player.stop();holder.innerHTML=`<div class="page-scroll"><div class="page" style="max-width:860px"><div class="page-intro"><h1>セリフの練習</h1><p class="subtle">練習方法と範囲を選んでください。</p></div><div class="role-box"><div style="min-width:0;flex:1"><label for="rehearsal-role">担当する役</label><select id="rehearsal-role" class="role-select">${ctx.roles().map(r=>`<option ${r===small.role?'selected':''}>${esc(r)}</option>`).join('')}</select></div></div><div class="section-heading" style="margin-top:26px"><h2>練習範囲</h2></div><div class="range-form"><label class="full">幕・場面<select id="range-scene"><option value="all">すべての場面</option>${data.scenes.map(s=>`<option value="${esc(s.id)}">${esc(s.title)}</option>`).join('')}</select></label><label>開始位置<input type="number" id="range-from" min="1" value="${small.range.from||1}" inputmode="numeric"></label><label>終了位置<input type="number" id="range-to" min="1" value="${small.range.to||data.lines.length}" inputmode="numeric"></label></div><p id="range-note" class="subtle"></p><div id="range-error"></div><div class="mode-options"><button class="mode-option" data-mode="cloze">${icon('book')}<span><strong>穴埋め練習</strong><small>セリフを隠して、思い出す練習をします。</small></span>${icon('chevron')}</button><button class="mode-option" data-mode="audio">${icon('audio')}<span><strong>音声練習</strong><small>相手役の音声に合わせて練習します。</small></span>${icon('chevron')}</button></div>${Object.entries(small.sessions||{}).filter(([,s])=>s.role===small.role).map(([mode,s])=>`<div class="setting-row"><div><strong>${mode==='cloze'?'穴埋め練習':'音声練習'}の続き</strong><p>${esc(sceneName(s.range.scene))} · ${s.index+1}番目</p></div><button class="secondary" data-resume="${mode}">再開 ${icon('arrow')}</button></div>`).join('')}<p class="keyboard-note">Space / Enterで正解表示・次へ、←で前に戻れます。</p></div></div>`;
- const scene=holder.querySelector('#range-scene'),from=holder.querySelector('#range-from'),to=holder.querySelector('#range-to');scene.value=small.range.scene||'all';
- function count(){return scene.value==='all'?data.lines.length:data.lines.filter(l=>l.scene===scene.value).length;}
- function update(reset=false){const n=count();from.max=to.max=n;if(reset){from.value=1;to.value=n;}const selected=data.lines.filter(l=>scene.value==='all'||l.scene===scene.value).slice(Math.max(0,+from.value-1),+to.value);holder.querySelector('#range-note').textContent=`${selected.length} / ${n}件 · 自分のセリフ${selected.filter(l=>l.speaker===small.role).length}件`;small.range={scene:scene.value,from:+from.value,to:+to.value};save();}
- if(!small.range.to)to.value=count();scene.onchange=()=>update(true);from.oninput=()=>update();to.oninput=()=>update();update();holder.querySelector('#rehearsal-role').onchange=e=>ctx.changeRole(e.target.value);
- holder.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{try{const range={scene:scene.value,from:+from.value,to:+to.value};const lines=selectRange(data,range);start(b.dataset.mode,range,lines,0);}catch(err){holder.querySelector('#range-error').innerHTML=`<p class="notice error" role="alert" style="margin-top:14px">${esc(err.message)}</p>`;}});
- holder.querySelectorAll('[data-resume]').forEach(b=>b.onclick=()=>{const s=small.sessions[b.dataset.resume];try{const lines=selectRange(data,s.range);start(b.dataset.resume,s.range,lines,Math.max(0,lines.findIndex(l=>l.id===s.lineId)));}catch(err){toast('前回の範囲を復元できません。範囲を選び直してください。');}});
- enhanceSelects(holder);
- }
- function start(mode,range,lines,index){cleanup();player.stop();let state=createSession(lines,small.role,mode,index),epoch=0,playingError='',revealed=new Set(),lineNodes=[],scroller,body,controls,stage;
- active={mode,range};const persist=()=>{small.sessions||={};if(state.phase==='complete')delete small.sessions[mode];else small.sessions[mode]={role:small.role,range,index:state.index,lineId:lines[state.index].id};save();};
- holder.innerHTML=`<div class="reader-top"><div class="reader-heading"><button class="icon-button" data-action="exit" aria-label="練習方法を選び直す">${icon('back')}</button><div><h1>${mode==='cloze'?'穴埋め練習':'音声練習'}</h1><span class="reader-count">${esc(small.role)} · ${esc(sceneName(range.scene))}</span></div></div><span class="reader-count" id="session-counter"></span></div><div class="session-progress" role="progressbar" aria-label="練習の進捗" aria-valuemin="0" aria-valuemax="${lines.length}" aria-valuenow="0"><span></span></div>`;
- if(mode==='cloze'){scroller=el('<div class="page-scroll rehearsal" tabindex="0" aria-label="穴埋め練習"></div>');body=el('<div class="script-body"></div>');body.style.setProperty('--font',small.font+'px');body.style.setProperty('--reader-leading',small.leading);scroller.append(body);holder.append(scroller);
-  let scene='';for(const line of lines){if(scene!==line.scene){scene=line.scene;body.append(el(`<div class="scene-divider"><h2>${esc(sceneName(scene))}</h2></div>`));}const own=line.speaker===small.role,n=el(`<article class="speech ${own?'mine':''}" data-id="${esc(line.id)}"><div class="speech-head"><span class="speaker">${esc(line.speaker)}</span><span class="line-number">${line.ordinal.toString().padStart(3,'0')}</span></div>${line.direction?`<p class="direction">${esc(directionText(line.direction))}</p>`:''}<div class="line-content"></div></article>`);body.append(n);lineNodes.push(n);if(!own)n.querySelector('.line-content').innerHTML=`<p lang="en" class="speech-text">${esc(line.text)}</p>`;}
- }else{stage=el('<div class="audio-stage"></div>');holder.append(stage);}
- controls=el('<div class="session-controls"></div>');holder.append(controls);holder.querySelector('[data-action=exit]').onclick=()=>{epoch++;persist();chooser();};
- const setPhase=event=>{state=transition(state,event,lines);persist();};
- function act(){if(state.phase==='complete')return;if(state.phase==='hidden'){revealed.add(lines[state.index].id);setPhase('reveal');paint();}else{epoch++;player.stop();setPhase('next');paint();if(mode==='audio')loadAudio();}}
- function previous(){if(state.index<=0)return;epoch++;player.stop();setPhase('previous');revealed.delete(lines[state.index].id);paint();if(mode==='audio')loadAudio();}
- function rate(level,review){const line=lines[state.index];ctx.setProgress(line.id,{...progress[line.id],...(level!==null?{level}:{}),...(review!==undefined?{review}:{}),updatedAt:Date.now()});paint();}
- function paint(){const complete=state.phase==='complete';holder.querySelector('#session-counter').textContent=`${Math.min(state.index+1,lines.length)} / ${lines.length}`;const bar=holder.querySelector('.session-progress');bar.setAttribute('aria-valuenow',complete?lines.length:state.index);bar.firstElementChild.style.width=`${(complete?1:state.index/lines.length)*100}%`;
-  if(complete){player.stop();const content=el(`<div class="page-scroll"><div class="complete">${icon('check')}<h2>練習が終わりました</h2><p>全${lines.length}件 · 自分のセリフ${lines.filter(l=>l.speaker===small.role).length}件</p><div class="button-row">${button('もう一度','again','primary','refresh')}${button('練習範囲を変更','choose','secondary')}</div></div></div>`);if(scroller)scroller.replaceWith(content);if(stage)stage.replaceWith(content);controls.replaceChildren();content.querySelector('[data-action=again]').onclick=()=>start(mode,range,lines,0);content.querySelector('[data-action=choose]').onclick=chooser;return;}
-  const line=lines[state.index],own=line.speaker===small.role,show=state.phase==='revealed';
-  if(mode==='cloze'){
-   lineNodes.forEach((n,i)=>{const status=i===state.index?'current':i<state.index?'previous':'future';if(n.dataset.status!==status){n.dataset.status=status;n.className=`speech ${lines[i].speaker===small.role?'mine':''} ${status}`;n.style.contentVisibility=i===state.index?'visible':'';}if(lines[i].speaker===small.role){const desired=revealed.has(lines[i].id)?'revealed':i===state.index?'active':'hidden';if(n.dataset.content===desired)return;n.dataset.content=desired;const text=n.querySelector('.line-content');if(revealed.has(lines[i].id)){text.innerHTML=`<p lang="en" class="speech-text">${esc(lines[i].text)}</p>`;}else{text.innerHTML=`<button class="reveal-mask" ${i===state.index?'':'disabled'}>${i===state.index?'タップして正解を表示':'自分のセリフ'}</button>`;if(i===state.index)text.querySelector('button').onclick=act;}}});
-   const n=lineNodes[state.index];n.onclick=e=>{if(!e.target.closest('button')&&state.index===lineNodes.indexOf(n))act();};const align=()=>{if(!n.isConnected)return;const r=n.getBoundingClientRect(),v=scroller.getBoundingClientRect();scroller.scrollTop+=r.top-v.top-Math.max(18,(scroller.clientHeight-r.height)/2);};align();requestAnimationFrame(align);
-  }else{
-   const phaseText={hidden:'あなたの番',revealed:'答え',ready:'準備中',playing:'相手のセリフを再生中',paused:'一時停止',cue:'再生が終了しました',missing:'音声なし・手動で進む',error:'再生できません'}[state.phase];
-   stage.innerHTML=`<div class="audio-inner"><div class="eyebrow">${esc(sceneName(line.scene))} · セリフ ${line.ordinal}</div><div class="eyebrow" role="status">${phaseText}</div><h2 class="audio-speaker">${esc(line.speaker)}</h2>${line.direction?`<p class="audio-note">${esc(directionText(line.direction))}</p>`:''}${own?show?`<p class="audio-answer" lang="en">${esc(line.text)}</p>`:'<p class="audio-cue">自分のセリフを声に出してください。<br>答えを表示して確認できます。</p>':`<p class="audio-cue">${state.phase==='missing'?'このセリフの音声はありません。<br>内容を確認して次へ進めます。':state.phase==='error'?esc(playingError):'相手のセリフを聴きましょう。'}</p><details class="audio-note"><summary>相手のセリフを確認</summary><p class="audio-answer" lang="en">${esc(line.text)}</p></details>`}${!own&&['playing','paused','cue','error'].includes(state.phase)?`<div class="button-row">${button(state.phase==='playing'?'一時停止':state.phase==='paused'?'再生を続ける':'もう一度再生','transport','secondary',state.phase==='playing'?'pause':'play')}</div>`:''}${own?`<p class="audio-note">${show?'次へ進みましょう':'「正解を表示」で答えを確認できます'}</p>`:''}</div>`;
-   stage.onclick=e=>{if(!e.target.closest('button,summary,details')&&own)act();};stage.querySelector('[data-action=transport]')?.addEventListener('click',async()=>{if(state.phase==='playing'){player.pause();setPhase('pause');paint();}else if(state.phase==='paused'){try{await player.resume();setPhase('playing');paint();}catch{playingError='再生を続けられません。もう一度再生してください。';state={...state,phase:'error'};paint();}}else loadAudio();});
+import {sceneName,tokenize,lookupDictionary,plain} from './data.js';
+import {icon,esc,button,openSheet,enhanceSelects} from './ui.js';
+import {selectRange} from './session.js';
+import {mountReader,showAnalysis,showDictionary} from './reader.js';
+import {audioStatus} from './audio-controls.js';
+import {speakingSeconds} from './audio-session.js';
+
+export function mountRehearsal(main,ctx){
+ const dispose=mountReader(main,ctx);
+ openPractice(ctx);
+ return ()=>{ctx.audio.pause();dispose();};
+}
+
+export function openPractice(ctx,{fromLine=null,resumeActive=false}={}){
+ const s=ctx.audio,{small,data}=ctx;
+ if(resumeActive&&s.mode==='practice'&&s.line){practiceSheet(ctx);return;}
+ s.pause();
+ const range=fromLine?{scene:fromLine.scene,from:fromLine.ordinal,to:data.lines.filter(l=>l.scene===fromLine.scene).length}:{...small.range};
+ openSheet('セリフの練習',`<div class="practice-chooser"><div class="setting-row"><label for="practice-role">担当する役</label><select id="practice-role" data-role-menu="true">${ctx.roles().map(r=>`<option ${r===small.role?'selected':''}>${esc(r)}</option>`).join('')}</select></div><div class="range-form"><label class="full">幕・場面<select id="range-scene"><option value="all">すべての場面</option>${data.scenes.map(scene=>`<option value="${esc(scene.id)}">${esc(scene.title)}</option>`).join('')}</select></label><label>開始位置<input type="number" id="range-from" min="1" value="${range.from||1}" inputmode="numeric"></label><label>終了位置<input type="number" id="range-to" min="1" value="${range.to||data.lines.length}" inputmode="numeric"></label></div><p id="range-note" class="subtle"></p><p id="range-error" class="notice error" hidden role="alert"></p><div class="mode-options"><button class="mode-option" data-mode="audio">${icon('audio')}<span><strong>音声で稽古する</strong><small>相手役を聴き、自分のセリフを話す</small></span>${icon('chevron')}</button><button class="mode-option" data-mode="cloze">${icon('book')}<span><strong>穴埋め練習</strong><small>相手のセリフを手掛かりに思い出す</small></span>${icon('chevron')}</button></div>${Object.entries(small.sessions||{}).filter(([,v])=>v.role===small.role).map(([mode,v])=>`<button class="scene-link" data-resume="${mode}"><span class="scene-link-text">${mode==='audio'?'音声練習':'穴埋め'}の続き<small>${esc(sceneName(v.range.scene))} · ${v.index+1}番目</small></span>${icon('arrow')}</button>`).join('')}</div>`,{setup:holder=>{
+  const scene=holder.querySelector('#range-scene'),from=holder.querySelector('#range-from'),to=holder.querySelector('#range-to');scene.value=range.scene||'all';
+  const update=(reset=false)=>{const list=data.lines.filter(l=>scene.value==='all'||l.scene===scene.value);if(reset){from.value=1;to.value=list.length;}from.max=to.max=list.length;const next={scene:scene.value,from:+from.value,to:+to.value};small.range=next;ctx.save();const selected=list.slice(+from.value-1,+to.value);holder.querySelector('#range-note').textContent=`${selected.length}件 · 自分のセリフ ${selected.filter(l=>l.speaker===small.role).length}件`;return next;};
+  scene.onchange=()=>update(true);from.oninput=to.oninput=()=>update();if(!range.to)to.value=data.lines.filter(l=>scene.value==='all'||l.scene===scene.value).length;update();
+  holder.querySelector('#practice-role').onchange=async e=>{await ctx.changeRole(e.target.value);openPractice(ctx);};
+  const start=(mode,range,resume=false)=>{try{selectRange(data,range);s.startPractice(mode,range,{resume});practiceSheet(ctx);}catch(err){const n=holder.querySelector('#range-error');n.hidden=false;n.textContent=err.message;}};
+  holder.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>start(b.dataset.mode,update()));
+  holder.querySelectorAll('[data-resume]').forEach(b=>b.onclick=()=>start(b.dataset.resume,small.sessions[b.dataset.resume].range,true));
+  enhanceSelects(holder);
+ }});
+}
+
+function practiceSheet(ctx){
+ const s=ctx.audio;
+ openSheet(s.practiceMode==='audio'?'音声練習':'穴埋め練習',`<div class="practice-panel"><div class="practice-topline"><span class="subtle practice-counter"></span><button class="text-button" data-action="choose-range">範囲を変更</button></div><div class="practice-body"><p class="practice-status" role="status"></p><h3 class="practice-speaker"></h3><div class="practice-text" lang="en"></div><p class="notice error practice-error" hidden role="alert"></p></div><div class="practice-actions"><button class="icon-button" data-action="previous" aria-label="前のセリフ">${icon('back')}</button><button class="secondary" data-action="reveal">正解を表示</button><button class="primary" data-action="advance">次へ ${icon('arrow')}</button></div><div class="practice-tools"><button class="text-button" data-action="transport">再生</button><button class="text-button" data-action="model">模範音声</button><button class="text-button" data-action="analysis">文章詳細</button><button class="text-button" data-action="mastered">覚えた</button><button class="text-button" data-action="review">要復習</button></div><details class="practice-options"><summary>練習設定</summary><div class="audio-options-body"><label>再生速度<select data-practice="rate">${[.75,1,1.25,1.5].map(r=>`<option value="${r}">${r}×</option>`).join('')}</select></label><label class="toggle-row"><span>自分のセリフを表示</span><input type="checkbox" data-practice="showOwn"></label><label class="toggle-row"><span>自分の番も自動で進む</span><input type="checkbox" data-practice="auto"></label><label>発話の余裕（秒）<input type="number" data-practice="extra" min="0" max="60" step="1"></label><label class="toggle-row"><span>範囲を繰り返す</span><input type="checkbox" data-practice="repeat"></label><p class="subtle practice-wait"></p></div></details><div class="practice-complete" hidden><h3>練習が終わりました</h3><p class="subtle">同じ範囲をもう一度練習できます。</p><div class="button-row">${button('もう一度','again','primary','refresh')}${button('範囲を変更','choose-again','secondary')}</div></div></div>`,{
+  onclose:()=>s.pause(),onrestore:()=>s.emit(false),setup:sheet=>{
+   const panel=sheet.querySelector('.practice-panel'),q=action=>panel.querySelector(`[data-action="${action}"]`);
+   q('choose-range').onclick=q('choose-again').onclick=()=>{s.pause();openPractice(ctx);};
+   q('previous').onclick=()=>s.step(-1);q('advance').onclick=()=>s.step(1,true);q('reveal').onclick=()=>s.reveal();
+   q('transport').onclick=()=>{if(s.phase==='own'&&s.timer)s.pause();else s.toggle();};
+   q('model').onclick=()=>s.replay();q('analysis').onclick=()=>{s.pause();showAnalysis(s.line,ctx,{nested:true});};
+   q('mastered').onclick=()=>ctx.setProgress(s.line.id,{...ctx.progress[s.line.id],level:2,updatedAt:Date.now()});
+   q('review').onclick=()=>ctx.setProgress(s.line.id,{...ctx.progress[s.line.id],review:!ctx.progress[s.line.id]?.review,updatedAt:Date.now()});
+   q('again').onclick=()=>s.startPractice(s.practiceMode,s.range);
+   panel.querySelectorAll('[data-practice]').forEach(input=>{const name=input.dataset.practice;if(name==='rate'){input.value=ctx.small.rate;input.onchange=e=>s.setRate(+e.target.value);}else{input[input.type==='checkbox'?'checked':'value']=s.prefs[name];input.onchange=()=>s.setPrefs({[name]:input.type==='checkbox'?input.checked:Math.max(0,Math.min(60,+input.value||0))});}});
+   let painted='';
+   const unsubscribe=s.subscribe(()=>{
+    if(!panel.isConnected)return;
+    const complete=s.phase==='complete';panel.querySelector('.practice-complete').hidden=!complete;
+    for(const selector of ['.practice-body','.practice-actions','.practice-tools','.practice-options'])panel.querySelector(selector).hidden=complete;
+    if(complete)return;
+    const line=s.line,own=line.speaker===s.role,show=!own||s.revealed||s.prefs.showOwn;
+    panel.querySelector('.practice-counter').textContent=`${s.index+1} / ${s.lines.length} · ${s.role}`;
+    panel.querySelector('.practice-status').textContent=audioStatus(s);
+    panel.querySelector('.practice-speaker').textContent=line.speaker;
+    const text=panel.querySelector('.practice-text'),key=`${line.id}:${show}`;
+    if(key!==painted){painted=key;text.replaceChildren();
+     if(show){for(const token of tokenize(line.text,ctx.data.vocabulary[line.id]||[])){const d=lookupDictionary(ctx.data.dictionary,token);if(plain(token.entry?.meaning)||plain(d?.coreMeaning)||plain(d?.contextMeaning)){const b=document.createElement('button');b.className='word';b.textContent=token.text;b.setAttribute('aria-label',`${token.text} の意味`);b.onclick=()=>{s.pause();showDictionary(line,token,ctx,{nested:true});};text.append(b);}else text.append(document.createTextNode(token.text));}}
+     else text.textContent='自分のセリフを声に出してください。';
+    }
+    q('reveal').hidden=!own;q('reveal').textContent=show?'セリフを隠す':'正解を表示';q('previous').disabled=s.index===0;
+    q('transport').hidden=s.practiceMode==='cloze'||(own&&!s.prefs.auto);q('transport').textContent=['playing','loading'].includes(s.phase)||(own&&s.timer)?'一時停止':s.phase==='error'?'再試行':'再開';
+    q('model').hidden=!own||s.practiceMode!=='audio';
+    const e=panel.querySelector('.practice-error');e.hidden=!['error','missing'].includes(s.phase);e.textContent=s.message;
+    panel.querySelector('.practice-wait').textContent=s.prefs.auto?`自分の番は音声の長さを基準に約${speakingSeconds(s.duration,ctx.small.rate,+s.prefs.extra).toFixed(1)}秒。詳細を開くと停止します。`:'自分の番で停止します。「次へ」で進みます。';
+   });
+   const key=e=>{if(!panel.isConnected||e.target.closest('button,input,select,textarea,summary,a'))return;if(e.code==='Space'||e.key==='Enter'){e.preventDefault();if(s.line?.speaker===s.role&&!s.revealed)s.reveal();else s.step(1,true);}else if(e.key==='ArrowLeft'){e.preventDefault();s.step(-1);}};
+   window.addEventListener('keydown',key);return()=>{unsubscribe();window.removeEventListener('keydown',key);};
   }
-  controls.innerHTML=`<button class="secondary" data-action="previous" ${state.index===0?'disabled':''}>${icon('back')}<span>前へ</span></button><div class="subtle">${own?(show?'答えを確認して次へ':'自分のセリフを思い出す'):'相手のセリフ'}</div><div class="button-row">${own&&show?`<button class="icon-button" data-action="mark-review" aria-label="要復習にする" aria-pressed="${!!progress[line.id]?.review}">${icon('bookmark')}</button><button class="secondary" data-action="mastered">覚えた</button>`:''}<button class="primary" data-action="advance">${own&&!show?'正解を表示':state.phase==='playing'?'停止して次へ':'次へ'}${icon('arrow')}</button></div>`;
-  controls.querySelector('[data-action=previous]').onclick=previous;controls.querySelector('[data-action=advance]').onclick=act;controls.querySelector('[data-action=mark-review]')?.addEventListener('click',()=>rate(null,!progress[line.id]?.review));controls.querySelector('[data-action=mastered]')?.addEventListener('click',()=>rate(2));
- }
- async function loadAudio(){if(mode!=='audio'||state.phase==='complete'||lines[state.index]?.speaker===small.role)return;const token=++epoch;player.stop();state={...state,phase:'ready'};playingError='';paint();try{const clip=await getClip(data.id,lines[state.index].id);if(disposed||token!==epoch)return;if(!clip){setPhase('missing');paint();return;}setPhase('playing');paint();await player.play(clip,{rate:small.rate,onended:()=>{if(disposed||token!==epoch)return;setPhase('ended');if(document.hidden){paint();return;}setPhase('next');paint();loadAudio();},onerror:err=>{if(disposed||token!==epoch)return;playingError=err.message;setPhase('error');paint();}});}catch(err){if(disposed||token!==epoch)return;playingError=err.name==='NotAllowedError'?'再生にはタップが必要です。「もう一度再生」を押してください。':err.name==='NotSupportedError'?'この音声を再生できません。形式とファイルの破損を確認し、追加し直してください。':`音声を再生できません。${err.message}`;state={...state,phase:'error'};paint();}}
- const key=e=>{if(isSheetOpen()||e.target.closest('button,input,select,textarea,summary,a'))return;if(e.code==='Space'||e.key==='Enter'){e.preventDefault();act();}else if(e.key==='ArrowLeft'){e.preventDefault();previous();}};
- const hide=()=>{if(document.hidden&&state.phase==='playing'){player.pause();setPhase('pause');paint();}};
- window.addEventListener('keydown',key);document.addEventListener('visibilitychange',hide);cleanup=()=>{epoch++;persist();player.stop();window.removeEventListener('keydown',key);document.removeEventListener('visibilitychange',hide);};persist();paint();if(mode==='audio')loadAudio();
- }
- chooser();return ()=>{disposed=true;cleanup();player.stop();};
+ });
 }
