@@ -37,6 +37,22 @@ try{
  assert.equal(await page.evaluate(()=>localStorage.getItem('mt-pwa-audio-offer-v1')),'later','installation offers a deferred choice');
  assert.equal(await page.locator('[data-action="offline-audio-home"]').isVisible(),true,'deferred audio remains available on home');
 
+ const bell=page.locator('[data-action="open-notifications"]');
+ assert.equal(await bell.isVisible(),true,'notification bell is next to settings');
+ assert.equal(await page.locator('.notification-badge').isVisible(),true,'install welcome produces unread badge');
+ await bell.click();
+ assert.equal(await page.locator('#sheet #sheet-title').textContent(),'お知らせ');
+ assert.ok((await page.locator('#sheet .notification-entry').innerText()).includes('Mousetrap Trainerへようこそ'));
+ assert.ok((await page.locator('#sheet .notification-entry').innerText()).includes('オフライン'));
+ await page.locator('[data-notification-read="welcome-install-v1"]').click();
+ assert.equal(await page.locator('.notification-badge').isVisible(),false,'badge disappears after welcome is read');
+ await page.locator('#sheet .close-sheet').click();
+ await bell.click();
+ assert.equal(await page.locator('.notification-entry.is-read').count(),1,'read state persists after closing');
+ await page.locator('#sheet .close-sheet').click();
+ console.log('PASS: installation welcome, in-app notification bell and unread/read badge lifecycle');
+
+
  const own=page.locator('.home-role-row .app-select-trigger');
  await own.click();
  assert.equal(await page.locator('#sheet').evaluate(el=>el.open),false,'Role dropdown must not open a bottom sheet');
