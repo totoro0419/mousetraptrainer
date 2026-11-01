@@ -148,6 +148,8 @@ try{
  // The empty space of the script row is the analysis trigger; words remain dictionary triggers.
  await restored.locator('.speech-inner').click({position:{x:6,y:6}});
  assert.equal(await page.locator('#sheet').evaluate(el=>el.open),true,'Row background opens analysis');
+ assert.equal(await page.locator('#sheet .sheet-heading [data-action="analysis-audio"]').count(),1,'Script detail has upper-right speech audio');
+ assert.equal(await page.locator('#sheet .sheet-heading [data-action="analysis-audio"]').getAttribute('aria-label'),'セリフの音声を再生');
  const headings=await page.locator('#sheet .sheet-body h3').allTextContents();
  const translation=headings.indexOf('日本語訳'),explanation=headings.indexOf('そのセリフの解説'),grammar=headings.indexOf('文法・構文');
  assert.ok(translation>=0&&explanation>translation&&grammar>explanation,'Translation and audited explanation precede grammar');
@@ -172,6 +174,33 @@ try{
  await page.locator('#sheet .close-sheet').click();
  console.log('PASS: pale-blue owned lines, independent saved bookmarks, background analysis, prioritized context and dictionary');
 
+
+ // A manual utterance play action is available only after the chosen role's answer is revealed.
+ await page.locator('.bottom-nav a[href="#rehearse"]').click();
+ await page.locator('#rehearsal-role').waitFor();
+ const firstOwn=await page.evaluate(async()=>{
+  const {normalizeBundle}=await import('./modules/data.js');
+  const d=normalizeBundle(await (await fetch('./data/mousetrap.json')).json());
+  const role=document.querySelector('#rehearsal-role').value;
+  return d.lines.findIndex(line=>line.speaker===role)+1;
+ });
+ assert.ok(firstOwn>0,'selected role has utterances in the script');
+ await page.locator('#range-from').fill(String(firstOwn));
+ await page.locator('#range-to').fill(String(firstOwn));
+ await page.locator('[data-mode="cloze"]').click();
+ const answerAudio=page.locator('[data-action="answer-audio"]');
+ assert.equal(await answerAudio.isVisible(),false,'audio button must not reveal a hidden answer');
+ await page.locator('.session-controls [data-action="advance"]').click();
+ assert.equal(await answerAudio.isVisible(),true,'reveal exposes line-specific playback in cloze rehearsal');
+ assert.equal(await answerAudio.getAttribute('aria-label'),'セリフの音声を再生');
+ await page.locator('.session-controls [data-action="advance"]').click();
+ assert.equal(await answerAudio.isVisible(),false,'rehearsal completion hides speech playback');
+ await page.locator('[data-action="choose"]').click();
+ await page.locator('[data-mode="audio"]').click();
+ assert.equal(await page.locator('[data-action="answer-audio"]').isVisible(),false);
+ await page.locator('.session-controls [data-action="advance"]').click();
+ assert.equal(await page.locator('[data-action="answer-audio"]').isVisible(),true,'audio rehearsal answer exposes replay');
+ console.log('PASS: analysis sheet and both revealed rehearsal modes have accessible per-line audio buttons');
 
  const desktop=await browser.newPage({viewport:{width:1280,height:800},locale:'ja-JP'});
  await desktop.goto(base+'/',{waitUntil:'domcontentloaded'});
