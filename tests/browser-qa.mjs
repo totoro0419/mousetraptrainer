@@ -264,6 +264,10 @@ try{
 
  // Full real 1,164-file browser cache test, including offline fetch of a previously saved clip.
  await page.locator('.bottom-nav a[href="#home"]').click();
+ // Earlier bookmark persistence test reloads the browser tab, clearing the
+ // simulated appinstalled event (a real installed PWA launches in standalone).
+ await page.evaluate(()=>window.dispatchEvent(new Event('appinstalled')));
+ await page.waitForFunction(()=>document.querySelector('[data-action="home-app-action"]')?.getAttribute('aria-label')==='オフライン音声を保存',null,{timeout:15000});
  console.log('OFFLINE-AUDIO QA quota:',JSON.stringify(await page.evaluate(()=>navigator.storage.estimate())));
  await page.locator('[data-action="home-app-action"]').click();
  await page.locator('#audio-download-bar').waitFor();
