@@ -32,8 +32,8 @@ export function festivalRemainingRing(state) {
  const length=HOME_RING_INNER_LENGTH*remaining/FESTIVAL_RING_WINDOW_DAYS;
  return {
   dash:`${length.toFixed(3)} ${HOME_RING_INNER_LENGTH.toFixed(3)}`,
-  value:days>0?String(days):days===0?'本日':'終了',
-  unit:days>0?'日':'',
-  description:days>0?`聖光祭まであと${days}日`:days===0?'聖光祭は本日開催':'聖光祭は終了しました'
+  prefix:days>0?'残り':'',
+  value:days>0?`${days}日`:days===0?'本日':'終了',
+  description:days>0?`聖光祭まで残り${days}日`:days===0?'聖光祭は本日開催':'聖光祭は終了しました'
  };
 }
