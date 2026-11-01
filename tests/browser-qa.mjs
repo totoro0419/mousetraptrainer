@@ -33,7 +33,7 @@ try{
  assert.equal(await page.locator('.home-progress-dashboard').count(),1,'double ring is visible at the top of home');
  assert.equal(await page.locator('.home-double-ring .home-festival-ring').count(),1,'thin navy countdown ring is present');
  assert.equal(await page.locator('.home-festival-prefix').textContent(),'残り','countdown shows remaining label');
- assert.match(await page.locator('.home-festival-days').textContent(),/^\\d+日$/,'countdown shows value with 日 suffix');
+ assert.match(await page.locator('.home-festival-days').textContent(),/^\d+日$/,'countdown shows value with 日 suffix');
  assert.equal(await page.locator('.home-install-callout,.home-offline-card').count(),0,'old metadata cards are absent');
  await page.evaluate(()=>{
   localStorage.removeItem('mt-pwa-audio-offer-v1');
