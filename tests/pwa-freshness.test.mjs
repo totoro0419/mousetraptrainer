@@ -18,7 +18,8 @@ test('PWA updates: online uses the deployed CSS/JS, refreshes offline cache and 
    const store=stores.get(name);
    return {
     async addAll(paths){for(const path of paths)store.set(new URL(path,scope).href,new Response('installed:'+path));},
-    async put(url,response){store.set(String(url),response.clone());}
+    async put(url,response){store.set(typeof url==='string'?url:url.url,response.clone());},
+    async match(url){return store.get(typeof url==='string'?url:url.url)?.clone();}
    };
   },
   async keys(){return [...stores.keys()];},
@@ -76,6 +77,13 @@ test('PWA updates: online uses the deployed CSS/JS, refreshes offline cache and 
  assert.equal(await (await dispatch('fetch',nav)).text(),'installed:./index.html','navigation works offline');
  online=true;body='new home';assert.equal(await (await dispatch('fetch',nav)).text(),'new home');
  online=false;assert.equal(await (await dispatch('fetch',nav)).text(),'new home');
+
+ const audioRequest={url:scope+'audio/lines/act2/act2-speech-0001.mp3',method:'GET',mode:'cors',headers:new Headers()};
+ online=true;body='one MP3';
+ assert.equal(await (await dispatch('fetch',audioRequest)).text(),'one MP3','on-demand hosted MP3 is fetched online');
+ assert.equal(stores.get('mousetrap-audio-runtime-v1')?.has(audioRequest.url),true,'downloaded MP3 is cached');
+ online=false;
+ assert.equal(await (await dispatch('fetch',audioRequest)).text(),'one MP3','downloaded MP3 works offline');
 
  const outside={url:'https://other.example/private',method:'GET',mode:'cors'};
  assert.equal(await dispatch('fetch',outside),undefined,'unrelated origins are not intercepted');
