@@ -1,5 +1,6 @@
 /** Complete offline audio package: opt-in download, durable per-clip cache, resumable across sessions. */
 export const OFFLINE_AUDIO_TOTAL = 1164;
+export const OFFLINE_AUDIO_BYTES = 32496480;
 export const OFFLINE_AUDIO_CACHE = 'mousetrap-audio-runtime-v1';
 const AUDIO_INDEX = new URL('../audio/index.json', import.meta.url).href;
 const PATH_RE = /^lines\/(act1-scene1|act1-scene2|act2)\/((?:act1-scene1|act1-scene2|act2)-speech-\d{4})\.mp3$/;
@@ -59,6 +60,15 @@ export function downloadEntireAudio({onProgress} = {}) {
    const {urls,cache,stored} = await offlineAudioStatus();
    let downloaded = urls.filter(url => stored.has(url)).length;
    const total = urls.length;
+   // Proactively detect browser-origin storage limits. Installation alone cannot lift quota.
+   try{
+    const estimate=await navigator.storage?.estimate?.();
+    if(Number.isFinite(estimate?.quota)&&Number.isFinite(estimate?.usage)){
+     const needed=Math.ceil(OFFLINE_AUDIO_BYTES*(total-downloaded)/total)+2*1024*1024;
+     if(estimate.quota-estimate.usage<needed)
+      throw Error('保存可能な領域が不足しています。音声の一括保存には約33MBの空きが必要です。ブラウザーの保存領域を確認してください。');
+    }
+   }catch(error){if(error?.message?.includes('保存可能な領域が不足'))throw error;/* unsupported estimate */}
    notify({downloaded,total,running:true});
    const remaining = urls.filter(url => !stored.has(url));
    let cursor = 0, failures = 0, firstError = null, fatal = false;
@@ -70,13 +80,21 @@ export function downloadEntireAudio({onProgress} = {}) {
       if (!response.ok || response.status !== 200) throw Error('HTTP ' + response.status);
       const blob = await response.blob();
       if (blob.size < 100 || blob.size > 2000000) throw Error('不正な音声ファイルサイズ');
-      await cache.put(url, new Response(blob,{headers:{'Content-Type':'audio/mpeg'}}));
+      // Some browsers stall rather than reject Cache.put when a per-origin quota is exhausted.
+      // Never leave the user at a frozen percentage; let them retry the remainder later.
+      let timer;
+      try{
+       await Promise.race([
+        cache.put(url, new Response(blob,{headers:{'Content-Type':'audio/mpeg'}})),
+        new Promise((_,reject)=>{timer=setTimeout(()=>reject(Object.assign(Error('音声の保存がタイムアウトしました。'),{name:'TimeoutError'})),20000);})
+       ]);
+      }finally{clearTimeout(timer);}
       downloaded++;
       notify({downloaded,total,running:true});
      } catch (error) {
       failures++;
       firstError ||= error;
-      if (error?.name === 'QuotaExceededError') fatal = true;
+      if (error?.name === 'QuotaExceededError' || error?.name === 'TimeoutError') fatal = true;
      }
     }
    }
@@ -84,7 +102,7 @@ export function downloadEntireAudio({onProgress} = {}) {
    const confirmed = new Set((await cache.keys()).map(request=>request.url));
    const saved = urls.filter(url=>confirmed.has(url)).length;
    if (saved !== total || failures) {
-    const suffix = firstError?.name === 'QuotaExceededError' ? '端末の保存容量が足りません。' : '通信状態を確認してください。';
+    const suffix = firstError?.name === 'QuotaExceededError' || firstError?.name === 'TimeoutError' ? 'ブラウザーの保存領域が不足している可能性があります。' : '通信状態を確認してください。';
     throw Error('音声 ' + saved + ' / ' + total + ' 件を保存しました。' + suffix + ' 後から続きだけ保存できます。');
    }
    notify({downloaded:total,total,running:false,complete:true});
