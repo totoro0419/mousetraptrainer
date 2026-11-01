@@ -7,7 +7,7 @@ import {FESTIVAL,festivalCountdown} from './modules/festival-countdown.js';
 import {homeProgressRings,festivalRemainingRing} from './modules/home-progress.js';
 async function fetchData(url){const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error(`HTTP ${response.status}`);return response.json();}
 import {openRoleMenu,closeRoleMenu} from './modules/role-menu.js';
-import {fetchAnnouncements,notificationFeed,unreadNotifications,markNotificationRead,markAllNotificationsRead,recordInstalledWelcome} from './modules/notifications.js';
+import {fetchAnnouncements,notificationFeed,unreadNotifications,markAllNotificationsRead,recordInstalledWelcome} from './modules/notifications.js';
 import {isInstalledPwa,offlineAudioStatus,downloadEntireAudio,isAudioDownloadRunning,OFFLINE_AUDIO_CACHE,OFFLINE_AUDIO_TOTAL} from './modules/offline-audio.js';
 let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,updateRequested=false,lastContentRoute='home',announcements=[],pwaJustInstalled=false,headerActionEpoch=0;
 const defaults={role:'',scene:'all',font:20,leading:1.9,stick:true,read:{},sessions:{},range:{scene:'all',from:1,to:0},rate:1,bookmarkOnly:false};
@@ -53,28 +53,19 @@ function updateNotificationBadge(){
 function openNotificationInbox(){
  if(!isInstalledPwa())return;
  const items=currentNotificationFeed();
+ // Opening the inbox marks everything currently visible as read immediately.
+ // The badge and stored read state update without requiring individual actions.
+ if(items.length)markAllNotificationsRead(items);
+ updateNotificationBadge();
  const content=items.length?'<div class="notification-list">'+items.map(item=>
-  '<article class="notification-entry'+(item.read?' is-read':'')+'">'+
-  '<div class="notification-entry-heading"><strong>'+esc(item.title)+'</strong>'+
-  (!item.read?'<span class="notification-unread-dot" aria-label="未読"></span>':'')+'</div>'+
+  '<article class="notification-entry is-read">'+
+  '<div class="notification-entry-heading"><strong>'+esc(item.title)+'</strong></div>'+
   (item.date?'<time class="notification-date">'+esc(item.date.slice(0,10))+'</time>':'')+
   '<p>'+esc(item.body)+'</p>'+
-  (!item.read?'<button class="text-button notification-mark-read" data-notification-read="'+esc(item.id)+'" type="button">既読にする</button>':'<span class="notification-read-label">既読</span>')+
   '</article>'
- ).join('')+'</div><div class="notification-footer"><button class="secondary" type="button" data-action="all-read">すべて既読にする</button></div>':
+ ).join('')+'</div>':
  '<p class="subtle">まだお知らせはありません。</p>';
- openSheet('お知らせ',content,{setup:sheet=>{
-  sheet.querySelectorAll('[data-notification-read]').forEach(button=>button.onclick=()=>{
-   markNotificationRead(button.dataset.notificationRead);
-   updateNotificationBadge();
-   openNotificationInbox();
-  });
-  sheet.querySelector('[data-action=all-read]')?.addEventListener('click',()=>{
-   markAllNotificationsRead(items);
-   updateNotificationBadge();
-   openNotificationInbox();
-  });
- }});
+ openSheet('お知らせ',content);
 }
 async function refreshNotifications(){
  if(!isInstalledPwa()){announcements=[];return;}
