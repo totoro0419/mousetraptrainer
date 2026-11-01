@@ -35,3 +35,21 @@ if(process.env.PRIVATE_ZIP)test('provided production ZIP: 1164 IDs, full corresp
 test('known perfect-form explanation mismatch repaired without mutating source',()=>{const g={pattern:'have just + 過去分詞',description:'-ing形の役割を判断する。 原文では「have just come」の部分'};const fixed=grammarDescription(g);assert.equal(fixed.corrected,true);assert.ok(fixed.text.includes('現在完了'));assert.ok(g.description.includes('-ing形'));});
 test('invalid grammar contents and dictionary null rejected',()=>{assert.throws(()=>normalizeBundle({...sample,grammar:{'sample-001':[null]}}),/形式/);assert.throws(()=>normalizeBundle({...sample,dictionary:{a:null}}),/形式/);});
 test('corrupt zip fails without replacing loaded script',async()=>{await assert.rejects(unzipJSON(new ArrayBuffer(24)));assert.equal(data.lines.length,12);});
+
+test('speech playback starts muted, fades in gradually and is cancellable',async()=>{
+ const previousFrame=globalThis.requestAnimationFrame,previousCancel=globalThis.cancelAnimationFrame;
+ let step,cancelled=false;globalThis.requestAnimationFrame=cb=>{step=cb;return 17;};globalThis.cancelAnimationFrame=()=>{cancelled=true;};
+ try{
+  let audio;
+  const player=new AudioPlayer(()=>audio={volume:1,pause(){},removeAttribute(){},load(){},play:async function(){assert.equal(this.volume,0,'first decoded sample cannot pop at full volume');}});
+  await player.play({blob:new Blob(['x']),start:0,end:null});
+  assert.equal(audio.volume,0);
+  step(performance.now()+80);
+  assert.ok(audio.volume>0&&audio.volume<1,'fade is gradual');
+  player.stop();
+  assert.equal(cancelled,true,'pending gain fade is cancelled on stop');
+ }finally{
+  if(previousFrame===undefined)delete globalThis.requestAnimationFrame;else globalThis.requestAnimationFrame=previousFrame;
+  if(previousCancel===undefined)delete globalThis.cancelAnimationFrame;else globalThis.cancelAnimationFrame=previousCancel;
+ }
+});
