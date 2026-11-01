@@ -9,7 +9,7 @@ async function fetchData(url){const response=await fetch(url,{cache:'no-store'})
 import {openRoleMenu,closeRoleMenu} from './modules/role-menu.js';
 import {fetchAnnouncements,notificationFeed,unreadNotifications,markNotificationRead,markAllNotificationsRead,recordInstalledWelcome} from './modules/notifications.js';
 import {isInstalledPwa,offlineAudioStatus,downloadEntireAudio,isAudioDownloadRunning,OFFLINE_AUDIO_CACHE,OFFLINE_AUDIO_TOTAL} from './modules/offline-audio.js';
-let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,updateRequested=false,lastContentRoute='home',announcements=[],pwaJustInstalled=false;
+let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,updateRequested=false,lastContentRoute='home',announcements=[],pwaJustInstalled=false,headerActionEpoch=0;
 const defaults={role:'',scene:'all',font:20,leading:1.9,stick:true,read:{},sessions:{},range:{scene:'all',from:1,to:0},rate:1,bookmarkOnly:false};
 const app=document.querySelector('#app');
 const roles=()=>[...new Set(data.lines.map(l=>l.speaker))];
@@ -231,7 +231,8 @@ function offeredAudioChoice(){try{return localStorage.getItem(INSTALL_AUDIO_CHOI
 function rememberAudioChoice(value){try{localStorage.setItem(INSTALL_AUDIO_CHOICE_KEY,value);}catch{}}
 async function refreshHeaderAppAction(){
  const trigger=app.querySelector('[data-action=home-app-action]');
- if(!trigger)return;
+ if(!trigger||!trigger.closest('[data-route=home]'))return;
+ const epoch=++headerActionEpoch;
  if(!isInstalledPwa()&&!pwaJustInstalled){
   trigger.hidden=false;
   trigger.className='home-app-action is-install';
@@ -251,7 +252,7 @@ async function refreshHeaderAppAction(){
    }catch{}
   }
  }
- if(!trigger.isConnected)return;
+ if(!trigger.isConnected||epoch!==headerActionEpoch)return;
  trigger.hidden=complete;
  if(complete)return;
  trigger.className='home-app-action is-audio';
@@ -272,7 +273,6 @@ async function startOfflineAudioDownload(){
  }});
  const display=state=>{
   if(state.downloaded!==undefined){
-   void refreshHeaderAppAction();
    if(sheet.open&&sheet.querySelector('#audio-download-bar')){
     sheet.querySelector('#audio-download-bar').value=state.downloaded;
     sheet.querySelector('#audio-download-message').textContent=state.downloaded+' / '+state.total+' 件を保存済み';
@@ -284,16 +284,18 @@ async function startOfflineAudioDownload(){
   }
  };
  try {
-  const result=await downloadEntireAudio({onProgress:display});
+  const operation=downloadEntireAudio({onProgress:display});
+  void refreshHeaderAppAction();
+  const result=await operation;
   rememberAudioChoice('saved');
-  refreshHeaderAppAction();
+  void refreshHeaderAppAction();
   const message='全1,164件の音声を保存しました。オフラインでも音声を使えます。練習頑張りましょう！';
   if(sheet.open&&sheet.querySelector('#audio-download-message')){
    sheet.querySelector('#audio-download-message').textContent=message;
    sheet.querySelector('#audio-download-bar').value=result.total;
   } else toast(message);
  }catch(err){
-  refreshHeaderAppAction();
+  void refreshHeaderAppAction();
   if(sheet.open&&sheet.querySelector('#audio-download-message')){
    sheet.querySelector('#audio-download-message').textContent=err.message;
    sheet.querySelector('[data-action=offline-retry]').hidden=false;
