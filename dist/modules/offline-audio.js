@@ -66,7 +66,7 @@ export function downloadEntireAudio({onProgress} = {}) {
     while (cursor < remaining.length && !fatal) {
      const url = remaining[cursor++];
      try {
-      const response = await fetch(url, {cache:'no-store'});
+      const response = await fetch(url, {cache:'no-store',headers:{'X-Mousetrap-Bulk-Audio':'1'}});
       if (!response.ok || response.status !== 200) throw Error('HTTP ' + response.status);
       const blob = await response.blob();
       if (blob.size < 100 || blob.size > 2000000) throw Error('不正な音声ファイルサイズ');
