@@ -85,6 +85,11 @@ test('PWA updates: online uses the deployed CSS/JS, refreshes offline cache and 
  online=false;
  assert.equal(await (await dispatch('fetch',audioRequest)).text(),'one MP3','downloaded MP3 works offline');
 
+ const bulk={url:scope+'audio/lines/act2/act2-speech-0002.mp3',method:'GET',mode:'cors',headers:new Headers({'X-Mousetrap-Bulk-Audio':'1'})};
+ online=true;body='MP3 bulk';
+ assert.equal(await (await dispatch('fetch',bulk)).text(),'MP3 bulk','bulk download returns hosted audio');
+ assert.equal(stores.get('mousetrap-audio-runtime-v1').has(bulk.url),false,'bulk download skips duplicate SW cache writes');
+
  const outside={url:'https://other.example/private',method:'GET',mode:'cors'};
  assert.equal(await dispatch('fetch',outside),undefined,'unrelated origins are not intercepted');
  assert.match(appSource,/serviceWorker\.register\('\.\/sw\.js',\{updateViaCache:'none'\}\)/);
@@ -105,5 +110,5 @@ test('freshness strategy keeps full new UI in source and does not rollback previ
  assert.match(workerSource,/modules\/dramaturgy\.js/);
  assert.match(reader,/analysisNeighbor/);
  assert.match(html,/styles\.css/);
- assert.match(workerSource,/const CACHE='mousetrap-shell-20261101-line-audio-v2'/);
+ assert.match(workerSource,/const CACHE='mousetrap-shell-20261101-offline-pack-v4'/);
 });

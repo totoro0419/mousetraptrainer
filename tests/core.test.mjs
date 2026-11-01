@@ -53,3 +53,67 @@ test('speech playback starts muted, fades in gradually and is cancellable',async
   if(previousCancel===undefined)delete globalThis.cancelAnimationFrame;else globalThis.cancelAnimationFrame=previousCancel;
  }
 });
+
+
+test('offline audio manifest validates all 1164 IDs, scenes and unique paths',async()=>{
+ const {validateHostedAudioIndex,OFFLINE_AUDIO_TOTAL}=await import('../dist/modules/offline-audio.js');
+ const make=()=>{
+  const clips={};
+  for(const [scene,count] of [['act1-scene1',190],['act1-scene2',336],['act2',638]])
+   for(let n=1;n<=count;n++){
+    const id=scene+'-speech-'+String(n).padStart(4,'0');
+    clips[id]='lines/'+scene+'/'+id+'.mp3';
+   }
+  return {version:1,clips};
+ };
+ const index=make(),urls=validateHostedAudioIndex(index);
+ assert.equal(urls.length,OFFLINE_AUDIO_TOTAL);
+ assert.equal(new Set(urls).size,OFFLINE_AUDIO_TOTAL);
+ const missing=make();delete missing.clips['act2-speech-0001'];
+ assert.throws(()=>validateHostedAudioIndex(missing),/1,164/);
+ const mismatched=make();mismatched.clips['act2-speech-0001']='lines/act1-scene1/act1-scene1-speech-0001.mp3';
+ assert.throws(()=>validateHostedAudioIndex(mismatched),/対応/);
+});
+test('complete offline audio download is resumable, avoids redownloading and survives network loss',async()=>{
+ const {downloadEntireAudio,offlineAudioStatus,OFFLINE_AUDIO_TOTAL,OFFLINE_AUDIO_CACHE}=await import('../dist/modules/offline-audio.js');
+ const savedFetch=globalThis.fetch,savedCaches=globalThis.caches,savedResponse=globalThis.Response;
+ const clips={};
+ for(const [scene,count] of [['act1-scene1',190],['act1-scene2',336],['act2',638]])
+  for(let n=1;n<=count;n++){
+   const id=scene+'-speech-'+String(n).padStart(4,'0');
+   clips[id]='lines/'+scene+'/'+id+'.mp3';
+  }
+ const store=new Map(),lastId='act2-speech-0638.mp3';let downloads=0,online=true;
+ globalThis.caches={open:async name=>{assert.equal(name,OFFLINE_AUDIO_CACHE);return {
+  keys:async()=>[...store.keys()].map(url=>({url})),
+  put:async(url,response)=>{assert.ok(response.ok);store.set(String(url),response.clone());}
+ };}};
+ globalThis.fetch=async url=>{
+  const href=String(url);
+  if(href.endsWith('/index.json'))return new Response(JSON.stringify({version:1,clips}),{status:200});
+  if(!online&&href.endsWith(lastId))throw Error('offline');
+  downloads++;
+  return new Response(new Blob([new Uint8Array(512)]),{status:200});
+ };
+ try{
+  const target=await offlineAudioStatus();assert.equal(target.total,OFFLINE_AUDIO_TOTAL);
+  assert.equal(target.downloaded,0);
+  online=false;
+  await assert.rejects(downloadEntireAudio(),/続きだけ保存できます/);
+  assert.equal((await offlineAudioStatus()).downloaded,OFFLINE_AUDIO_TOTAL-1);
+  assert.equal(downloads,OFFLINE_AUDIO_TOTAL-1);
+  online=true;
+  let last;
+  const result=await downloadEntireAudio({onProgress:p=>last=p});
+  assert.equal(result.downloaded,OFFLINE_AUDIO_TOTAL);
+  assert.equal((await offlineAudioStatus()).complete,true);
+  assert.equal(downloads,OFFLINE_AUDIO_TOTAL,'resume fetches only the missing MP3');
+  assert.equal(last.complete,true);
+  await downloadEntireAudio();
+  assert.equal(downloads,OFFLINE_AUDIO_TOTAL,'already downloaded audio is never re-fetched');
+ }finally{
+  globalThis.fetch=savedFetch;
+  if(savedCaches===undefined)delete globalThis.caches;else globalThis.caches=savedCaches;
+  if(savedResponse===undefined)delete globalThis.Response;else globalThis.Response=savedResponse;
+ }
+});
