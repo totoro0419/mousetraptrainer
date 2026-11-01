@@ -29,7 +29,12 @@ export async function getClip(dataset,id){
  if(dataset!=='mousetrap-private')return null;
  const index=await hostedIndex(),file=index?.clips?.[id];
  if(typeof file!=='string'||!/^lines\/(act1-scene1|act1-scene2|act2)\/[a-z0-9-]+\.mp3$/.test(file))return null;
- return {url:new URL(`../audio/${file}`,import.meta.url).href,start:0,end:null};
+ // Fetch a complete single MP3 on demand, so the service worker can cache a 200 response.
+ // Media elements often send Range requests (206), which cannot populate that cache.
+ const url=new URL(`../audio/${file}`,import.meta.url).href;
+ const response=await fetch(url);
+ if(!response.ok)throw Error(`音声ファイルを取得できません (HTTP ${response.status})`);
+ return {blob:await response.blob(),start:0,end:null};
 }
 export async function openAudioImport(ctx){
  openSheet('音声ファイルを追加',`<p>ファイル名を <strong>発話ID.mp3</strong> などにすると、自動で対応付けます。複数のファイルをまとめて選べます。</p><p class="subtle" style="margin-top:12px">MP3 / M4A / OGG / WAV / WebM / AAC / FLAC。1ファイル100MB、合計500MB以内。音声マップJSONも同時に選べます。</p><div style="margin-top:20px">${button('音声ファイルを選ぶ','pick-audio','primary','audio')}</div><div id="audio-import-result" class="sheet-section"><h3>1つの録音を区切って使う場合</h3><p class="subtle">clips の各発話IDに file・start・end（秒）を指定する音声マップを追加できます。手順はリポジトリの docs/audio.md を参照。</p></div>`,{setup:d=>{d.querySelector('[data-action=pick-audio]').onclick=()=>document.querySelector('#audio-files').click();}});
