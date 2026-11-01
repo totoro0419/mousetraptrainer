@@ -60,16 +60,3 @@ export async function fetchAnnouncements(){
   return items;
  }catch{return fallback;}
 }
-export async function announceWelcomeOnDevice(registration){
- // Display a system notification only if the user previously opted in.
- // Never ask for permission automatically, and never change the device's sound settings.
- if(typeof Notification==='undefined'||Notification.permission!=='granted'||!registration)return false;
- try{
-  await registration.showNotification(welcome.title,{
-   body:welcome.body,icon:new URL('../icon-v2-192.png',import.meta.url).href,
-   badge:new URL('../icon-v2-192.png',import.meta.url).href,
-   tag:'mousetrap-welcome-install-v1',data:{id:welcome.id,url:'#home'}
-  });
-  return true;
- }catch{return false;}
-}
