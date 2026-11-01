@@ -4,6 +4,7 @@ import {icon,esc,button,el,toast,openSheet,closeSheet,enhanceSelects} from './mo
 import {loadStartupScript} from './modules/bundled.js';
 import {loadDramaturgy} from './modules/dramaturgy.js';
 import {FESTIVAL,festivalCountdown} from './modules/festival-countdown.js';
+import {homeProgressRings,festivalRemainingRing} from './modules/home-progress.js';
 async function fetchData(url){const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error(`HTTP ${response.status}`);return response.json();}
 import {openRoleMenu,closeRoleMenu} from './modules/role-menu.js';
 import {fetchAnnouncements,notificationFeed,unreadNotifications,markNotificationRead,markAllNotificationsRead,recordInstalledWelcome} from './modules/notifications.js';
@@ -96,43 +97,68 @@ function openRolePicker(event){
  openRoleMenu(trigger,roles(),small.role,changeRole);
 }
 function roleHTML(){return `<select id="home-role" class="role-select" data-role-menu="true" aria-label="自分の役">${roles().map(r=>`<option ${r===small.role?'selected':''}>${esc(r)}</option>`).join('')}</select>`;}
-function festivalBannerHTML(){
- const state=festivalCountdown();
- return `<section class="home-festival" aria-label="聖光祭カウントダウン" data-phase="${state.phase}" data-festival-value="${state.value}">
-   <div class="home-festival-details">
-    <h2>聖光祭</h2>
-    <time class="home-festival-date" datetime="${FESTIVAL.date}">${FESTIVAL.dateLabel}</time>
-   </div>
-   <div class="home-festival-clock" aria-live="polite" aria-atomic="true">
-    <span class="home-festival-prefix">${state.prefix}</span>
-    <strong class="home-festival-value">${state.value}</strong>
-    <span class="home-festival-suffix">${state.suffix}</span>
-   </div>
-  </section>`;
-}
 function refreshFestivalCountdown(){
- const banner=app.querySelector('.home-festival');
- if(!banner)return;
- const state=festivalCountdown();
- if(banner.dataset.phase===state.phase&&banner.dataset.festivalValue===state.value)return;
- banner.dataset.phase=state.phase;
- banner.dataset.festivalValue=state.value;
- banner.querySelector('.home-festival-prefix').textContent=state.prefix;
- banner.querySelector('.home-festival-value').textContent=state.value;
- banner.querySelector('.home-festival-suffix').textContent=state.suffix;
+ const dashboard=app.querySelector('.home-progress-dashboard');
+ if(!dashboard)return;
+ const state=festivalCountdown(),ring=festivalRemainingRing(state);
+ dashboard.querySelector('.home-festival-ring').setAttribute('stroke-dasharray',ring.dash);
+ dashboard.querySelector('.home-festival-days').textContent=ring.value;
+ dashboard.querySelector('.home-festival-unit').textContent=ring.unit;
+ dashboard.querySelector('.home-double-ring').setAttribute('aria-label',dashboard.dataset.progressLabel+'。'+ring.description);
+ dashboard.dataset.festivalPhase=state.phase;
+}
+function openHomeReview(){
+ small.scene='all';small.speaker=small.role;small.reviewOnly=true;small.bookmarkOnly=false;save();location.hash='script';
+}
+function showHomeProgressDetails(st){
+ const m=homeProgressRings(st);
+ openSheet('暗記の進捗',`<div class="home-progress-breakdown">
+  <p>担当する役：<strong>${esc(small.role)}</strong></p>
+  <div class="home-progress-breakdown-row"><span>暗記済み</span><strong>${m.completed}件（${m.completedPercent}%）</strong></div>
+  <div class="home-progress-breakdown-row"><span>練習中</span><strong>${m.practicing}件（${m.practicingPercent}%）</strong></div>
+  <div class="home-progress-breakdown-row"><span>未着手</span><strong>${m.unstarted}件（${m.unstartedPercent}%）</strong></div>
+  <p class="subtle">対象：全${m.total}セリフ。割合は項目ごとに四捨五入しています。</p>
+  ${st.review?button(`要復習 ${st.review}件を開く`,'review','secondary','book'):''}
+ </div>`,{setup:d=>d.querySelector('[data-action=review]')?.addEventListener('click',()=>{closeSheet();openHomeReview();})});
 }
 function renderHome(main){
- const st=stats(data,progress,small.role),last=data.lines.find(l=>l.id===small.read.id),active=last?.scene||(small.scene==='all'?data.scenes[0].id:small.scene),sessions=Object.entries(small.sessions).filter(([,session])=>session.role===small.role);
- main.innerHTML=`<div class="page-scroll"><div class="page home-page"><header class="home-heading"><h1>${esc(data.title)}</h1><p>${last?`${esc(sceneName(active))} · セリフ ${last.ordinal}から`:''}</p></header><div class="home-role-row"><label for="home-role">担当する役</label>${roleHTML()}</div><section class="home-actions" aria-label="練習を始める">${button(last?'続きから読む':'台本を読む','read','primary')}${button('練習を始める','practice','secondary')}</section>${festivalBannerHTML()}<section class="home-install-callout"><div><strong>ホーム画面に追加</strong><p>アプリとして起動し、オフラインでも練習できます。</p></div>${button('アプリをインストール','install-home','primary','download')}</section><section class="home-offline-card"><div><strong>オフライン音声</strong><p id="home-offline-info" aria-live="polite">音声の保存状況を確認中…</p></div>${button('全1,164件を保存','offline-audio-home','secondary','download')}</section><details class="home-progress"><summary><span>暗記の進捗</span><span>${st.counts[2]} / ${st.total}</span></summary><div class="progress-track" aria-label="暗記済み ${st.percent}%"><span style="background:var(--green);width:${st.percent}%"></span><span style="background:#a4b5dd;width:${st.total?st.counts[1]/st.total*100:0}%"></span></div><div class="progress-legend"><span>練習中 ${st.counts[1]}</span><span>暗記済み ${st.counts[2]}</span>${st.review?`<button class="text-button" data-action="review">復習する ${st.review}件</button>`:''}</div></details><section class="home-scenes"><div class="section-heading"><h2>幕・場面</h2></div><div class="scene-list">${data.scenes.map((scene,i)=>`<button class="scene-link" data-scene="${esc(scene.id)}"><span class="scene-link-text"><strong>${esc(scene.title)}</strong></span>${icon('chevron')}</button>`).join('')}</div></section>${sessions.length?`<section class="home-resume"><h2>練習の続き</h2>${sessions.map(([mode,session])=>`<button class="scene-link" data-action="practice"><span class="scene-link-text"><strong>${mode==='cloze'?'穴埋め練習':'音声練習'}</strong><small>${esc(sceneName(session.range?.scene||'all'))} · ${session.index+1}番目</small></span>${icon('chevron')}</button>`).join('')}</section>`:''}</div></div>`;
+ const st=stats(data,progress,small.role),ring=homeProgressRings(st);
+ const festival=festivalCountdown(),remaining=festivalRemainingRing(festival);
+ const last=data.lines.find(l=>l.id===small.read.id);
+ const active=last?.scene||(small.scene==='all'?data.scenes[0].id:small.scene);
+ const sessions=Object.entries(small.sessions).filter(([,session])=>session.role===small.role);
+ const label=`暗記済み${ring.completedPercent}%、練習中${ring.practicingPercent}%、未着手${ring.unstartedPercent}%`;
+ main.innerHTML=`<div class="page-scroll"><div class="page home-page">
+  <section class="home-progress-dashboard" data-progress-label="${esc(label)}" data-festival-phase="${festival.phase}" aria-label="学習の進捗">
+   <header class="home-progress-heading"><h1>学習の進捗</h1><button type="button" class="home-progress-more" data-action="progress-details">詳細 ${icon('chevron')}</button></header>
+   <div class="home-progress-main">
+    <svg class="home-double-ring" width="146" height="146" viewBox="0 0 140 140" role="img" aria-label="${esc(label+'。'+remaining.description)}">
+     <circle cx="70" cy="70" r="55" class="home-ring-base home-ring-outer"/>
+     <circle cx="70" cy="70" r="55" class="home-ring-completed home-ring-outer" stroke-dasharray="${ring.doneDash}" transform="rotate(-90 70 70)"/>
+     <circle cx="70" cy="70" r="55" class="home-ring-practicing home-ring-outer" stroke-dasharray="${ring.doingDash}" stroke-dashoffset="${ring.doingOffset}" transform="rotate(-90 70 70)"/>
+     <circle cx="70" cy="70" r="36" class="home-ring-base-inner home-ring-inner"/>
+     <circle cx="70" cy="70" r="36" class="home-festival-ring home-ring-inner" stroke-dasharray="${remaining.dash}" transform="rotate(-90 70 70)"/>
+     <text x="70" y="72" text-anchor="middle" class="home-festival-days">${remaining.value}</text>
+     <text x="70" y="88" text-anchor="middle" class="home-festival-unit">${remaining.unit}</text>
+    </svg>
+    <div class="home-progress-values">
+     <div class="home-progress-key home-progress-key-main"><span>暗記済み</span><strong class="home-progress-main-value">${ring.completedPercent}%</strong></div>
+     <div class="home-progress-key"><span class="home-progress-dot home-progress-dot-practicing"></span><span>練習中</span><strong>${ring.practicingPercent}%</strong></div>
+     <div class="home-progress-key"><span class="home-progress-dot home-progress-dot-unstarted"></span><span>未着手</span><strong>${ring.unstartedPercent}%</strong></div>
+     <div class="home-festival-label"><span class="home-progress-dot home-progress-dot-festival"></span><span>聖光祭まで</span><small>${FESTIVAL.dateLabel}</small></div>
+    </div>
+   </div>
+  </section>
+  <div class="home-role-row"><label for="home-role">担当する役</label>${roleHTML()}</div>
+  <section class="home-actions" aria-label="学習を始める">${button(last?'続きから読む':'台本を読む','read','primary','book')}${button('練習を始める','practice','secondary','play')}</section>
+  ${sessions.length?`<section class="home-resume"><h2>練習の続き</h2>${sessions.map(([mode,session])=>`<button class="scene-link" data-action="practice"><span class="scene-link-text"><strong>${mode==='cloze'?'穴埋め練習':'音声練習'}</strong><small>${esc(sceneName(session.range?.scene||'all'))} · ${session.index+1}番目</small></span>${icon('chevron')}</button>`).join('')}</section>`:''}
+  <section class="home-scenes"><div class="section-heading"><h2>幕・場面</h2></div><div class="scene-list">${data.scenes.map(scene=>`<button class="scene-link" data-scene="${esc(scene.id)}"><span class="scene-link-text"><strong>${esc(scene.title)}</strong></span>${icon('chevron')}</button>`).join('')}</div></section>
+ </div></div>`;
  main.querySelector('[data-action=read]').onclick=()=>{if(!last)small.scene=active;save();location.hash='script';};
  main.querySelectorAll('[data-action=practice]').forEach(b=>b.onclick=()=>{location.hash='rehearse';});
  main.querySelector('#home-role').onchange=e=>changeRole(e.target.value);
- main.querySelector('.home-install-callout').hidden=isInstalledPwa();
- main.querySelector('[data-action=install-home]').onclick=installApp;
- main.querySelector('[data-action=offline-audio-home]').onclick=startOfflineAudioDownload;
- refreshHomeOfflineStatus();
+ main.querySelector('[data-action=progress-details]').onclick=()=>showHomeProgressDetails(st);
  main.querySelectorAll('[data-scene]').forEach(b=>b.onclick=()=>{small.scene=b.dataset.scene;small.read={};save();location.hash='script';});
- main.querySelector('[data-action=review]')?.addEventListener('click',()=>{small.scene='all';small.speaker=small.role;small.reviewOnly=true;small.bookmarkOnly=false;save();location.hash='script';});
 }
 function renderSettings(main){
  main.innerHTML=`<div class="page-scroll"><div class="page settings-page">
