@@ -150,6 +150,11 @@ try{
  assert.equal(await page.locator('#sheet').evaluate(el=>el.open),true,'Row background opens analysis');
  assert.equal(await page.locator('#sheet .sheet-heading [data-action="analysis-audio"]').count(),1,'Script detail has upper-right speech audio');
  assert.equal(await page.locator('#sheet .sheet-heading [data-action="analysis-audio"]').getAttribute('aria-label'),'セリフの音声を再生');
+ const detailAudio=page.locator('#sheet .sheet-heading [data-action="analysis-audio"]');
+ await detailAudio.click();
+ await page.locator('#sheet .sheet-heading [data-action="analysis-audio"][data-audio-state="playing"]').waitFor({timeout:12000});
+ await detailAudio.click();
+ assert.equal(await detailAudio.getAttribute('data-audio-state'),'idle','detail audio stops on second click');
  const headings=await page.locator('#sheet .sheet-body h3').allTextContents();
  const translation=headings.indexOf('日本語訳'),explanation=headings.indexOf('そのセリフの解説'),grammar=headings.indexOf('文法・構文');
  assert.ok(translation>=0&&explanation>translation&&grammar>explanation,'Translation and audited explanation precede grammar');
@@ -193,6 +198,10 @@ try{
  await page.locator('.session-controls [data-action="advance"]').click();
  assert.equal(await answerAudio.isVisible(),true,'reveal exposes line-specific playback in cloze rehearsal');
  assert.equal(await answerAudio.getAttribute('aria-label'),'セリフの音声を再生');
+ await answerAudio.click();
+ await page.locator('[data-action="answer-audio"][data-audio-state="playing"]').waitFor({timeout:12000});
+ await answerAudio.click();
+ assert.equal(await answerAudio.getAttribute('data-audio-state'),'idle','rehearsal audio stops on second click');
  await page.locator('.session-controls [data-action="advance"]').click();
  assert.equal(await answerAudio.isVisible(),false,'rehearsal completion hides speech playback');
  await page.locator('[data-action="choose"]').click();
