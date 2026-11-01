@@ -506,3 +506,14 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 .line-audio-button[data-audio-state=loading]{opacity:.6}
 .line-audio-button[data-audio-state=playing]{background:#e3eaff;color:#2343a6}
 @media(max-width:480px){.session-heading-actions .line-audio-button{width:36px;height:36px}.session-heading-actions{gap:5px}}
+
+/* Offline installation and optional complete audio package */
+.home-install-callout,.home-offline-card{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);margin-bottom:14px}
+.home-install-callout strong,.home-offline-card strong{font-size:14px;font-weight:650}
+.home-install-callout p,.home-offline-card p{font-size:12px;line-height:1.65;color:var(--muted);margin-top:4px}
+.home-install-callout .primary,.home-offline-card .secondary{flex-shrink:0}
+.home-install-callout[hidden]{display:none}
+.offline-download-progress{display:grid;gap:12px;margin:22px 0}
+.offline-download-progress progress{display:block;width:100%;height:9px;accent-color:var(--accent)}
+.offline-download-progress p{font-size:13px;color:var(--muted);line-height:1.7}
+@media(max-width:600px){.home-install-callout,.home-offline-card{align-items:stretch;flex-direction:column;gap:12px}.home-install-callout button,.home-offline-card button{width:100%}}
