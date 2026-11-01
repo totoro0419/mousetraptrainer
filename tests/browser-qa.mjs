@@ -4,7 +4,7 @@ import {mkdir} from 'node:fs/promises';
 import {chromium,devices} from 'playwright';
 
 const port=8796,base='http://127.0.0.1:'+port;
-const server=spawn('python3',['-m','http.server',String(port),'--bind','127.0.0.1','--directory','dist'],{stdio:'pipe'});
+const server=spawn('python3',['-m','http.server',String(port),'--bind','127.0.0.1','--directory','dist'],{stdio:'ignore'});
 let browser;
 const sleep=t=>new Promise(r=>setTimeout(r,t));
 try{
@@ -241,8 +241,6 @@ try{
 
  // Full real 1,164-file browser cache test, including offline fetch of a previously saved clip.
  await page.locator('.bottom-nav a[href="#home"]').click();
- const quotaSession=await page.context().newCDPSession(page);
- await quotaSession.send('Storage.overrideQuotaForOrigin',{origin:base,quotaSize:160*1024*1024});
  console.log('OFFLINE-AUDIO QA quota:',JSON.stringify(await page.evaluate(()=>navigator.storage.estimate())));
  await page.locator('[data-action="offline-audio-home"]').click();
  await page.locator('#audio-download-bar').waitFor();
