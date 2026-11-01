@@ -77,7 +77,7 @@ export function updateSpeech(node,p={}){
 export function mountReader(main,ctx){const {data,small,save,progress}=ctx;let destroyStick=()=>{},observer,scrollFrame,saveTimer,disposed=false;const visible=new Set();let lines=[],lastJump=null;
  const root=el(`<div class="reader-top"><div class="reader-heading"><h1>台本</h1><span class="reader-count"></span></div><div class="reader-tools"><button class="reader-role" data-action="role" aria-haspopup="listbox" aria-expanded="false" aria-label="担当する役を変更。現在: ${esc(small.role)}">${esc(small.role)} ${icon('down')}</button><button class="icon-button" data-action="search" aria-label="検索と絞り込み" aria-expanded="false">${icon('search')}</button><button class="icon-button" data-action="scene" aria-label="場面を選ぶ">${icon('book')}</button></div></div>`);main.append(root);
  root.querySelector('[data-action=role]').onclick=ctx.openRolePicker;
- const filters=el(`<div class="reader-filter hide"><label class="search-field">セリフを検索<input type="search" placeholder="英文・日本語訳・役名" value="${esc(small.query||'')}" aria-label="セリフを検索"></label><label>役<select id="speaker-filter"><option value="all">すべての役</option>${ctx.roles().map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('')}</select></label><label>表示<select id="review-filter"><option value="all">すべて</option><option value="review">要復習のみ</option><option value="bookmarked">栞を付けたセリフ</option></select></label><button class="text-button" data-action="clear-filters">条件をクリア</button></div>`);main.append(filters);
+ const filters=el(`<div class="reader-filter hide" aria-hidden="true" inert><label class="search-field">セリフを検索<input type="search" placeholder="英文・日本語訳・役名" value="${esc(small.query||'')}" aria-label="セリフを検索"></label><label>役<select id="speaker-filter"><option value="all">すべての役</option>${ctx.roles().map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('')}</select></label><label>表示<select id="review-filter"><option value="all">すべて</option><option value="review">要復習のみ</option><option value="bookmarked">栞を付けたセリフ</option></select></label><button class="text-button" data-action="clear-filters">条件をクリア</button></div>`);main.append(filters);
  const scroller=el('<div class="page-scroll reader-scroll" tabindex="0" aria-label="台本本文"></div>'),body=el('<div class="script-body"></div>');scroller.append(body);main.append(scroller);body.style.setProperty('--font',small.font+'px');body.style.setProperty('--reader-leading',small.leading);
  filters.querySelector('#speaker-filter').value=small.speaker||'all';filters.querySelector('#review-filter').value=small.bookmarkOnly?'bookmarked':small.reviewOnly?'review':'all';
  const nodeById=new Map();
@@ -93,12 +93,42 @@ export function mountReader(main,ctx){const {data,small,save,progress}=ctx;let d
  }
  const change=()=>{small.query=filters.querySelector('input').value;small.speaker=filters.querySelector('#speaker-filter').value;small.reviewOnly=filters.querySelector('#review-filter').value==='review';small.bookmarkOnly=filters.querySelector('#review-filter').value==='bookmarked';save();draw();};let queryTimer;
  filters.querySelector('input').oninput=()=>{clearTimeout(queryTimer);queryTimer=setTimeout(change,160);};filters.querySelectorAll('select').forEach(s=>s.onchange=change);filters.querySelector('[data-action=clear-filters]').onclick=()=>{filters.querySelector('input').value='';filters.querySelector('#speaker-filter').value='all';filters.querySelector('#review-filter').value='all';syncSelects(filters);change();};
- root.querySelector('[data-action=search]').onclick=e=>{filters.classList.toggle('hide');e.currentTarget.setAttribute('aria-expanded',!filters.classList.contains('hide'));if(!filters.classList.contains('hide'))filters.querySelector('input').focus();};
+ let filterAnimation=null;
+ root.querySelector('[data-action=search]').onclick=e=>{
+  const expanded=filters.classList.contains('hide')||filters.dataset.closing==='true';
+  const previousHeight=filters.getBoundingClientRect().height;
+  if(filterAnimation){const previous=filterAnimation;filterAnimation=null;previous.cancel();}
+  delete filters.dataset.closing;
+  if(expanded)filters.classList.remove('hide');
+  filters.inert=!expanded;
+  filters.setAttribute('aria-hidden',String(!expanded));
+  e.currentTarget.setAttribute('aria-expanded',String(expanded));
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches||typeof filters.animate!=='function'){
+   if(!expanded)filters.classList.add('hide');
+  }else{
+   const fullHeight=filters.getBoundingClientRect().height;
+   const animation=filters.animate([
+    {height:`${previousHeight}px`,opacity:expanded?0:1,overflow:'hidden'},
+    {height:`${expanded?fullHeight:0}px`,opacity:expanded?1:0,overflow:'hidden'}
+   ],{duration:210,easing:'cubic-bezier(.22,1,.36,1)'});
+   filterAnimation=animation;
+   if(!expanded)filters.dataset.closing='true';
+   animation.finished.then(()=>{
+    if(filterAnimation!==animation)return;
+    if(!expanded)filters.classList.add('hide');
+    delete filters.dataset.closing;
+   },()=>{}).finally(()=>{
+    if(filterAnimation===animation)filterAnimation=null;
+    animation.cancel();
+   });
+  }
+  if(expanded)filters.querySelector('input').focus({preventScroll:true});
+ };
  root.querySelector('[data-action=scene]').onclick=()=>openSheet('場面を選ぶ',`<div class="reader-shortcuts"><button class="secondary" data-jump="-1">前の自分のセリフ</button><button class="secondary" data-jump="1">次の自分のセリフ</button></div><button class="scene-link" data-scene="all"><strong>すべての場面を表示</strong></button>${data.scenes.map(s=>`<button class="scene-link" data-scene="${esc(s.id)}"><span class="scene-link-text"><strong>${esc(s.title)}</strong><small>${s.lines.length}件のセリフ</small></span>${icon('chevron')}</button>`).join('')}`,{setup:sheet=>{sheet.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>{closeSheet();jumpMine(+b.dataset.jump);});sheet.querySelectorAll('[data-scene]').forEach(b=>b.onclick=()=>{remember();small.scene=b.dataset.scene;small.read={};save();closeSheet();draw();});}});
 
  scroller.addEventListener('scroll',()=>{if(scrollFrame)return;scrollFrame=requestAnimationFrame(()=>{scrollFrame=0;clearTimeout(saveTimer);saveTimer=setTimeout(remember,180);});},{passive:true});
  const onProgress=e=>{const n=nodeById.get(e.detail);if(!n)return;if((small.bookmarkOnly&&!progress[e.detail]?.bookmarked)||(small.reviewOnly&&!progress[e.detail]?.review)){const top=scroller.scrollTop;void draw().then(()=>{if(!disposed)scroller.scrollTop=top;});return;}updateSpeech(n,progress[e.detail]);};window.addEventListener('progresschange',onProgress);
  scroller.addEventListener('pointerdown',()=>{lastJump=null;},{passive:true});scroller.addEventListener('wheel',()=>{lastJump=null;},{passive:true});scroller.addEventListener('keydown',()=>{lastJump=null;});draw(true);if(small.stick)import('./stick.js').then(({mountStick})=>{if(!disposed)destroyStick=mountStick(main.closest('.main-shell'),scroller,jumpMine,()=>{lastJump=null;});});
  const onHide=()=>{if(document.hidden)remember();};document.addEventListener('visibilitychange',onHide);window.addEventListener('pagehide',remember);
- return ()=>{remember();disposed=true;destroyStick();observer?.disconnect();clearTimeout(saveTimer);clearTimeout(queryTimer);cancelAnimationFrame(scrollFrame);window.removeEventListener('progresschange',onProgress);document.removeEventListener('visibilitychange',onHide);window.removeEventListener('pagehide',remember);};
+ return ()=>{remember();disposed=true;if(filterAnimation)filterAnimation.cancel();destroyStick();observer?.disconnect();clearTimeout(saveTimer);clearTimeout(queryTimer);cancelAnimationFrame(scrollFrame);window.removeEventListener('progresschange',onProgress);document.removeEventListener('visibilitychange',onHide);window.removeEventListener('pagehide',remember);};
 }
