@@ -15,20 +15,35 @@ export function sheetSwipeDecision(dy,dx,elapsed){
  if(dy< -65)return 'expand';
  return 'snap';
 }
+let dismissAnimation=null;
 export const isSheetOpen=()=>document.querySelector('#sheet').open;
-export function closeSheet(){
- const d=document.querySelector('#sheet');if(d?.open)d.close();
+export function closeSheet({immediate=false}={}){
+ const d=document.querySelector('#sheet');
+ if(!d?.open)return;
+ if(immediate){
+  if(dismissAnimation){const animation=dismissAnimation;dismissAnimation=null;animation.cancel();}
+  d.close();
+  return;
+ }
+ animateSheetDismiss(d);
 }
 function animateSheetDismiss(d,offset=0){
  if(!d.open||d.dataset.dismissing==='true')return;
  d.dataset.dismissing='true';
  d.style.transform='';d.style.pointerEvents='none';
- if(matchMedia('(prefers-reduced-motion: reduce)').matches||typeof d.animate!=='function'){closeSheet();return;}
+ if(matchMedia('(prefers-reduced-motion: reduce)').matches||typeof d.animate!=='function'){d.close();return;}
  const animation=d.animate([{transform:`translateY(${Math.max(0,offset)}px)`,opacity:1},{transform:'translateY(100%)',opacity:.96}],{duration:190,easing:'cubic-bezier(.22,1,.36,1)',fill:'forwards'});
- animation.finished.then(()=>{if(d.open)closeSheet();},()=>{if(d.open)closeSheet();}).finally(()=>{animation.cancel();});
+ dismissAnimation=animation;
+ animation.finished.then(()=>{
+  if(dismissAnimation!==animation)return;
+  dismissAnimation=null;
+  if(d.open)d.close();
+ },()=>{}).finally(()=>animation.cancel());
 }
 export function openSheet(title,content,{wide=false,onclose,setup}={}){
  const d=document.querySelector('#sheet'),wasOpen=d.open;
+ // A new sheet may replace one that is still closing.
+ if(dismissAnimation){const animation=dismissAnimation;dismissAnimation=null;animation.cancel();}
  currentCleanup?.();currentCleanup=null;
  if(!wasOpen)invoker=document.activeElement;
  onClose=onclose;
@@ -44,8 +59,9 @@ export function openSheet(title,content,{wide=false,onclose,setup}={}){
   b.setAttribute('aria-label',expanded?'小さく表示':'大きく表示');b.innerHTML=icon(expanded?'down':'up');
  };
  let ignoreHandleClick=false;
- d.querySelector('.close-sheet').onclick=closeSheet;
+ d.querySelector('.close-sheet').onclick=()=>closeSheet();
  d.querySelector('.expand-sheet').onclick=toggleExpanded;
+ d.oncancel=e=>{e.preventDefault();closeSheet();};
  handle.onclick=()=>{if(!ignoreHandleClick)toggleExpanded();};
  d.onclose=()=>{
   currentCleanup?.();currentCleanup=null;
@@ -109,6 +125,9 @@ export function openSheet(title,content,{wide=false,onclose,setup}={}){
  },{passive:true});
  body.addEventListener('touchcancel',()=>{touch=null;translate(0)},{passive:true});
  if(!wasOpen)d.showModal();
+ else if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&typeof body.animate==='function'){
+  body.animate([{opacity:.55,transform:'translateY(5px)'},{opacity:1,transform:'translateY(0)'}],{duration:160,easing:'cubic-bezier(.22,1,.36,1)'});
+ }
  d.querySelector('.close-sheet').focus({preventScroll:true});
  currentCleanup=setup?.(d);
  enhanceSelects(d);
