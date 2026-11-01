@@ -1,5 +1,5 @@
 import * as storage from './storage.js';
-import {openSheet,esc,button,toast,closeSheet} from './ui.js';
+import {openSheet,esc,button,toast,closeSheet,icon} from './ui.js';
 const supported=/\.(mp3|m4a|ogg|wav|webm|aac|flac)$/i;
 export function audioEntries(files,manifest,validIds){
  const byName=new Map(files.map(f=>[f.name,f]));if(byName.size!==files.length)throw Error('同名の音声ファイルを複数選択できません。');const clips=manifest?.clips||{};const output=[],used=new Set();
@@ -46,16 +46,58 @@ export async function openAudioImport(ctx){
  }catch(err){result.innerHTML=`<p class="notice error" role="alert">${esc(err.message)}</p>`;}};
 }
 export class AudioPlayer{
- constructor(factory=()=>new Audio()){this.factory=factory;this.audio=null;this.url=null;this.token=0;}
- stop(){this.token++;if(this.audio){this.audio.pause();this.audio.removeAttribute('src');this.audio.load?.();this.audio=null;}if(this.url){URL.revokeObjectURL(this.url);this.url=null;}}
+ constructor(factory=()=>new Audio()){this.factory=factory;this.audio=null;this.url=null;this.token=0;this.fadeFrame=null;}
+ stop(){this.token++;if(this.fadeFrame!==null&&typeof cancelAnimationFrame==='function')cancelAnimationFrame(this.fadeFrame);this.fadeFrame=null;if(this.audio){this.audio.pause();this.audio.removeAttribute('src');this.audio.load?.();this.audio=null;}if(this.url){URL.revokeObjectURL(this.url);this.url=null;}}
  pause(){this.audio?.pause();}
- async resume(){if(!this.audio)throw Error('再生する音声がありません。');await this.audio.play();}
+ async resume(){if(!this.audio)throw Error('再生する音声がありません。');this.audio.volume=1;await this.audio.play();}
  async play(clip,{rate=1,onended=()=>{},onerror=()=>{}}={}){
   this.stop();const token=this.token;const a=this.factory();this.audio=a;this.url=clip.blob?URL.createObjectURL(clip.blob):null;if(!this.url&&!clip.url)throw Error('音声の参照先がありません。');a.preload='auto';a.playbackRate=rate;a.src=this.url||clip.url;
+  // Start silently and ramp the output up smoothly after the browser starts playback.
+  // This suppresses short output-device/decoder clicks without cutting spoken words.
+  a.volume=0;
   let done=false;const finish=()=>{if(token!==this.token||done)return;done=true;a.pause();onended();};
   a.onended=finish;a.onerror=()=>{if(token===this.token&&!done){done=true;onerror(Error('音声を再生できません。形式・ファイルの破損を確認してください。'));}};
   a.onloadedmetadata=()=>{if(token!==this.token)return;if(clip.start>=a.duration||(clip.end!==null&&clip.end>a.duration+.2)){a.pause();done=true;onerror(Error('音声の再生区間がファイルの長さを超えています。'));return;}a.currentTime=clip.start||0;};
   a.ontimeupdate=()=>{if(clip.end!==null&&a.currentTime>=clip.end)finish();};
-  try{await a.play();}catch(err){if(token===this.token){a.pause();throw err;}}
+  try{
+   await a.play();
+   if(token!==this.token||done)return;
+   if(typeof requestAnimationFrame!=='function'){a.volume=1;return;}
+   const started=performance.now(),duration=140;
+   const fade=now=>{if(token!==this.token||done)return;a.volume=Math.min(1,Math.max(0,(now-started)/duration));this.fadeFrame=a.volume<1?requestAnimationFrame(fade):null;};
+   this.fadeFrame=requestAnimationFrame(fade);
+  }catch(err){if(token===this.token){a.pause();throw err;}}
  }
+}
+
+/** Attach one user-triggered utterance player to an icon button. Disposing cancels in-flight fetches and playback. */
+export function bindLinePlayback(button,{dataset,id,rate=1}={}){
+ const player=new AudioPlayer();let generation=0,active=false,loading=false,disposed=false;
+ const state=kind=>{
+  if(disposed||!button.isConnected)return;
+  const text=kind==='loading'?'音声を読み込み中（押すと中止）':kind==='playing'?'音声の再生を停止':'セリフの音声を再生';
+  button.setAttribute('aria-label',text);button.setAttribute('title',text);
+  button.setAttribute('aria-pressed',String(kind==='playing'));
+  button.dataset.audioState=kind;
+  button.innerHTML=icon(kind==='playing'?'pause':'audio');
+ };
+ const stop=()=>{generation++;player.stop();active=false;loading=false;state('idle');};
+ button.onclick=async event=>{
+  event.stopPropagation();
+  if(disposed)return;
+  if(active||loading){stop();return;}
+  const token=++generation;loading=true;state('loading');
+  try{
+   const clip=await getClip(dataset,id);
+   if(disposed||token!==generation)return;
+   if(!clip){loading=false;state('idle');toast('このセリフの音声はありません。');return;}
+   loading=false;active=true;state('playing');
+   await player.play(clip,{rate:typeof rate==='function'?rate():rate,
+    onended:()=>{if(token===generation){active=false;state('idle');}},
+    onerror:err=>{if(token===generation){active=false;state('idle');toast(err.message);}}
+   });
+  }catch(err){if(token!==generation||disposed)return;loading=false;active=false;state('idle');toast(err?.name==='NotAllowedError'?'再生できませんでした。もう一度音声ボタンを押してください。':`音声を再生できません: ${err.message}`);}
+ };
+ state('idle');
+ return ()=>{stop();disposed=true;button.onclick=null;};
 }
