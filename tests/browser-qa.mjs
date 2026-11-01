@@ -236,6 +236,8 @@ try{
  await desktop.locator('.nav-items a[href="#home"]').click();
  await desktop.screenshot({path:'test-results/home-desktop.png'});
  console.log('PASS: desktop layout booted');
+ await desktop.close();
+ await page.bringToFront();
 
  // Full real 1,164-file browser cache test, including offline fetch of a previously saved clip.
  await page.locator('.bottom-nav a[href="#home"]').click();
@@ -248,10 +250,20 @@ try{
   controller:!!navigator.serviceWorker.controller
  }));
  console.log('OFFLINE-AUDIO QA initial:',JSON.stringify(initialAudioState));
- await page.waitForFunction(()=>{
-  const msg=document.querySelector('#audio-download-message')?.textContent||'';
-  return msg.includes('全1,164件の音声を保存しました')||msg.includes('後から続きだけ保存できます')||msg.includes('保存容量が足りません')||msg.includes('音声の一覧が不正')||msg.includes('音声の件数が');
- },null,{timeout:85000});
+ let finished=false;
+ for(let i=0;i<45;i++){
+  const snapshot=await page.evaluate(async()=>({
+   message:document.querySelector('#audio-download-message')?.textContent||'',
+   stored:(await (await caches.open('mousetrap-audio-runtime-v1')).keys()).filter(r=>r.url.endsWith('.mp3')).length,
+   visible:document.visibilityState,
+   controlled:!!navigator.serviceWorker.controller
+  }));
+  if(i%5===0)console.log('OFFLINE-AUDIO QA step '+i+':',JSON.stringify(snapshot));
+  if(snapshot.message.includes('全1,164件の音声を保存しました')){finished=true;break;}
+  if(snapshot.message.includes('後から続きだけ保存できます')||snapshot.message.includes('保存容量が足りません')||snapshot.message.includes('音声の一覧が不正')||snapshot.message.includes('音声の件数が'))throw Error('Offline download failed: '+JSON.stringify(snapshot));
+  await page.waitForTimeout(2000);
+ }
+ assert.ok(finished,'offline audio package did not finish during browser QA');
  const endMessage=await page.locator('#audio-download-message').textContent();
  assert.ok(endMessage.includes('全1,164件の音声を保存しました'),'offline download did not finish: '+endMessage);
  const storedAudio=await page.evaluate(async()=>{
