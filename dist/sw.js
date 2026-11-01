@@ -1,6 +1,6 @@
 // Each release refreshes cached assets online, while retaining a complete offline shell.
-const CACHE='mousetrap-shell-20261101-line-audio-v2';
-const ASSETS=['./','./index.html','./styles.css','./app.js','./data/mousetrap.json','./data/mousetrap-dramaturgy.ja.json','./icon-v2-192.png','./icon-v2-512.png','./icon-v2-maskable-512.png','./manifest.webmanifest','./modules/data.js','./modules/bundled.js','./modules/dramaturgy.js','./modules/storage.js','./modules/ui.js','./modules/reader.js','./modules/role-menu.js','./modules/stick.js','./modules/session.js','./modules/audio.js','./modules/rehearsal.js'];
+const CACHE='mousetrap-shell-20261101-offline-pack-v3';
+const ASSETS=['./','./index.html','./styles.css','./app.js','./data/mousetrap.json','./data/mousetrap-dramaturgy.ja.json','./icon-v2-192.png','./icon-v2-512.png','./icon-v2-maskable-512.png','./manifest.webmanifest','./modules/data.js','./modules/bundled.js','./modules/dramaturgy.js','./modules/storage.js','./modules/ui.js','./modules/reader.js','./modules/role-menu.js','./modules/stick.js','./modules/session.js','./modules/audio.js','./modules/rehearsal.js','./modules/offline-audio.js'];
 const assetURL=path=>new URL(path,self.registration.scope).href;
 const stored=async path=>caches.match(assetURL(path));
 async function freshOrCached(request,path,event){
