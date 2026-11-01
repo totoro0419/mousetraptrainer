@@ -100,7 +100,6 @@ function festivalBannerHTML(){
  const state=festivalCountdown();
  return `<section class="home-festival" aria-label="聖光祭カウントダウン" data-phase="${state.phase}" data-festival-value="${state.value}">
    <div class="home-festival-details">
-    <span class="home-festival-eyebrow"><span class="home-festival-beacon" aria-hidden="true"></span>COUNTDOWN</span>
     <h2>聖光祭</h2>
     <time class="home-festival-date" datetime="${FESTIVAL.date}">${FESTIVAL.dateLabel}<span>${FESTIVAL.weekday}</span></time>
    </div>
