@@ -20,6 +20,8 @@ jobs:
         run: |
           npm install --no-save --package-lock=false playwright
           npx playwright install --with-deps chromium
+      - name: Materialize all verified hosted MP3 files for browser QA
+        run: python3 scripts/install-audio.py
       - name: Exercise custom controls and sheet swipes
         run: |
           node tests/browser-qa.mjs
