@@ -177,7 +177,7 @@ try{
 
  // A manual utterance play action is available only after the chosen role's answer is revealed.
  await page.locator('.bottom-nav a[href="#rehearse"]').click();
- await page.locator('#rehearsal-role').waitFor();
+ await page.locator('#rehearsal-role').waitFor({state:'attached'});
  const firstOwn=await page.evaluate(async()=>{
   const {normalizeBundle}=await import('./modules/data.js');
   const d=normalizeBundle(await (await fetch('./data/mousetrap.json')).json());
