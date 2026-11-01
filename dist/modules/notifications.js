@@ -34,7 +34,8 @@ export function recordInstalledWelcome(){
 }
 export function markNotificationRead(id){
  if(!/^[\w-]{3,72}$/.test(String(id)))return;
- const ids=new Set(readStored(READ_KEY,[]));
+ const stored=readStored(READ_KEY,[]);
+ const ids=new Set(Array.isArray(stored)?stored:[]);
  ids.add(id);
  writeStored(READ_KEY,[...ids].slice(-500));
 }
