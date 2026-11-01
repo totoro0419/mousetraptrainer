@@ -36,7 +36,8 @@ test('design v2: PWA assets and theme use consistent light background',()=>{
  assert.match(html,/name="theme-color" content="#f7f9fd"/);
  const m=JSON.parse(manifest);
  assert.equal(m.theme_color,'#f7f9fd');assert.equal(m.background_color,'#f7f9fd');
- assert.ok(sw.includes('mousetrap-shell-20261031-dramaturgy-v7'));
+ assert.ok(sw.includes('mousetrap-shell-20261101-github-hosted-audio-v1'));
+ assert.ok(sw.includes("assetURL('./audio/')"),'runtime audio should be cached on demand');
  for(const icon of m.icons)assert.ok(sw.includes(icon.src),`offline shell must include ${icon.src}`);
  assert.ok(app.includes('id="home-role"'));
  assert.ok(app.includes('data-action="choose-role"'));
