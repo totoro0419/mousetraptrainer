@@ -1,20 +1,26 @@
 // Anchored single-choice menu for the visible role selector.
 // No bottom sheet: the downward chevron means options open by the trigger.
 let active=null,sequence=0;
-export function closeRoleMenu({restoreFocus=false}={}){
+export function closeRoleMenu({restoreFocus=false,immediate=false}={}){
  if(!active)return;
  const {trigger,menu,cleanup}=active;
  active=null;
  cleanup();
- menu.remove();
  trigger.setAttribute('aria-expanded','false');
  trigger.removeAttribute('aria-controls');
  if(restoreFocus&&trigger.isConnected)trigger.focus({preventScroll:true});
+ if(immediate||matchMedia('(prefers-reduced-motion: reduce)').matches||typeof menu.animate!=='function'){
+  menu.remove();
+  return;
+ }
+ menu.style.pointerEvents='none';
+ const animation=menu.animate([{opacity:1,transform:'translateY(0) scale(1)'},{opacity:0,transform:'translateY(-4px) scale(.98)'}],{duration:130,easing:'ease-in',fill:'forwards'});
+ animation.finished.then(()=>menu.remove(),()=>menu.remove()).finally(()=>animation.cancel());
 }
 export function openRoleMenu(trigger,roles,current,onSelect){
  if(!trigger?.isConnected||!Array.isArray(roles)||!roles.length)return;
  if(active?.trigger===trigger){closeRoleMenu({restoreFocus:true});return;}
- closeRoleMenu();
+ closeRoleMenu({immediate:true});
  const menu=document.createElement('div');
  menu.id='role-menu-'+(++sequence);
  menu.className='role-menu';
@@ -38,7 +44,7 @@ export function openRoleMenu(trigger,roles,current,onSelect){
    option.append(check);
   }
   option.onclick=()=>{
-   closeRoleMenu();
+   closeRoleMenu({immediate:role!==current});
    if(role!==current)onSelect(role);
    else if(trigger.isConnected)trigger.focus({preventScroll:true});
   };
@@ -58,6 +64,7 @@ export function openRoleMenu(trigger,roles,current,onSelect){
   const desiredHeight=Math.min(menu.scrollHeight,340,height-padding*2);
   const below=height-r.bottom-padding-6,above=r.top-padding-6;
   const openAbove=below<Math.min(170,desiredHeight)&&above>below;
+  menu.dataset.placement=openAbove?'above':'below';
   const available=Math.max(100,openAbove?above:below);
   const menuHeight=Math.min(desiredHeight,available);
   menu.style.width=menuWidth+'px';
