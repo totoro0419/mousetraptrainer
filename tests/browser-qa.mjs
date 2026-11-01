@@ -25,6 +25,18 @@ try{
  assert.ok(original,'The original source of truth retains a role');
  assert.equal(await page.locator('#home-role').isVisible(),false,'Native picker is hidden');
  await page.screenshot({path:'test-results/home-mobile.png'});
+
+ assert.equal(await page.locator('[data-action="install-home"]').isVisible(),true,'home has prominent install button before standalone launch');
+ assert.equal(await page.locator('[data-action="offline-audio-home"]').isVisible(),true,'home has resumable offline audio download');
+ await page.evaluate(()=>{
+  localStorage.removeItem('mt-pwa-audio-offer-v1');
+  window.dispatchEvent(new Event('appinstalled'));
+ });
+ await page.locator('[data-action="audio-later"]').waitFor({timeout:15000});
+ await page.locator('[data-action="audio-later"]').click();
+ assert.equal(await page.evaluate(()=>localStorage.getItem('mt-pwa-audio-offer-v1')),'later','installation offers a deferred choice');
+ assert.equal(await page.locator('[data-action="offline-audio-home"]').isVisible(),true,'deferred audio remains available on home');
+
  const own=page.locator('.home-role-row .app-select-trigger');
  await own.click();
  assert.equal(await page.locator('#sheet').evaluate(el=>el.open),false,'Role dropdown must not open a bottom sheet');
@@ -224,6 +236,31 @@ try{
  await desktop.locator('.nav-items a[href="#home"]').click();
  await desktop.screenshot({path:'test-results/home-desktop.png'});
  console.log('PASS: desktop layout booted');
+
+ // Full real 1,164-file browser cache test, including offline fetch of a previously saved clip.
+ await page.locator('.bottom-nav a[href="#home"]').click();
+ await page.locator('[data-action="offline-audio-home"]').click();
+ await page.locator('#audio-download-bar').waitFor();
+ await page.waitForFunction(()=>document.querySelector('#audio-download-message')?.textContent?.includes('全1,164件の音声を保存しました'),null,{timeout:200000});
+ const storedAudio=await page.evaluate(async()=>{
+  const entries=await (await caches.open('mousetrap-audio-runtime-v1')).keys();
+  return entries.filter(r=>r.url.endsWith('.mp3')).length;
+ });
+ assert.equal(storedAudio,1164,'all speech MP3 files are present in browser storage');
+ await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller),null,{timeout:20000});
+ await page.context().setOffline(true);
+ try{
+  const offline=await page.evaluate(async()=>{
+   const response=await fetch('./audio/lines/act2/act2-speech-0638.mp3');
+   return {ok:response.ok,size:(await response.blob()).size};
+  });
+  assert.equal(offline.ok,true,'audio is retrieved without network');
+  assert.ok(offline.size>100,'offline MP3 has full content');
+ }finally{
+  await page.context().setOffline(false);
+ }
+ console.log('PASS: opt-in install prompt, deferred choice, all 1,164 hosted MP3s cached and playable offline');
+
 }finally{
  if(browser)await browser.close();
  server.kill();
