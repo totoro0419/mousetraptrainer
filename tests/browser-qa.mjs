@@ -241,7 +241,19 @@ try{
  await page.locator('.bottom-nav a[href="#home"]').click();
  await page.locator('[data-action="offline-audio-home"]').click();
  await page.locator('#audio-download-bar').waitFor();
- await page.waitForFunction(()=>document.querySelector('#audio-download-message')?.textContent?.includes('全1,164件の音声を保存しました'),null,{timeout:200000});
+ await page.waitForTimeout(8000);
+ const initialAudioState=await page.evaluate(async()=>({
+  message:document.querySelector('#audio-download-message')?.textContent,
+  stored:(await (await caches.open('mousetrap-audio-runtime-v1')).keys()).filter(r=>r.url.endsWith('.mp3')).length,
+  controller:!!navigator.serviceWorker.controller
+ }));
+ console.log('OFFLINE-AUDIO QA initial:',JSON.stringify(initialAudioState));
+ await page.waitForFunction(()=>{
+  const msg=document.querySelector('#audio-download-message')?.textContent||'';
+  return msg.includes('全1,164件の音声を保存しました')||msg.includes('後から続きだけ保存できます')||msg.includes('保存容量が足りません')||msg.includes('音声の一覧が不正')||msg.includes('音声の件数が');
+ },null,{timeout:85000});
+ const endMessage=await page.locator('#audio-download-message').textContent();
+ assert.ok(endMessage.includes('全1,164件の音声を保存しました'),'offline download did not finish: '+endMessage);
  const storedAudio=await page.evaluate(async()=>{
   const entries=await (await caches.open('mousetrap-audio-runtime-v1')).keys();
   return entries.filter(r=>r.url.endsWith('.mp3')).length;
