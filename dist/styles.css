@@ -615,3 +615,28 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
  .home-festival-value{font-size:34px}
  .home-festival-clock{gap:4px}
 }
+
+/* Stage 1 motion consistency: overlays and route feedback without large-layer transforms. */
+.role-menu{transform-origin:top right;animation:role-menu-enter .17s var(--ui-ease) both}
+.role-menu[data-placement="above"]{transform-origin:bottom right}
+@keyframes role-menu-enter{
+ from{opacity:0;transform:translateY(-5px) scale(.985)}
+ to{opacity:1;transform:translateY(0) scale(1)}
+}
+.app-layout[data-route=script] .reader-scroll,
+.app-layout[data-route=rehearse] .rehearsal{
+ animation:route-content-fade .16s ease-out both;
+}
+.app-layout[data-route=rehearse] .audio-stage{
+ animation:route-content-enter .19s var(--ui-ease) both;
+}
+@keyframes route-content-fade{from{opacity:.76}to{opacity:1}}
+@keyframes route-content-enter{
+ from{opacity:.75;transform:translateY(5px)}
+ to{opacity:1;transform:translateY(0)}
+}
+@media(prefers-reduced-motion:reduce){
+ .role-menu,.app-layout[data-route=script] .reader-scroll,
+ .app-layout[data-route=rehearse] .rehearsal,
+ .app-layout[data-route=rehearse] .audio-stage{animation:none!important}
+}
