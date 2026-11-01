@@ -17,3 +17,5 @@ jobs:
           node-version: '22'
       - run: npm test
       - run: npm run build
+      - name: Validate and unpack GitHub-hosted speech audio
+        run: python3 scripts/install-audio.py
