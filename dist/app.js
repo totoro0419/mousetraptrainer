@@ -107,6 +107,7 @@ function refreshFestivalCountdown(){
  const state=festivalCountdown(),ring=festivalRemainingRing(state);
  dashboard.querySelector('.home-festival-ring').setAttribute('stroke-dasharray',ring.dash);
  dashboard.querySelector('.home-festival-days').textContent=ring.value;
+ dashboard.querySelector('.home-festival-days').setAttribute('y',ring.prefix?'82':'76');
  dashboard.querySelector('.home-festival-prefix').textContent=ring.prefix;
  dashboard.querySelector('.home-double-ring').setAttribute('aria-label',dashboard.dataset.progressLabel+'。'+ring.description);
  dashboard.dataset.festivalPhase=state.phase;
@@ -143,7 +144,7 @@ function renderHome(main){
      <circle cx="70" cy="70" r="36" class="home-ring-base-inner home-ring-inner"/>
      <circle cx="70" cy="70" r="36" class="home-festival-ring home-ring-inner" stroke-dasharray="${remaining.dash}" transform="rotate(-90 70 70)"/>
      <text x="70" y="63" text-anchor="middle" class="home-festival-prefix">${remaining.prefix}</text>
-     <text x="70" y="82" text-anchor="middle" class="home-festival-days">${remaining.value}</text>
+     <text x="70" y="${remaining.prefix?'82':'76'}" text-anchor="middle" class="home-festival-days">${remaining.value}</text>
     </svg>
     <div class="home-progress-values">
      <div class="home-progress-key home-progress-key-main"><span>暗記済み</span><strong class="home-progress-main-value">${ring.completedPercent}%</strong></div>
