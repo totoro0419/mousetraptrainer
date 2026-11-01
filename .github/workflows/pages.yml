@@ -29,6 +29,8 @@ jobs:
         run: |
           npm test
           npm run build
+      - name: Prepare separately uploaded GitHub audio packs
+        run: python3 scripts/install-audio.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
