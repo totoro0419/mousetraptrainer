@@ -241,6 +241,9 @@ try{
 
  // Full real 1,164-file browser cache test, including offline fetch of a previously saved clip.
  await page.locator('.bottom-nav a[href="#home"]').click();
+ const quotaSession=await page.context().newCDPSession(page);
+ await quotaSession.send('Storage.overrideQuotaForOrigin',{origin:base,quotaSize:160*1024*1024});
+ console.log('OFFLINE-AUDIO QA quota:',JSON.stringify(await page.evaluate(()=>navigator.storage.estimate())));
  await page.locator('[data-action="offline-audio-home"]').click();
  await page.locator('#audio-download-bar').waitFor();
  await page.waitForTimeout(8000);
