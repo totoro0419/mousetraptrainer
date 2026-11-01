@@ -5,6 +5,7 @@ import {loadStartupScript} from './modules/bundled.js';
 import {loadDramaturgy} from './modules/dramaturgy.js';
 async function fetchData(url){const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error(`HTTP ${response.status}`);return response.json();}
 import {openRoleMenu,closeRoleMenu} from './modules/role-menu.js';
+import {isInstalledPwa,offlineAudioStatus,downloadEntireAudio,isAudioDownloadRunning} from './modules/offline-audio.js';
 let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,updateRequested=false,lastContentRoute='home';
 const defaults={role:'',scene:'all',font:20,leading:1.9,stick:true,read:{},sessions:{},range:{scene:'all',from:1,to:0},rate:1,bookmarkOnly:false};
 const app=document.querySelector('#app');
@@ -43,10 +44,14 @@ function openRolePicker(event){
 function roleHTML(){return `<select id="home-role" class="role-select" data-role-menu="true" aria-label="自分の役">${roles().map(r=>`<option ${r===small.role?'selected':''}>${esc(r)}</option>`).join('')}</select>`;}
 function renderHome(main){
  const st=stats(data,progress,small.role),last=data.lines.find(l=>l.id===small.read.id),active=last?.scene||(small.scene==='all'?data.scenes[0].id:small.scene),sessions=Object.entries(small.sessions).filter(([,session])=>session.role===small.role);
- main.innerHTML=`<div class="page-scroll"><div class="page home-page"><header class="home-heading"><h1>${esc(data.title)}</h1><p>${last?`${esc(sceneName(active))} · セリフ ${last.ordinal}から`:''}</p></header><div class="home-role-row"><label for="home-role">担当する役</label>${roleHTML()}</div><section class="home-actions" aria-label="練習を始める">${button(last?'続きから読む':'台本を読む','read','primary')}${button('練習を始める','practice','secondary')}</section><details class="home-progress"><summary><span>暗記の進捗</span><span>${st.counts[2]} / ${st.total}</span></summary><div class="progress-track" aria-label="暗記済み ${st.percent}%"><span style="background:var(--green);width:${st.percent}%"></span><span style="background:#a4b5dd;width:${st.total?st.counts[1]/st.total*100:0}%"></span></div><div class="progress-legend"><span>練習中 ${st.counts[1]}</span><span>暗記済み ${st.counts[2]}</span>${st.review?`<button class="text-button" data-action="review">復習する ${st.review}件</button>`:''}</div></details><section class="home-scenes"><div class="section-heading"><h2>幕・場面</h2></div><div class="scene-list">${data.scenes.map((scene,i)=>`<button class="scene-link" data-scene="${esc(scene.id)}"><span class="scene-link-text"><strong>${esc(scene.title)}</strong></span>${icon('chevron')}</button>`).join('')}</div></section>${sessions.length?`<section class="home-resume"><h2>練習の続き</h2>${sessions.map(([mode,session])=>`<button class="scene-link" data-action="practice"><span class="scene-link-text"><strong>${mode==='cloze'?'穴埋め練習':'音声練習'}</strong><small>${esc(sceneName(session.range?.scene||'all'))} · ${session.index+1}番目</small></span>${icon('chevron')}</button>`).join('')}</section>`:''}</div></div>`;
+ main.innerHTML=`<div class="page-scroll"><div class="page home-page"><header class="home-heading"><h1>${esc(data.title)}</h1><p>${last?`${esc(sceneName(active))} · セリフ ${last.ordinal}から`:''}</p></header><div class="home-role-row"><label for="home-role">担当する役</label>${roleHTML()}</div><section class="home-actions" aria-label="練習を始める">${button(last?'続きから読む':'台本を読む','read','primary')}${button('練習を始める','practice','secondary')}</section><section class="home-install-callout"><div><strong>ホーム画面に追加</strong><p>アプリとして起動し、オフラインでも練習できます。</p></div>${button('アプリをインストール','install-home','primary','download')}</section><section class="home-offline-card"><div><strong>オフライン音声</strong><p id="home-offline-info" aria-live="polite">音声の保存状況を確認中…</p></div>${button('全1,164件を保存','offline-audio-home','secondary','download')}</section><details class="home-progress"><summary><span>暗記の進捗</span><span>${st.counts[2]} / ${st.total}</span></summary><div class="progress-track" aria-label="暗記済み ${st.percent}%"><span style="background:var(--green);width:${st.percent}%"></span><span style="background:#a4b5dd;width:${st.total?st.counts[1]/st.total*100:0}%"></span></div><div class="progress-legend"><span>練習中 ${st.counts[1]}</span><span>暗記済み ${st.counts[2]}</span>${st.review?`<button class="text-button" data-action="review">復習する ${st.review}件</button>`:''}</div></details><section class="home-scenes"><div class="section-heading"><h2>幕・場面</h2></div><div class="scene-list">${data.scenes.map((scene,i)=>`<button class="scene-link" data-scene="${esc(scene.id)}"><span class="scene-link-text"><strong>${esc(scene.title)}</strong></span>${icon('chevron')}</button>`).join('')}</div></section>${sessions.length?`<section class="home-resume"><h2>練習の続き</h2>${sessions.map(([mode,session])=>`<button class="scene-link" data-action="practice"><span class="scene-link-text"><strong>${mode==='cloze'?'穴埋め練習':'音声練習'}</strong><small>${esc(sceneName(session.range?.scene||'all'))} · ${session.index+1}番目</small></span>${icon('chevron')}</button>`).join('')}</section>`:''}</div></div>`;
  main.querySelector('[data-action=read]').onclick=()=>{if(!last)small.scene=active;save();location.hash='script';};
  main.querySelectorAll('[data-action=practice]').forEach(b=>b.onclick=()=>{location.hash='rehearse';});
  main.querySelector('#home-role').onchange=e=>changeRole(e.target.value);
+ main.querySelector('.home-install-callout').hidden=isInstalledPwa();
+ main.querySelector('[data-action=install-home]').onclick=installApp;
+ main.querySelector('[data-action=offline-audio-home]').onclick=startOfflineAudioDownload;
+ refreshHomeOfflineStatus();
  main.querySelectorAll('[data-scene]').forEach(b=>b.onclick=()=>{small.scene=b.dataset.scene;small.read={};save();location.hash='script';});
  main.querySelector('[data-action=review]')?.addEventListener('click',()=>{small.scene='all';small.speaker=small.role;small.reviewOnly=true;small.bookmarkOnly=false;save();location.hash='script';});
 }
@@ -113,13 +118,97 @@ document.querySelector('#data-files').onchange=async e=>{
 function validateSaved(saved){const script={};for(const scene of saved.scenes||[])script[scene.id]={speeches:saved.lines.filter(l=>l.scene===scene.id)};return normalizeBundle({...saved,script});}
 async function exportBackup(){const output={format:'mousetrap-backup-v1',exportedAt:new Date().toISOString(),data,settings:small,progress};downloadJSON(output,'mousetrap-backup.json');toast('バックアップを保存しました');}
 function downloadJSON(v,name){const url=URL.createObjectURL(new Blob([JSON.stringify(v,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);}
+
+const INSTALL_AUDIO_CHOICE_KEY='mt-pwa-audio-offer-v1';
+function offeredAudioChoice(){try{return localStorage.getItem(INSTALL_AUDIO_CHOICE_KEY);}catch{return null;}}
+function rememberAudioChoice(value){try{localStorage.setItem(INSTALL_AUDIO_CHOICE_KEY,value);}catch{/* private browser */}}
+function updateHomeAudioText(text){
+ const target=document.querySelector('#home-offline-info');
+ if(target)target.textContent=text;
+}
+async function refreshHomeOfflineStatus(){
+ try{
+  const status=await offlineAudioStatus();
+  updateHomeAudioText(status.complete?'全1,164件を保存済み。オフラインで音声練習できます。':'保存済み '+status.downloaded+' / '+status.total+' 件。途中から再開できます。');
+  const btn=document.querySelector('[data-action=offline-audio-home] span');
+  if(btn)btn.textContent=status.complete?'保存状況を確認':'全1,164件を保存';
+ }catch{
+  updateHomeAudioText('通信状況を確認して音声を保存できます。');
+ }
+}
+async function startOfflineAudioDownload(){
+ try{void navigator.storage?.persist?.().catch(()=>{});}catch{/* storage persist is optional */}
+ const html='<p>全1,164件の音声（約33MB）を端末に保存します。保存済みのファイルは再取得しません。</p>'+
+  '<p class="subtle">通信が安定した環境で、完了までアプリを開いたままにしてください。中断した場合も、再度実行すると続きから保存できます。</p>'+
+  '<div class="offline-download-progress"><progress id="audio-download-bar" max="1164" value="0"></progress>'+
+  '<p id="audio-download-message" role="status" aria-live="polite">準備中…</p></div>'+
+  '<div class="button-row"><button type="button" class="secondary" data-action="offline-close">閉じる</button>'+
+  '<button type="button" class="primary" data-action="offline-retry" hidden>再開する</button></div>';
+ const sheet=openSheet('音声をオフラインに保存',html,{setup:d=>{
+  d.querySelector('[data-action=offline-close]').onclick=closeSheet;
+  d.querySelector('[data-action=offline-retry]').onclick=startOfflineAudioDownload;
+ }});
+ const display=state=>{
+  if(state.downloaded!==undefined){
+   updateHomeAudioText('保存済み '+state.downloaded+' / '+state.total+' 件');
+   if(sheet.open&&sheet.querySelector('#audio-download-bar')){
+    sheet.querySelector('#audio-download-bar').value=state.downloaded;
+    sheet.querySelector('#audio-download-message').textContent=state.downloaded+' / '+state.total+' 件を保存済み';
+   }
+  }
+  if(state.error&&sheet.open){
+   sheet.querySelector('#audio-download-message').textContent=state.error;
+   sheet.querySelector('[data-action=offline-retry]').hidden=false;
+  }
+ };
+ try {
+  const result=await downloadEntireAudio({onProgress:display});
+  rememberAudioChoice('saved');
+  refreshHomeOfflineStatus();
+  const message='全1,164件の音声を保存しました。オフラインでも音声を使えます。練習頑張りましょう！';
+  if(sheet.open&&sheet.querySelector('#audio-download-message')){
+   sheet.querySelector('#audio-download-message').textContent=message;
+   sheet.querySelector('#audio-download-bar').value=result.total;
+  } else toast(message);
+ }catch(err){
+  refreshHomeOfflineStatus();
+  if(sheet.open&&sheet.querySelector('#audio-download-message')){
+   sheet.querySelector('#audio-download-message').textContent=err.message;
+   sheet.querySelector('[data-action=offline-retry]').hidden=false;
+  }else toast('音声保存を中断しました。ホームから再開できます。');
+ }
+}
+async function offerOfflineAudioOnInstall(force=false){
+ if(!force&&!isInstalledPwa())return;
+ if(offeredAudioChoice()||isAudioDownloadRunning())return;
+ if(document.querySelector('#sheet')?.open)return;
+ let info='全1,164件（約33MB）をダウンロードして、音声もオフラインで使えるようにしますか？';
+ try{
+  const status=await offlineAudioStatus();
+  if(status.complete){rememberAudioChoice('saved');toast('全音声がオフラインで利用できます。');return;}
+  if(status.downloaded)info+='（すでに'+status.downloaded+'件保存済み）';
+ }catch{info+='インターネット接続が必要です。';}
+ if(offeredAudioChoice()||isAudioDownloadRunning()||document.querySelector('#sheet')?.open)return;
+ openSheet('音声もオフラインで使いますか？','<p>'+info+'</p>'+
+  '<p class="subtle">今すぐ保存する場合、完了までアプリを開いておいてください。後でホームから保存することもできます。</p>'+
+  '<div class="button-row" style="margin-top:16px"><button type="button" class="primary" data-action="audio-now">今すぐ保存</button>'+
+  '<button type="button" class="secondary" data-action="audio-later">後で保存</button></div>',{setup:d=>{
+   d.querySelector('[data-action=audio-now]').onclick=()=>{
+    rememberAudioChoice('now');closeSheet();startOfflineAudioDownload();
+   };
+   d.querySelector('[data-action=audio-later]').onclick=()=>{
+    rememberAudioChoice('later');closeSheet();toast('後からホーム画面の「オフライン音声」で保存できます。');
+   };
+  }});
+}
+
 let installPrompt,registration;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;});window.addEventListener('appinstalled',()=>{installPrompt=null;toast('インストールしました');});
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;});window.addEventListener('appinstalled',()=>{installPrompt=null;toast('インストールしました');void offerOfflineAudioOnInstall(true);});
 async function installApp(){if(installPrompt){await installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;}else openSheet('ホーム画面に追加',`<p>Android / Chrome：ブラウザーのメニューから「アプリをインストール」または「ホーム画面に追加」を選びます。</p><div class="sheet-section"><p>iPhone / iPad：Safariの共有メニューから「ホーム画面に追加」を選びます。</p></div><div class="sheet-section"><p class="subtle">すでにインストール済みの場合は、そのまま使えます。ブラウザーによってインストール操作は異なります。</p></div>`);}
 async function checkUpdate(){if(!registration){toast('更新機能を準備中です。ページを再読み込みしてください。');return;}try{await registration.update();if(registration.waiting)openSheet('更新を適用',`<p>閲覧位置と学習記録を保存して更新します。</p>${button('保存して更新','apply-update','primary')}`,{setup:d=>d.querySelector('button[data-action]').onclick=()=>{save();updateRequested=true;registration.waiting.postMessage('activate');}});else toast('最新の状態です。');}catch{toast('更新を確認できません。通信状態を確認してください。');}}
 window.addEventListener('hashchange',render);window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden)save();});
 window.addEventListener('storage',e=>{if(e.key===`mt-progress:${data?.id}`){progress=storage.loadSmall(e.key,{});render();}});
 window.addEventListener('offline',()=>toast('オフラインです。端末に保存した台本を使えます。'));
 try{const startup=await loadStartupScript(storage,fetchData),enriched=await loadDramaturgy(storage,fetchData,startup.data);data=enriched.data;loadState();await render();if(startup.warning||enriched.warning)toast(startup.warning||enriched.warning);
- if('serviceWorker'in navigator && location.hostname!=='terminal.local'){const hadController=!!navigator.serviceWorker.controller;registration=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});registration.addEventListener('updatefound',()=>{const worker=registration.installing;worker?.addEventListener('statechange',()=>{if(worker.state==='installed'&&navigator.serviceWorker.controller)toast('アプリの更新があります。設定から適用できます。');});});let refreshing=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!refreshing&&(hadController||updateRequested)){refreshing=true;save();location.reload();}});}
+ if('serviceWorker'in navigator && location.hostname!=='terminal.local'){const hadController=!!navigator.serviceWorker.controller;registration=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});registration.addEventListener('updatefound',()=>{const worker=registration.installing;worker?.addEventListener('statechange',()=>{if(worker.state==='installed'&&navigator.serviceWorker.controller)toast('アプリの更新があります。設定から適用できます。');});});let refreshing=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!refreshing&&(hadController||updateRequested)){refreshing=true;save();location.reload();}});if(isInstalledPwa())void offerOfflineAudioOnInstall();}
 }catch(err){app.innerHTML=`<div class="page"><h1>アプリを開けませんでした</h1><p class="notice error" style="margin:24px 0">${esc(err.message)}</p><p>ブラウザーのストレージが利用できるか確認してください。プライベートブラウズでは保存が制限されることがあります。</p><button class="primary" onclick="location.reload()">再試行</button></div>`;}
