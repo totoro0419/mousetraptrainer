@@ -8,7 +8,7 @@ const app=await source('app.js'),css=await source('styles.css'),ui=await source(
 test('settings keeps only actionable viewing and audio controls',()=>{
  const view=app.slice(app.indexOf('function renderSettings('),app.indexOf('function openDataManagement('));
  for(const id of ['font-size','line-height','show-stick','playback-rate'])assert.ok(view.includes('id="'+id+'"'),id);
- assert.ok(view.includes('data-action="audio-import"'));
+ assert.doesNotMatch(view,/data-action="audio-import"/,'GitHub-hosted audio needs no user import control');
  assert.ok(view.includes('data-action="manage-data"'));
  assert.equal((view.match(/class="setting-group"/g)||[]).length,2);
  assert.doesNotMatch(view,/offline-note|install-note|class="version"|data-summary|data-action="update"/);
