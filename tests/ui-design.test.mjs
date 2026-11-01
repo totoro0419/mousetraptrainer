@@ -36,7 +36,9 @@ test('design v2: PWA assets and theme use consistent light background',()=>{
  assert.match(html,/name="theme-color" content="#f7f9fd"/);
  const m=JSON.parse(manifest);
  assert.equal(m.theme_color,'#f7f9fd');assert.equal(m.background_color,'#f7f9fd');
- assert.ok(sw.includes('mousetrap-shell-20261101-inbox-v5'));
+ assert.match(sw,/const CACHE='mousetrap-shell-[^']+'/);
+ assert.ok(sw.includes('./home-refresh.css'),'PWA must precache the refreshed home stylesheet');
+ assert.ok(sw.includes('./modules/home-progress.js'),'PWA must precache the ring helper module');
  assert.ok(sw.includes("assetURL('./audio/')"),'runtime audio should be cached on demand');
  for(const icon of m.icons)assert.ok(sw.includes(icon.src),`offline shell must include ${icon.src}`);
  assert.ok(sw.includes('modules/notifications.js'));
