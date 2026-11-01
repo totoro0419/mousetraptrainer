@@ -3,6 +3,7 @@ import * as storage from './modules/storage.js';
 import {icon,esc,button,el,toast,openSheet,closeSheet,enhanceSelects} from './modules/ui.js';
 import {loadStartupScript} from './modules/bundled.js';
 import {loadDramaturgy} from './modules/dramaturgy.js';
+import {FESTIVAL,festivalCountdown} from './modules/festival-countdown.js';
 async function fetchData(url){const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error(`HTTP ${response.status}`);return response.json();}
 import {openRoleMenu,closeRoleMenu} from './modules/role-menu.js';
 import {fetchAnnouncements,notificationFeed,unreadNotifications,markNotificationRead,markAllNotificationsRead,recordInstalledWelcome} from './modules/notifications.js';
@@ -95,9 +96,35 @@ function openRolePicker(event){
  openRoleMenu(trigger,roles(),small.role,changeRole);
 }
 function roleHTML(){return `<select id="home-role" class="role-select" data-role-menu="true" aria-label="自分の役">${roles().map(r=>`<option ${r===small.role?'selected':''}>${esc(r)}</option>`).join('')}</select>`;}
+function festivalBannerHTML(){
+ const state=festivalCountdown();
+ return `<section class="home-festival" aria-label="聖光祭カウントダウン" data-phase="${state.phase}" data-festival-value="${state.value}">
+   <div class="home-festival-details">
+    <span class="home-festival-eyebrow"><span class="home-festival-beacon" aria-hidden="true"></span>COUNTDOWN</span>
+    <h2>聖光祭</h2>
+    <time class="home-festival-date" datetime="${FESTIVAL.date}">${FESTIVAL.dateLabel}<span>${FESTIVAL.weekday}</span></time>
+   </div>
+   <div class="home-festival-clock" aria-live="polite" aria-atomic="true">
+    <span class="home-festival-prefix">${state.prefix}</span>
+    <strong class="home-festival-value">${state.value}</strong>
+    <span class="home-festival-suffix">${state.suffix}</span>
+   </div>
+  </section>`;
+}
+function refreshFestivalCountdown(){
+ const banner=app.querySelector('.home-festival');
+ if(!banner)return;
+ const state=festivalCountdown();
+ if(banner.dataset.phase===state.phase&&banner.dataset.festivalValue===state.value)return;
+ banner.dataset.phase=state.phase;
+ banner.dataset.festivalValue=state.value;
+ banner.querySelector('.home-festival-prefix').textContent=state.prefix;
+ banner.querySelector('.home-festival-value').textContent=state.value;
+ banner.querySelector('.home-festival-suffix').textContent=state.suffix;
+}
 function renderHome(main){
  const st=stats(data,progress,small.role),last=data.lines.find(l=>l.id===small.read.id),active=last?.scene||(small.scene==='all'?data.scenes[0].id:small.scene),sessions=Object.entries(small.sessions).filter(([,session])=>session.role===small.role);
- main.innerHTML=`<div class="page-scroll"><div class="page home-page"><header class="home-heading"><h1>${esc(data.title)}</h1><p>${last?`${esc(sceneName(active))} · セリフ ${last.ordinal}から`:''}</p></header><div class="home-role-row"><label for="home-role">担当する役</label>${roleHTML()}</div><section class="home-actions" aria-label="練習を始める">${button(last?'続きから読む':'台本を読む','read','primary')}${button('練習を始める','practice','secondary')}</section><section class="home-install-callout"><div><strong>ホーム画面に追加</strong><p>アプリとして起動し、オフラインでも練習できます。</p></div>${button('アプリをインストール','install-home','primary','download')}</section><section class="home-offline-card"><div><strong>オフライン音声</strong><p id="home-offline-info" aria-live="polite">音声の保存状況を確認中…</p></div>${button('全1,164件を保存','offline-audio-home','secondary','download')}</section><details class="home-progress"><summary><span>暗記の進捗</span><span>${st.counts[2]} / ${st.total}</span></summary><div class="progress-track" aria-label="暗記済み ${st.percent}%"><span style="background:var(--green);width:${st.percent}%"></span><span style="background:#a4b5dd;width:${st.total?st.counts[1]/st.total*100:0}%"></span></div><div class="progress-legend"><span>練習中 ${st.counts[1]}</span><span>暗記済み ${st.counts[2]}</span>${st.review?`<button class="text-button" data-action="review">復習する ${st.review}件</button>`:''}</div></details><section class="home-scenes"><div class="section-heading"><h2>幕・場面</h2></div><div class="scene-list">${data.scenes.map((scene,i)=>`<button class="scene-link" data-scene="${esc(scene.id)}"><span class="scene-link-text"><strong>${esc(scene.title)}</strong></span>${icon('chevron')}</button>`).join('')}</div></section>${sessions.length?`<section class="home-resume"><h2>練習の続き</h2>${sessions.map(([mode,session])=>`<button class="scene-link" data-action="practice"><span class="scene-link-text"><strong>${mode==='cloze'?'穴埋め練習':'音声練習'}</strong><small>${esc(sceneName(session.range?.scene||'all'))} · ${session.index+1}番目</small></span>${icon('chevron')}</button>`).join('')}</section>`:''}</div></div>`;
+ main.innerHTML=`<div class="page-scroll"><div class="page home-page"><header class="home-heading"><h1>${esc(data.title)}</h1><p>${last?`${esc(sceneName(active))} · セリフ ${last.ordinal}から`:''}</p></header><div class="home-role-row"><label for="home-role">担当する役</label>${roleHTML()}</div><section class="home-actions" aria-label="練習を始める">${button(last?'続きから読む':'台本を読む','read','primary')}${button('練習を始める','practice','secondary')}</section>${festivalBannerHTML()}<section class="home-install-callout"><div><strong>ホーム画面に追加</strong><p>アプリとして起動し、オフラインでも練習できます。</p></div>${button('アプリをインストール','install-home','primary','download')}</section><section class="home-offline-card"><div><strong>オフライン音声</strong><p id="home-offline-info" aria-live="polite">音声の保存状況を確認中…</p></div>${button('全1,164件を保存','offline-audio-home','secondary','download')}</section><details class="home-progress"><summary><span>暗記の進捗</span><span>${st.counts[2]} / ${st.total}</span></summary><div class="progress-track" aria-label="暗記済み ${st.percent}%"><span style="background:var(--green);width:${st.percent}%"></span><span style="background:#a4b5dd;width:${st.total?st.counts[1]/st.total*100:0}%"></span></div><div class="progress-legend"><span>練習中 ${st.counts[1]}</span><span>暗記済み ${st.counts[2]}</span>${st.review?`<button class="text-button" data-action="review">復習する ${st.review}件</button>`:''}</div></details><section class="home-scenes"><div class="section-heading"><h2>幕・場面</h2></div><div class="scene-list">${data.scenes.map((scene,i)=>`<button class="scene-link" data-scene="${esc(scene.id)}"><span class="scene-link-text"><strong>${esc(scene.title)}</strong></span>${icon('chevron')}</button>`).join('')}</div></section>${sessions.length?`<section class="home-resume"><h2>練習の続き</h2>${sessions.map(([mode,session])=>`<button class="scene-link" data-action="practice"><span class="scene-link-text"><strong>${mode==='cloze'?'穴埋め練習':'音声練習'}</strong><small>${esc(sceneName(session.range?.scene||'all'))} · ${session.index+1}番目</small></span>${icon('chevron')}</button>`).join('')}</section>`:''}</div></div>`;
  main.querySelector('[data-action=read]').onclick=()=>{if(!last)small.scene=active;save();location.hash='script';};
  main.querySelectorAll('[data-action=practice]').forEach(b=>b.onclick=()=>{location.hash='rehearse';});
  main.querySelector('#home-role').onchange=e=>changeRole(e.target.value);
@@ -259,9 +286,9 @@ let installPrompt,registration;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;});window.addEventListener('appinstalled',()=>{installPrompt=null;greetInstalledDevice();void offerOfflineAudioOnInstall(true);});
 async function installApp(){if(installPrompt){await installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;}else openSheet('ホーム画面に追加',`<p>Android / Chrome：ブラウザーのメニューから「アプリをインストール」または「ホーム画面に追加」を選びます。</p><div class="sheet-section"><p>iPhone / iPad：Safariの共有メニューから「ホーム画面に追加」を選びます。</p></div><div class="sheet-section"><p class="subtle">すでにインストール済みの場合は、そのまま使えます。ブラウザーによってインストール操作は異なります。</p></div>`);}
 async function checkUpdate(){if(!registration){toast('更新機能を準備中です。ページを再読み込みしてください。');return;}try{await registration.update();if(registration.waiting)openSheet('更新を適用',`<p>閲覧位置と学習記録を保存して更新します。</p>${button('保存して更新','apply-update','primary')}`,{setup:d=>d.querySelector('button[data-action]').onclick=()=>{save();updateRequested=true;registration.waiting.postMessage('activate');}});else toast('最新の状態です。');}catch{toast('更新を確認できません。通信状態を確認してください。');}}
-window.addEventListener('hashchange',render);window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden)save();else void refreshNotifications();});
+window.addEventListener('hashchange',render);window.addEventListener('pageshow',refreshFestivalCountdown);window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden)save();else{refreshFestivalCountdown();void refreshNotifications();}});
 window.addEventListener('storage',e=>{if(e.key===`mt-progress:${data?.id}`){progress=storage.loadSmall(e.key,{});render();}if(e.key==='mt-notifications-read-v1'||e.key==='mt-welcome-installed-v1')updateNotificationBadge();});
 window.addEventListener('offline',()=>toast('オフラインです。端末に保存した台本を使えます。'));
-try{const startup=await loadStartupScript(storage,fetchData),enriched=await loadDramaturgy(storage,fetchData,startup.data);data=enriched.data;loadState();await render();void refreshNotifications();if(startup.warning||enriched.warning)toast(startup.warning||enriched.warning);
+try{const startup=await loadStartupScript(storage,fetchData),enriched=await loadDramaturgy(storage,fetchData,startup.data);data=enriched.data;loadState();await render();window.setInterval(refreshFestivalCountdown,60_000);void refreshNotifications();if(startup.warning||enriched.warning)toast(startup.warning||enriched.warning);
  if('serviceWorker'in navigator && location.hostname!=='terminal.local'){const hadController=!!navigator.serviceWorker.controller;registration=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});registration.addEventListener('updatefound',()=>{const worker=registration.installing;worker?.addEventListener('statechange',()=>{if(worker.state==='installed'&&navigator.serviceWorker.controller)toast('アプリの更新があります。設定から適用できます。');});});let refreshing=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!refreshing&&(hadController||updateRequested)){refreshing=true;save();location.reload();}});if(isInstalledPwa()){greetInstalledDevice();void offerOfflineAudioOnInstall();}}
 }catch(err){app.innerHTML=`<div class="page"><h1>アプリを開けませんでした</h1><p class="notice error" style="margin:24px 0">${esc(err.message)}</p><p>ブラウザーのストレージが利用できるか確認してください。プライベートブラウズでは保存が制限されることがあります。</p><button class="primary" onclick="location.reload()">再試行</button></div>`;}
