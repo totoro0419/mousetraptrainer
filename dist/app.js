@@ -7,7 +7,7 @@ import {FESTIVAL,festivalCountdown} from './modules/festival-countdown.js';
 import {homeProgressRings,festivalRemainingRing} from './modules/home-progress.js';
 async function fetchData(url){const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error(`HTTP ${response.status}`);return response.json();}
 import {openRoleMenu,closeRoleMenu} from './modules/role-menu.js';
-import {fetchAnnouncements,notificationFeed,unreadNotifications,markNotificationRead,markAllNotificationsRead,recordInstalledWelcome} from './modules/notifications.js';
+import {fetchAnnouncements,notificationFeed,unreadNotifications,markAllNotificationsRead,recordInstalledWelcome} from './modules/notifications.js';
 import {isInstalledPwa,offlineAudioStatus,downloadEntireAudio,isAudioDownloadRunning,OFFLINE_AUDIO_CACHE,OFFLINE_AUDIO_TOTAL} from './modules/offline-audio.js';
 let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,updateRequested=false,lastContentRoute='home',announcements=[],pwaJustInstalled=false,headerActionEpoch=0;
 const defaults={role:'',scene:'all',font:20,leading:1.9,stick:true,read:{},sessions:{},range:{scene:'all',from:1,to:0},rate:1,bookmarkOnly:false};
@@ -19,15 +19,15 @@ function save(){try{storage.saveSmall(key(),small);storage.saveSmall(`mt-progres
 function setProgress(id,value){const old=progress[id]?{...progress[id]}:undefined;progress[id]=value;save();toast(value.bookmarked!==old?.bookmarked?(value.bookmarked?'栞を付けました':'栞を外しました'):value.review!==old?.review?(value.review?'復習リストに追加しました':'復習リストから外しました'):`暗記状況：${labels[value.level||0]}`,()=>{if(old)progress[id]=old;else delete progress[id];save();window.dispatchEvent(new CustomEvent('progresschange',{detail:id}));});window.dispatchEvent(new CustomEvent('progresschange',{detail:id}));}
 function navItem(route,text,ico){return `<a class="nav-item" href="#${route}" ${route===(location.hash.slice(1)||'home')?'aria-current="page"':''}>${icon(ico)}<span>${text}</span></a>`;}
 document.querySelector('.skip').onclick=e=>{e.preventDefault();const m=document.querySelector('#main .page-scroll')||document.querySelector('#main');m?.setAttribute('tabindex','-1');m?.focus({preventScroll:true});};
-function shell(){app.innerHTML=`<div class="app-layout" data-route="${esc(location.hash.slice(1)||'home')}"><aside class="sidebar"><a href="#home" class="brand"><img src="./icon-v2-192.png" alt=""><span>Mousetrap<br>Trainer</span></a><nav class="nav-items" aria-label="メイン">${navItem('home','ホーム','home')}${navItem('script','台本','book')}${navItem('rehearse','練習','play')}</nav></aside><div class="main-shell"><button type="button" class="home-app-action is-install" data-action="home-app-action" hidden></button><button type="button" class="icon-button global-notifications" data-action="open-notifications" aria-label="お知らせを開く" title="お知らせ">${icon('bell')}<span class="notification-badge" hidden></span></button><button type="button" class="icon-button global-settings" data-action="open-settings" aria-label="設定を開く" title="設定">${icon('settings')}</button><header class="topbar"><a class="brand mobile-brand" href="#home"><img src="./icon-v2-192.png" alt=""><span>Mousetrap Trainer</span></a><div class="toolbar-actions"><button type="button" class="role-trigger" data-action="choose-role" aria-haspopup="listbox" aria-expanded="false" aria-label="担当する役を変更。現在: ${esc(small.role)}"><span><small>担当する役</small><strong>${esc(small.role)}</strong></span>${icon('down')}</button></div></header><main id="main" class="main-content" style="display:contents"></main></div><nav class="bottom-nav" aria-label="メイン">${navItem('home','ホーム','home')}${navItem('script','台本','book')}${navItem('rehearse','練習','play')}</nav></div>`;}
-async function render(){const epoch=++renderEpoch;closeRoleMenu();cleanup();cleanup=()=>{};if(document.querySelector('#sheet').open)closeSheet();shell();const main=app.querySelector('#main'),route=location.hash.slice(1)||'home';
+function shell(){app.innerHTML=`<div class="app-layout" data-route="${esc(location.hash.slice(1)||'home')}" data-installed="${isInstalledPwa()?'true':'false'}"><aside class="sidebar"><a href="#home" class="brand"><img src="./icon-v2-192.png" alt=""><span>Mousetrap<br>Trainer</span></a><nav class="nav-items" aria-label="メイン">${navItem('home','ホーム','home')}${navItem('script','台本','book')}${navItem('rehearse','練習','play')}</nav></aside><div class="main-shell"><button type="button" class="home-app-action is-install" data-action="home-app-action" hidden></button>${isInstalledPwa()?`<button type="button" class="icon-button global-notifications" data-action="open-notifications" aria-label="お知らせを開く" title="お知らせ">${icon('bell')}<span class="notification-badge" hidden></span></button>`:''}<button type="button" class="icon-button global-settings" data-action="open-settings" aria-label="設定を開く" title="設定">${icon('settings')}</button><header class="topbar"><a class="brand mobile-brand" href="#home"><img src="./icon-v2-192.png" alt=""><span>Mousetrap Trainer</span></a><div class="toolbar-actions"><button type="button" class="role-trigger" data-action="choose-role" aria-haspopup="listbox" aria-expanded="false" aria-label="担当する役を変更。現在: ${esc(small.role)}"><span><small>担当する役</small><strong>${esc(small.role)}</strong></span>${icon('down')}</button></div></header><main id="main" class="main-content" style="display:contents"></main></div><nav class="bottom-nav" aria-label="メイン">${navItem('home','ホーム','home')}${navItem('script','台本','book')}${navItem('rehearse','練習','play')}</nav></div>`;}
+async function render(){const epoch=++renderEpoch;closeRoleMenu();cleanup();cleanup=()=>{};if(document.querySelector('#sheet').open)closeSheet();if(location.hash==='#notifications'&&!isInstalledPwa()){location.replace(location.pathname+location.search+'#home');return;}shell();const main=app.querySelector('#main'),route=location.hash.slice(1)||'home';
  if(route!=='settings')lastContentRoute=route;
  const gear=app.querySelector('[data-action=open-settings]');
  gear.setAttribute('aria-label',route==='settings'?'設定を閉じる':'設定を開く');
  gear.title=route==='settings'?'閉じる':'設定';
  if(route==='settings')gear.innerHTML=icon('close');
  gear.onclick=()=>{location.hash=route==='settings'?lastContentRoute:'settings';};
- app.querySelector('[data-action=open-notifications]').onclick=openNotificationInbox;
+ app.querySelector('[data-action=open-notifications]')?.addEventListener('click',openNotificationInbox);
  app.querySelector('[data-action=home-app-action]').onclick=()=>isInstalledPwa()||pwaJustInstalled?startOfflineAudioDownload():installApp();
  updateNotificationBadge();
  if(route==='script'){const {mountReader}=await import('./modules/reader.js');if(epoch!==renderEpoch)return;cleanup=mountReader(main,context());}
@@ -51,31 +51,24 @@ function updateNotificationBadge(){
  trigger.title=count?'未読のお知らせ '+count+'件':'お知らせ';
 }
 function openNotificationInbox(){
+ if(!isInstalledPwa())return;
  const items=currentNotificationFeed();
+ // Opening the inbox marks everything currently visible as read immediately.
+ // The badge and stored read state update without requiring individual actions.
+ if(items.length)markAllNotificationsRead(items);
+ updateNotificationBadge();
  const content=items.length?'<div class="notification-list">'+items.map(item=>
-  '<article class="notification-entry'+(item.read?' is-read':'')+'">'+
-  '<div class="notification-entry-heading"><strong>'+esc(item.title)+'</strong>'+
-  (!item.read?'<span class="notification-unread-dot" aria-label="未読"></span>':'')+'</div>'+
+  '<article class="notification-entry is-read">'+
+  '<div class="notification-entry-heading"><strong>'+esc(item.title)+'</strong></div>'+
   (item.date?'<time class="notification-date">'+esc(item.date.slice(0,10))+'</time>':'')+
   '<p>'+esc(item.body)+'</p>'+
-  (!item.read?'<button class="text-button notification-mark-read" data-notification-read="'+esc(item.id)+'" type="button">既読にする</button>':'<span class="notification-read-label">既読</span>')+
   '</article>'
- ).join('')+'</div><div class="notification-footer"><button class="secondary" type="button" data-action="all-read">すべて既読にする</button></div>':
+ ).join('')+'</div>':
  '<p class="subtle">まだお知らせはありません。</p>';
- openSheet('お知らせ',content,{setup:sheet=>{
-  sheet.querySelectorAll('[data-notification-read]').forEach(button=>button.onclick=()=>{
-   markNotificationRead(button.dataset.notificationRead);
-   updateNotificationBadge();
-   openNotificationInbox();
-  });
-  sheet.querySelector('[data-action=all-read]')?.addEventListener('click',()=>{
-   markAllNotificationsRead(items);
-   updateNotificationBadge();
-   openNotificationInbox();
-  });
- }});
+ openSheet('お知らせ',content);
 }
 async function refreshNotifications(){
+ if(!isInstalledPwa()){announcements=[];return;}
  announcements=await fetchAnnouncements();
  updateNotificationBadge();
 }
@@ -105,7 +98,8 @@ function refreshFestivalCountdown(){
  const state=festivalCountdown(),ring=festivalRemainingRing(state);
  dashboard.querySelector('.home-festival-ring').setAttribute('stroke-dasharray',ring.dash);
  dashboard.querySelector('.home-festival-days').textContent=ring.value;
- dashboard.querySelector('.home-festival-unit').textContent=ring.unit;
+ dashboard.querySelector('.home-festival-days').setAttribute('y',ring.prefix?'82':'76');
+ dashboard.querySelector('.home-festival-prefix').textContent=ring.prefix;
  dashboard.querySelector('.home-double-ring').setAttribute('aria-label',dashboard.dataset.progressLabel+'。'+ring.description);
  dashboard.dataset.festivalPhase=state.phase;
 }
@@ -140,8 +134,8 @@ function renderHome(main){
      <circle cx="70" cy="70" r="55" class="home-ring-practicing home-ring-outer" stroke-dasharray="${ring.doingDash}" stroke-dashoffset="${ring.doingOffset}" transform="rotate(-90 70 70)"/>
      <circle cx="70" cy="70" r="36" class="home-ring-base-inner home-ring-inner"/>
      <circle cx="70" cy="70" r="36" class="home-festival-ring home-ring-inner" stroke-dasharray="${remaining.dash}" transform="rotate(-90 70 70)"/>
-     <text x="70" y="72" text-anchor="middle" class="home-festival-days">${remaining.value}</text>
-     <text x="70" y="88" text-anchor="middle" class="home-festival-unit">${remaining.unit}</text>
+     <text x="70" y="63" text-anchor="middle" class="home-festival-prefix">${remaining.prefix}</text>
+     <text x="70" y="${remaining.prefix?'82':'76'}" text-anchor="middle" class="home-festival-days">${remaining.value}</text>
     </svg>
     <div class="home-progress-values">
      <div class="home-progress-key home-progress-key-main"><span>暗記済み</span><strong class="home-progress-main-value">${ring.completedPercent}%</strong></div>
@@ -303,7 +297,7 @@ async function startOfflineAudioDownload(){
  }
 }
 let installPrompt,registration;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;});window.addEventListener('appinstalled',()=>{installPrompt=null;pwaJustInstalled=true;greetInstalledDevice();void refreshHeaderAppAction();});
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;});window.addEventListener('appinstalled',()=>{installPrompt=null;pwaJustInstalled=true;if(isInstalledPwa())greetInstalledDevice();void refreshHeaderAppAction();});
 async function installApp(){if(installPrompt){await installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;}else openSheet('ホーム画面に追加',`<p>Android / Chrome：ブラウザーのメニューから「アプリをインストール」または「ホーム画面に追加」を選びます。</p><div class="sheet-section"><p>iPhone / iPad：Safariの共有メニューから「ホーム画面に追加」を選びます。</p></div><div class="sheet-section"><p class="subtle">すでにインストール済みの場合は、そのまま使えます。ブラウザーによってインストール操作は異なります。</p></div>`);}
 async function checkUpdate(){if(!registration){toast('更新機能を準備中です。ページを再読み込みしてください。');return;}try{await registration.update();if(registration.waiting)openSheet('更新を適用',`<p>閲覧位置と学習記録を保存して更新します。</p>${button('保存して更新','apply-update','primary')}`,{setup:d=>d.querySelector('button[data-action]').onclick=()=>{save();updateRequested=true;registration.waiting.postMessage('activate');}});else toast('最新の状態です。');}catch{toast('更新を確認できません。通信状態を確認してください。');}}
 window.addEventListener('hashchange',render);window.addEventListener('pageshow',()=>{refreshFestivalCountdown();void refreshHeaderAppAction();});window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden)save();else{refreshFestivalCountdown();void refreshHeaderAppAction();void refreshNotifications();}});

@@ -28,13 +28,15 @@ test('festival thin ring counts down using the Japan calendar day',()=>{
  const state=festivalCountdown(new Date('2026-11-01T02:00:00Z'));
  assert.equal(state.days,177);
  const ring=festivalRemainingRing(state);
- assert.equal(ring.value,'177');
- assert.equal(ring.unit,'日');
+ assert.equal(ring.prefix,'残り');
+ assert.equal(ring.value,'177日');
+ assert.equal(ring.description,'聖光祭まで残り177日');
  assert.equal(Number(ring.dash.split(' ')[0]),Number((HOME_RING_INNER_LENGTH*177/FESTIVAL_RING_WINDOW_DAYS).toFixed(3)));
 });
 
 test('festival ring is full at 365 days and empty on the day and after',()=>{
  assert.equal(festivalRemainingRing({days:365}).dash.split(' ')[0],HOME_RING_INNER_LENGTH.toFixed(3));
+ assert.equal(festivalRemainingRing({days:0}).prefix,'');
  assert.equal(festivalRemainingRing({days:0}).value,'本日');
  assert.equal(festivalRemainingRing({days:0}).dash.split(' ')[0],'0.000');
  assert.equal(festivalRemainingRing({days:-1}).value,'終了');

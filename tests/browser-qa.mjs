@@ -32,6 +32,8 @@ try{
  assert.equal(await headerAction.getAttribute('aria-label'),'アプリをインストール');
  assert.equal(await page.locator('.home-progress-dashboard').count(),1,'double ring is visible at the top of home');
  assert.equal(await page.locator('.home-double-ring .home-festival-ring').count(),1,'thin navy countdown ring is present');
+ assert.equal(await page.locator('.home-festival-prefix').textContent(),'残り','countdown shows remaining label');
+ assert.match(await page.locator('.home-festival-days').textContent(),/^\d+日$/,'countdown shows value with 日 suffix');
  assert.equal(await page.locator('.home-install-callout,.home-offline-card').count(),0,'old metadata cards are absent');
  await page.evaluate(()=>{
   localStorage.removeItem('mt-pwa-audio-offer-v1');
@@ -44,21 +46,37 @@ try{
  assert.equal(await page.locator('[data-action="audio-later"]').count(),0,'installation no longer interrupts with an automatic audio prompt');
  assert.equal(await headerAction.isVisible(),true,'audio save button replaces install after installation event');
 
- const bell=page.locator('[data-action="open-notifications"]');
- assert.equal(await bell.isVisible(),true,'notification bell is next to settings');
- assert.equal(await page.locator('.notification-badge').isVisible(),true,'install welcome produces unread badge');
- await bell.click();
- assert.equal(await page.locator('#sheet #sheet-title').textContent(),'お知らせ');
- assert.ok((await page.locator('#sheet .notification-entry').innerText()).includes('Mousetrap Trainerへようこそ'));
- assert.ok((await page.locator('#sheet .notification-entry').innerText()).includes('オフライン'));
- await page.locator('[data-notification-read="welcome-install-v1"]').click();
- assert.equal(await page.locator('.notification-badge').isVisible(),false,'badge disappears after welcome is read');
- await page.locator('#sheet .close-sheet').click();
- await bell.click();
- assert.equal(await page.locator('.notification-entry.is-read').count(),1,'read state persists after closing');
- await page.locator('#sheet .close-sheet').click();
- console.log('PASS: installation welcome, in-app notification bell and unread/read badge lifecycle');
 
+ assert.equal(await page.locator('[data-action="open-notifications"]').count(),0,'website never renders notification button');
+ assert.equal(await page.locator('.notification-badge').count(),0,'website does not show unread badge');
+ const installedPage=await browser.newPage({...devices['Pixel 7'],locale:'ja-JP'});
+ // Simulate a genuine standalone PWA launch, not only an appinstalled event
+ // dispatched in a browser tab. The latter must never unlock the inbox.
+ await installedPage.addInitScript(()=>{
+  const media=window.matchMedia.bind(window);
+  window.matchMedia=(query)=>query==='(display-mode: standalone)'
+   ? {matches:true,media:query,onchange:null,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){},dispatchEvent(){return false}}
+   : media(query);
+ });
+ await installedPage.goto(base+'/',{waitUntil:'domcontentloaded'});
+ await installedPage.locator('.home-role-row .app-select-trigger').waitFor({timeout:25000});
+ const bell=installedPage.locator('[data-action="open-notifications"]');
+ assert.equal(await bell.isVisible(),true,'standalone PWA has the notification bell');
+ await installedPage.locator('.notification-badge').waitFor({state:'visible',timeout:20000});
+ await bell.click();
+ assert.equal(await installedPage.locator('#sheet #sheet-title').textContent(),'お知らせ');
+ assert.ok((await installedPage.locator('#sheet .notification-entry').innerText()).includes('Mousetrap Trainerへようこそ'));
+ assert.ok((await installedPage.locator('#sheet .notification-entry').innerText()).includes('オフライン'));
+ assert.equal(await installedPage.locator('.notification-badge').isVisible(),false,'opening inbox immediately clears unread badge');
+ assert.equal(await installedPage.locator('#sheet [data-notification-read],#sheet [data-action="all-read"]').count(),0,'no mark-read buttons remain');
+ assert.equal(await installedPage.locator('#sheet .notification-entry.is-read').count(),await installedPage.locator('#sheet .notification-entry').count());
+ assert.equal(await installedPage.evaluate(()=>JSON.parse(localStorage.getItem('mt-notifications-read-v1')||'[]').includes('welcome-install-v1')),true,'opening persists read status');
+ await installedPage.locator('#sheet .close-sheet').click();
+ await bell.click();
+ assert.equal(await installedPage.locator('.notification-badge').isVisible(),false,'read state persists after reopening');
+ await installedPage.locator('#sheet .close-sheet').click();
+ await installedPage.close();
+ console.log('PASS: browser hides inbox, standalone PWA shows inbox and automatically marks notifications read');
 
  const own=page.locator('.home-role-row .app-select-trigger');
  await own.click();
