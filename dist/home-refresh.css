@@ -88,3 +88,37 @@
  .app-layout[data-installed="false"] .reader-top{padding-right:55px}
 }
 @media(prefers-reduced-motion:reduce){.home-festival-ring,.home-app-action{transition:none}}
+
+/* Home header identity — a restrained lockup using the existing high-resolution app icon. */
+.home-topbar-brand{display:none}
+.app-layout[data-route=home] .topbar .home-topbar-brand{
+ display:inline-flex;align-items:center;gap:10px;min-width:0;
+ color:var(--ink);font-size:13px;font-weight:650;line-height:1.12;
+ letter-spacing:-.025em;white-space:nowrap;text-decoration:none
+}
+.app-layout[data-route=home] .home-topbar-brand img{
+ width:36px;height:36px;flex:0 0 36px;object-fit:cover;
+ border-radius:9px;background:#fff;box-shadow:0 0 0 1px rgba(40,65,121,.09)
+}
+.home-topbar-brand .home-brand-name{display:flex;flex-direction:column;gap:2px}
+.home-topbar-brand .home-brand-name>span{font-weight:550;color:var(--muted)}
+.app-layout[data-route=home] .topbar .home-topbar-brand:focus-visible{
+ outline:2px solid var(--ui-focus);outline-offset:4px;border-radius:4px
+}
+@media(max-width:700px){
+ .app-layout[data-route=home] .topbar{padding-left:16px}
+ .app-layout[data-route=home] .topbar .home-topbar-brand{gap:8px;font-size:12.5px}
+ .app-layout[data-route=home] .home-topbar-brand img{width:34px;height:34px;flex-basis:34px}
+}
+@media(max-width:480px){
+ /* Give the title priority over text labels on auxiliary actions at phone widths. */
+ .app-layout[data-route=home] .home-app-action{
+  width:39px;min-width:39px;min-height:39px;padding:9px;gap:0;
+  border-radius:11px;box-shadow:none
+ }
+ .app-layout[data-route=home] .home-app-action>span{display:none}
+}
+@media(max-width:360px){
+ .app-layout[data-route=home] .topbar{padding-left:12px}
+ .app-layout[data-route=home] .topbar .home-topbar-brand{gap:7px;font-size:12px}
+}
