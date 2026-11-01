@@ -26,16 +26,23 @@ try{
  assert.equal(await page.locator('#home-role').isVisible(),false,'Native picker is hidden');
  await page.screenshot({path:'test-results/home-mobile.png'});
 
- assert.equal(await page.locator('[data-action="install-home"]').isVisible(),true,'home has prominent install button before standalone launch');
- assert.equal(await page.locator('[data-action="offline-audio-home"]').isVisible(),true,'home has resumable offline audio download');
+
+ const headerAction=page.locator('[data-action="home-app-action"]');
+ assert.equal(await headerAction.isVisible(),true,'home shows prominent install pill before standalone launch');
+ assert.equal(await headerAction.getAttribute('aria-label'),'アプリをインストール');
+ assert.equal(await page.locator('.home-progress-dashboard').count(),1,'double ring is visible at the top of home');
+ assert.equal(await page.locator('.home-double-ring .home-festival-ring').count(),1,'thin navy countdown ring is present');
+ assert.equal(await page.locator('.home-install-callout,.home-offline-card').count(),0,'old metadata cards are absent');
  await page.evaluate(()=>{
   localStorage.removeItem('mt-pwa-audio-offer-v1');
   window.dispatchEvent(new Event('appinstalled'));
  });
- await page.locator('[data-action="audio-later"]').waitFor({timeout:15000});
- await page.locator('[data-action="audio-later"]').click();
- assert.equal(await page.evaluate(()=>localStorage.getItem('mt-pwa-audio-offer-v1')),'later','installation offers a deferred choice');
- assert.equal(await page.locator('[data-action="offline-audio-home"]').isVisible(),true,'deferred audio remains available on home');
+ await page.waitForFunction(()=>{
+  const action=document.querySelector('[data-action="home-app-action"]');
+  return action&&action.getAttribute('aria-label')==='オフライン音声を保存'&&!action.hidden;
+ },null,{timeout:15000});
+ assert.equal(await page.locator('[data-action="audio-later"]').count(),0,'installation no longer interrupts with an automatic audio prompt');
+ assert.equal(await headerAction.isVisible(),true,'audio save button replaces install after installation event');
 
  const bell=page.locator('[data-action="open-notifications"]');
  assert.equal(await bell.isVisible(),true,'notification bell is next to settings');
@@ -258,7 +265,7 @@ try{
  // Full real 1,164-file browser cache test, including offline fetch of a previously saved clip.
  await page.locator('.bottom-nav a[href="#home"]').click();
  console.log('OFFLINE-AUDIO QA quota:',JSON.stringify(await page.evaluate(()=>navigator.storage.estimate())));
- await page.locator('[data-action="offline-audio-home"]').click();
+ await page.locator('[data-action="home-app-action"]').click();
  await page.locator('#audio-download-bar').waitFor();
  await page.waitForTimeout(8000);
  const initialAudioState=await page.evaluate(async()=>({
@@ -288,6 +295,8 @@ try{
   return entries.filter(r=>r.url.endsWith('.mp3')).length;
  });
  assert.equal(storedAudio,1164,'all speech MP3 files are present in browser storage');
+ await page.waitForFunction(()=>document.querySelector('[data-action="home-app-action"]')?.hidden===true,null,{timeout:15000});
+ assert.equal(await headerAction.isVisible(),false,'header audio save action disappears after complete offline package');
  await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller),null,{timeout:20000});
  await page.context().setOffline(true);
  try{
@@ -300,7 +309,7 @@ try{
  }finally{
   await page.context().setOffline(false);
  }
- console.log('PASS: opt-in install prompt, deferred choice, all 1,164 hosted MP3s cached and playable offline');
+ console.log('PASS: stateful install/audio header, all 1,164 hosted MP3s cached and playable offline');
 
 }finally{
  if(browser)await browser.close();
