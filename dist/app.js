@@ -5,7 +5,7 @@ import {loadStartupScript} from './modules/bundled.js';
 import {loadDramaturgy} from './modules/dramaturgy.js';
 async function fetchData(url){const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error(`HTTP ${response.status}`);return response.json();}
 import {openRoleMenu,closeRoleMenu} from './modules/role-menu.js';
-import {fetchAnnouncements,notificationFeed,unreadNotifications,markNotificationRead,markAllNotificationsRead,recordInstalledWelcome,announceWelcomeOnDevice} from './modules/notifications.js';
+import {fetchAnnouncements,notificationFeed,unreadNotifications,markNotificationRead,markAllNotificationsRead,recordInstalledWelcome} from './modules/notifications.js';
 import {isInstalledPwa,offlineAudioStatus,downloadEntireAudio,isAudioDownloadRunning} from './modules/offline-audio.js';
 let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,updateRequested=false,lastContentRoute='home',announcements=[];
 const defaults={role:'',scene:'all',font:20,leading:1.9,stick:true,read:{},sessions:{},range:{scene:'all',from:1,to:0},rate:1,bookmarkOnly:false};
@@ -80,7 +80,6 @@ function greetInstalledDevice(){
  updateNotificationBadge();
  if(first){
   toast('インストールしました。お知らせを確認できます。');
-  void announceWelcomeOnDevice(registration);
  }
 }
 
