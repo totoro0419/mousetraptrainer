@@ -9,6 +9,16 @@ export function todayInTokyo(now=new Date()){
  return [value('year'),value('month'),value('day')].join('-');
 }
 
+export const FESTIVAL_DATE='2027-04-27';
+export const DAILY_START_DATE='2026-11-03';
+export function festivalDaysRemaining(date){
+ if(!isoDate.test(date))return null;
+ const end=Date.parse(FESTIVAL_DATE+'T00:00:00Z');
+ const day=Date.parse(date+'T00:00:00Z');
+ const diff=(end-day)/86400000;
+ return Number.isInteger(diff)&&diff>=0?diff:null;
+}
+
 function normalize(item){
  if(!item||!isoDate.test(item.date||'')||typeof item.title!=='string'||typeof item.body!=='string')return null;
  if(!['trivia','theory','milestone'].includes(item.type)||!item.title.trim()||!item.body.trim())return null;
@@ -27,7 +37,9 @@ export function receivedDailyItems(){
 }
 
 export async function receiveDailyToday(now=new Date()){
- const date=todayInTokyo(now),prior=receivedDailyItems();
+ const date=todayInTokyo(now);
+ if(date<DAILY_START_DATE||date>FESTIVAL_DATE)return false;
+ const prior=receivedDailyItems();
  if(prior.some(item=>item.date===date))return false;
  try{
   const response=await fetch(new URL('../data/daily-editorial.json',import.meta.url),{cache:'no-store'});
