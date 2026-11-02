@@ -266,10 +266,9 @@ function openDataManagement(){
   <button class="management-action" type="button" data-action="library"><span>保存した台本</span>${icon('chevron')}</button>
   <button class="management-action" type="button" data-action="export"><span>バックアップを保存</span>${icon('chevron')}</button>
   <button class="management-action" type="button" data-action="install"><span>アプリをインストール</span>${icon('chevron')}</button>
-  <button class="management-action" type="button" data-action="update"><span>更新を確認</span>${icon('chevron')}</button>
   <p class="management-note">学習記録は端末に保存されます。バックアップに音声ファイルは含まれません。</p>
  </div>`,{setup:d=>{
-  const actions={import:openImport,library:showLibrary,export:exportBackup,install:installApp,update:checkUpdate};
+  const actions={import:openImport,library:showLibrary,export:exportBackup,install:installApp};
   for(const [name,handler] of Object.entries(actions))
    d.querySelector('[data-action='+name+']').onclick=handler;
  }});
@@ -376,16 +375,9 @@ async function startOfflineAudioDownload(){
   }else toast('音声保存を中断しました。ホームから再開できます。');
  }
 }
-let installPrompt,registration,updateManager;
+let installPrompt,updateManager;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;});window.addEventListener('appinstalled',()=>{installPrompt=null;pwaJustInstalled=true;if(isInstalledPwa())greetInstalledDevice();void refreshHeaderAppAction();});
 async function installApp(){if(installPrompt){await installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;}else openSheet('ホーム画面に追加',`<p>Android / Chrome：ブラウザーのメニューから「アプリをインストール」または「ホーム画面に追加」を選びます。</p><div class="sheet-section"><p>iPhone / iPad：Safariの共有メニューから「ホーム画面に追加」を選びます。</p></div><div class="sheet-section"><p class="subtle">すでにインストール済みの場合は、そのまま使えます。ブラウザーによってインストール操作は異なります。</p></div>`);}
-async function checkUpdate(){
- if(!registration||!updateManager){toast('更新機能を準備中です。ページを再読み込みしてください。');return;}
- const checked=await updateManager.check();
- if(!checked)toast('更新を確認できません。通信状態を確認してください。');
- else if(registration.waiting)toast('更新は準備済みです。次にアプリを開いたとき自動で適用します。');
- else toast('更新を確認しました。新しい版があれば自動で反映されます。');
-}
 window.addEventListener('hashchange',render);window.addEventListener('pageshow',event=>{if(event.persisted)refreshQuickOnResume();refreshFestivalCountdown();void refreshHeaderAppAction();});window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden){quickWasHidden=true;save();}else{if(quickWasHidden){quickWasHidden=false;refreshQuickOnResume();}refreshFestivalCountdown();void refreshHeaderAppAction();void refreshNotifications();}});
 window.addEventListener('storage',e=>{if(e.key===`mt-progress:${data?.id}`){progress=storage.loadSmall(e.key,{});render();}if(e.key==='mt-notifications-read-v1'||e.key==='mt-welcome-installed-v1')updateNotificationBadge();});
 window.addEventListener('offline',()=>toast('オフラインです。端末に保存した台本を使えます。'));
@@ -410,31 +402,38 @@ function prepareSupplements(target){
   }).catch(()=>toast('状況説明を読み込めませんでした。'));
 }
 async function registerForUpdates(){
- if(!('serviceWorker'in navigator)||location.hostname==='terminal.local')return;
+ if(!('serviceWorker'in navigator)||location.hostname==='terminal.local')return 'ready';
  try{
   updateManager=createUpdateManager({
    serviceWorker:navigator.serviceWorker,
    doc:document,
    win:window,
-   beforeReload:()=>{save();return !saveFailed;},
-   reload:()=>location.reload()
+   beforeReload:()=>{if(!data)return true;save();return !saveFailed;},
+   reload:()=>location.reload(),
+   onStage:phase=>{
+    const status=document.querySelector('.boot-status');
+    if(status)status.textContent=phase==='updating'?'最新版を準備しています':phase==='applying'?'更新を適用しています':'アプリを準備しています';
+   }
   });
-  registration=await updateManager.start();
-  if(registration&&isInstalledPwa()){greetInstalledDevice();void refreshHeaderAppAction();}
- }catch{ /* A failed update check must not replace an already usable app. */ }
+  return await updateManager.start();
+ }catch{ return 'ready'; /* Offline and failed update checks use saved content. */ }
 }
 try{
- const status=document.querySelector('.boot-status');
- if(status)status.textContent='台本を準備しています';
- const startup=await loadStartupScript(storage,fetchData);
- data=startup.data;
- loadState();refreshQuickOnLaunch();
- await render();
- window.setInterval(refreshFestivalCountdown,60_000);
- void refreshNotifications();
- if(startup.warning)toast(startup.warning);
- prepareSupplements(data);
- void registerForUpdates();
+ // Never display the old app while an available new release is being applied.
+ const updateStatus=await registerForUpdates();
+ if(updateStatus!=='reloading'){
+  const status=document.querySelector('.boot-status');
+  if(status)status.textContent='台本を準備しています';
+  const startup=await loadStartupScript(storage,fetchData);
+  data=startup.data;
+  loadState();refreshQuickOnLaunch();
+  await render();
+  window.setInterval(refreshFestivalCountdown,60_000);
+  void refreshNotifications();
+  if(startup.warning)toast(startup.warning);
+  prepareSupplements(data);
+  if(isInstalledPwa()){greetInstalledDevice();void refreshHeaderAppAction();}
+ }
 }catch(err){
  app.innerHTML=`<div class="page"><h1>アプリを開けませんでした</h1><p class="notice error" style="margin:24px 0">${esc(err.message)}</p><p>ブラウザーのストレージが利用できるか確認してください。プライベートブラウズでは保存が制限されることがあります。</p><button class="primary" onclick="location.reload()">再試行</button></div>`;
 }

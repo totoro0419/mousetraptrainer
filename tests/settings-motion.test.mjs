@@ -17,12 +17,12 @@ test('settings keeps only actionable viewing and audio controls',()=>{
 test('critical low-frequency operations remain available through management',()=>{
  const start=app.indexOf('function openDataManagement('),end=app.indexOf('async function activate(',start);
  const section=app.slice(start,end);
- for(const action of ['import','library','export','install','update'])assert.ok(section.includes('data-action="'+action+'"'),action);
+ for(const action of ['import','library','export','install'])assert.ok(section.includes('data-action="'+action+'"'),action);
  assert.match(section,/import:openImport/);
  assert.match(section,/library:showLibrary/);
  assert.match(section,/export:exportBackup/);
  assert.match(section,/install:installApp/);
- assert.match(section,/update:checkUpdate/);
+ assert.doesNotMatch(section,/update:checkUpdate|data-action="update"|更新を確認/);
  assert.match(app,/function openImport\(\)/);
  assert.match(app,/'confirm-import'/);
 });
