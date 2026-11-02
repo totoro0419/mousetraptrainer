@@ -102,7 +102,7 @@ test('integration: home placement, isolated route, and offline module inclusion'
  assert.ok(app.indexOf('class="quick-memory-home"')<app.indexOf('class="home-role-row"'));
  assert.match(app,/loadState\(\);refreshQuickOnLaunch\(\);await render\(\)/);
  assert.match(app,/route==='quick'/);
- assert.match(app,/small\\.role=next;ensureQuickForRole\\(\\)/);
+ assert.match(app,/small\.role=next;ensureQuickForRole\(\)/);
  assert.match(view,/line\\.scene===target\\.scene/);
  assert.match(view,/ctx\\.completeQuick\\(target\\.id\\)/);
  assert.match(view,/location\\.hash='home'/);
