@@ -60,6 +60,8 @@ async function jumpToNotificationLine(id){
  }
  const target=data.lines.find(item=>item.id===id);
  if(!target){toast('このセリフを見つけられません。');return;}
+ // Finish the previous reader session before setting the destination, or its scroll saver could overwrite it.
+ cleanup();cleanup=()=>{};
  // Reveal the target even if a scene, speaker, search, review or bookmark filter was active.
  small.scene=target.scene;small.speaker='all';small.query='';small.reviewOnly=false;small.bookmarkOnly=false;
  small.read={id:target.id,scene:target.scene,highlight:true};
