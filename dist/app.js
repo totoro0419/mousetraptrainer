@@ -9,7 +9,7 @@ import {homeProgressRings,festivalRemainingRing} from './modules/home-progress.j
 import {normalizeQuickMemory,currentQuickLine,refreshQuickMemory,ensureQuickMemory,completeQuickMemory,quickMemoryStats} from './modules/quick-memory.js';
 async function fetchData(url){const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error(`HTTP ${response.status}`);return response.json();}
 import {openRoleMenu,closeRoleMenu} from './modules/role-menu.js';
-import {fetchAnnouncements,notificationFeed,unreadNotifications,markAllNotificationsRead,recordInstalledWelcome} from './modules/notifications.js';
+import {fetchAnnouncements,notificationFeed,unreadNotifications,openNotificationSnapshot,recordInstalledWelcome} from './modules/notifications.js';
 import {receiveDailyToday,quoteSentence,festivalDaysRemaining} from './modules/daily-notifications.js';
 import {isInstalledPwa,offlineAudioStatus,downloadEntireAudio,isAudioDownloadRunning,OFFLINE_AUDIO_CACHE,OFFLINE_AUDIO_TOTAL} from './modules/offline-audio.js';
 import {createUpdateManager} from './modules/update-manager.js';
@@ -109,9 +109,8 @@ async function jumpToNotificationLine(id){
 }
 function openNotificationInbox(){
  if(!isInstalledPwa())return;
- const items=currentNotificationFeed();
- // Opening the inbox marks all currently visible notifications read.
- if(items.length)markAllNotificationsRead(items);
+ // Capture pre-open unread flags before recording that the inbox was viewed.
+ const items=openNotificationSnapshot(currentNotificationFeed());
  updateNotificationBadge();
  const lineMap=data?.id==='mousetrap-private'?new Map(data.lines.map(line=>[line.id,line])):new Map();
  const content=items.length?'<div class="notification-list">'+items.map(item=>{
@@ -123,8 +122,9 @@ function openNotificationInbox(){
     '</button>':'';
   const remaining=item.id?.startsWith('daily-')?festivalDaysRemaining(item.date):null;
   const countdown=remaining===null?null:'聖光祭まであと'+remaining+'日！';
-  return '<article class="notification-entry is-read">'+
-   '<div class="notification-entry-heading"><strong>'+esc(countdown||item.title)+'</strong></div>'+
+  return '<article class="notification-entry '+(item.read?'is-read':'is-new')+'">'+
+   '<div class="notification-entry-heading"><strong>'+esc(countdown||item.title)+'</strong>'+
+   (item.read?'':'<span class="notification-new-label">未読</span>')+'</div>'+
    (countdown?'<p class="notification-editorial-title">'+esc(item.title)+'</p>':'')+
    (item.date?'<time class="notification-date">'+esc(item.date.slice(0,10))+'</time>':'')+
    quote+'<p>'+esc(item.body)+'</p>'+
