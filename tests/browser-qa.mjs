@@ -41,6 +41,19 @@ try{
  assert.equal(new URL(page.url()).hash,'#quick','the prompt opens its dedicated route');
  assert.equal((await page.locator('.quick-memory-speech.is-target .quick-memory-speaker').textContent()).trim(),original,'only the selected actor is prompted');
  assert.ok(await page.locator('.quick-memory-speech:not(.is-target)').count()>=1,'surrounding dialogue remains available');
+ assert.equal(await page.locator('#quick-context-title').textContent(),'状況・コンテクスト','dedicated situation section is visible');
+ assert.ok((await page.locator('.quick-memory-context-situation').textContent()).trim().length>5,'the current line has new situation data');
+ const at=await page.locator('.quick-memory-speech').all();
+ assert.ok(at.length>=1&&at.length<=3,'initial view renders no more than one line before and after');
+ const targetAt=await page.locator('.quick-memory-speech.is-target').evaluate(el=>[...el.parentElement.querySelectorAll('.quick-memory-speech')].indexOf(el));
+ assert.ok(targetAt<=1,'no more than one previous line is shown');
+ assert.ok(at.length-targetAt-1<=1,'no more than one following line is shown');
+ const extra=page.locator('.quick-memory-more').first();
+ if(await extra.count()){
+  await extra.click();
+  assert.equal(await page.locator('.quick-memory-speech').count(),at.length+1,'extra dialogue is visible only on request');
+ }
+
  await page.screenshot({path:'test-results/quick-memory-mobile.png'});
  await page.locator('.quick-memory-complete').click();
  await page.locator('.quick-memory-home').waitFor({timeout:10000});
