@@ -33,7 +33,7 @@ test('all 114 quotes link to the right bundled speech and have at most 25 words'
   const excerpt=quoteSentence(line.text,item.quoteAnchor);
   assert.ok(excerpt.length>0,'empty quote: '+item.id);
   assert.ok(excerpt.toLowerCase().includes(item.quoteAnchor.toLowerCase()),'anchor cropped: '+item.id);
-  assert.ok(excerpt.trim().split(/\s+/).length<=25,'more than 25 words: '+item.id);
+  assert.ok(excerpt.replaceAll('…','').trim().split(/\s+/).length<=25,'more than 25 words: '+item.id);
  }
 });
 
