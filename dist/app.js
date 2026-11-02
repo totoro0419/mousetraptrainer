@@ -14,6 +14,7 @@ import {isInstalledPwa,offlineAudioStatus,downloadEntireAudio,isAudioDownloadRun
 let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,updateRequested=false,lastContentRoute='home',announcements=[],pwaJustInstalled=false,headerActionEpoch=0;
 const defaults={role:'',scene:'all',font:20,leading:1.9,stick:true,read:{},sessions:{},range:{scene:'all',from:1,to:0},rate:1,bookmarkOnly:false};
 const app=document.querySelector('#app');
+let quickWasHidden=false,lastQuickDrawAt=0;
 const roles=()=>[...new Set(data.lines.map(l=>l.speaker))];
 const key=()=>`mt-state:${data.id}`;
 function loadState(){small={...structuredClone(defaults),...storage.loadSmall(key(),{})};progress=storage.loadSmall(`mt-progress:${data.id}`,{});if(!progress||typeof progress!=='object'||Array.isArray(progress))progress={};if(!roles().includes(small.role))small.role=roles()[0];small.font=Math.max(16,Math.min(32,Number(small.font)||20));small.leading=[1.6,1.9,2.2].includes(Number(small.leading))?Number(small.leading):1.9;small.rate=[.75,1,1.25,1.5].includes(Number(small.rate))?Number(small.rate):1;small.stick=small.stick!==false;if(!data.scenes.some(s=>s.id===small.scene))small.scene='all';small.range={scene:small.range?.scene==='all'||data.scenes.some(s=>s.id===small.range?.scene)?small.range.scene:'all',from:Number(small.range?.from)||1,to:Number(small.range?.to)||0};if(!small.read||typeof small.read!=='object')small.read={};if(!small.sessions||typeof small.sessions!=='object'||Array.isArray(small.sessions))small.sessions={};for(const [mode,s] of Object.entries(small.sessions))if(!['cloze','audio'].includes(mode)||!s||!s.range||!Number.isInteger(s.index)||typeof s.lineId!=='string')delete small.sessions[mode];for(const [id,p] of Object.entries(progress))if(!p||![0,1,2].includes(p.level||0))delete progress[id];small.quickMemorize=normalizeQuickMemory(small.quickMemorize);} 
@@ -31,9 +32,17 @@ function saveQuickMemory(next){
  }
 }
 function refreshQuickOnLaunch(){
+ lastQuickDrawAt=Date.now();
  const next=refreshQuickMemory(data,progress,small.quickMemorize,small.role);
  // Keep a usable prompt for this session even when persistence is unavailable.
  if(!saveQuickMemory(next))small.quickMemorize=next;
+}
+// An installed PWA may reopen from the background without a new HTML load.
+function refreshQuickOnResume(){
+ if(!data||!small||Date.now()-lastQuickDrawAt<1000)return;
+ refreshQuickOnLaunch();
+ const route=location.hash.slice(1)||'home';
+ if(route==='home'||route==='quick')void render();
 }
 function ensureQuickForRole(){
  if(currentQuickLine(data,small.quickMemorize,small.role))return;
@@ -369,7 +378,7 @@ let installPrompt,registration;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;});window.addEventListener('appinstalled',()=>{installPrompt=null;pwaJustInstalled=true;if(isInstalledPwa())greetInstalledDevice();void refreshHeaderAppAction();});
 async function installApp(){if(installPrompt){await installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;}else openSheet('ホーム画面に追加',`<p>Android / Chrome：ブラウザーのメニューから「アプリをインストール」または「ホーム画面に追加」を選びます。</p><div class="sheet-section"><p>iPhone / iPad：Safariの共有メニューから「ホーム画面に追加」を選びます。</p></div><div class="sheet-section"><p class="subtle">すでにインストール済みの場合は、そのまま使えます。ブラウザーによってインストール操作は異なります。</p></div>`);}
 async function checkUpdate(){if(!registration){toast('更新機能を準備中です。ページを再読み込みしてください。');return;}try{await registration.update();if(registration.waiting)openSheet('更新を適用',`<p>閲覧位置と学習記録を保存して更新します。</p>${button('保存して更新','apply-update','primary')}`,{setup:d=>d.querySelector('button[data-action]').onclick=()=>{save();updateRequested=true;registration.waiting.postMessage('activate');}});else toast('最新の状態です。');}catch{toast('更新を確認できません。通信状態を確認してください。');}}
-window.addEventListener('hashchange',render);window.addEventListener('pageshow',()=>{refreshFestivalCountdown();void refreshHeaderAppAction();});window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden)save();else{refreshFestivalCountdown();void refreshHeaderAppAction();void refreshNotifications();}});
+window.addEventListener('hashchange',render);window.addEventListener('pageshow',event=>{if(event.persisted)refreshQuickOnResume();refreshFestivalCountdown();void refreshHeaderAppAction();});window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden){quickWasHidden=true;save();}else{if(quickWasHidden){quickWasHidden=false;refreshQuickOnResume();}refreshFestivalCountdown();void refreshHeaderAppAction();void refreshNotifications();}});
 window.addEventListener('storage',e=>{if(e.key===`mt-progress:${data?.id}`){progress=storage.loadSmall(e.key,{});render();}if(e.key==='mt-notifications-read-v1'||e.key==='mt-welcome-installed-v1')updateNotificationBadge();});
 window.addEventListener('offline',()=>toast('オフラインです。端末に保存した台本を使えます。'));
 try{const startup=await loadStartupScript(storage,fetchData),enriched=await loadDramaturgy(storage,fetchData,startup.data);data=enriched.data;loadState();refreshQuickOnLaunch();await render();window.setInterval(refreshFestivalCountdown,60_000);void refreshNotifications();if(startup.warning||enriched.warning)toast(startup.warning||enriched.warning);
