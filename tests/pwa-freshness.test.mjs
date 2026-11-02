@@ -132,8 +132,8 @@ test('startup is not blocked on optional explanations, context or service worker
  const supplements=app.indexOf("prepareSupplements(data);",anchor);
  const worker=app.indexOf("void registerForUpdates();",anchor);
  assert.ok(anchor>=0&&render>anchor&&supplements>render&&worker>render);
- assert.match(app,/if\(!refreshing&&updateRequested\)/);
- assert.doesNotMatch(app,/hadController\|\|updateRequested/);
+ assert.match(app,/import \{createUpdateManager\} from '\.\/modules\/update-manager\.js';/);
+ assert.match(app,/updateManager=createUpdateManager\(/);
  assert.match(app,/loadQuickContexts\(storage,fetchData,target,\{preferSaved:true\}\)/);
  assert.match(app,/serviceWorker\.register\('\.\/sw\.js',\{updateViaCache:'none'\}\)/);
 });
