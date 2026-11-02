@@ -65,8 +65,9 @@ try{
  await installedPage.locator('.notification-badge').waitFor({state:'visible',timeout:20000});
  await bell.click();
  assert.equal(await installedPage.locator('#sheet #sheet-title').textContent(),'お知らせ');
- assert.ok((await installedPage.locator('#sheet .notification-entry').innerText()).includes('Mousetrap Trainerへようこそ'));
- assert.ok((await installedPage.locator('#sheet .notification-entry').innerText()).includes('オフライン'));
+ const inboxText=(await installedPage.locator('#sheet .notification-entry').allTextContents()).join(' ');
+ assert.ok(inboxText.includes('Mousetrap Trainerへようこそ'));
+ assert.ok(inboxText.includes('オフライン'));
  assert.equal(await installedPage.locator('.notification-badge').isVisible(),false,'opening inbox immediately clears unread badge');
  assert.equal(await installedPage.locator('#sheet [data-notification-read],#sheet [data-action="all-read"]').count(),0,'no mark-read buttons remain');
  assert.equal(await installedPage.locator('#sheet .notification-entry.is-read').count(),await installedPage.locator('#sheet .notification-entry').count());
