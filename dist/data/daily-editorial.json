@@ -1,7 +1,7 @@
 {
-  "schema": "mousetrap-177-day-editorial-calendar-quote-jump-v4",
+  "schema": "mousetrap-176-day-editorial-calendar-quote-jump-v5",
   "publishingStatus": "reviewed_unpublished",
-  "calendar": "2026-11-02/2027-04-27",
+  "calendar": "2026-11-03/2027-04-27",
   "timezone": "Asia/Tokyo",
   "deliveryPolicy": {
     "appInboxOnly": true,
@@ -9,29 +9,18 @@
     "noCatchupOnMissedDays": true,
     "oncePerDatePerDevice": true,
     "previouslyReceivedRemainInInbox": true,
-    "noSystemNotifications": true
+    "noSystemNotifications": true,
+    "startDate": "2026-11-03",
+    "countdownInTitle": true
   },
-  "warning": "本文推敲・一部事実確認済みの未公開案。通知配信機能は未実装。外部トリビアの個別照合未了項目があるため無条件公開しない。 節目の激励18件の文章を改稿。GitHub公開・アプリ配信は未実施。",
+  "warning": "2026-11-03から配信。開いた当日分のみ端末内に受信。作品考察と一部外部トリビアは編集レビュー中（出典の全面照合は未完了）。",
   "counts": {
-    "totalDays": 177,
+    "totalDays": 176,
     "theory": 45,
     "milestone": 18,
-    "trivia": 114
+    "trivia": 113
   },
   "items": [
-    {
-      "date": "2026-11-02",
-      "id": "trivia-003",
-      "category": "英語の語源",
-      "type": "trivia",
-      "title": "宿代の裏にニュートン",
-      "body": "ギニー金貨を1717年に21シリングへ固定する判断に関わったのは、造幣局にいたアイザック・ニュートン。りんごだけじゃない。宿の料金から物理学者へ飛べる。",
-      "url": "#script",
-      "sourceFile": "mousetrap_trivia_114_revised.json",
-      "referenceUrl": "https://www.royalmint.com/collect/coin-history-and-tradition/the-story-of-the-guinea/",
-      "lineId": "act1-scene1-speech-0040",
-      "quoteAnchor": "seven guineas"
-    },
     {
       "date": "2026-11-03",
       "id": "theory-007",
