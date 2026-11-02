@@ -8,7 +8,7 @@ import {homeProgressRings,festivalRemainingRing} from './modules/home-progress.j
 async function fetchData(url){const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error(`HTTP ${response.status}`);return response.json();}
 import {openRoleMenu,closeRoleMenu} from './modules/role-menu.js';
 import {fetchAnnouncements,notificationFeed,unreadNotifications,markAllNotificationsRead,recordInstalledWelcome} from './modules/notifications.js';
-import {receiveDailyToday,quoteSentence} from './modules/daily-notifications.js';
+import {receiveDailyToday,quoteSentence,festivalDaysRemaining} from './modules/daily-notifications.js';
 import {isInstalledPwa,offlineAudioStatus,downloadEntireAudio,isAudioDownloadRunning,OFFLINE_AUDIO_CACHE,OFFLINE_AUDIO_TOTAL} from './modules/offline-audio.js';
 let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,updateRequested=false,lastContentRoute='home',announcements=[],pwaJustInstalled=false,headerActionEpoch=0;
 const defaults={role:'',scene:'all',font:20,leading:1.9,stick:true,read:{},sessions:{},range:{scene:'all',from:1,to:0},rate:1,bookmarkOnly:false};
@@ -82,8 +82,11 @@ function openNotificationInbox(){
     '<span class="notification-quote-label">劇中のセリフ'+(line?' · '+esc(line.speaker):'')+'</span>'+
     (sentence?'<span class="notification-quote-text" lang="en">“'+esc(sentence)+'”</span>':'<span class="notification-quote-text">台本の該当箇所へ</span>')+
     '</button>':'';
+  const remaining=item.id?.startsWith('daily-')?festivalDaysRemaining(item.date):null;
+  const countdown=remaining===null?null:'聖光祭まであと'+remaining+'日！';
   return '<article class="notification-entry is-read">'+
-   '<div class="notification-entry-heading"><strong>'+esc(item.title)+'</strong></div>'+
+   '<div class="notification-entry-heading"><strong>'+esc(countdown||item.title)+'</strong></div>'+
+   (countdown?'<p class="notification-editorial-title">'+esc(item.title)+'</p>':'')+
    (item.date?'<time class="notification-date">'+esc(item.date.slice(0,10))+'</time>':'')+
    quote+'<p>'+esc(item.body)+'</p>'+
    '</article>';
