@@ -382,6 +382,60 @@ async function checkUpdate(){if(!registration){toast('更新機能を準備中�
 window.addEventListener('hashchange',render);window.addEventListener('pageshow',event=>{if(event.persisted)refreshQuickOnResume();refreshFestivalCountdown();void refreshHeaderAppAction();});window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden){quickWasHidden=true;save();}else{if(quickWasHidden){quickWasHidden=false;refreshQuickOnResume();}refreshFestivalCountdown();void refreshHeaderAppAction();void refreshNotifications();}});
 window.addEventListener('storage',e=>{if(e.key===`mt-progress:${data?.id}`){progress=storage.loadSmall(e.key,{});render();}if(e.key==='mt-notifications-read-v1'||e.key==='mt-welcome-installed-v1')updateNotificationBadge();});
 window.addEventListener('offline',()=>toast('オフラインです。端末に保存した台本を使えます。'));
-try{const startup=await loadStartupScript(storage,fetchData),enriched=await loadDramaturgy(storage,fetchData,startup.data),contextual=await loadQuickContexts(storage,fetchData,enriched.data);data=contextual.data;loadState();refreshQuickOnLaunch();await render();window.setInterval(refreshFestivalCountdown,60_000);void refreshNotifications();if(startup.warning||enriched.warning||contextual.warning)toast(startup.warning||enriched.warning||contextual.warning);
- if('serviceWorker'in navigator && location.hostname!=='terminal.local'){const hadController=!!navigator.serviceWorker.controller;registration=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});registration.addEventListener('updatefound',()=>{const worker=registration.installing;worker?.addEventListener('statechange',()=>{if(worker.state==='installed'&&navigator.serviceWorker.controller)toast('アプリの更新があります。設定から適用できます。');});});let refreshing=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!refreshing&&(hadController||updateRequested)){refreshing=true;save();location.reload();}});if(isInstalledPwa()){greetInstalledDevice();void refreshHeaderAppAction();}}
-}catch(err){app.innerHTML=`<div class="page"><h1>アプリを開けませんでした</h1><p class="notice error" style="margin:24px 0">${esc(err.message)}</p><p>ブラウザーのストレージが利用できるか確認してください。プライベートブラウズでは保存が制限されることがあります。</p><button class="primary" onclick="location.reload()">再試行</button></div>`;}
+// Keep the same data object alive: reader/rehearsal components may already hold references.
+function attachSupplement(target,field,result){
+ if(data!==target)return;
+ if(result.data?.[field])target[field]=result.data[field];
+ if(result.warning)toast(result.warning);
+}
+function prepareSupplements(target){
+ void loadDramaturgy(storage,fetchData,target)
+  .then(result=>attachSupplement(target,'dramaturgy',result))
+  .catch(()=>toast('解説を読み込めませんでした。'));
+ void loadQuickContexts(storage,fetchData,target,{preferSaved:true})
+  .then(result=>{
+   attachSupplement(target,'quickContexts',result);
+   // Cached context is usable immediately; refresh it without blocking the reader.
+   if(result.fromCache&&navigator.onLine){
+    setTimeout(()=>{if(data!==target)return;void loadQuickContexts(storage,fetchData,target)
+     .then(next=>attachSupplement(target,'quickContexts',next)).catch(()=>{});},1200);
+   }
+  }).catch(()=>toast('状況説明を読み込めませんでした。'));
+}
+async function registerForUpdates(){
+ if(!('serviceWorker'in navigator)||location.hostname==='terminal.local')return;
+ try{
+  registration=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});
+  const updateAvailable=()=>toast('アプリの更新があります。設定から適用できます。');
+  if(registration.waiting)updateAvailable();
+  registration.addEventListener('updatefound',()=>{
+   const worker=registration.installing;
+   worker?.addEventListener('statechange',()=>{
+    if(worker.state==='installed'&&navigator.serviceWorker.controller)updateAvailable();
+   });
+  });
+  let refreshing=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+   // Never interrupt a learning session merely because a release was installed.
+   if(!refreshing&&updateRequested){refreshing=true;save();location.reload();}
+  });
+  if(isInstalledPwa()){greetInstalledDevice();void refreshHeaderAppAction();}
+  // A newly deployed worker is discovered after the usable screen is shown.
+  void registration.update().catch(()=>{});
+ }catch{ /* A failed update check must not replace an already usable app. */ }
+}
+try{
+ const status=document.querySelector('.boot-status');
+ if(status)status.textContent='台本を準備しています';
+ const startup=await loadStartupScript(storage,fetchData);
+ data=startup.data;
+ loadState();refreshQuickOnLaunch();
+ await render();
+ window.setInterval(refreshFestivalCountdown,60_000);
+ void refreshNotifications();
+ if(startup.warning)toast(startup.warning);
+ prepareSupplements(data);
+ void registerForUpdates();
+}catch(err){
+ app.innerHTML=`<div class="page"><h1>アプリを開けませんでした</h1><p class="notice error" style="margin:24px 0">${esc(err.message)}</p><p>ブラウザーのストレージが利用できるか確認してください。プライベートブラウズでは保存が制限されることがあります。</p><button class="primary" onclick="location.reload()">再試行</button></div>`;
+}

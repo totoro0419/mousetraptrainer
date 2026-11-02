@@ -28,21 +28,28 @@ export function validateQuickContexts(bundle,data){
  }
  return bundle.entries;
 }
-export async function loadQuickContexts(storage,fetchJSON,data){
+export async function loadQuickContexts(storage,fetchJSON,data,{preferSaved=false}={}){
  if(data.id!==QUICK_CONTEXT.id||data.lines.length!==1164||
     await scriptFingerprint(data)!==QUICK_CONTEXT.sourceFingerprint)
   return {data,warning:''};
  let bundle;
+ if(preferSaved){
+  try{
+   bundle=await storage.get(QUICK_CONTEXT.key);
+   const entries=validateQuickContexts(bundle,data);
+   return {data:{...data,quickContexts:entries},warning:'',fromCache:true};
+  }catch{ /* First launch, or an invalid cached revision. */ }
+ }
  try{
   bundle=await fetchJSON(QUICK_CONTEXT.url);
   const entries=validateQuickContexts(bundle,data);
   try{await storage.put(QUICK_CONTEXT.key,bundle);}catch{}
-  return {data:{...data,quickContexts:entries},warning:''};
+  return {data:{...data,quickContexts:entries},warning:'',fromCache:false};
  }catch{
   try{
    bundle=await storage.get(QUICK_CONTEXT.key);
    const entries=validateQuickContexts(bundle,data);
-   return {data:{...data,quickContexts:entries},warning:'状況データを更新できませんでした。保存済みの情報を表示します。'};
+   return {data:{...data,quickContexts:entries},warning:'状況データを更新できませんでした。保存済みの情報を表示します。',fromCache:true};
   }catch{
    return {data,warning:'状況データを読み込めませんでした。接続を確認して再読み込みしてください。'};
   }
