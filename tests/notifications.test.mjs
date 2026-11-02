@@ -9,7 +9,7 @@ globalThis.localStorage={
 };
 const {
  normalizeAnnouncements,notificationFeed,unreadNotifications,
- markNotificationRead,markAllNotificationsRead,
+ markNotificationRead,markAllNotificationsRead,openNotificationSnapshot,
  installedWelcome,recordInstalledWelcome,fetchAnnouncements
 }=await import('../dist/modules/notifications.js');
 
@@ -53,6 +53,23 @@ test('GitHub announcement remains unread until explicitly marked; read history p
  assert.equal(unreadNotifications(next),1);
  markAllNotificationsRead(next);
  assert.equal(unreadNotifications(notificationFeed([...news,{id:'update_003',title:'もう一つ',body:'変更があります'}],false)),0);
+});
+
+test('unread when opening remains highlighted in that view, but reopens as read',()=>{
+ store.clear();
+ const news=[
+  {id:'message-old',title:'既読',body:'old',date:'2026-11-01'},
+  {id:'message-new',title:'未読',body:'new',date:'2026-11-02'}
+ ];
+ markNotificationRead('message-old');
+ const before=notificationFeed(news,false);
+ assert.equal(unreadNotifications(before),1);
+ const snapshot=openNotificationSnapshot(before);
+ assert.equal(snapshot.find(item=>item.id==='message-new').read,false);
+ assert.equal(snapshot.find(item=>item.id==='message-old').read,true);
+ assert.equal(unreadNotifications(notificationFeed(news,false)),0);
+ const reopened=openNotificationSnapshot(notificationFeed(news,false));
+ assert.ok(reopened.every(item=>item.read));
 });
 
 test('feed uses last verified GitHub data when offline; no device notification APIs needed',async()=>{

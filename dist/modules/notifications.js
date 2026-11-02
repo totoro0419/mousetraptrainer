@@ -51,6 +51,12 @@ export function notificationFeed(announcements,showWelcome=installedWelcome()){
  if(showWelcome)items.push(welcome);
  return items.map(item=>({...item,read:ids.has(item.id)})).sort((a,b)=>b.date.localeCompare(a.date));
 }
+// Preserve the unread state observed when the inbox opened. Persisting "read"
+// must not erase the highlight from the current, already-rendering snapshot.
+export function openNotificationSnapshot(items){
+ if(items.length)markAllNotificationsRead(items);
+ return items;
+}
 export function unreadNotifications(items){return items.reduce((n,item)=>n+(item.read?0:1),0);}
 export async function fetchAnnouncements(){
  const fallback=normalizeAnnouncements({items:readStored(CACHE_KEY,[])});
