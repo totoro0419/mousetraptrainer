@@ -244,7 +244,8 @@ try{
  assert.equal(await rate.isVisible(),false,'Playback rate uses hidden native select');
  const manage=page.locator('[data-action="manage-data"]');
  await manage.click();
- assert.equal(await page.locator('#sheet .management-action').count(),5,'Management options preserved');
+ assert.equal(await page.locator('#sheet .management-action').count(),4,'Management options preserved without manual update');
+ assert.equal(await page.locator('#sheet [data-action="update"]').count(),0,'Updates are automatic; no redundant settings control');
  const managementRect=await page.locator('#sheet').boundingBox();
  assert.ok(managementRect&&managementRect.y>=0&&managementRect.y<page.viewportSize().height,'New sheet remains on screen after previous swipe animations');
  assert.equal(await page.locator('#sheet .management-note').count(),1);
