@@ -74,9 +74,15 @@ test('an already interacting session or failed save is not interrupted',async()=
  const f=fixture({failSave:true,waiting:true});
  assert.equal(await f.manager.start(),'ready');
  assert.equal(f.counts().activationCount,0);
- const g=fixture({waiting:true});
+ const g=fixture();
+ let finishCheck;
+ g.registration.update=()=>new Promise(resolve=>{finishCheck=resolve;});
+ const opening=g.manager.start();
+ await flush();
  g.doc.fire('pointerdown');
- assert.equal(await g.manager.start(),'ready');
+ g.registration.waiting=g.waitingWorker;
+ finishCheck();
+ assert.equal(await opening,'ready');
  assert.equal(g.counts().activationCount,0);
 });
 
