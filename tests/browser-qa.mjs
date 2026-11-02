@@ -54,6 +54,31 @@ try{
   assert.equal(await page.locator('.quick-memory-speech').count(),at.length+1,'extra dialogue is visible only on request');
  }
 
+ // A native modal is above the underlying page: completion must be INSIDE it.
+ await page.locator('.quick-memory-speech.is-target').click();
+ const quickSheetButton=page.locator('#sheet .quick-memory-sheet-complete');
+ await quickSheetButton.waitFor({state:'visible',timeout:10000});
+ assert.equal(await quickSheetButton.textContent().then(t=>t.trim()),'完了');
+ assert.equal(await page.locator('#sheet .quick-memory-sheet-footer').count(),1,'exactly one completion footer inside the modal');
+ const compactBounds=await page.evaluate(()=>{
+  const sheet=document.querySelector('#sheet'),button=sheet.querySelector('.quick-memory-sheet-complete'),body=sheet.querySelector('.sheet-body');
+  return {bottom:button.getBoundingClientRect().bottom,viewHeight:innerHeight,bodyBottom:body.getBoundingClientRect().bottom,buttonTop:button.getBoundingClientRect().top};
+ });
+ assert.ok(compactBounds.bottom<=compactBounds.viewHeight+2,'sheet completion is onscreen in compact mode');
+ assert.ok(compactBounds.buttonTop>=compactBounds.bodyBottom-2,'action does not overlap explanation scrolling area');
+ await page.locator('#sheet .expand-sheet').click();
+ assert.equal(await page.locator('#sheet').evaluate(el=>el.classList.contains('expanded')),true);
+ assert.equal(await quickSheetButton.isVisible(),true,'completion persists in expanded sheet');
+ const expandedBounds=await page.evaluate(()=>{
+  const sheet=document.querySelector('#sheet'),button=sheet.querySelector('.quick-memory-sheet-complete'),body=sheet.querySelector('.sheet-body');
+  return {bottom:button.getBoundingClientRect().bottom,viewHeight:innerHeight,bodyBottom:body.getBoundingClientRect().bottom,buttonTop:button.getBoundingClientRect().top};
+ });
+ assert.ok(expandedBounds.bottom<=expandedBounds.viewHeight+2,'expanded-sheet completion stays onscreen');
+ assert.ok(expandedBounds.buttonTop>=expandedBounds.bodyBottom-2,'expanded sheet does not cover completion');
+ await page.locator('#sheet .close-sheet').click();
+ await page.waitForFunction(()=>!document.querySelector('#sheet').open,{timeout:10000});
+ assert.equal(await page.locator('.quick-memory-complete').isVisible(),true,'normal completion action returns after dismissing the sheet');
+
  await page.screenshot({path:'test-results/quick-memory-mobile.png'});
  await page.locator('.quick-memory-complete').click();
  await page.locator('.quick-memory-home').waitFor({timeout:10000});
@@ -68,6 +93,18 @@ try{
  await page.locator('.quick-memory-home-text').waitFor({timeout:25000});
  const reopened=await page.evaluate(role=>JSON.parse(localStorage.getItem('mt-state:mousetrap-private')).quickMemorize.currentByRole[role],original);
  assert.notEqual(reopened,beforeReload,'a fresh app launch draws a different dialogue when alternatives exist');
+ // Completing from the modal must run the exact same once-only persistence path.
+ await page.locator('.quick-memory-home-link').click();
+ await page.locator('.quick-memory-speech.is-target').waitFor({timeout:10000});
+ await page.locator('.quick-memory-speech.is-target').click();
+ await page.locator('#sheet .quick-memory-sheet-complete').click();
+ await page.locator('.quick-memory-home').waitFor({timeout:10000});
+ const sheetCompletionCount=await page.evaluate(id=>{
+  const state=JSON.parse(localStorage.getItem('mt-state:mousetrap-private'));
+  return state.quickMemorize.counts[id]?.count;
+ },reopened);
+ assert.equal(sheetCompletionCount,1,'modal-sheet completion records exactly once');
+
  console.log('PASS: quick memory role filter, context, completion, history, and launch refresh');
 
 
