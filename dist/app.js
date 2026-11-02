@@ -12,7 +12,8 @@ import {openRoleMenu,closeRoleMenu} from './modules/role-menu.js';
 import {fetchAnnouncements,notificationFeed,unreadNotifications,markAllNotificationsRead,recordInstalledWelcome} from './modules/notifications.js';
 import {receiveDailyToday,quoteSentence,festivalDaysRemaining} from './modules/daily-notifications.js';
 import {isInstalledPwa,offlineAudioStatus,downloadEntireAudio,isAudioDownloadRunning,OFFLINE_AUDIO_CACHE,OFFLINE_AUDIO_TOTAL} from './modules/offline-audio.js';
-let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,updateRequested=false,lastContentRoute='home',announcements=[],pwaJustInstalled=false,headerActionEpoch=0;
+import {createUpdateManager} from './modules/update-manager.js';
+let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,lastContentRoute='home',announcements=[],pwaJustInstalled=false,headerActionEpoch=0;
 const defaults={role:'',scene:'all',font:20,leading:1.9,stick:true,read:{},sessions:{},range:{scene:'all',from:1,to:0},rate:1,bookmarkOnly:false};
 const app=document.querySelector('#app');
 let quickWasHidden=false,lastQuickDrawAt=0;
@@ -375,10 +376,16 @@ async function startOfflineAudioDownload(){
   }else toast('音声保存を中断しました。ホームから再開できます。');
  }
 }
-let installPrompt,registration;
+let installPrompt,registration,updateManager;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;});window.addEventListener('appinstalled',()=>{installPrompt=null;pwaJustInstalled=true;if(isInstalledPwa())greetInstalledDevice();void refreshHeaderAppAction();});
 async function installApp(){if(installPrompt){await installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;}else openSheet('ホーム画面に追加',`<p>Android / Chrome：ブラウザーのメニューから「アプリをインストール」または「ホーム画面に追加」を選びます。</p><div class="sheet-section"><p>iPhone / iPad：Safariの共有メニューから「ホーム画面に追加」を選びます。</p></div><div class="sheet-section"><p class="subtle">すでにインストール済みの場合は、そのまま使えます。ブラウザーによってインストール操作は異なります。</p></div>`);}
-async function checkUpdate(){if(!registration){toast('更新機能を準備中です。ページを再読み込みしてください。');return;}try{await registration.update();if(registration.waiting)openSheet('更新を適用',`<p>閲覧位置と学習記録を保存して更新します。</p>${button('保存して更新','apply-update','primary')}`,{setup:d=>d.querySelector('button[data-action]').onclick=()=>{save();updateRequested=true;registration.waiting.postMessage('activate');}});else toast('最新の状態です。');}catch{toast('更新を確認できません。通信状態を確認してください。');}}
+async function checkUpdate(){
+ if(!registration||!updateManager){toast('更新機能を準備中です。ページを再読み込みしてください。');return;}
+ const checked=await updateManager.check();
+ if(!checked)toast('更新を確認できません。通信状態を確認してください。');
+ else if(registration.waiting)toast('更新は準備済みです。次にアプリを開いたとき自動で適用します。');
+ else toast('更新を確認しました。新しい版があれば自動で反映されます。');
+}
 window.addEventListener('hashchange',render);window.addEventListener('pageshow',event=>{if(event.persisted)refreshQuickOnResume();refreshFestivalCountdown();void refreshHeaderAppAction();});window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden){quickWasHidden=true;save();}else{if(quickWasHidden){quickWasHidden=false;refreshQuickOnResume();}refreshFestivalCountdown();void refreshHeaderAppAction();void refreshNotifications();}});
 window.addEventListener('storage',e=>{if(e.key===`mt-progress:${data?.id}`){progress=storage.loadSmall(e.key,{});render();}if(e.key==='mt-notifications-read-v1'||e.key==='mt-welcome-installed-v1')updateNotificationBadge();});
 window.addEventListener('offline',()=>toast('オフラインです。端末に保存した台本を使えます。'));
@@ -405,23 +412,15 @@ function prepareSupplements(target){
 async function registerForUpdates(){
  if(!('serviceWorker'in navigator)||location.hostname==='terminal.local')return;
  try{
-  registration=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});
-  const updateAvailable=()=>toast('アプリの更新があります。設定から適用できます。');
-  if(registration.waiting)updateAvailable();
-  registration.addEventListener('updatefound',()=>{
-   const worker=registration.installing;
-   worker?.addEventListener('statechange',()=>{
-    if(worker.state==='installed'&&navigator.serviceWorker.controller)updateAvailable();
-   });
+  updateManager=createUpdateManager({
+   serviceWorker:navigator.serviceWorker,
+   doc:document,
+   win:window,
+   beforeReload:()=>{save();return !saveFailed;},
+   reload:()=>location.reload()
   });
-  let refreshing=false;
-  navigator.serviceWorker.addEventListener('controllerchange',()=>{
-   // Never interrupt a learning session merely because a release was installed.
-   if(!refreshing&&updateRequested){refreshing=true;save();location.reload();}
-  });
-  if(isInstalledPwa()){greetInstalledDevice();void refreshHeaderAppAction();}
-  // A newly deployed worker is discovered after the usable screen is shown.
-  void registration.update().catch(()=>{});
+  registration=await updateManager.start();
+  if(registration&&isInstalledPwa()){greetInstalledDevice();void refreshHeaderAppAction();}
  }catch{ /* A failed update check must not replace an already usable app. */ }
 }
 try{
