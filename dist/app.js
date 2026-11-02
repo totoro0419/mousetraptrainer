@@ -53,6 +53,8 @@ function updateNotificationBadge(){
 }
 async function jumpToNotificationLine(id){
  if(!/^act(?:1-scene[12]|2)-speech-\d{4}$/.test(id))return;
+ // Stop the current screen before switching scripts, so its scroll saver cannot overwrite the target.
+ cleanup();cleanup=()=>{};
  if(data.id!=='mousetrap-private'){
   const bundled=await storage.get('script:mousetrap-private');
   if(!bundled){toast('本編台本を読み込めません。');return;}
@@ -60,8 +62,6 @@ async function jumpToNotificationLine(id){
  }
  const target=data.lines.find(item=>item.id===id);
  if(!target){toast('このセリフを見つけられません。');return;}
- // Finish the previous reader session before setting the destination, or its scroll saver could overwrite it.
- cleanup();cleanup=()=>{};
  // Reveal the target even if a scene, speaker, search, review or bookmark filter was active.
  small.scene=target.scene;small.speaker='all';small.query='';small.reviewOnly=false;small.bookmarkOnly=false;
  small.read={id:target.id,scene:target.scene,highlight:true};
