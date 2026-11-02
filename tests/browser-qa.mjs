@@ -100,6 +100,7 @@ try{
  assert.ok((await own.textContent()).includes(second.trim()));
  await own.click();
  await page.locator('.role-menu [role=option]').first().press('Escape');
+ await page.locator('.role-menu').waitFor({state:'detached',timeout:3000});
  assert.equal(await page.locator('.role-menu').count(),0,'Escape closes role menu');
  assert.equal(await own.getAttribute('aria-expanded'),'false');
  console.log('PASS: anchored role menu opens by button, persists role immediately and supports Escape');
