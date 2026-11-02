@@ -3,6 +3,7 @@ import * as storage from './modules/storage.js';
 import {icon,esc,button,el,toast,openSheet,closeSheet,enhanceSelects} from './modules/ui.js';
 import {loadStartupScript} from './modules/bundled.js';
 import {loadDramaturgy} from './modules/dramaturgy.js';
+import {loadQuickContexts} from './modules/quick-context.js';
 import {FESTIVAL,festivalCountdown} from './modules/festival-countdown.js';
 import {homeProgressRings,festivalRemainingRing} from './modules/home-progress.js';
 import {normalizeQuickMemory,currentQuickLine,refreshQuickMemory,ensureQuickMemory,completeQuickMemory,quickMemoryStats} from './modules/quick-memory.js';
@@ -273,7 +274,7 @@ function openDataManagement(){
  }});
 }
 
-async function activate(next){await storage.atomicPut([[`script:${next.id}`,next],['active-script',next.id]]);const enriched=await loadDramaturgy(storage,fetchData,next);data=enriched.data;loadState();refreshQuickOnLaunch();save();if(enriched.warning)toast(enriched.warning);}
+async function activate(next){await storage.atomicPut([[`script:${next.id}`,next],['active-script',next.id]]);const enriched=await loadDramaturgy(storage,fetchData,next),contextual=await loadQuickContexts(storage,fetchData,enriched.data);data=contextual.data;loadState();refreshQuickOnLaunch();save();if(enriched.warning||contextual.warning)toast(enriched.warning||contextual.warning);}
 async function showLibrary(){const ids=await storage.get('script-list')||[];const items=[];for(const id of ids){const d=await storage.get(`script:${id}`);if(d&&!d.sample)items.push(d);}openSheet('保存した台本',items.length?items.map(d=>`<button class="scene-link" data-work="${esc(d.id)}"><span class="scene-link-text"><strong>${esc(d.title)}</strong><small>${d.lines.length}件のセリフ</small></span>${icon('chevron')}</button>`).join(''):'<p>保存された台本はありません。</p>',{setup:d=>{d.querySelectorAll('[data-work]').forEach(b=>b.onclick=async()=>{const next=await storage.get(`script:${b.dataset.work}`);await activate(next);closeSheet();render();});}});}
 function openImport(){
  openSheet('台本を読み込む',`<p class="import-hint">JSON・ZIPファイルを選択してください。複数のJSONもまとめて選べます。</p>
@@ -381,6 +382,6 @@ async function checkUpdate(){if(!registration){toast('更新機能を準備中�
 window.addEventListener('hashchange',render);window.addEventListener('pageshow',event=>{if(event.persisted)refreshQuickOnResume();refreshFestivalCountdown();void refreshHeaderAppAction();});window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden){quickWasHidden=true;save();}else{if(quickWasHidden){quickWasHidden=false;refreshQuickOnResume();}refreshFestivalCountdown();void refreshHeaderAppAction();void refreshNotifications();}});
 window.addEventListener('storage',e=>{if(e.key===`mt-progress:${data?.id}`){progress=storage.loadSmall(e.key,{});render();}if(e.key==='mt-notifications-read-v1'||e.key==='mt-welcome-installed-v1')updateNotificationBadge();});
 window.addEventListener('offline',()=>toast('オフラインです。端末に保存した台本を使えます。'));
-try{const startup=await loadStartupScript(storage,fetchData),enriched=await loadDramaturgy(storage,fetchData,startup.data);data=enriched.data;loadState();refreshQuickOnLaunch();await render();window.setInterval(refreshFestivalCountdown,60_000);void refreshNotifications();if(startup.warning||enriched.warning)toast(startup.warning||enriched.warning);
+try{const startup=await loadStartupScript(storage,fetchData),enriched=await loadDramaturgy(storage,fetchData,startup.data),contextual=await loadQuickContexts(storage,fetchData,enriched.data);data=contextual.data;loadState();refreshQuickOnLaunch();await render();window.setInterval(refreshFestivalCountdown,60_000);void refreshNotifications();if(startup.warning||enriched.warning||contextual.warning)toast(startup.warning||enriched.warning||contextual.warning);
  if('serviceWorker'in navigator && location.hostname!=='terminal.local'){const hadController=!!navigator.serviceWorker.controller;registration=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});registration.addEventListener('updatefound',()=>{const worker=registration.installing;worker?.addEventListener('statechange',()=>{if(worker.state==='installed'&&navigator.serviceWorker.controller)toast('アプリの更新があります。設定から適用できます。');});});let refreshing=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!refreshing&&(hadController||updateRequested)){refreshing=true;save();location.reload();}});if(isInstalledPwa()){greetInstalledDevice();void refreshHeaderAppAction();}}
 }catch(err){app.innerHTML=`<div class="page"><h1>アプリを開けませんでした</h1><p class="notice error" style="margin:24px 0">${esc(err.message)}</p><p>ブラウザーのストレージが利用できるか確認してください。プライベートブラウズでは保存が制限されることがあります。</p><button class="primary" onclick="location.reload()">再試行</button></div>`;}
