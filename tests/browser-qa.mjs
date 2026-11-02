@@ -60,6 +60,8 @@ try{
  await quickSheetButton.waitFor({state:'visible',timeout:10000});
  assert.equal(await quickSheetButton.textContent().then(t=>t.trim()),'完了');
  assert.equal(await page.locator('#sheet .quick-memory-sheet-footer').count(),1,'exactly one completion footer inside the modal');
+ // The existing sheet entrance animates from translateY(26px). Check the settled layout.
+ await page.locator('#sheet').evaluate(el=>Promise.all(el.getAnimations().map(animation=>animation.finished.catch(()=>{}))));
  const compactBounds=await page.evaluate(()=>{
   const sheet=document.querySelector('#sheet'),button=sheet.querySelector('.quick-memory-sheet-complete'),body=sheet.querySelector('.sheet-body');
   return {bottom:button.getBoundingClientRect().bottom,viewHeight:innerHeight,bodyBottom:body.getBoundingClientRect().bottom,buttonTop:button.getBoundingClientRect().top};
