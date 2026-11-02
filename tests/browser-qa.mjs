@@ -58,6 +58,7 @@ try{
    ? {matches:true,media:query,onchange:null,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){},dispatchEvent(){return false}}
    : media(query);
  });
+ await installedPage.addInitScript(()=>{localStorage.setItem('mt-daily-received-v1',JSON.stringify([{date:'2026-11-03',type:'trivia',category:'英語トリビア',title:'台本ジャンプのテスト',body:'通知の引用から該当発話へ移動します。',lineId:'act1-scene1-speech-0040',quoteAnchor:'seven guineas'}]));});
  await installedPage.goto(base+'/',{waitUntil:'domcontentloaded'});
  await installedPage.locator('.home-role-row .app-select-trigger').waitFor({timeout:25000});
  const bell=installedPage.locator('[data-action="open-notifications"]');
@@ -65,8 +66,9 @@ try{
  await installedPage.locator('.notification-badge').waitFor({state:'visible',timeout:20000});
  await bell.click();
  assert.equal(await installedPage.locator('#sheet #sheet-title').textContent(),'お知らせ');
- assert.ok((await installedPage.locator('#sheet .notification-entry').innerText()).includes('Mousetrap Trainerへようこそ'));
- assert.ok((await installedPage.locator('#sheet .notification-entry').innerText()).includes('オフライン'));
+ const inboxText=(await installedPage.locator('#sheet .notification-entry').allTextContents()).join(' ');
+ assert.ok(inboxText.includes('Mousetrap Trainerへようこそ'));
+ assert.ok(inboxText.includes('オフライン'));
  assert.equal(await installedPage.locator('.notification-badge').isVisible(),false,'opening inbox immediately clears unread badge');
  assert.equal(await installedPage.locator('#sheet [data-notification-read],#sheet [data-action="all-read"]').count(),0,'no mark-read buttons remain');
  assert.equal(await installedPage.locator('#sheet .notification-entry.is-read').count(),await installedPage.locator('#sheet .notification-entry').count());
@@ -74,9 +76,15 @@ try{
  await installedPage.locator('#sheet .close-sheet').click();
  await bell.click();
  assert.equal(await installedPage.locator('.notification-badge').isVisible(),false,'read state persists after reopening');
- await installedPage.locator('#sheet .close-sheet').click();
+ const linkedQuote=installedPage.locator('#sheet [data-notification-line="act1-scene1-speech-0040"]');
+ assert.ok(await linkedQuote.count()>0,'daily notification shows the linked script quote');
+ assert.ok((await linkedQuote.innerText()).includes('seven guineas'),'notification shows sentence containing anchor');
+ assert.ok((await installedPage.locator('#sheet .notification-entry-heading').allTextContents()).some(text=>text.includes('聖光祭まであと175日！')),'editorial headline shows correct remaining days');
+ await linkedQuote.click();
+ assert.equal(new URL(installedPage.url()).hash,'#script','quote opens script route');
+ await installedPage.locator('#line-act1-scene1-speech-0040').waitFor({state:'visible',timeout:10000});
  await installedPage.close();
- console.log('PASS: browser hides inbox, standalone PWA shows inbox and automatically marks notifications read');
+ console.log('PASS: browser inbox read state and quote-to-exact-speech navigation');
 
  const own=page.locator('.home-role-row .app-select-trigger');
  await own.click();
@@ -93,6 +101,7 @@ try{
  assert.ok((await own.textContent()).includes(second.trim()));
  await own.click();
  await page.locator('.role-menu [role=option]').first().press('Escape');
+ await page.locator('.role-menu').waitFor({state:'detached',timeout:3000});
  assert.equal(await page.locator('.role-menu').count(),0,'Escape closes role menu');
  assert.equal(await own.getAttribute('aria-expanded'),'false');
  console.log('PASS: anchored role menu opens by button, persists role immediately and supports Escape');
@@ -162,6 +171,7 @@ try{
  assert.equal(await page.locator('.role-menu [role=option]').count()>1,true,'Reader role uses the same anchored dropdown');
  assert.equal(await page.locator('#sheet').evaluate(el=>el.open),false,'Reader role does not use a bottom sheet');
  await page.keyboard.press('Escape');
+ await page.locator('.role-menu').waitFor({state:'detached',timeout:3000});
  assert.equal(await page.locator('.role-menu').count(),0);
  await page.screenshot({path:'test-results/reader-mobile.png'});
  assert.equal(await page.locator('.global-settings').count(),1,'Reader has a settings gear');
@@ -273,6 +283,7 @@ try{
  assert.ok(await desktop.locator('.role-menu [role=option]').count()>1,'Desktop reader role uses anchored menu');
  assert.equal(await desktop.locator('#sheet').evaluate(el=>el.open),false);
  await desktop.keyboard.press('Escape');
+ await desktop.locator('.role-menu').waitFor({state:'detached',timeout:3000});
  assert.equal(await desktop.locator('.role-menu').count(),0);
  await desktop.locator('.nav-items a[href="#home"]').click();
  await desktop.screenshot({path:'test-results/home-desktop.png'});

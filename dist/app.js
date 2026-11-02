@@ -8,6 +8,7 @@ import {homeProgressRings,festivalRemainingRing} from './modules/home-progress.j
 async function fetchData(url){const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error(`HTTP ${response.status}`);return response.json();}
 import {openRoleMenu,closeRoleMenu} from './modules/role-menu.js';
 import {fetchAnnouncements,notificationFeed,unreadNotifications,markAllNotificationsRead,recordInstalledWelcome} from './modules/notifications.js';
+import {receiveDailyToday,quoteSentence,festivalDaysRemaining} from './modules/daily-notifications.js';
 import {isInstalledPwa,offlineAudioStatus,downloadEntireAudio,isAudioDownloadRunning,OFFLINE_AUDIO_CACHE,OFFLINE_AUDIO_TOTAL} from './modules/offline-audio.js';
 let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,updateRequested=false,lastContentRoute='home',announcements=[],pwaJustInstalled=false,headerActionEpoch=0;
 const defaults={role:'',scene:'all',font:20,leading:1.9,stick:true,read:{},sessions:{},range:{scene:'all',from:1,to:0},rate:1,bookmarkOnly:false};
@@ -50,26 +51,55 @@ function updateNotificationBadge(){
  trigger.setAttribute('aria-label',count?'お知らせ、未読'+count+'件':'お知らせを開く');
  trigger.title=count?'未読のお知らせ '+count+'件':'お知らせ';
 }
+async function jumpToNotificationLine(id){
+ if(!/^act(?:1-scene[12]|2)-speech-\d{4}$/.test(id))return;
+ // Stop the current screen before switching scripts, so its scroll saver cannot overwrite the target.
+ cleanup();cleanup=()=>{};
+ if(data.id!=='mousetrap-private'){
+  const bundled=await storage.get('script:mousetrap-private');
+  if(!bundled){toast('本編台本を読み込めません。');return;}
+  await activate(bundled);
+ }
+ const target=data.lines.find(item=>item.id===id);
+ if(!target){toast('このセリフを見つけられません。');return;}
+ // Reveal the target even if a scene, speaker, search, review or bookmark filter was active.
+ small.scene=target.scene;small.speaker='all';small.query='';small.reviewOnly=false;small.bookmarkOnly=false;
+ small.read={id:target.id,scene:target.scene,highlight:true};
+ save();closeSheet();
+ if(location.hash==='#script')await render();else location.hash='script';
+}
 function openNotificationInbox(){
  if(!isInstalledPwa())return;
  const items=currentNotificationFeed();
- // Opening the inbox marks everything currently visible as read immediately.
- // The badge and stored read state update without requiring individual actions.
+ // Opening the inbox marks all currently visible notifications read.
  if(items.length)markAllNotificationsRead(items);
  updateNotificationBadge();
- const content=items.length?'<div class="notification-list">'+items.map(item=>
-  '<article class="notification-entry is-read">'+
-  '<div class="notification-entry-heading"><strong>'+esc(item.title)+'</strong></div>'+
-  (item.date?'<time class="notification-date">'+esc(item.date.slice(0,10))+'</time>':'')+
-  '<p>'+esc(item.body)+'</p>'+
-  '</article>'
- ).join('')+'</div>':
- '<p class="subtle">まだお知らせはありません。</p>';
- openSheet('お知らせ',content);
+ const lineMap=data?.id==='mousetrap-private'?new Map(data.lines.map(line=>[line.id,line])):new Map();
+ const content=items.length?'<div class="notification-list">'+items.map(item=>{
+  const line=item.lineId?lineMap.get(item.lineId):null;
+  const sentence=line?quoteSentence(line.text,item.quoteAnchor||''):null;
+  const quote=item.lineId?'<button type="button" class="notification-script-quote" data-notification-line="'+esc(item.lineId)+'" aria-label="台本の該当セリフを開く">'+
+    '<span class="notification-quote-label">劇中のセリフ'+(line?' · '+esc(line.speaker):'')+'</span>'+
+    (sentence?'<span class="notification-quote-text" lang="en">“'+esc(sentence)+'”</span>':'<span class="notification-quote-text">台本の該当箇所へ</span>')+
+    '</button>':'';
+  const remaining=item.id?.startsWith('daily-')?festivalDaysRemaining(item.date):null;
+  const countdown=remaining===null?null:'聖光祭まであと'+remaining+'日！';
+  return '<article class="notification-entry is-read">'+
+   '<div class="notification-entry-heading"><strong>'+esc(countdown||item.title)+'</strong></div>'+
+   (countdown?'<p class="notification-editorial-title">'+esc(item.title)+'</p>':'')+
+   (item.date?'<time class="notification-date">'+esc(item.date.slice(0,10))+'</time>':'')+
+   quote+'<p>'+esc(item.body)+'</p>'+
+   '</article>';
+ }).join('')+'</div>':'<p class="subtle">まだお知らせはありません。</p>';
+ openSheet('お知らせ',content,{setup:sheet=>{
+  sheet.querySelectorAll('[data-notification-line]').forEach(button=>
+   button.addEventListener('click',()=>{void jumpToNotificationLine(button.dataset.notificationLine);}));
+ }});
 }
 async function refreshNotifications(){
  if(!isInstalledPwa()){announcements=[];return;}
- announcements=await fetchAnnouncements();
+ const [feed]=await Promise.all([fetchAnnouncements(),receiveDailyToday()]);
+ announcements=feed;
  updateNotificationBadge();
 }
 function greetInstalledDevice(){

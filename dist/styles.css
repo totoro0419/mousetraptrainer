@@ -640,3 +640,21 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
  .app-layout[data-route=rehearse] .rehearsal,
  .app-layout[data-route=rehearse] .audio-stage{animation:none!important}
 }
+
+
+/* Daily editorial: source quote is a direct link to its exact script line. */
+.notification-script-quote {
+ display:flex;flex-direction:column;gap:5px;width:100%;margin:10px 0 12px;
+ padding:12px 14px;border:1px solid var(--border, #e3e8f0);
+ border-radius:12px;background:var(--surface-soft, #f7f9fc);
+ color:inherit;text-align:left;cursor:pointer;white-space:normal;
+}
+.notification-script-quote:hover {border-color:#8aaed8;background:#f0f6ff}
+.notification-script-quote:focus-visible {outline:2px solid #326fc0;outline-offset:2px}
+.notification-quote-label {font-size:11px;font-weight:650;color:#617187}
+.notification-quote-text {font-size:13px;line-height:1.7;font-style:italic;overflow-wrap:anywhere}
+@media (prefers-reduced-motion:reduce) {
+ .notification-script-quote {transition:none}
+}
+
+.notification-editorial-title {font-size:0.92rem;line-height:1.55;font-weight:600;margin:7px 0 5px;color:inherit}
