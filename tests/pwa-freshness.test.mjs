@@ -127,11 +127,15 @@ test('startup is not blocked on optional explanations, context or service worker
  assert.match(html,/class="boot-screen"/);
  assert.match(html,/class="boot-status"/);
  assert.match(html,/prefers-reduced-motion/);
- const anchor=app.indexOf("const startup=await loadStartupScript(storage,fetchData)");
- const render=app.indexOf("await render();",anchor);
- const supplements=app.indexOf("prepareSupplements(data);",anchor);
- const worker=app.indexOf("void registerForUpdates();",anchor);
- assert.ok(anchor>=0&&render>anchor&&supplements>render&&worker>render);
+ const preload=app.indexOf("const startupTask=loadStartupScript(storage,fetchData)");
+ const worker=app.indexOf("const updateStatus=await registerForUpdates();",preload);
+ const gate=app.indexOf("const {startup,error}=await startupTask;",worker);
+ const render=app.indexOf("await render();",gate);
+ const supplements=app.indexOf("prepareSupplements(data);",gate);
+ assert.ok(preload>=0&&worker>preload&&gate>worker&&render>gate&&supplements>render,
+  'script may load concurrently, but the app must wait for update check before rendering');
+ assert.match(app,/if\(updateStatus!=='reloading'\)/);
+ assert.doesNotMatch(app,/data-action="update"|function checkUpdate\(/);
  assert.match(app,/import \{createUpdateManager\} from '\.\/modules\/update-manager\.js';/);
  assert.match(app,/updateManager=createUpdateManager\(/);
  assert.match(app,/loadQuickContexts\(storage,fetchData,target,\{preferSaved:true\}\)/);
