@@ -155,11 +155,15 @@ try{
  assert.ok(inboxText.includes('オフライン'));
  assert.equal(await installedPage.locator('.notification-badge').isVisible(),false,'opening inbox immediately clears unread badge');
  assert.equal(await installedPage.locator('#sheet [data-notification-read],#sheet [data-action="all-read"]').count(),0,'no mark-read buttons remain');
- assert.equal(await installedPage.locator('#sheet .notification-entry.is-read').count(),await installedPage.locator('#sheet .notification-entry').count());
+ const highlighted=await installedPage.locator('#sheet .notification-entry.is-new').count();
+ assert.ok(highlighted>0,'unread at open remains highlighted in the open inbox');
+ assert.equal(await installedPage.locator('#sheet .notification-new-label').count(),highlighted,'highlighted items show unread label');
  assert.equal(await installedPage.evaluate(()=>JSON.parse(localStorage.getItem('mt-notifications-read-v1')||'[]').includes('welcome-install-v1')),true,'opening persists read status');
  await installedPage.locator('#sheet .close-sheet').click();
  await bell.click();
  assert.equal(await installedPage.locator('.notification-badge').isVisible(),false,'read state persists after reopening');
+ assert.equal(await installedPage.locator('#sheet .notification-entry.is-new').count(),0,'highlight disappears after reopening');
+ assert.equal(await installedPage.locator('#sheet .notification-entry.is-read').count(),await installedPage.locator('#sheet .notification-entry').count(),'all entries render normally on reopening');
  const linkedQuote=installedPage.locator('#sheet [data-notification-line="act1-scene1-speech-0040"]');
  assert.ok(await linkedQuote.count()>0,'daily notification shows the linked script quote');
  assert.ok((await linkedQuote.innerText()).includes('seven guineas'),'notification shows sentence containing anchor');
