@@ -419,12 +419,14 @@ async function registerForUpdates(){
  }catch{ return 'ready'; /* Offline and failed update checks use saved content. */ }
 }
 try{
- // Never display the old app while an available new release is being applied.
+ // Read the local script concurrently, but do not show the old UI before an available update.
+ const startupTask=loadStartupScript(storage,fetchData).then(startup=>({startup}),error=>({error}));
  const updateStatus=await registerForUpdates();
  if(updateStatus!=='reloading'){
   const status=document.querySelector('.boot-status');
   if(status)status.textContent='台本を準備しています';
-  const startup=await loadStartupScript(storage,fetchData);
+  const {startup,error}=await startupTask;
+  if(error)throw error;
   data=startup.data;
   loadState();refreshQuickOnLaunch();
   await render();

@@ -127,11 +127,13 @@ test('startup is not blocked on optional explanations, context or service worker
  assert.match(html,/class="boot-screen"/);
  assert.match(html,/class="boot-status"/);
  assert.match(html,/prefers-reduced-motion/);
- const worker=app.indexOf("const updateStatus=await registerForUpdates();");
- const anchor=app.indexOf("const startup=await loadStartupScript(storage,fetchData)",worker);
- const render=app.indexOf("await render();",anchor);
- const supplements=app.indexOf("prepareSupplements(data);",anchor);
- assert.ok(worker>=0&&anchor>worker&&render>anchor&&supplements>render,'update gate must run before rendering app');
+ const preload=app.indexOf("const startupTask=loadStartupScript(storage,fetchData)");
+ const worker=app.indexOf("const updateStatus=await registerForUpdates();",preload);
+ const gate=app.indexOf("const {startup,error}=await startupTask;",worker);
+ const render=app.indexOf("await render();",gate);
+ const supplements=app.indexOf("prepareSupplements(data);",gate);
+ assert.ok(preload>=0&&worker>preload&&gate>worker&&render>gate&&supplements>render,
+  'script may load concurrently, but the app must wait for update check before rendering');
  assert.match(app,/if\(updateStatus!=='reloading'\)/);
  assert.doesNotMatch(app,/data-action="update"|function checkUpdate\(/);
  assert.match(app,/import \{createUpdateManager\} from '\.\/modules\/update-manager\.js';/);
