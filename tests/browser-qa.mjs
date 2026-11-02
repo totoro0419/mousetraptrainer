@@ -170,6 +170,7 @@ try{
  assert.equal(await page.locator('.role-menu [role=option]').count()>1,true,'Reader role uses the same anchored dropdown');
  assert.equal(await page.locator('#sheet').evaluate(el=>el.open),false,'Reader role does not use a bottom sheet');
  await page.keyboard.press('Escape');
+ await page.locator('.role-menu').waitFor({state:'detached',timeout:3000});
  assert.equal(await page.locator('.role-menu').count(),0);
  await page.screenshot({path:'test-results/reader-mobile.png'});
  assert.equal(await page.locator('.global-settings').count(),1,'Reader has a settings gear');
@@ -281,6 +282,7 @@ try{
  assert.ok(await desktop.locator('.role-menu [role=option]').count()>1,'Desktop reader role uses anchored menu');
  assert.equal(await desktop.locator('#sheet').evaluate(el=>el.open),false);
  await desktop.keyboard.press('Escape');
+ await desktop.locator('.role-menu').waitFor({state:'detached',timeout:3000});
  assert.equal(await desktop.locator('.role-menu').count(),0);
  await desktop.locator('.nav-items a[href="#home"]').click();
  await desktop.screenshot({path:'test-results/home-desktop.png'});
