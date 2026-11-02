@@ -1,6 +1,6 @@
 // Release-pinned, offline-first app shell. The build stamps file digests and a release ID.
 const CACHE='mousetrap-shell-bootstrap';
-const ASSETS=['./','./index.html','./styles.css','./home-refresh.css','./app.js','./data/mousetrap.json','./data/mousetrap-dramaturgy.ja.json','./data/mousetrap-context.ja.json','./icon-v2-192.png','./icon-v2-512.png','./icon-v2-maskable-512.png','./manifest.webmanifest','./modules/data.js','./modules/bundled.js','./modules/dramaturgy.js','./modules/festival-countdown.js','./modules/home-progress.js','./modules/quick-memory.js','./modules/quick-context.js','./modules/quick-memory-view.js','./modules/storage.js','./modules/ui.js','./modules/reader.js','./modules/role-menu.js','./modules/stick.js','./modules/session.js','./modules/audio.js','./modules/rehearsal.js','./modules/offline-audio.js','./modules/notifications.js','./modules/daily-notifications.js','./data/notifications.json','./data/daily-editorial.json'];
+const ASSETS=['./','./index.html','./styles.css','./home-refresh.css','./app.js','./data/mousetrap.json','./data/mousetrap-dramaturgy.ja.json','./data/mousetrap-context.ja.json','./icon-v2-192.png','./icon-v2-512.png','./icon-v2-maskable-512.png','./manifest.webmanifest','./modules/data.js','./modules/bundled.js','./modules/dramaturgy.js','./modules/festival-countdown.js','./modules/home-progress.js','./modules/quick-memory.js','./modules/quick-context.js','./modules/quick-memory-view.js','./modules/storage.js','./modules/ui.js','./modules/reader.js','./modules/update-manager.js','./modules/role-menu.js','./modules/stick.js','./modules/session.js','./modules/audio.js','./modules/rehearsal.js','./modules/offline-audio.js','./modules/notifications.js','./modules/daily-notifications.js','./data/notifications.json','./data/daily-editorial.json'];
 const ASSET_REVISIONS={};
 const CACHE_PREFIX='mousetrap-shell-';
 const META_PATH='./__release-revisions.json';
@@ -29,7 +29,7 @@ self.addEventListener('install',event=>event.waitUntil((async()=>{
   await cache.put(url,response);
  }));
  await cache.put(assetURL(META_PATH),new Response(JSON.stringify(ASSET_REVISIONS),{headers:{'Content-Type':'application/json'}}));
- // An upgrade remains waiting; learners decide when it can replace the active app.
+ // Upgrades wait for the window to request activation at a safe opening.
  if(!self.registration.active)await self.skipWaiting();
 })()));
 
