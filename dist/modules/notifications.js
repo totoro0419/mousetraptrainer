@@ -1,3 +1,4 @@
+import {receivedDailyItems} from './daily-notifications.js';
 // Per-device notification inbox; announcements are edited in GitHub and published with Pages.
 const READ_KEY='mt-notifications-read-v1';
 const WELCOME_KEY='mt-welcome-installed-v1';
@@ -46,7 +47,7 @@ export function markAllNotificationsRead(items){
 }
 export function notificationFeed(announcements,showWelcome=installedWelcome()){
  const ids=new Set(readStored(READ_KEY,[]));
- const items=[...normalizeAnnouncements({items:announcements})];
+ const items=[...normalizeAnnouncements({items:announcements}),...receivedDailyItems()];
  if(showWelcome)items.push(welcome);
  return items.map(item=>({...item,read:ids.has(item.id)})).sort((a,b)=>b.date.localeCompare(a.date));
 }
