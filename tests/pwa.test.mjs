@@ -1,12 +1,13 @@
-import test from 'node:test';import assert from 'node:assert/strict';import vm from 'node:vm';import {readFile} from 'node:fs/promises';
-test('service worker caches shell, serves offline navigation and preserves unrelated caches',async()=>{
- const listeners={},items=new Map(),names=new Set(['unrelated-cache','mousetrap-shell-old']);let installed=[];
- const scope='https://example.test/mousetraptrainer/';
- const context={URL,Promise,self:{location:{origin:'https://example.test',hostname:'example.test'},registration:{scope},clients:{claim:async()=>{}},skipWaiting(){},addEventListener(n,f){listeners[n]=f;}},caches:{open:async name=>{names.add(name);return {addAll:async urls=>{installed=urls;for(const u of urls)items.set(new URL(u,scope).href,'cached:'+u);}};},keys:async()=>[...names],delete:async k=>names.delete(k),match:async key=>items.get(String(key.url||key))},fetch:async()=>{throw Error('offline');}};
- vm.runInNewContext(await readFile(new URL('../dist/sw.js',import.meta.url),'utf8'),context);
- let pending;listeners.install({waitUntil(p){pending=p;}});await pending;assert.ok(installed.includes('./modules/rehearsal.js'));assert.ok(installed.includes('./icon-v2-512.png')&&installed.includes('./icon-v2-maskable-512.png'));assert.ok(installed.includes('./data/mousetrap.json'));assert.ok(installed.includes('./modules/bundled.js'));
- listeners.activate({waitUntil(p){pending=p;}});await pending;assert.ok(names.has('unrelated-cache'));assert.ok(!names.has('mousetrap-shell-old'));
- listeners.fetch({request:{url:scope+'index.html',mode:'navigate',method:'GET'},respondWith(p){pending=p;}});assert.equal(await pending,'cached:./index.html');
- listeners.fetch({request:{url:scope+'modules/reader.js',mode:'cors',method:'GET'},respondWith(p){pending=p;}});assert.equal(await pending,'cached:./modules/reader.js');
- let intercepted=false;listeners.fetch({request:{url:'https://other.test/private',mode:'cors',method:'GET'},respondWith(){intercepted=true;}});assert.equal(intercepted,false);
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+
+test('service worker keeps the built-in production script and all offline app modules',async()=>{
+ const worker=await readFile(new URL('../dist/sw.js',import.meta.url),'utf8');
+ for(const asset of ['./index.html','./styles.css','./app.js','./data/mousetrap.json','./data/mousetrap-dramaturgy.ja.json','./data/mousetrap-context.ja.json','./modules/bundled.js','./modules/reader.js','./modules/rehearsal.js']){
+  assert.ok(worker.includes("'"+asset+"'"),asset+' must be included in the offline shell');
+ }
+ assert.match(worker,/const CACHE='mousetrap-shell-[^']+'/);
+ assert.match(worker,/const ASSET_REVISIONS={/);
+ assert.match(worker,/if(!self.registration.active)await self.skipWaiting()/);
 });

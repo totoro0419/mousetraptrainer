@@ -63,3 +63,16 @@ test('quick memory initially displays only 1+1 adjacent lines, with optional exp
  assert.match(worker,/\.\/data\/mousetrap-context\.ja\.json/);
  assert.match(worker,/\.\/modules\/quick-context\.js/);
 });
+
+test('cached situation explanations are displayed without a network request while updates run later',async()=>{
+ const store=new Map([[QUICK_CONTEXT.key,context]]);
+ let requestCount=0;
+ const storage={get:async key=>store.get(key),put:async(key,value)=>store.set(key,value)};
+ const load=async()=>{requestCount++;return context;};
+ const first=await loadQuickContexts(storage,load,script,{preferSaved:true});
+ assert.equal(first.fromCache,true);
+ assert.equal(requestCount,0);
+ assert.equal(first.data.quickContexts[script.lines[0].id].scene,script.lines[0].scene);
+ await loadQuickContexts(storage,load,script);
+ assert.equal(requestCount,1,'an explicit background refresh still checks the server');
+});

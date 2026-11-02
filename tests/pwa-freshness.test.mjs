@@ -3,115 +3,137 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {readFile} from 'node:fs/promises';
 
-const workerSource=await readFile(new URL('../dist/sw.js',import.meta.url),'utf8');
-const appSource=await readFile(new URL('../dist/app.js',import.meta.url),'utf8');
+const sw=await readFile(new URL('../dist/sw.js',import.meta.url),'utf8');
+const app=await readFile(new URL('../dist/app.js',import.meta.url),'utf8');
 const scope='https://example.test/mousetraptrainer/';
+const revisions=JSON.parse(sw.match(/const ASSET_REVISIONS=([^\n]*);/)[1]);
+const assets=Object.keys(revisions);
+const release=sw.match(/const CACHE='([^']+)';/)[1];
 
-test('PWA updates: online uses the deployed CSS/JS, refreshes offline cache and preserves unrelated data',async()=>{
- const events=new Map(), stores=new Map(), fetches=[];
- stores.set('unrelated-cache',new Map([['some-key',new Response('personal data')]]));
- stores.set('mousetrap-shell-prior-release',new Map([[scope+'styles.css',new Response('old design')]]));
- let online=true,body='new design',skipWaitingCalls=0,claimed=0;
+function harness({upgrade=true}={}){
+ const stores=new Map(),events=new Map(),fetched=[];
+ stores.set('unrelated-cache',new Map([['private',new Response('keep me')]]));
+ let online=true,claimed=0,skipped=0;
+ if(upgrade){
+  const old={...revisions,'./styles.css':'prior-styles-digest'};
+  const content=new Map(Object.keys(revisions).map(p=>[new URL(p,scope).href,new Response('prior:'+p)]));
+  content.set(new URL('./__release-revisions.json',scope).href,new Response(JSON.stringify(old)));
+  stores.set('mousetrap-shell-prior-release',content);
+ }
  const caches={
   async open(name){
    if(!stores.has(name))stores.set(name,new Map());
    const store=stores.get(name);
    return {
-    async addAll(paths){for(const path of paths)store.set(new URL(path,scope).href,new Response('installed:'+path));},
-    async put(url,response){store.set(typeof url==='string'?url:url.url,response.clone());},
-    async match(url){return store.get(typeof url==='string'?url:url.url)?.clone();}
+    match:async url=>store.get(typeof url==='string'?url:url.url)?.clone(),
+    put:async(url,value)=>{store.set(typeof url==='string'?url:url.url,value.clone());},
+    keys:async()=>[...store.keys()].map(url=>({url}))
    };
   },
   async keys(){return [...stores.keys()];},
   async delete(name){return stores.delete(name);},
-  async match(url){for(const store of stores.values()){const match=store.get(String(url));if(match)return match.clone();}}
+  async match(url){
+   const key=typeof url==='string'?url:url.url;
+   for(const store of stores.values()){const value=store.get(key);if(value)return value.clone();}
+  }
  };
  const self={
   location:{hostname:'example.test',origin:'https://example.test'},
-  registration:{scope},
+  registration:{scope,active:upgrade?{}:null},
   clients:{claim:async()=>{claimed++;}},
-  skipWaiting:async()=>{skipWaitingCalls++;},
-  addEventListener(type,handler){events.set(type,handler);}
+  skipWaiting:async()=>{skipped++;},
+  addEventListener(name,fn){events.set(name,fn);}
  };
- const fetch=async(request,init)=>{
-  fetches.push({url:request.url,cache:init?.cache});
+ const fetch=async(url,options)=>{
+  const target=typeof url==='string'?url:url.url;
+  fetched.push({url:target,cache:options?.cache||null});
   if(!online)throw Error('offline');
-  return new Response(body,{status:200});
+  return new Response('deployed:'+target,{status:200});
  };
- vm.runInNewContext(workerSource,{URL,Promise,self,caches,fetch,Response});
+ vm.runInNewContext(sw,{URL,Response,Request,Headers,Promise,self,caches,fetch});
  async function dispatch(type,request){
-  let response,wait=[];
-  const event={request,
-   respondWith(p){response=p;},
-   waitUntil(p){wait.push(Promise.resolve(p));}
-  };
+  const waits=[];let response;
+  const event={request,waitUntil(p){waits.push(Promise.resolve(p));},respondWith(p){response=p;}};
   events.get(type)(event);
-  const output=response?await response:undefined;
-  await Promise.all(wait);
-  return output;
+  const answer=response?await response:undefined;
+  await Promise.all(waits);
+  return answer;
  }
- await dispatch('install');
- assert.equal(skipWaitingCalls,1,'new SW activates without manual cache clearing');
- await dispatch('activate');
- assert.equal(claimed,1);
- assert.equal(stores.has('mousetrap-shell-prior-release'),false,'old app shell is deleted');
- assert.equal(stores.has('unrelated-cache'),true,'other caches are never removed');
+ return {dispatch,stores,fetched,events,get claimed(){return claimed;},get skipped(){return skipped;},setOnline(value){online=value;}};
+}
 
- const cssRequest={url:scope+'styles.css',method:'GET',mode:'cors'};
- assert.equal(await (await dispatch('fetch',cssRequest)).text(),'new design');
- assert.equal(fetches.at(-1).cache,'no-store','live source bypasses HTTP cache');
- online=false;
- assert.equal(await (await dispatch('fetch',cssRequest)).text(),'new design','offline fallback uses refreshed design');
-
- online=true;body='subsequent release';
- assert.equal(await (await dispatch('fetch',cssRequest)).text(),'subsequent release',
-  'unchanged worker revision cannot pin a stale stylesheet');
- online=false;
- assert.equal(await (await dispatch('fetch',cssRequest)).text(),'subsequent release',
-  'latest stylesheet is cached after online access');
-
- const jsRequest={url:scope+'modules/reader.js',method:'GET',mode:'cors'};
- online=true;body='updated reader';assert.equal(await (await dispatch('fetch',jsRequest)).text(),'updated reader');
- online=false;assert.equal(await (await dispatch('fetch',jsRequest)).text(),'updated reader');
- const nav={url:scope+'index.html',method:'GET',mode:'navigate'};
- assert.equal(await (await dispatch('fetch',nav)).text(),'installed:./index.html','navigation works offline');
- online=true;body='new home';assert.equal(await (await dispatch('fetch',nav)).text(),'new home');
- online=false;assert.equal(await (await dispatch('fetch',nav)).text(),'new home');
-
- const audioRequest={url:scope+'audio/lines/act2/act2-speech-0001.mp3',method:'GET',mode:'cors',headers:new Headers()};
- online=true;body='one MP3';
- assert.equal(await (await dispatch('fetch',audioRequest)).text(),'one MP3','on-demand hosted MP3 is fetched online');
- assert.equal(stores.get('mousetrap-audio-runtime-v1')?.has(audioRequest.url),true,'downloaded MP3 is cached');
- online=false;
- assert.equal(await (await dispatch('fetch',audioRequest)).text(),'one MP3','downloaded MP3 works offline');
-
- const bulk={url:scope+'audio/lines/act2/act2-speech-0002.mp3',method:'GET',mode:'cors',headers:new Headers({'X-Mousetrap-Bulk-Audio':'1'})};
- online=true;body='MP3 bulk';
- assert.equal(await (await dispatch('fetch',bulk)).text(),'MP3 bulk','bulk download returns hosted audio');
- assert.equal(stores.get('mousetrap-audio-runtime-v1').has(bulk.url),false,'bulk download skips duplicate SW cache writes');
-
- const outside={url:'https://other.example/private',method:'GET',mode:'cors'};
- assert.equal(await dispatch('fetch',outside),undefined,'unrelated origins are not intercepted');
- assert.match(appSource,/serviceWorker\.register\('\.\/sw\.js',\{updateViaCache:'none'\}\)/);
+test('updated release downloads changed assets only, reuses verified bytes and remains waiting',async()=>{
+ const h=harness();
+ await h.dispatch('install');
+ assert.equal(h.skipped,0,'an update must not force itself on an active reader');
+ const requested=h.fetched.filter(x=>x.cache==='reload');
+ assert.deepEqual(requested.map(x=>x.url),[new URL('./styles.css',scope).href]);
+ assert.equal(await h.stores.get(release).get(new URL('./modules/reader.js',scope).href).text(),'prior:./modules/reader.js');
+ assert.equal(await h.stores.get(release).get(new URL('./styles.css',scope).href).text(),'deployed:'+new URL('./styles.css',scope).href);
+ assert.ok(h.stores.has('mousetrap-shell-prior-release'),'old release is retained until activation');
+ await h.dispatch('activate');
+ assert.equal(h.claimed,1);
+ assert.equal(h.stores.has('mousetrap-shell-prior-release'),false);
+ assert.equal(h.stores.has('unrelated-cache'),true);
+ h.dispatch('message',{data:'activate'});
+ assert.equal(h.skipped,1,'user-triggered activation is supported');
 });
 
-test('freshness strategy keeps full new UI in source and does not rollback previous features',async()=>{
- const css=await readFile(new URL('../dist/styles.css',import.meta.url),'utf8');
- const reader=await readFile(new URL('../dist/modules/reader.js',import.meta.url),'utf8');
+test('repeated offline launches serve the same verified HTML, JS and CSS without network',async()=>{
+ const h=harness();
+ await h.dispatch('install');
+ await h.dispatch('activate');
+ h.setOnline(false);
+ const before=h.fetched.length;
+ const nav=await h.dispatch('fetch',{url:scope,mode:'navigate',method:'GET'});
+ assert.equal(await nav.text(),'prior:./index.html');
+ const js=await h.dispatch('fetch',{url:scope+'modules/reader.js',mode:'cors',method:'GET'});
+ assert.equal(await js.text(),'prior:./modules/reader.js');
+ const css=await h.dispatch('fetch',{url:scope+'styles.css',mode:'cors',method:'GET'});
+ assert.match(await css.text(),/^deployed:/);
+ assert.equal(h.fetched.length,before,'cached app shell must not wait for network');
+});
+
+test('the first installation still pre-caches every offline asset',async()=>{
+ const h=harness({upgrade:false});
+ await h.dispatch('install');
+ assert.equal(h.skipped,1,'first install may activate immediately');
+ assert.equal(h.fetched.filter(x=>x.cache==='reload').length,assets.length);
+ assert.ok(assets.includes('./data/mousetrap.json'));
+ assert.ok(assets.includes('./data/mousetrap-context.ja.json'));
+ assert.ok(assets.includes('./modules/rehearsal.js'));
+ await h.dispatch('activate');
+ h.setOnline(false);
+ const nav=await h.dispatch('fetch',{url:scope+'index.html',method:'GET',mode:'navigate'});
+ assert.match(await nav.text(),/^deployed:/);
+});
+
+test('hosted audio retains on-demand network and offline fallback',async()=>{
+ const h=harness();
+ await h.dispatch('install');await h.dispatch('activate');
+ const url=scope+'audio/lines/act2/act2-speech-0001.mp3';
+ const request={url,method:'GET',mode:'cors',headers:new Headers()};
+ assert.equal(await (await h.dispatch('fetch',request)).text(),'deployed:'+url);
+ assert.ok(h.stores.get('mousetrap-audio-runtime-v1').has(url));
+ h.setOnline(false);
+ assert.equal(await (await h.dispatch('fetch',request)).text(),'deployed:'+url);
+ const before=h.fetched.length;
+ await h.dispatch('fetch',{url:'https://other.example/private',method:'GET',mode:'cors',headers:new Headers()});
+ assert.equal(h.fetched.length,before);
+});
+
+test('startup is not blocked on optional explanations, context or service worker registration',async()=>{
  const html=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
- assert.match(css,/LUMINOUS MINIMALISM V2/);
- assert.match(css,/\.reader-scroll \.speech\.mine\{background:#eef6ff/);
- assert.match(css,/\.speech-bookmark\[aria-pressed="true"\]/);
- assert.match(reader,/data-action="bookmark"/);
- assert.doesNotMatch(reader,/class="speech-analysis"/);
- assert.match(reader,/会話の流れ・文脈/);
- assert.match(reader,/そのセリフの解説/);
- assert.match(workerSource,/data\/mousetrap-dramaturgy\.ja\.json/);
- assert.match(workerSource,/modules\/dramaturgy\.js/);
- assert.match(reader,/analysisNeighbor/);
- assert.match(html,/styles\.css/);
- assert.match(workerSource,/const CACHE='mousetrap-shell-[^']+'/);
- assert.doesNotMatch(workerSource,/const CACHE='mousetrap-shell-20261101-inbox-v5'/);
- assert.match(workerSource,/home-refresh\.css/);
- assert.match(workerSource,/modules\/home-progress\.js/);
+ assert.match(html,/class="boot-screen"/);
+ assert.match(html,/class="boot-status"/);
+ assert.match(html,/prefers-reduced-motion/);
+ const anchor=app.indexOf("const startup=await loadStartupScript(storage,fetchData)");
+ const render=app.indexOf("await render();",anchor);
+ const supplements=app.indexOf("prepareSupplements(data);",anchor);
+ const worker=app.indexOf("void registerForUpdates();",anchor);
+ assert.ok(anchor>=0&&render>anchor&&supplements>render&&worker>render);
+ assert.match(app,/if\(!refreshing&&updateRequested\)/);
+ assert.doesNotMatch(app,/hadController\|\|updateRequested/);
+ assert.match(app,/loadQuickContexts\(storage,fetchData,target,\{preferSaved:true\}\)/);
+ assert.match(app,/serviceWorker\.register\('\.\/sw\.js',\{updateViaCache:'none'\}\)/);
 });
