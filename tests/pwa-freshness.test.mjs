@@ -53,7 +53,7 @@ function harness({upgrade=true}={}){
  vm.runInNewContext(sw,{URL,Response,Request,Headers,Promise,self,caches,fetch});
  async function dispatch(type,request){
   const waits=[];let response;
-  const event={request,waitUntil(p){waits.push(Promise.resolve(p));},respondWith(p){response=p;}};
+  const event={request,data:request?.data,waitUntil(p){waits.push(Promise.resolve(p));},respondWith(p){response=p;}};
   events.get(type)(event);
   const answer=response?await response:undefined;
   await Promise.all(waits);

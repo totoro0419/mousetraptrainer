@@ -9,5 +9,5 @@ test('service worker keeps the built-in production script and all offline app mo
  }
  assert.match(worker,/const CACHE='mousetrap-shell-[^']+'/);
  assert.match(worker,/const ASSET_REVISIONS={/);
- assert.match(worker,/if(!self.registration.active)await self.skipWaiting()/);
+ assert.ok(worker.includes('if(!self.registration.active)await self.skipWaiting()'));
 });
