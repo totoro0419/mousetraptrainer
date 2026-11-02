@@ -117,7 +117,9 @@ try{
  const layout=[];
  for(const width of [320,390,768,1280]){
   await desktop.setViewportSize({width,height:900});
+  await desktop.locator('#sheet').waitFor({state:'hidden',timeout:4000});
   const first=desktop.locator('.speech').first();await first.press('Enter');
+  await desktop.locator('#sheet[open]').waitFor({state:'visible',timeout:4000});
   await desktop.locator('#sheet .expand-sheet').click();
   const sizes=await desktop.evaluate(()=>({document:document.documentElement.scrollWidth,viewport:innerWidth,sheet:document.querySelector('#sheet').scrollWidth,client:document.querySelector('#sheet').clientWidth}));
   assert.ok(sizes.document<=sizes.viewport+1&&sizes.sheet<=sizes.client+1,JSON.stringify({width,...sizes}));
