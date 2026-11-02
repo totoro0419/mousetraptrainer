@@ -131,6 +131,9 @@ export function openSheet(title,content,{wide=false,onclose,setup}={}){
  d.querySelector('.close-sheet').focus({preventScroll:true});
  currentCleanup=setup?.(d);
  enhanceSelects(d);
+ // Expose the finished dialog to route-scoped accessory controls. A native modal
+ // occupies the top layer; page footers cannot be raised above it with z-index.
+ document.dispatchEvent(new CustomEvent('mousetrap:sheetopen',{detail:d}));
  return d;
 }
 // Native SELECT elements retain their values and existing onchange handlers, but

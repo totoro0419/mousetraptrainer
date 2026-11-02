@@ -76,11 +76,41 @@ export function mountQuickMemory(main,ctx){
  }
  draw();
  const done=main.querySelector('.quick-memory-complete');
- done.addEventListener('click',()=>{
-  if(done.disabled)return;
+ let completing=false;
+ const finish=()=>{
+  if(completing||disposed)return;
+  completing=true;
   done.disabled=true;
-  if(ctx.completeQuick(target.id))location.hash='home';
-  else done.disabled=false;
- });
- return ()=>{disposed=true;stopAudio();};
+  const sheetButton=document.querySelector('#sheet .quick-memory-sheet-complete');
+  if(sheetButton)sheetButton.disabled=true;
+  if(ctx.completeQuick(target.id)){
+   location.hash='home';
+  }else{
+   completing=false;
+   done.disabled=false;
+   if(sheetButton)sheetButton.disabled=false;
+  }
+ };
+ done.addEventListener('click',finish);
+ // showModal() puts #sheet in the browser's top layer, above all page elements.
+ // Provide the same completion action INSIDE the sheet rather than using z-index.
+ const attachSheetComplete=event=>{
+  if(disposed)return;
+  const sheet=event.detail;
+  if(!sheet?.open||!sheet.querySelector('.sheet-body'))return;
+  sheet.classList.add('quick-memory-sheet-mode');
+  const footer=document.createElement('div');
+  footer.className='quick-memory-sheet-footer';
+  footer.innerHTML=`<button type="button" class="primary quick-memory-sheet-complete">${icon('check')}<span>完了</span></button>`;
+  const button=footer.querySelector('button');
+  button.disabled=completing;
+  button.addEventListener('click',finish);
+  sheet.append(footer);
+ };
+ document.addEventListener('mousetrap:sheetopen',attachSheetComplete);
+ return ()=>{
+  disposed=true;
+  document.removeEventListener('mousetrap:sheetopen',attachSheetComplete);
+  stopAudio();
+ };
 }

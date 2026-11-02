@@ -1,5 +1,5 @@
 // Each release refreshes cached assets online, while retaining a complete offline shell.
-const CACHE='mousetrap-shell-20261102-quick-memory-context-v14';
+const CACHE='mousetrap-shell-20261102-quick-sheet-complete-v15';
 const ASSETS=['./','./index.html','./styles.css','./home-refresh.css','./app.js','./data/mousetrap.json','./data/mousetrap-dramaturgy.ja.json','./data/mousetrap-context.ja.json','./icon-v2-192.png','./icon-v2-512.png','./icon-v2-maskable-512.png','./manifest.webmanifest','./modules/data.js','./modules/bundled.js','./modules/dramaturgy.js','./modules/festival-countdown.js','./modules/home-progress.js','./modules/quick-memory.js','./modules/quick-context.js','./modules/quick-memory-view.js','./modules/storage.js','./modules/ui.js','./modules/reader.js','./modules/role-menu.js','./modules/stick.js','./modules/session.js','./modules/audio.js','./modules/rehearsal.js','./modules/offline-audio.js','./modules/notifications.js','./modules/daily-notifications.js','./data/notifications.json','./data/daily-editorial.json'];
 const assetURL=path=>new URL(path,self.registration.scope).href;
 const stored=async path=>caches.match(assetURL(path));
