@@ -58,7 +58,7 @@ try{
    ? {matches:true,media:query,onchange:null,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){},dispatchEvent(){return false}}
    : media(query);
  });
- await installedPage.addInitScript(()=>{localStorage.setItem('mt-daily-received-v1',JSON.stringify([{date:'2026-11-02',type:'trivia',category:'英語トリビア',title:'台本ジャンプのテスト',body:'通知の引用から該当発話へ移動します。',lineId:'act1-scene1-speech-0040',quoteAnchor:'seven guineas'}]));});
+ await installedPage.addInitScript(()=>{localStorage.setItem('mt-daily-received-v1',JSON.stringify([{date:'2026-11-03',type:'trivia',category:'英語トリビア',title:'台本ジャンプのテスト',body:'通知の引用から該当発話へ移動します。',lineId:'act1-scene1-speech-0040',quoteAnchor:'seven guineas'}]));});
  await installedPage.goto(base+'/',{waitUntil:'domcontentloaded'});
  await installedPage.locator('.home-role-row .app-select-trigger').waitFor({timeout:25000});
  const bell=installedPage.locator('[data-action="open-notifications"]');
@@ -79,6 +79,7 @@ try{
  const linkedQuote=installedPage.locator('#sheet [data-notification-line="act1-scene1-speech-0040"]');
  assert.ok(await linkedQuote.count()>0,'daily notification shows the linked script quote');
  assert.ok((await linkedQuote.innerText()).includes('seven guineas'),'notification shows sentence containing anchor');
+ assert.ok((await installedPage.locator('#sheet .notification-entry-heading').allTextContents()).some(text=>text.includes('聖光祭まであと175日！')),'editorial headline shows correct remaining days');
  await linkedQuote.click();
  assert.equal(new URL(installedPage.url()).hash,'#script','quote opens script route');
  await installedPage.locator('#line-act1-scene1-speech-0040').waitFor({state:'visible',timeout:10000});
