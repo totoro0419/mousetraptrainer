@@ -27,8 +27,8 @@ jobs:
           node-version: '22'
       - name: Verify application and bundled script
         run: |
-          npm test
           npm run build
+          npm test
       - name: Prepare separately uploaded GitHub audio packs
         run: python3 scripts/install-audio.py
       - uses: actions/configure-pages@v5
