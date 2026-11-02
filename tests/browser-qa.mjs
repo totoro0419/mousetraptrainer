@@ -26,6 +26,38 @@ try{
  assert.equal(await page.locator('#home-role').isVisible(),false,'Native picker is hidden');
  await page.screenshot({path:'test-results/home-mobile.png'});
 
+ // Quick-memory smoke test: live role, contextual script, completion, history, and startup refresh.
+ const quickHome=page.locator('.quick-memory-home');
+ assert.equal(await quickHome.count(),1,'one compact prompt exists below the progress graph');
+ assert.ok(await quickHome.evaluate(el=>el.previousElementSibling?.classList.contains('home-progress-dashboard')),'prompt follows the ring graph');
+ const firstPrompt=await page.locator('.quick-memory-home-text').textContent();
+ assert.ok(firstPrompt?.length,'the selected role has a quick-memory prompt');
+ const firstId=await page.evaluate(role=>{
+  const state=JSON.parse(localStorage.getItem('mt-state:mousetrap-private'));
+  return state.quickMemorize.currentByRole[role];
+ },original);
+ await page.locator('.quick-memory-home-link').click();
+ await page.locator('.quick-memory-speech.is-target').waitFor({timeout:10000});
+ assert.equal(new URL(page.url()).hash,'#quick','the prompt opens its dedicated route');
+ assert.equal((await page.locator('.quick-memory-speech.is-target .quick-memory-speaker').textContent()).trim(),original,'only the selected actor is prompted');
+ assert.ok(await page.locator('.quick-memory-speech:not(.is-target)').count()>=1,'surrounding dialogue remains available');
+ await page.screenshot({path:'test-results/quick-memory-mobile.png'});
+ await page.locator('.quick-memory-complete').click();
+ await page.locator('.quick-memory-home').waitFor({timeout:10000});
+ const result=await page.evaluate(({role,id})=>{
+  const state=JSON.parse(localStorage.getItem('mt-state:mousetrap-private'));
+  return {next:state.quickMemorize.currentByRole[role],count:state.quickMemorize.counts[id]?.count};
+ },{role:original,id:firstId});
+ assert.equal(result.count,1,'a completed dialogue is recorded once');
+ assert.notEqual(result.next,firstId,'completion immediately prepares a new dialogue');
+ const beforeReload=result.next;
+ await page.reload({waitUntil:'domcontentloaded'});
+ await page.locator('.quick-memory-home-text').waitFor({timeout:25000});
+ const reopened=await page.evaluate(role=>JSON.parse(localStorage.getItem('mt-state:mousetrap-private')).quickMemorize.currentByRole[role],original);
+ assert.notEqual(reopened,beforeReload,'a fresh app launch draws a different dialogue when alternatives exist');
+ console.log('PASS: quick memory role filter, context, completion, history, and launch refresh');
+
+
 
  const headerAction=page.locator('[data-action="home-app-action"]');
  assert.equal(await headerAction.isVisible(),true,'home shows prominent install pill before standalone launch');
