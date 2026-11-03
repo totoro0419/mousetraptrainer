@@ -31,7 +31,7 @@ test('legacy scripts keep neighboring translations and available stage cues befo
  assert.ok(html.includes(data.lines[1].speaker));
  const display=reader.slice(reader.indexOf('export function showAnalysis'),reader.indexOf('export function speechNode'));
  assert.ok(display.indexOf('日本語訳')<display.indexOf('analysisNarrative(line,data)'));
- assert.ok(display.indexOf('analysisNarrative(line,data)')<display.indexOf('文法・構文'));
+ assert.ok(display.indexOf('analysisNarrative(line,data)')<display.indexOf('analysisLanguageSections(grammar,vocab)'));
  assert.match(display,/sheet\.querySelector\('#context-note'\)/);
  assert.match(display,/sheet\.querySelector\('#acting-note'\)/);
 });
