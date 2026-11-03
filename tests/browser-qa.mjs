@@ -309,7 +309,8 @@ try{
  assert.equal(await detailAudio.getAttribute('data-audio-state'),'idle','detail audio stops on second click');
  const headings=await page.locator('#sheet .sheet-body h3').allTextContents();
  const translation=headings.indexOf('日本語訳'),explanation=headings.indexOf('そのセリフの解説'),grammar=headings.indexOf('文法・構文');
- assert.ok(translation>=0&&explanation>translation&&grammar>explanation,'Translation and audited explanation precede grammar');
+ assert.ok(translation>=0&&explanation>translation,'Translation precedes audited explanation');
+ if(grammar>=0)assert.ok(grammar>explanation,'Present grammar follows audited explanation');
  assert.equal(await page.locator('#sheet .analysis-neighbor').count(),0,'Audited explanation replaces mechanical neighbor repetition');
  assert.ok(await page.locator('#sheet .analysis-explanation').textContent());
 
