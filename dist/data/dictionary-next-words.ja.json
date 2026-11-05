@@ -49,8 +49,8 @@
     "sex": {
       "lemma": "sex",
       "pos": "名詞",
-      "coreMeaning": "性別",
-      "contextMeaning": "性別",
+      "coreMeaning": "性別、性に関すること（文脈で異なる）",
+      "contextMeaning": "性別、性に関すること（文脈で異なる）",
       "tags": [
         "dictionary-expansion",
         "curated-2026-11-05",
@@ -59,9 +59,9 @@
     },
     "bank": {
       "lemma": "bank",
-      "pos": "名詞",
-      "coreMeaning": "土手、積み重なった雪の吹きだまり、銀行",
-      "contextMeaning": "土手、積み重なった雪の吹きだまり、銀行",
+      "pos": "名詞・動詞",
+      "coreMeaning": "土手、銀行／（雪などが）積もる、火を長く保つよう燃料を寄せる",
+      "contextMeaning": "土手、銀行／（雪などが）積もる、火を長く保つよう燃料を寄せる",
       "tags": [
         "dictionary-expansion",
         "curated-2026-11-05",
@@ -335,8 +335,8 @@
     "general": {
       "lemma": "general",
       "pos": "名詞・形容詞",
-      "coreMeaning": "将軍／一般的な",
-      "contextMeaning": "将軍／一般的な",
+      "coreMeaning": "将軍／一般的な、全体的な",
+      "contextMeaning": "将軍／一般的な、全体的な",
       "tags": [
         "dictionary-expansion",
         "curated-2026-11-05",
