@@ -147,7 +147,7 @@ function openNotificationInbox(){
    quote+'<p>'+esc(item.body)+'</p>'+
    '</article>';
  }).join('')+'</div>':'<p class="subtle">まだお知らせはありません。</p>';
- openSheet('お知らせ',content,{setup:sheet=>{
+ openSheet('お知らせ',content,{stickScreen:'notifications',setup:sheet=>{
   sheet.querySelectorAll('[data-notification-line]').forEach(button=>
    button.addEventListener('click',()=>{void jumpToNotificationLine(button.dataset.notificationLine);}));
  }});
