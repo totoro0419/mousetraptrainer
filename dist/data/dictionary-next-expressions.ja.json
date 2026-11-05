@@ -925,6 +925,138 @@
         "curated-2026-11-05",
         "script-attested"
       ]
+    },
+    "never mind": {
+      "lemma": "never mind",
+      "pos": "会話表現",
+      "coreMeaning": "気にしないで、もういい",
+      "contextMeaning": "気にしないで、もういい",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "thank goodness": {
+      "lemma": "thank goodness",
+      "pos": "間投詞",
+      "coreMeaning": "ああよかった、ありがたいことに",
+      "contextMeaning": "ああよかった、ありがたいことに",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "in a way": {
+      "lemma": "in a way",
+      "pos": "副詞句",
+      "coreMeaning": "ある意味では",
+      "contextMeaning": "ある意味では",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "what a pity": {
+      "lemma": "what a pity",
+      "pos": "会話表現",
+      "coreMeaning": "なんて残念なことだ",
+      "contextMeaning": "なんて残念なことだ",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "as well as": {
+      "lemma": "as well as",
+      "pos": "接続表現",
+      "coreMeaning": "～だけでなく、～に加えて",
+      "contextMeaning": "～だけでなく、～に加えて",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "as soon as": {
+      "lemma": "as soon as",
+      "pos": "接続表現",
+      "coreMeaning": "～するとすぐに",
+      "contextMeaning": "～するとすぐに",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "all of a sudden": {
+      "lemma": "all of a sudden",
+      "pos": "副詞句",
+      "coreMeaning": "突然、不意に",
+      "contextMeaning": "突然、不意に",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "by accident": {
+      "lemma": "by accident",
+      "pos": "副詞句",
+      "coreMeaning": "偶然に、うっかり",
+      "contextMeaning": "偶然に、うっかり",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "just in case": {
+      "lemma": "just in case",
+      "pos": "副詞句",
+      "coreMeaning": "念のため、万一に備えて",
+      "contextMeaning": "念のため、万一に備えて",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "except for": {
+      "lemma": "except for",
+      "pos": "前置詞句",
+      "coreMeaning": "～を除いて、～は別として",
+      "contextMeaning": "～を除いて、～は別として",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "what on earth": {
+      "lemma": "what on earth",
+      "pos": "強調表現",
+      "coreMeaning": "いったい何を、いったいどうして",
+      "contextMeaning": "いったい何を、いったいどうして",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "my dear": {
+      "lemma": "my dear",
+      "pos": "呼びかけ表現",
+      "coreMeaning": "親愛なる人、あなた（親しみや皮肉を帯びることも）",
+      "contextMeaning": "親愛なる人、あなた（親しみや皮肉を帯びることも）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
     }
   }
 }
