@@ -47,7 +47,7 @@ test('home charts and supporting controls share theme tokens, not static navy/bl
  assert.doesNotMatch(home,/#243f73|#1c3158|stroke:#e2e8f2/i);
  assert.ok(theme.includes('--home-festival-navy:var(--accent-ink)'));
  assert.ok(theme.includes(':root[data-theme-mode="dark"] .home-ring-base-inner{stroke:var(--home-ring-empty)}'));
- assert.doesNotMatch(styles,/rgba\\(69,104,223,/);
+ assert.equal(styles.includes('rgba(69,104,223,'),false);
  assert.ok(styles.includes('var(--theme-owned-bg,#eef6ff)'));
  assert.ok(styles.includes('rgb(var(--theme-accent-rgb) / .085)'));
 });
