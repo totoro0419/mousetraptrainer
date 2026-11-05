@@ -80,13 +80,14 @@ test('quick completion upgrades only untouched, preserves review and mastery',()
  const mastered={level:2,review:true};
  assert.equal(quickCompletedProgress(practiced),practiced);
  assert.equal(quickCompletedProgress(mastered),mastered);
- const progress={a:{level:2,review:true},c:{review:true},e:{level:1}};
- reconcileQuickProgress(progress,{progressUpgrades:{a:1,c:1,e:1,b:0}});
+ const progress={a:{level:2,review:true},c:{review:true},e:{level:1},f:{level:0,updatedAt:2500}};
+ reconcileQuickProgress(progress,{progressUpgrades:{a:1000,c:1000,e:1000,b:0,f:2000}});
  assert.equal(progress.a.level,2);
  assert.equal(progress.c.level,1);
  assert.equal(progress.c.review,true);
  assert.equal(progress.e.level,1);
  assert.equal(progress.b,undefined);
+ assert.equal(progress.f.level,0,'later intentional reset is never undone by recovery');
 });
 
 test('quick completion is a pure proposal, stale repeat has no new count',()=>{
