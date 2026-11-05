@@ -181,7 +181,7 @@ input[type=range],input[type=checkbox]{accent-color:var(--accent)}
 .stick-base{width:62px;height:62px;min-height:0;border-radius:50%;border:1px solid rgba(255,255,255,.75);background:rgba(115,136,172,.22);box-shadow:0 6px 18px rgba(29,54,98,.09);padding:0;touch-action:none;cursor:grab;user-select:none;pointer-events:auto;transition:background .13s}
 .stick-dock.active .stick-base{background:rgba(115,136,172,.38);cursor:grabbing}
 .stick-base:hover{background:rgba(115,136,172,.3)}
-#toast{background:#22314c;border-radius:12px;box-shadow:var(--ui-shadow-2)}
+#toast{background:rgba(34,49,76,.72);border:1px solid rgba(255,255,255,.13);border-radius:12px;box-shadow:0 6px 20px rgba(15,23,42,.14);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 #toast button{color:#d9e1ff}
 @keyframes sheet-in{from{transform:translateY(26px);opacity:.6}to{transform:translateY(0);opacity:1}}
 @media(min-width:1300px){.home-page{padding-top:76px}}
