@@ -114,7 +114,7 @@
 :root[data-theme-mode="dark"] .quick-memory-sheet-footer{background:var(--paper);border-color:var(--line)}
 :root[data-theme-mode="dark"] .session-progress,
 :root[data-theme-mode="dark"] .progress-track{background:#35445a}
-:root[data-theme-mode="dark"] .home-ring-base-inner{stroke:#364357}
+:root[data-theme-mode="dark"] .home-ring-base-inner{stroke:var(--home-ring-empty)}
 :root[data-theme-mode="dark"] .home-festival-prefix,
 :root[data-theme-mode="dark"] .home-festival-unit{fill:var(--muted)}
 :root[data-theme-mode="dark"] .home-festival-days{fill:var(--ink)}
