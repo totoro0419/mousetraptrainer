@@ -248,6 +248,18 @@ try{
  if(beforeStick)await page.locator('#show-stick').uncheck();else await page.locator('#show-stick').check();
  assert.notEqual(await page.locator('#show-stick').isChecked(),beforeStick,'Custom switch toggles');
  await page.locator('#show-stick').check(); // Restore the enabled default for subsequent reader/cloze stick checks.
+ await page.locator('[data-action="stick-config"]').click();
+ assert.equal(await page.locator('#sheet [data-stick-screen]').count(),8,'screen-specific stick switches are configurable');
+ await page.locator('#sheet [data-stick-screen="cloze"]').uncheck();
+ assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mt-stick-settings-v2')).screens.cloze),false);
+ await page.locator('#sheet [data-stick-screen="cloze"]').check();
+ assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mt-stick-settings-v2')).screens.cloze),true);
+ await page.locator('#sheet [data-stick-field="speed"]').evaluate(el=>{
+  el.value='1.3';el.dispatchEvent(new Event('input',{bubbles:true}));
+ });
+ assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mt-stick-settings-v2')).speed),1.3);
+ await page.locator('#sheet .close-sheet').click();
+ await page.waitForFunction(()=>!document.querySelector('#sheet').open,{timeout:10000});
  const rate=page.locator('#playback-rate');
  assert.equal(await rate.isVisible(),false,'Playback rate uses hidden native select');
  const manage=page.locator('[data-action="manage-data"]');
@@ -397,6 +409,10 @@ try{
  await pairToggles.nth(0).click();
  assert.equal(await pairToggles.nth(1).getAttribute('aria-expanded'),'true','re-hiding first leaves second revealed');
  assert.equal(await page.evaluate(()=>localStorage.getItem('mt-progress:mousetrap-private')),progressBeforeCloze,'reveal/jump does not alter memorization state');
+ await page.locator('.cloze-mastered').nth(1).click();
+ const markedLevel=await page.evaluate(id=>JSON.parse(localStorage.getItem('mt-progress:mousetrap-private'))[id]?.level,
+  await pairToggles.nth(1).locator('..').locator('..').getAttribute('data-id'));
+ assert.equal(markedLevel,2,'explicit mastery action remains available without advancing');
  await page.locator('[data-action="exit"]').click();
  await page.locator('[data-mode="audio"]').click();
  const answerAudio=page.locator('[data-action="answer-audio"]');
