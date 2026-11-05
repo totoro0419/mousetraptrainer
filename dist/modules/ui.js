@@ -5,7 +5,7 @@ export const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;'
 export const button=(text,action,cls='secondary',ico='')=>`<button type="button" class="${cls}" data-action="${action}">${ico?icon(ico):''}<span>${text}</span></button>`;
 export function el(html){const t=document.createElement('template');t.innerHTML=html;return t.content.firstElementChild;}
 let toastTimer,undoAction;
-export function toast(message,undo){clearTimeout(toastTimer);undoAction=undo;const t=document.querySelector('#toast');t.replaceChildren();t.append(document.createTextNode(message));if(undo){const b=document.createElement('button');b.textContent='取り消す';b.onclick=()=>{undoAction?.();t.classList.remove('show');};t.append(b);}t.classList.add('show');toastTimer=setTimeout(()=>t.classList.remove('show'),undo?9000:4500);}
+export function toast(message,undo){clearTimeout(toastTimer);undoAction=undo;const t=document.querySelector('#toast');t.replaceChildren();t.append(document.createTextNode(message));if(undo){const b=document.createElement('button');b.textContent='取り消す';b.onclick=()=>{undoAction?.();t.classList.remove('show');};t.append(b);}t.classList.add('show');toastTimer=setTimeout(()=>t.classList.remove('show'),undo?2500:1600);}
 let invoker,onClose,currentCleanup;
 
 export function sheetSwipeDecision(dy,dx,elapsed){
