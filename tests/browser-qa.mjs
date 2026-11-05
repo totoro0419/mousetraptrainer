@@ -89,6 +89,13 @@ try{
   return {next:state.quickMemorize.currentByRole[role],count:state.quickMemorize.counts[id]?.count};
  },{role:original,id:firstId});
  assert.equal(result.count,1,'a completed dialogue is recorded once');
+ const quickProgress=await page.evaluate(id=>{
+  const state=JSON.parse(localStorage.getItem('mt-state:mousetrap-private'));
+  const progress=JSON.parse(localStorage.getItem('mt-progress:mousetrap-private'));
+  return {level:progress[id]?.level,upgrade:state.quickMemorize.progressUpgrades[id]};
+ },firstId);
+ assert.equal(quickProgress.level,1,'quick completion upgrades normal progress to practicing');
+ assert.equal(quickProgress.upgrade,1,'one durable state record can restore progress after a crash');
  assert.notEqual(result.next,firstId,'completion immediately prepares a new dialogue');
  const beforeReload=result.next;
  await page.reload({waitUntil:'domcontentloaded'});
@@ -365,6 +372,32 @@ try{
  assert.equal(await clozeAudio.isVisible(),false,'hiding the answer stops playback');
  assert.equal(await page.locator('.rehearsal-free .speech').count(),1,'tapping never advances the script');
  await page.locator('[data-action="exit"]').click();
+ const pair=await page.evaluate(async()=>{
+  const {normalizeBundle}=await import('./modules/data.js');
+  const d=normalizeBundle(await (await fetch('./data/mousetrap.json')).json());
+  const role=document.querySelector('#rehearsal-role').value;
+  const positions=d.lines.map((line,i)=>line.speaker===role?i:-1).filter(i=>i>=0);
+  return {from:positions[0]+1,to:positions[1]+1};
+ });
+ await page.locator('#range-from').fill(String(pair.from));
+ await page.locator('#range-to').fill(String(pair.to));
+ const progressBeforeCloze=await page.evaluate(()=>localStorage.getItem('mt-progress:mousetrap-private'));
+ await page.locator('[data-mode="cloze"]').click();
+ const pairToggles=page.locator('.rehearsal-free .cloze-toggle');
+ assert.equal(await pairToggles.count(),2,'full-range practice shows independent own lines');
+ assert.equal(await pairToggles.nth(0).getAttribute('aria-expanded'),'false');
+ assert.equal(await pairToggles.nth(1).getAttribute('aria-expanded'),'false');
+ await pairToggles.nth(0).click();
+ assert.equal(await pairToggles.nth(1).getAttribute('aria-expanded'),'false','first reveal never affects another line');
+ await page.locator('.stick-base').focus();
+ await page.locator('.stick-base').press('Alt+ArrowDown');
+ assert.equal(await pairToggles.nth(1).getAttribute('aria-expanded'),'false','jumping never exposes the next answer');
+ await pairToggles.nth(1).click();
+ assert.equal(await pairToggles.nth(0).getAttribute('aria-expanded'),'true','second reveal preserves the first answer');
+ await pairToggles.nth(0).click();
+ assert.equal(await pairToggles.nth(1).getAttribute('aria-expanded'),'true','re-hiding first leaves second revealed');
+ assert.equal(await page.evaluate(()=>localStorage.getItem('mt-progress:mousetrap-private')),progressBeforeCloze,'reveal/jump does not alter memorization state');
+ await page.locator('[data-action="exit"]').click();
  await page.locator('[data-mode="audio"]').click();
  const answerAudio=page.locator('[data-action="answer-audio"]');
  assert.equal(await answerAudio.isVisible(),false);
@@ -482,6 +515,27 @@ try{
  assert.notEqual(readerAppearance.background,'rgb(255, 255, 255)','script own lines must not remain white');
  assert.match(readerAppearance.gradient,/linear-gradient/,'script rainbow highlights must paint multicolor');
  await page.screenshot({path:'test-results/theme-reader-dark-rainbow.png'});
+ const swiped=page.locator('.reader-scroll .speech.mine').first();
+ await swiped.scrollIntoViewIfNeeded();
+ const swipeBox=await swiped.boundingBox();
+ assert.ok(swipeBox&&swipeBox.width>160);
+ const swipeY=swipeBox.y+Math.min(35,swipeBox.height*.45),swipeX=swipeBox.x+swipeBox.width*.65;
+ await page.mouse.move(swipeX,swipeY);
+ await page.mouse.down();
+ await page.mouse.move(swipeX-55,swipeY,{steps:5});
+ const swipeSurface=await swiped.evaluate(el=>({
+  opacity:Number(el.querySelector('.swipe-hint').style.opacity),
+  background:getComputedStyle(el.querySelector('.swipe-hint')).backgroundColor,
+  transform:el.querySelector('.speech-inner').style.transform
+ }));
+ assert.ok(swipeSurface.opacity>.4,'horizontal gesture must reveal its action underlay');
+ assert.ok(swipeSurface.transform.includes('translateX'),'foreground must visibly shift');
+ assert.notEqual(swipeSurface.background,'rgb(255, 255, 255)','dark swipe must not expose a white underlay');
+ assert.notEqual(swipeSurface.background,'rgba(240, 245, 255, 0.94)','dark swipe must not expose the obsolete pale underlay');
+ await page.mouse.up();
+ await page.waitForTimeout(240);
+ assert.equal(await swiped.locator('.speech-inner').evaluate(el=>el.style.transform),'','swipe returns to its rest position');
+ console.log('PASS: dark rainbow horizontal swipe underlay and return animation');
  await page.locator('.bottom-nav a[href="#home"]').click();
  await page.locator('.home-progress-dashboard').waitFor();
  await page.locator('.global-settings').click();
