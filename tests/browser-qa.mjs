@@ -240,6 +240,7 @@ try{
  const beforeStick=await page.locator('#show-stick').isChecked();
  if(beforeStick)await page.locator('#show-stick').uncheck();else await page.locator('#show-stick').check();
  assert.notEqual(await page.locator('#show-stick').isChecked(),beforeStick,'Custom switch toggles');
+ await page.locator('#show-stick').check(); // Restore the enabled default for subsequent reader/cloze stick checks.
  const rate=page.locator('#playback-rate');
  assert.equal(await rate.isVisible(),false,'Playback rate uses hidden native select');
  const manage=page.locator('[data-action="manage-data"]');
