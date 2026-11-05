@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {normalizeBundle,tokenize,lookupDictionary} from '../dist/modules/data.js';
 import {DICTIONARY_ADDONS,mergeDictionaryEntries} from '../dist/modules/bundled.js';
+import {matchingDictionaryPhrases} from '../dist/modules/reader.js';
 
 const readJSON=async path=>JSON.parse(await readFile(new URL('../dist/'+path.replace(/^\.\//,''),import.meta.url),'utf8'));
 const source=await readJSON('./data/mousetrap.json');
@@ -44,4 +45,10 @@ test('each added term occurs in the actual dialogue and duplicate classes are co
 test('malformed expansion data fails rather than silently reducing coverage',()=>{
  assert.throws(()=>mergeDictionaryEntries(original,[{version:1,entries:{bad:{pos:'名詞'}}}]),/不正/);
  assert.throws(()=>mergeDictionaryEntries(original,[{version:2,entries:{}}]),/形式/);
+});
+
+test('multiword dictionary nouns are detectable from the script without per-line vocabulary',()=>{
+ const phrases=matchingDictionaryPhrases(merged.dictionary,'Scotland Yard has sent a message from Monkswell Manor.');
+ assert.ok(phrases.some(entry=>entry.lemma==='scotland yard'));
+ assert.ok(phrases.some(entry=>entry.lemma==='monkswell manor'));
 });
