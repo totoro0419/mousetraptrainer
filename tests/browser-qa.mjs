@@ -380,6 +380,8 @@ try{
  console.log('PASS: desktop layout booted');
  await desktop.close();
  await page.bringToFront();
+ await page.locator('.bottom-nav a[href="#home"]').click();
+ await page.locator('.home-progress-dashboard').waitFor();
 
  // Verify all 12 combinations, saved preference and pastel-preview/vivid-UI split.
  await page.locator('.global-settings').click();
