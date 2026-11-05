@@ -1,6 +1,7 @@
 import {sceneName} from './data.js';
 import {icon,esc,el,toast} from './ui.js';
 import {directionText} from './reader.js';
+import {bindLinePlayback} from './audio.js';
 import {normalizeClozeResume,nextOwnIndex,previousCueIndex,clozeContextOffset} from './cloze.js';
 
 // Cloze is a free-reading surface, not a single-question session.
@@ -10,7 +11,7 @@ export function mountCloze(holder,ctx,lines,range,savedIndex=0,onExit=()=>{}){
  const index=normalizeClozeResume(old?.range?.scene===range.scene&&
   old?.range?.from===range.from&&old?.range?.to===range.to?old:null,lines,role);
  let anchor=Math.max(0,Math.min(lines.length-1,savedIndex||index));
- const revealed=new Set(),ownNodes=[],allNodes=[];
+ const revealed=new Set(),ownNodes=[],allNodes=[],audioStops=[];
  let disposed=false,scrollTimer=0,highlightTimer=0;
  holder.innerHTML=`<div class="reader-top"><div class="reader-heading">
   <button class="icon-button" data-action="exit" aria-label="練習方法を選び直す">${icon('back')}</button>
@@ -38,12 +39,18 @@ export function mountCloze(holder,ctx,lines,range,savedIndex=0,onExit=()=>{}){
   if(mine){
    ownNodes.push({index:i,node});
    const toggle=node.querySelector('.cloze-toggle');
+   const audio=el('<button type="button" class="icon-button line-audio-button cloze-line-audio" aria-label="セリフの音声を再生" hidden>'+icon('audio')+'</button>');
+   toggle.after(audio);let stopAudio=()=>{};
+   audioStops.push(()=>stopAudio());
    toggle.addEventListener('click',()=>{
     if(disposed)return;
     if(revealed.has(line.id))revealed.delete(line.id);else revealed.add(line.id);
     const show=revealed.has(line.id);
     toggle.textContent=show?line.text:'タップしてセリフを表示';
     toggle.classList.toggle('is-revealed',show);
+    stopAudio();stopAudio=()=>{};
+    audio.hidden=!show;
+    if(show)stopAudio=bindLinePlayback(audio,{dataset:ctx.data.id,id:line.id,rate:()=>small.rate});
     toggle.setAttribute('aria-expanded',String(show));
     toggle.setAttribute('aria-label',`セリフ ${line.ordinal} を${show?'隠す':'表示'}`);
     anchor=i;persist();
@@ -105,6 +112,7 @@ export function mountCloze(holder,ctx,lines,range,savedIndex=0,onExit=()=>{}){
  return ()=>{
   persist();disposed=true;clearTimeout(scrollTimer);clearTimeout(highlightTimer);
   window.removeEventListener('keydown',keyboard);
+  for(const stop of audioStops)stop();
   ctx.stickTarget?.('cloze',null);
  };
 }
