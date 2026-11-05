@@ -1,6 +1,6 @@
 import {sceneName} from './data.js';
 import {icon,esc,el,toast} from './ui.js';
-import {directionText} from './reader.js';
+import {directionCue,showDirection} from './reader.js';
 import {bindLinePlayback} from './audio.js';
 import {normalizeClozeResume,nextOwnIndex,previousCueIndex,clozeContextOffset} from './cloze.js';
 
@@ -32,10 +32,11 @@ export function mountCloze(holder,ctx,lines,range,savedIndex=0,onExit=()=>{}){
   if(line.scene!==scene){scene=line.scene;body.append(el(`<div class="scene-divider"><h2>${esc(sceneName(scene))}</h2></div>`));}
   const node=el(`<article class="speech ${mine?'mine':''}" data-id="${esc(line.id)}" data-index="${i}">
   <div class="speech-head"><span class="speaker">${esc(line.speaker)}</span><span class="line-number">${String(line.ordinal).padStart(3,'0')}</span></div>
-  ${line.direction?`<p class="direction">${esc(directionText(line.direction))}</p>`:''}
+  ${directionCue(line)}
   <div class="line-content">${mine?`<button type="button" class="reveal-mask cloze-toggle" aria-expanded="false" aria-label="セリフ ${line.ordinal} を表示">タップしてセリフを表示</button>`:`<p lang="en" class="speech-text">${esc(line.text)}</p>`}</div>
   </article>`);
   body.append(node);allNodes.push(node);
+  node.querySelector('[data-action=direction]')?.addEventListener('click',event=>{event.stopPropagation();showDirection(line);});
   if(mine){
    ownNodes.push({index:i,node});
    const toggle=node.querySelector('.cloze-toggle');

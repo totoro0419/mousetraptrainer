@@ -14,8 +14,21 @@ export function matchingDictionaryPhrases(dictionary,text){
  return entries.filter(entry=>source.includes(entry.surface.toLowerCase()));
 }
 
-export function directionText(d){return typeof d==='string'?d:plain(d?.ja);}
-export function showDirection(line){const d=line.direction;openSheet('ト書き',`<p>${esc(directionText(d)||'日本語要約は未収録です。')}</p>${typeof d==='object'&&d.original?`<div class="sheet-section"><h3>原文</h3><p lang="en">${esc(d.original)}</p><p class="subtle">出典: ${esc(d.source||'読み込みデータ')}</p></div>`:''}`);}
+export function directionText(d){return typeof d==='string'?d:plain(d?.ja)||(plain(d?.original)?'英語のト書きを確認':'');}
+// A stage direction belongs to its linked speech, but may continue after that speech.
+// Keep the cue inside the speech card rather than inventing a more exact timestamp.
+export function directionCue(line){
+ const summary=directionText(line.direction);
+ return summary?`<button type="button" class="direction direction-cue" data-action="direction" title="英語原文と出典を確認"><span class="direction-cue-label">ト書き</span><span class="direction-cue-text">${esc(summary)}</span>${icon('chevron','direction-cue-chevron')}</button>`:'';
+}
+export function showDirection(line){
+ const d=line.direction;
+ if(!d)return;
+ const original=typeof d==='object'?plain(d.original):'';
+ const source=typeof d==='object'?plain(d.source):'';
+ const timing=typeof d==='object'?plain(d.timingNote):'';
+ openSheet('ト書き',`<div class="direction-sheet-summary"><h3>日本語要約</h3><p>${esc(typeof d==='string'?d:plain(d.ja)||'日本語要約は未収録です。')}</p></div>${original?`<div class="sheet-section"><h3>英語原文</h3><p class="direction-original" lang="en">${esc(original)}</p>${source?`<p class="subtle direction-source">出典: ${esc(source)}</p>`:''}${timing?`<p class="subtle direction-timing">位置の補足: ${esc(timing)}</p>`:''}</div>`:''}`);
+}
 export function showDictionary(line,token,ctx){const d=lookupDictionary(ctx.data.dictionary,token),v=token.entry;
  const isGeneric=Array.isArray(d?.tags)&&d.tags.includes('dictionary-expansion');
  openSheet(v?.lemma||d?.lemma||token.text,`<div class="dictionary-word" lang="en">${esc(v?.lemma||d?.lemma||token.text)}</div><div class="dictionary-meta">${esc(d?.pos||'品詞未収録')} ${esc(d?.ipa||'')}</div>${d||v?`<p class="meaning">${esc(d?.coreMeaning||v?.meaning||d?.contextMeaning)}</p><div class="sheet-section"><h3>${isGeneric?'劇中での確認':'このセリフでは'}</h3><p>${isGeneric?'基本の意味を参考に、前後のセリフと日本語訳で実際の意味を確認してください。':esc(v?.meaning||d.contextMeaning||'個別の語釈は未収録です。')}</p>${d?.contextExplanation?`<p class="subtle" style="margin-top:10px">${esc(d.contextExplanation)}</p>`:''}</div>${d?.pattern||d?.forms?`<div class="sheet-section"><h3>語法・表現</h3>${d.pattern?`<p lang="en"><strong>${esc(d.pattern)}</strong></p>`:''}<p>${esc(d.patternDesc||d.forms)}</p></div>`:''}`:`<p>この単語の辞書データは未収録です。</p><p class="subtle" style="margin-top:12px">セリフの解説で、日本語訳や登録済みの表現を確認できます。</p>`}<div class="sheet-section"><h3>セリフ</h3><p lang="en" class="analysis-quote">${esc(line.text)}</p>${button('セリフの解説を見る','analyze-word','secondary')}</div>`,{setup:sheet=>{sheet.querySelector('[data-action=analyze-word]').onclick=()=>showAnalysis(line,ctx);}});
@@ -75,7 +88,7 @@ export function showAnalysis(line,ctx,{returnTo=null}={}){
   return stopAudio;
  }});
 }
-export function speechNode(line,ctx,{words=true}={}){const p=ctx.progress[line.id]||{};const node=el(`<article class="speech ${line.speaker===ctx.small.role?'mine':''}" id="line-${esc(line.id)}" data-id="${esc(line.id)}" tabindex="0" aria-label="${esc(line.speaker)}、セリフ ${line.ordinal}。Enterで文の解析"><div class="swipe-hint"></div><div class="speech-inner"><div class="speech-head"><span class="speaker">${esc(line.speaker)}</span><div class="speech-actions"><span class="speech-status" role="img" data-level="${p.level||0}" aria-label="${labels[p.level||0]}${p.review?'・要復習':''}" ${!p.level&&!p.review?'hidden':''}><i class="level-state"></i><span class="review-state" ${p.review?'':'hidden'}>${icon('flag')}</span></span><button type="button" class="speech-bookmark" data-action="bookmark" aria-label="${p.bookmarked?'栞を外す':'栞を付ける'}" aria-pressed="${!!p.bookmarked}" title="栞">${icon('bookmark')}</button></div></div>${directionText(line.direction)?`<button class="direction" data-action="direction" aria-label="ト書きの詳細">${esc(directionText(line.direction))}</button>`:''}<p class="speech-text" lang="en">${esc(line.text)}</p></div></article>`);
+export function speechNode(line,ctx,{words=true}={}){const p=ctx.progress[line.id]||{};const node=el(`<article class="speech ${line.speaker===ctx.small.role?'mine':''}" id="line-${esc(line.id)}" data-id="${esc(line.id)}" tabindex="0" aria-label="${esc(line.speaker)}、セリフ ${line.ordinal}。Enterで文の解析"><div class="swipe-hint"></div><div class="speech-inner"><div class="speech-head"><span class="speaker">${esc(line.speaker)}</span><div class="speech-actions"><span class="speech-status" role="img" data-level="${p.level||0}" aria-label="${labels[p.level||0]}${p.review?'・要復習':''}" ${!p.level&&!p.review?'hidden':''}><i class="level-state"></i><span class="review-state" ${p.review?'':'hidden'}>${icon('flag')}</span></span><button type="button" class="speech-bookmark" data-action="bookmark" aria-label="${p.bookmarked?'栞を外す':'栞を付ける'}" aria-pressed="${!!p.bookmarked}" title="栞">${icon('bookmark')}</button></div></div>${directionCue(line)}<p class="speech-text" lang="en">${esc(line.text)}</p></div></article>`);
  node.querySelector('[data-action=bookmark]').onclick=()=>{const current=ctx.progress[line.id]||{};ctx.setProgress(line.id,{...current,bookmarked:!current.bookmarked,updatedAt:Date.now()});};node.querySelector('[data-action=direction]')?.addEventListener('click',()=>showDirection(line));
  let suppressed=false;
  node.addEventListener('click',e=>{if(suppressed){e.preventDefault();e.stopImmediatePropagation();}else if(!e.target.closest('button,a,input,select,textarea,[contenteditable]')&&!window.getSelection()?.toString())showAnalysis(line,ctx);},true);

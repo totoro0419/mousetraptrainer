@@ -1,6 +1,6 @@
 import {normalizeBundle} from './data.js';
 
-export const BUNDLED_SCRIPT={id:'mousetrap-private',revision:'2026-11-05-dictionary-300-more',url:'./data/mousetrap.json',lines:1164};
+export const BUNDLED_SCRIPT={id:'mousetrap-private',revision:'2026-11-05-dictionary-300-more-directions-ja-450',url:'./data/mousetrap.json',lines:1164};
 
 
 // Extra glossaries supplement, never overwrite, the 578 original dictionary entries.

@@ -18,6 +18,21 @@ try{
  page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/#script');
  await page.locator('.speech').first().waitFor();
+ // Stage cue is inline, keyboard/touch accessible, and preserves original attribution.
+ const cueLine=page.locator('#line-act1-scene1-speech-0002');
+ const expectedCue=await page.evaluate(async()=>((await (await fetch('./data/mousetrap.json')).json()).directions['act1-scene1-speech-0002']));
+ await cueLine.scrollIntoViewIfNeeded();
+ const cue=cueLine.locator('.direction-cue');
+ assert.equal((await cue.locator('.direction-cue-text').textContent()).trim(),expectedCue.ja,'Inline cue matches the production Japanese summary');
+ assert.equal(await cue.locator('.direction-cue-label').textContent(),'ト書き');
+ assert.equal((await cue.evaluate(el=>getComputedStyle(el).backgroundColor))!=='rgba(0, 0, 0, 0)',true,'Cue is visually distinct from a plain text hint');
+ await cue.press('Enter');
+ assert.equal(await page.locator('#sheet .direction-sheet-summary p').textContent(),expectedCue.ja,'Cue opens the correct translation');
+ assert.equal(await page.locator('#sheet .direction-original').textContent(),expectedCue.original,'Full source survives line breaks');
+ assert.ok((await page.locator('#sheet .direction-source').textContent()).includes(expectedCue.source),'Attribution is available');
+ assert.ok((await page.locator('#sheet .direction-timing').textContent()).includes(expectedCue.timingNote),'Timing caveat is visible');
+ assert.equal(await page.locator('#sheet .analysis-explanation').count(),0,'Direction tap does not open the dialogue analysis');
+ await page.keyboard.press('Escape');
  await page.locator('.speech .speaker').first().click();
  await page.locator('#sheet .analysis-explanation').waitFor();
 
