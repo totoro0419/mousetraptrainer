@@ -10,9 +10,11 @@ test('450 production cues appear with their audited Japanese summary',()=>{
  for(const [id,direction] of rows){
   const html=directionCue({id,direction});
   assert.ok(html.includes('data-action="direction"'),id);
-  assert.ok(html.includes('direction-cue-label'),id);
+  assert.ok(!html.includes('direction-cue-label'),id);
   assert.ok(html.includes('direction-cue-text'),id);
-  assert.ok(html.includes('ト書き'),id);
+  assert.ok(!html.includes('direction-cue-chevron'),id);
+  assert.ok(!html.includes('>ト書き<'),id);
+  assert.ok(html.includes('aria-label="ト書きの詳細'),id);
   assert.ok(directionText(direction)===direction.ja,id);
   assert.ok(html.includes(direction.ja.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;')),id);
  }
@@ -20,7 +22,7 @@ test('450 production cues appear with their audited Japanese summary',()=>{
 
 test('missing directions stay absent; imported original-only entries remain discoverable',()=>{
  assert.equal(directionCue({direction:null}),'');
- assert.equal(directionText({original:'[walks]'}),'英語のト書きを確認');
+ assert.equal(directionText({original:'[walks]'}),'英語原文を確認');
  assert.ok(directionCue({direction:{original:'[walks]'}}).includes('data-action="direction"'));
  const html=directionCue({direction:{ja:'<b onload="bad">',original:'[test]'}});
  assert.ok(html.includes('&lt;b onload=&quot;bad&quot;&gt;'));
