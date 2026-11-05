@@ -11,9 +11,17 @@ let invoker,onClose,currentCleanup;
 export function sheetSwipeDecision(dy,dx,elapsed){
  const velocity=Math.abs(dy)/Math.max(1,elapsed);
  if(Math.abs(dx)>Math.abs(dy)*1.15)return 'snap';
- if(dy>96||(dy>38&&velocity>.78))return 'dismiss';
+ if(dy>=64||(dy>=24&&velocity>=.5))return 'dismiss';
  if(dy< -65)return 'expand';
  return 'snap';
+}
+// A nested scroll container that is not at its top owns the downward gesture.
+export function canStartSheetDismiss(body,target){
+ if(body.scrollTop>1)return false;
+ for(let node=target;node&&node!==body;node=node.parentElement){
+  if(node.scrollTop>1&&node.scrollHeight>node.clientHeight+1)return false;
+ }
+ return true;
 }
 let dismissAnimation=null;
 export const isSheetOpen=()=>document.querySelector('#sheet').open;
@@ -81,10 +89,10 @@ export function openSheet(title,content,{wide=false,onclose,setup,stickScreen=nu
     {duration:210,easing:'cubic-bezier(.22,1,.36,1)'});
   }
  };
- const finish=(dy,dx,ms)=>{
+ const finish=(dy,dx,ms,allowExpand=true)=>{
   const action=sheetSwipeDecision(dy,dx,ms);
   if(action==='dismiss')animateSheetDismiss(d,dy);
-  else{settle(dy);if(action==='expand'&&!d.classList.contains('expanded'))toggleExpanded();}
+  else{settle(dy);if(allowExpand&&action==='expand'&&!d.classList.contains('expanded'))toggleExpanded();}
  };
  header.onpointerdown=e=>{
   if(e.button!==0||e.target.closest('.sheet-heading button'))return;
@@ -104,25 +112,38 @@ export function openSheet(title,content,{wide=false,onclose,setup,stickScreen=nu
  };
  header.onpointercancel=()=>{drag=null;translate(0)};
  header.onlostpointercapture=()=>{if(drag){drag=null;translate(0)}};
- // Body: drag down only when the scroll area is already at the top.
+ // Body: a downward gesture at the top moves the sheet, not its contents.
+ // Once native content scrolling starts, do not steal that same gesture.
  let touch=null;
  body.addEventListener('touchstart',e=>{
-  if(e.touches.length!==1||e.target.closest('input,textarea,select,[contenteditable="true"]')){touch=null;return;}
+  if(e.touches.length!==1||e.target.closest('input,textarea,select,[contenteditable="true"],[role="slider"],[data-sheet-swipe-ignore],.stick-dock')){touch=null;return;}
   const t=e.touches[0];
-  touch={x:t.clientX,y:t.clientY,time:performance.now(),active:false,blocked:body.scrollTop>1};
+  touch={id:t.identifier,x:t.clientX,y:t.clientY,time:performance.now(),active:false,
+   blocked:!canStartSheetDismiss(body,e.target)};
  },{passive:true});
  body.addEventListener('touchmove',e=>{
-  if(!touch||e.touches.length!==1)return;
-  const t=e.touches[0],dy=t.clientY-touch.y,dx=t.clientX-touch.x;
-  if(touch.blocked||dy<0||Math.abs(dx)>Math.abs(dy)*1.15){if(!touch.active)touch.blocked=true;return;}
-  if(!touch.active&&dy>12&&body.scrollTop<=1)touch.active=true;
-  if(touch.active){e.preventDefault();translate(Math.max(0,dy));}
+  if(!touch)return;
+  if(e.touches.length!==1){touch=null;translate(0);return;}
+  const t=e.touches[0];
+  if(t.identifier!==touch.id)return;
+  const dy=t.clientY-touch.y,dx=t.clientX-touch.x;
+  if(!touch.active){
+   if(touch.blocked||Math.max(Math.abs(dy),Math.abs(dx))<8)return;
+   if(dy<=0||Math.abs(dx)>Math.abs(dy)*1.15||!canStartSheetDismiss(body,e.target)){
+    touch.blocked=true;return;
+   }
+   touch.active=true;
+  }
+  if(e.cancelable)e.preventDefault();
+  translate(Math.max(0,dy));
  },{passive:false});
  body.addEventListener('touchend',e=>{
   if(!touch)return;
+  const t=Array.from(e.changedTouches).find(item=>item.identifier===touch.id);
+  if(!t)return;
   const a=touch;touch=null;
   if(!a.active){translate(0);return;}
-  const t=e.changedTouches[0];finish(t.clientY-a.y,t.clientX-a.x,performance.now()-a.time);
+  finish(t.clientY-a.y,t.clientX-a.x,performance.now()-a.time,false);
  },{passive:true});
  body.addEventListener('touchcancel',()=>{touch=null;translate(0)},{passive:true});
  if(!wasOpen)d.showModal();
