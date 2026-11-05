@@ -105,7 +105,7 @@ test('route integration, modal isolation and dark swipe underlay use shared comp
   ['app.js','modules/reader.js','modules/rehearsal.js','modules/cloze-view.js','modules/stick.js','modules/stick-controller.js','modules/ui.js','styles.css','theme.css','sw.js'].map(source));
  assert.match(app,/createStickController\(/);
  assert.match(app,/reconcileQuickProgress\(progress,small\.quickMemorize\)/);
- assert.match(app,/next\.progressUpgrades\[lineId\]=1/);
+ assert.match(app,/next\.progressUpgrades\[lineId\]=updated\.updatedAt/);
  assert.match(reader,/stickTarget\?\.\('script'/);
  assert.match(reader,/stickScreen:'analysis'/);
  assert.match(rehearsal,/mountCloze\(holder/);
