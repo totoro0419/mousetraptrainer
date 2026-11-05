@@ -451,6 +451,27 @@ try{
  const applied=await page.locator('.home-actions .primary').evaluate(el=>getComputedStyle(el).backgroundImage);
  assert.ok(applied.includes('linear-gradient'),'applied rainbow has vivid UI');
  await page.screenshot({path:'test-results/theme-home-dark-rainbow.png'});
+ // Dark palette must also reach the quick reader and the ordinary script screen.
+ await page.locator('.quick-memory-home-link').click();
+ await page.locator('.quick-memory-speech.is-target').waitFor({timeout:10000});
+ const quickAppearance=await page.locator('.quick-memory-speech.is-target').evaluate(el=>({
+  background:getComputedStyle(el).backgroundColor,
+  text:getComputedStyle(el.querySelector('.quick-memory-text')).color
+ }));
+ assert.notEqual(quickAppearance.background,'rgb(238, 246, 255)','quick memory must not retain the light-blue selected row');
+ assert.notEqual(quickAppearance.background,'rgb(255, 255, 255)','quick memory must not be white in dark mode');
+ await page.screenshot({path:'test-results/theme-quick-dark-rainbow.png'});
+ await page.locator('.bottom-nav a[href="#script"]').click();
+ await page.locator('.reader-scroll .speech.mine').first().waitFor({timeout:10000});
+ const readerAppearance=await page.locator('.reader-scroll .speech.mine').first().evaluate(el=>({
+  background:getComputedStyle(el).backgroundColor,
+  text:getComputedStyle(el.querySelector('.speech-text')).color
+ }));
+ assert.notEqual(readerAppearance.background,'rgb(238, 246, 255)','script own lines must respond to dark palette');
+ assert.notEqual(readerAppearance.background,'rgb(255, 255, 255)','script own lines must not remain white');
+ await page.screenshot({path:'test-results/theme-reader-dark-rainbow.png'});
+ await page.locator('.bottom-nav a[href="#home"]').click();
+ await page.locator('.home-progress-dashboard').waitFor();
  await page.locator('.global-settings').click();
  await page.locator('input[name="theme-mode"][value="light"]').check({force:true});
  await page.locator('input[name="theme-color"][value="blue"]').check({force:true});
