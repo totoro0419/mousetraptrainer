@@ -217,37 +217,37 @@
  --theme-rainbow-wash:linear-gradient(100deg,rgba(255,73,132,.14),rgba(255,153,60,.12),rgba(255,226,53,.12),rgba(45,222,159,.13),rgba(37,184,255,.14),rgba(146,103,255,.15),rgba(237,77,219,.14));
  --theme-rainbow-highlight:linear-gradient(100deg,rgba(255,73,132,.24),rgba(255,153,60,.21),rgba(255,226,53,.21),rgba(45,222,159,.22),rgba(37,184,255,.23),rgba(146,103,255,.25),rgba(237,77,219,.24));
 }
-:root[data-theme-color="rainbow"] .reader-scroll .speech.mine{
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .reader-scroll .speech.mine{
  background:var(--theme-rainbow-wash),var(--paper);box-shadow:none
 }
-:root[data-theme-color="rainbow"] .reader-scroll .speech.mine:hover{
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .reader-scroll .speech.mine:hover{
  background:var(--theme-rainbow-highlight),var(--paper)
 }
-:root[data-theme-color="rainbow"] .speech.highlight,
-:root[data-theme-color="rainbow"] .reader-scroll .speech.mine.highlight,
-:root[data-theme-color="rainbow"] .rehearsal .speech.current{
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .speech.highlight,
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .reader-scroll .speech.mine.highlight,
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .rehearsal .speech.current{
  background:var(--theme-rainbow-highlight),var(--paper);box-shadow:none
 }
-:root[data-theme-color="rainbow"] .speech.highlight .speech-inner{box-shadow:none}
-:root[data-theme-color="rainbow"] .reader-scroll .speech.mine::before,
-:root[data-theme-color="rainbow"] .speech.highlight::before,
-:root[data-theme-color="rainbow"] .rehearsal .speech.current::before{
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .speech.highlight .speech-inner{box-shadow:none}
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .reader-scroll .speech.mine::before,
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .speech.highlight::before,
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .rehearsal .speech.current::before{
  content:"";position:absolute;inset:0 auto 0 0;width:3px;pointer-events:none;background:linear-gradient(180deg,#ff2b6d,#ff8327,#ffe235,#20d58c,#00b8ff,#8051ff,#ed36dd)
 }
-:root[data-theme-color="rainbow"] .speech.highlight::before,
-:root[data-theme-color="rainbow"] .rehearsal .speech.current::before{width:4px}
-:root[data-theme-color="rainbow"] .quick-memory-speech.is-target,
-:root[data-theme-color="rainbow"] .quick-memory-speech.is-target:hover{
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .speech.highlight::before,
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .rehearsal .speech.current::before{width:4px}
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .quick-memory-speech.is-target,
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .quick-memory-speech.is-target:hover{
  border-color:transparent;
  background:var(--theme-rainbow-highlight) padding-box,linear-gradient(var(--paper),var(--paper)) padding-box,var(--theme-rainbow) border-box
 }
-:root[data-theme-color="rainbow"] .role-menu-option[aria-selected="true"]{
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .role-menu-option[aria-selected="true"]{
  background:var(--theme-rainbow-wash),var(--paper)
 }
-:root[data-theme-color="rainbow"] .notification-entry.is-new{
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .notification-entry.is-new{
  position:relative;overflow:hidden;background:var(--theme-rainbow-wash),var(--paper);border-left-color:transparent
 }
-:root[data-theme-color="rainbow"] .notification-entry.is-new::before{
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .notification-entry.is-new::before{
  content:"";position:absolute;inset:0 auto 0 0;width:3px;pointer-events:none;background:linear-gradient(180deg,#ff2b6d,#ff8327,#ffe235,#20d58c,#00b8ff,#8051ff,#ed36dd)
 }
-:root[data-theme-color="rainbow"] .boot-track span{background:var(--theme-rainbow)}
+:root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .boot-track span{background:var(--theme-rainbow)}
