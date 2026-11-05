@@ -205,6 +205,11 @@ function renderHome(main){
    <header class="home-progress-heading"><h1>学習の進捗</h1><button type="button" class="home-progress-more" data-action="progress-details">詳細 ${icon('chevron')}</button></header>
    <div class="home-progress-main">
     <svg class="home-double-ring" width="146" height="146" viewBox="0 0 140 140" role="img" aria-label="${esc(label+'。'+remaining.description)}">
+     <defs>
+      <linearGradient id="home-rainbow-progress" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="140" y2="140">
+       <stop offset="0%" stop-color="#ff2b6d"/><stop offset="19%" stop-color="#ff8327"/><stop offset="35%" stop-color="#ffe235"/><stop offset="52%" stop-color="#20d58c"/><stop offset="69%" stop-color="#00b8ff"/><stop offset="86%" stop-color="#8051ff"/><stop offset="100%" stop-color="#ed36dd"/>
+      </linearGradient>
+     </defs>
      <circle cx="70" cy="70" r="55" class="home-ring-base home-ring-outer"/>
      <circle cx="70" cy="70" r="55" class="home-ring-completed home-ring-outer" stroke-dasharray="${ring.doneDash}" transform="rotate(-90 70 70)"/>
      <circle cx="70" cy="70" r="55" class="home-ring-practicing home-ring-outer" stroke-dasharray="${ring.doingDash}" stroke-dashoffset="${ring.doingOffset}" transform="rotate(-90 70 70)"/>

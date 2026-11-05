@@ -35,3 +35,17 @@ test('UI, stylesheet and offline app shell are integrated',async()=>{
  assert.ok(html.includes('href="./theme.css"'));
  assert.ok(sw.includes("'./theme.css'"));assert.ok(sw.includes("'./modules/theme.js'"));
 });
+test('rainbow chart rings and dialogue highlights are multicolored',async()=>{
+ const read=path=>readFile(new URL('../dist/'+path,import.meta.url),'utf8');
+ const [app,css]=await Promise.all(['app.js','theme.css'].map(read));
+ assert.match(app,/<linearGradient id="home-rainbow-progress"/);
+ assert.match(app,/stop-color="#ff2b6d"/);
+ assert.match(app,/stop-color="#ed36dd"/);
+ assert.match(css,/\.home-festival-ring\{stroke:url\(#home-rainbow-progress\)\}/);
+ assert.doesNotMatch(css,/data-theme-color="rainbow"\] \.home-ring-(?:completed|practicing)\{stroke:#[0-9a-f]+/);
+ for(const cls of ['.reader-scroll .speech.mine','.speech.highlight','.rehearsal .speech.current','.quick-memory-speech.is-target']){
+  assert.ok(css.includes(cls),'missing rainbow highlight for '+cls);
+ }
+ assert.match(css,/data-theme-mode="dark"\]\[data-theme-color="rainbow"\]\{[\s\S]*?--theme-rainbow-highlight:/);
+ assert.match(css,/\.speech.highlight::before/);
+});
