@@ -1,0 +1,4286 @@
+{
+  "version": 1,
+  "source": "Mousetrap dialogue everyday speech lexicon",
+  "entries": {
+    "know": {
+      "lemma": "know",
+      "pos": "動詞",
+      "coreMeaning": "知っている、分かる",
+      "contextMeaning": "知っている、分かる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "think": {
+      "lemma": "think",
+      "pos": "動詞",
+      "coreMeaning": "考える、思う",
+      "contextMeaning": "考える、思う",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "get": {
+      "lemma": "get",
+      "pos": "動詞",
+      "coreMeaning": "手に入れる、到着する、～になる",
+      "contextMeaning": "手に入れる、到着する、～になる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "see": {
+      "lemma": "see",
+      "pos": "動詞",
+      "coreMeaning": "見る、理解する",
+      "contextMeaning": "見る、理解する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "say": {
+      "lemma": "say",
+      "pos": "動詞",
+      "coreMeaning": "言う",
+      "contextMeaning": "言う",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "come": {
+      "lemma": "come",
+      "pos": "動詞",
+      "coreMeaning": "来る",
+      "contextMeaning": "来る",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "want": {
+      "lemma": "want",
+      "pos": "動詞",
+      "coreMeaning": "欲しい、～したい",
+      "contextMeaning": "欲しい、～したい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "look": {
+      "lemma": "look",
+      "pos": "動詞",
+      "coreMeaning": "見る、～のように見える",
+      "contextMeaning": "見る、～のように見える",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "mean": {
+      "lemma": "mean",
+      "pos": "動詞",
+      "coreMeaning": "意味する、意図する",
+      "contextMeaning": "意味する、意図する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "believe": {
+      "lemma": "believe",
+      "pos": "動詞",
+      "coreMeaning": "信じる",
+      "contextMeaning": "信じる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "take": {
+      "lemma": "take",
+      "pos": "動詞",
+      "coreMeaning": "取る、連れていく、時間がかかる",
+      "contextMeaning": "取る、連れていく、時間がかかる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "tell": {
+      "lemma": "tell",
+      "pos": "動詞",
+      "coreMeaning": "話す、伝える",
+      "contextMeaning": "話す、伝える",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "find": {
+      "lemma": "find",
+      "pos": "動詞",
+      "coreMeaning": "見つける、分かる",
+      "contextMeaning": "見つける、分かる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "make": {
+      "lemma": "make",
+      "pos": "動詞",
+      "coreMeaning": "作る、～の状態にする",
+      "contextMeaning": "作る、～の状態にする",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "put": {
+      "lemma": "put",
+      "pos": "動詞",
+      "coreMeaning": "置く、～にする",
+      "contextMeaning": "置く、～にする",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "hear": {
+      "lemma": "hear",
+      "pos": "動詞",
+      "coreMeaning": "聞こえる、耳にする",
+      "contextMeaning": "聞こえる、耳にする",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "ask": {
+      "lemma": "ask",
+      "pos": "動詞",
+      "coreMeaning": "尋ねる、頼む",
+      "contextMeaning": "尋ねる、頼む",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "try": {
+      "lemma": "try",
+      "pos": "動詞",
+      "coreMeaning": "試みる、努力する",
+      "contextMeaning": "試みる、努力する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "seem": {
+      "lemma": "seem",
+      "pos": "動詞",
+      "coreMeaning": "～のように見える",
+      "contextMeaning": "～のように見える",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "remember": {
+      "lemma": "remember",
+      "pos": "動詞",
+      "coreMeaning": "覚えている、思い出す",
+      "contextMeaning": "覚えている、思い出す",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "help": {
+      "lemma": "help",
+      "pos": "動詞",
+      "coreMeaning": "助ける、手伝う",
+      "contextMeaning": "助ける、手伝う",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "meet": {
+      "lemma": "meet",
+      "pos": "動詞",
+      "coreMeaning": "会う",
+      "contextMeaning": "会う",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "give": {
+      "lemma": "give",
+      "pos": "動詞",
+      "coreMeaning": "与える、渡す",
+      "contextMeaning": "与える、渡す",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "forget": {
+      "lemma": "forget",
+      "pos": "動詞",
+      "coreMeaning": "忘れる",
+      "contextMeaning": "忘れる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "leave": {
+      "lemma": "leave",
+      "pos": "動詞",
+      "coreMeaning": "去る、残す",
+      "contextMeaning": "去る、残す",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "arrive": {
+      "lemma": "arrive",
+      "pos": "動詞",
+      "coreMeaning": "到着する",
+      "contextMeaning": "到着する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "keep": {
+      "lemma": "keep",
+      "pos": "動詞",
+      "coreMeaning": "保つ、続ける",
+      "contextMeaning": "保つ、続ける",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "talk": {
+      "lemma": "talk",
+      "pos": "動詞",
+      "coreMeaning": "話す",
+      "contextMeaning": "話す",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "sit": {
+      "lemma": "sit",
+      "pos": "動詞",
+      "coreMeaning": "座る",
+      "contextMeaning": "座る",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "play": {
+      "lemma": "play",
+      "pos": "動詞",
+      "coreMeaning": "遊ぶ、演奏する、役を演じる",
+      "contextMeaning": "遊ぶ、演奏する、役を演じる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "happen": {
+      "lemma": "happen",
+      "pos": "動詞",
+      "coreMeaning": "起こる",
+      "contextMeaning": "起こる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "understand": {
+      "lemma": "understand",
+      "pos": "動詞",
+      "coreMeaning": "理解する",
+      "contextMeaning": "理解する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "kill": {
+      "lemma": "kill",
+      "pos": "動詞",
+      "coreMeaning": "殺す",
+      "contextMeaning": "殺す",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "wear": {
+      "lemma": "wear",
+      "pos": "動詞",
+      "coreMeaning": "身に着ける",
+      "contextMeaning": "身に着ける",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "wish": {
+      "lemma": "wish",
+      "pos": "動詞",
+      "coreMeaning": "願う、望む",
+      "contextMeaning": "願う、望む",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "cook": {
+      "lemma": "cook",
+      "pos": "動詞",
+      "coreMeaning": "料理する",
+      "contextMeaning": "料理する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "pay": {
+      "lemma": "pay",
+      "pos": "動詞",
+      "coreMeaning": "支払う、注意を向ける",
+      "contextMeaning": "支払う、注意を向ける",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "enjoy": {
+      "lemma": "enjoy",
+      "pos": "動詞",
+      "coreMeaning": "楽しむ",
+      "contextMeaning": "楽しむ",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "scream": {
+      "lemma": "scream",
+      "pos": "動詞",
+      "coreMeaning": "叫ぶ",
+      "contextMeaning": "叫ぶ",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "laugh": {
+      "lemma": "laugh",
+      "pos": "動詞",
+      "coreMeaning": "笑う",
+      "contextMeaning": "笑う",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "listen": {
+      "lemma": "listen",
+      "pos": "動詞",
+      "coreMeaning": "耳を傾ける",
+      "contextMeaning": "耳を傾ける",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "stay": {
+      "lemma": "stay",
+      "pos": "動詞",
+      "coreMeaning": "滞在する、とどまる",
+      "contextMeaning": "滞在する、とどまる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "expect": {
+      "lemma": "expect",
+      "pos": "動詞",
+      "coreMeaning": "予想する、期待する",
+      "contextMeaning": "予想する、期待する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "feel": {
+      "lemma": "feel",
+      "pos": "動詞",
+      "coreMeaning": "感じる",
+      "contextMeaning": "感じる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "hold": {
+      "lemma": "hold",
+      "pos": "動詞",
+      "coreMeaning": "持つ、保つ",
+      "contextMeaning": "持つ、保つ",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "call": {
+      "lemma": "call",
+      "pos": "動詞",
+      "coreMeaning": "呼ぶ、電話する",
+      "contextMeaning": "呼ぶ、電話する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "wait": {
+      "lemma": "wait",
+      "pos": "動詞",
+      "coreMeaning": "待つ",
+      "contextMeaning": "待つ",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "stop": {
+      "lemma": "stop",
+      "pos": "動詞",
+      "coreMeaning": "止まる、やめる",
+      "contextMeaning": "止まる、やめる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "grow": {
+      "lemma": "grow",
+      "pos": "動詞",
+      "coreMeaning": "育つ、増す",
+      "contextMeaning": "育つ、増す",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "shut": {
+      "lemma": "shut",
+      "pos": "動詞",
+      "coreMeaning": "閉める",
+      "contextMeaning": "閉める",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "pick": {
+      "lemma": "pick",
+      "pos": "動詞",
+      "coreMeaning": "選ぶ、拾う",
+      "contextMeaning": "選ぶ、拾う",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "prove": {
+      "lemma": "prove",
+      "pos": "動詞",
+      "coreMeaning": "証明する",
+      "contextMeaning": "証明する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "pretend": {
+      "lemma": "pretend",
+      "pos": "動詞",
+      "coreMeaning": "～のふりをする",
+      "contextMeaning": "～のふりをする",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "set": {
+      "lemma": "set",
+      "pos": "動詞",
+      "coreMeaning": "置く、設定する",
+      "contextMeaning": "置く、設定する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "count": {
+      "lemma": "count",
+      "pos": "動詞",
+      "coreMeaning": "数える、重要である",
+      "contextMeaning": "数える、重要である",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "continue": {
+      "lemma": "continue",
+      "pos": "動詞",
+      "coreMeaning": "続ける",
+      "contextMeaning": "続ける",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "agree": {
+      "lemma": "agree",
+      "pos": "動詞",
+      "coreMeaning": "同意する",
+      "contextMeaning": "同意する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "consider": {
+      "lemma": "consider",
+      "pos": "動詞",
+      "coreMeaning": "よく考える、検討する",
+      "contextMeaning": "よく考える、検討する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "remain": {
+      "lemma": "remain",
+      "pos": "動詞",
+      "coreMeaning": "残る、～のままである",
+      "contextMeaning": "残る、～のままである",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "like": {
+      "lemma": "like",
+      "pos": "動詞",
+      "coreMeaning": "好む、気に入る",
+      "contextMeaning": "好む、気に入る",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "run": {
+      "lemma": "run",
+      "pos": "動詞",
+      "coreMeaning": "走る、運営する",
+      "contextMeaning": "走る、運営する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "read": {
+      "lemma": "read",
+      "pos": "動詞",
+      "coreMeaning": "読む",
+      "contextMeaning": "読む",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "open": {
+      "lemma": "open",
+      "pos": "動詞",
+      "coreMeaning": "開く",
+      "contextMeaning": "開く",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "speak": {
+      "lemma": "speak",
+      "pos": "動詞",
+      "coreMeaning": "話す",
+      "contextMeaning": "話す",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "use": {
+      "lemma": "use",
+      "pos": "動詞",
+      "coreMeaning": "使う",
+      "contextMeaning": "使う",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "show": {
+      "lemma": "show",
+      "pos": "動詞",
+      "coreMeaning": "示す、見せる",
+      "contextMeaning": "示す、見せる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "gather": {
+      "lemma": "gather",
+      "pos": "動詞",
+      "coreMeaning": "集める、集まる",
+      "contextMeaning": "集める、集まる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "write": {
+      "lemma": "write",
+      "pos": "動詞",
+      "coreMeaning": "書く",
+      "contextMeaning": "書く",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "report": {
+      "lemma": "report",
+      "pos": "動詞",
+      "coreMeaning": "報告する",
+      "contextMeaning": "報告する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "bring": {
+      "lemma": "bring",
+      "pos": "動詞",
+      "coreMeaning": "持って来る",
+      "contextMeaning": "持って来る",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "send": {
+      "lemma": "send",
+      "pos": "動詞",
+      "coreMeaning": "送る",
+      "contextMeaning": "送る",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "freeze": {
+      "lemma": "freeze",
+      "pos": "動詞",
+      "coreMeaning": "凍る、凍らせる",
+      "contextMeaning": "凍る、凍らせる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "wonder": {
+      "lemma": "wonder",
+      "pos": "動詞",
+      "coreMeaning": "不思議に思う、～だろうかと思う",
+      "contextMeaning": "不思議に思う、～だろうかと思う",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "marry": {
+      "lemma": "marry",
+      "pos": "動詞",
+      "coreMeaning": "結婚する",
+      "contextMeaning": "結婚する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "thank": {
+      "lemma": "thank",
+      "pos": "動詞",
+      "coreMeaning": "感謝する",
+      "contextMeaning": "感謝する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "mind": {
+      "lemma": "mind",
+      "pos": "動詞",
+      "coreMeaning": "気にする、嫌がる",
+      "contextMeaning": "気にする、嫌がる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "suppose": {
+      "lemma": "suppose",
+      "pos": "動詞",
+      "coreMeaning": "思う、仮定する",
+      "contextMeaning": "思う、仮定する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "hope": {
+      "lemma": "hope",
+      "pos": "動詞",
+      "coreMeaning": "望む、希望する",
+      "contextMeaning": "望む、希望する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "cut": {
+      "lemma": "cut",
+      "pos": "動詞",
+      "coreMeaning": "切る、削減する",
+      "contextMeaning": "切る、削減する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "turn": {
+      "lemma": "turn",
+      "pos": "動詞",
+      "coreMeaning": "向きを変える、順番が来る",
+      "contextMeaning": "向きを変える、順番が来る",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "interview": {
+      "lemma": "interview",
+      "pos": "動詞",
+      "coreMeaning": "面接する、事情聴取する",
+      "contextMeaning": "面接する、事情聴取する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "drive": {
+      "lemma": "drive",
+      "pos": "動詞",
+      "coreMeaning": "車を運転する",
+      "contextMeaning": "車を運転する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "serve": {
+      "lemma": "serve",
+      "pos": "動詞",
+      "coreMeaning": "仕える、食事を出す",
+      "contextMeaning": "仕える、食事を出す",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "ring": {
+      "lemma": "ring",
+      "pos": "動詞",
+      "coreMeaning": "鳴る、電話する",
+      "contextMeaning": "鳴る、電話する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "hang": {
+      "lemma": "hang",
+      "pos": "動詞",
+      "coreMeaning": "つるす、掛ける",
+      "contextMeaning": "つるす、掛ける",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "fill": {
+      "lemma": "fill",
+      "pos": "動詞",
+      "coreMeaning": "満たす、記入する",
+      "contextMeaning": "満たす、記入する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "travel": {
+      "lemma": "travel",
+      "pos": "動詞",
+      "coreMeaning": "旅行する、移動する",
+      "contextMeaning": "旅行する、移動する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "thaw": {
+      "lemma": "thaw",
+      "pos": "動詞",
+      "coreMeaning": "解ける、解かす",
+      "contextMeaning": "解ける、解かす",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "eat": {
+      "lemma": "eat",
+      "pos": "動詞",
+      "coreMeaning": "食べる",
+      "contextMeaning": "食べる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "start": {
+      "lemma": "start",
+      "pos": "動詞",
+      "coreMeaning": "始める",
+      "contextMeaning": "始める",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "blow": {
+      "lemma": "blow",
+      "pos": "動詞",
+      "coreMeaning": "吹く",
+      "contextMeaning": "吹く",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "spoil": {
+      "lemma": "spoil",
+      "pos": "動詞",
+      "coreMeaning": "台無しにする、甘やかす",
+      "contextMeaning": "台無しにする、甘やかす",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "prefer": {
+      "lemma": "prefer",
+      "pos": "動詞",
+      "coreMeaning": "～をより好む",
+      "contextMeaning": "～をより好む",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "embarrass": {
+      "lemma": "embarrass",
+      "pos": "動詞",
+      "coreMeaning": "困惑させる、恥ずかしい思いをさせる",
+      "contextMeaning": "困惑させる、恥ずかしい思いをさせる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "introduce": {
+      "lemma": "introduce",
+      "pos": "動詞",
+      "coreMeaning": "紹介する、導入する",
+      "contextMeaning": "紹介する、導入する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "save": {
+      "lemma": "save",
+      "pos": "動詞",
+      "coreMeaning": "救う、節約する、保存する",
+      "contextMeaning": "救う、節約する、保存する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "sell": {
+      "lemma": "sell",
+      "pos": "動詞",
+      "coreMeaning": "売る",
+      "contextMeaning": "売る",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "rent": {
+      "lemma": "rent",
+      "pos": "動詞",
+      "coreMeaning": "借りる、貸す",
+      "contextMeaning": "借りる、貸す",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "bet": {
+      "lemma": "bet",
+      "pos": "動詞",
+      "coreMeaning": "賭ける、きっと～と思う",
+      "contextMeaning": "賭ける、きっと～と思う",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "attempt": {
+      "lemma": "attempt",
+      "pos": "動詞",
+      "coreMeaning": "試みる",
+      "contextMeaning": "試みる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "clear": {
+      "lemma": "clear",
+      "pos": "動詞",
+      "coreMeaning": "片付ける、取り除く",
+      "contextMeaning": "片付ける、取り除く",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "carry": {
+      "lemma": "carry",
+      "pos": "動詞",
+      "coreMeaning": "運ぶ",
+      "contextMeaning": "運ぶ",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "solve": {
+      "lemma": "solve",
+      "pos": "動詞",
+      "coreMeaning": "解決する",
+      "contextMeaning": "解決する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "disappoint": {
+      "lemma": "disappoint",
+      "pos": "動詞",
+      "coreMeaning": "がっかりさせる",
+      "contextMeaning": "がっかりさせる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "impress": {
+      "lemma": "impress",
+      "pos": "動詞",
+      "coreMeaning": "感心させる、印象づける",
+      "contextMeaning": "感心させる、印象づける",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "avoid": {
+      "lemma": "avoid",
+      "pos": "動詞",
+      "coreMeaning": "避ける",
+      "contextMeaning": "避ける",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "chop": {
+      "lemma": "chop",
+      "pos": "動詞",
+      "coreMeaning": "切り刻む",
+      "contextMeaning": "切り刻む",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "beware": {
+      "lemma": "beware",
+      "pos": "動詞",
+      "coreMeaning": "用心する",
+      "contextMeaning": "用心する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "trust": {
+      "lemma": "trust",
+      "pos": "動詞",
+      "coreMeaning": "信用する、頼る",
+      "contextMeaning": "信用する、頼る",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "sleep": {
+      "lemma": "sleep",
+      "pos": "動詞",
+      "coreMeaning": "眠る",
+      "contextMeaning": "眠る",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "poke": {
+      "lemma": "poke",
+      "pos": "動詞",
+      "coreMeaning": "突く、押す",
+      "contextMeaning": "突く、押す",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "return": {
+      "lemma": "return",
+      "pos": "動詞",
+      "coreMeaning": "戻る、返す",
+      "contextMeaning": "戻る、返す",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "identify": {
+      "lemma": "identify",
+      "pos": "動詞",
+      "coreMeaning": "特定する、身元を確認する",
+      "contextMeaning": "特定する、身元を確認する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "frighten": {
+      "lemma": "frighten",
+      "pos": "動詞",
+      "coreMeaning": "怖がらせる",
+      "contextMeaning": "怖がらせる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "blame": {
+      "lemma": "blame",
+      "pos": "動詞",
+      "coreMeaning": "責める、非難する",
+      "contextMeaning": "責める、非難する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "admire": {
+      "lemma": "admire",
+      "pos": "動詞",
+      "coreMeaning": "感心する、賞賛する",
+      "contextMeaning": "感心する、賞賛する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "kick": {
+      "lemma": "kick",
+      "pos": "動詞",
+      "coreMeaning": "蹴る",
+      "contextMeaning": "蹴る",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "creep": {
+      "lemma": "creep",
+      "pos": "動詞",
+      "coreMeaning": "忍び寄る、這う",
+      "contextMeaning": "忍び寄る、這う",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "abuse": {
+      "lemma": "abuse",
+      "pos": "動詞",
+      "coreMeaning": "虐待する、乱用する",
+      "contextMeaning": "虐待する、乱用する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "whisper": {
+      "lemma": "whisper",
+      "pos": "動詞",
+      "coreMeaning": "ささやく",
+      "contextMeaning": "ささやく",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "prevent": {
+      "lemma": "prevent",
+      "pos": "動詞",
+      "coreMeaning": "防ぐ",
+      "contextMeaning": "防ぐ",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "build": {
+      "lemma": "build",
+      "pos": "動詞",
+      "coreMeaning": "建てる、築く",
+      "contextMeaning": "建てる、築く",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "occupy": {
+      "lemma": "occupy",
+      "pos": "動詞",
+      "coreMeaning": "占める、占有する",
+      "contextMeaning": "占める、占有する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "sign": {
+      "lemma": "sign",
+      "pos": "動詞",
+      "coreMeaning": "署名する",
+      "contextMeaning": "署名する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "fold": {
+      "lemma": "fold",
+      "pos": "動詞",
+      "coreMeaning": "折り畳む",
+      "contextMeaning": "折り畳む",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "tackle": {
+      "lemma": "tackle",
+      "pos": "動詞",
+      "coreMeaning": "取り組む",
+      "contextMeaning": "取り組む",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "arrest": {
+      "lemma": "arrest",
+      "pos": "動詞",
+      "coreMeaning": "逮捕する",
+      "contextMeaning": "逮捕する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "measure": {
+      "lemma": "measure",
+      "pos": "動詞",
+      "coreMeaning": "測る",
+      "contextMeaning": "測る",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "suggest": {
+      "lemma": "suggest",
+      "pos": "動詞",
+      "coreMeaning": "提案する、示唆する",
+      "contextMeaning": "提案する、示唆する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "drop": {
+      "lemma": "drop",
+      "pos": "動詞",
+      "coreMeaning": "落とす、下げる",
+      "contextMeaning": "落とす、下げる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "settle": {
+      "lemma": "settle",
+      "pos": "動詞",
+      "coreMeaning": "決着をつける、住み着く",
+      "contextMeaning": "決着をつける、住み着く",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "consent": {
+      "lemma": "consent",
+      "pos": "動詞",
+      "coreMeaning": "同意する",
+      "contextMeaning": "同意する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "worry": {
+      "lemma": "worry",
+      "pos": "動詞",
+      "coreMeaning": "心配する",
+      "contextMeaning": "心配する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "prepare": {
+      "lemma": "prepare",
+      "pos": "動詞",
+      "coreMeaning": "準備する",
+      "contextMeaning": "準備する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "attract": {
+      "lemma": "attract",
+      "pos": "動詞",
+      "coreMeaning": "引き付ける",
+      "contextMeaning": "引き付ける",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "admit": {
+      "lemma": "admit",
+      "pos": "動詞",
+      "coreMeaning": "認める、入れる",
+      "contextMeaning": "認める、入れる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "argue": {
+      "lemma": "argue",
+      "pos": "動詞",
+      "coreMeaning": "議論する、口論する",
+      "contextMeaning": "議論する、口論する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "refer": {
+      "lemma": "refer",
+      "pos": "動詞",
+      "coreMeaning": "言及する、参照する",
+      "contextMeaning": "言及する、参照する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "offer": {
+      "lemma": "offer",
+      "pos": "動詞",
+      "coreMeaning": "申し出る、提供する",
+      "contextMeaning": "申し出る、提供する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "allow": {
+      "lemma": "allow",
+      "pos": "動詞",
+      "coreMeaning": "許す",
+      "contextMeaning": "許す",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "intend": {
+      "lemma": "intend",
+      "pos": "動詞",
+      "coreMeaning": "意図する、～するつもりである",
+      "contextMeaning": "意図する、～するつもりである",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "learn": {
+      "lemma": "learn",
+      "pos": "動詞",
+      "coreMeaning": "学ぶ、覚える",
+      "contextMeaning": "学ぶ、覚える",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "cooperate": {
+      "lemma": "cooperate",
+      "pos": "動詞",
+      "coreMeaning": "協力する",
+      "contextMeaning": "協力する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "signal": {
+      "lemma": "signal",
+      "pos": "動詞",
+      "coreMeaning": "合図する、信号で知らせる",
+      "contextMeaning": "合図する、信号で知らせる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "advise": {
+      "lemma": "advise",
+      "pos": "動詞",
+      "coreMeaning": "忠告する、助言する",
+      "contextMeaning": "忠告する、助言する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "bother": {
+      "lemma": "bother",
+      "pos": "動詞",
+      "coreMeaning": "悩ませる、面倒をかける",
+      "contextMeaning": "悩ませる、面倒をかける",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "smell": {
+      "lemma": "smell",
+      "pos": "動詞",
+      "coreMeaning": "においがする、においを嗅ぐ",
+      "contextMeaning": "においがする、においを嗅ぐ",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "handle": {
+      "lemma": "handle",
+      "pos": "動詞",
+      "coreMeaning": "取り扱う、対処する",
+      "contextMeaning": "取り扱う、対処する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "add": {
+      "lemma": "add",
+      "pos": "動詞",
+      "coreMeaning": "加える",
+      "contextMeaning": "加える",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "invite": {
+      "lemma": "invite",
+      "pos": "動詞",
+      "coreMeaning": "招く",
+      "contextMeaning": "招く",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "hide": {
+      "lemma": "hide",
+      "pos": "動詞",
+      "coreMeaning": "隠す",
+      "contextMeaning": "隠す",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "discover": {
+      "lemma": "discover",
+      "pos": "動詞",
+      "coreMeaning": "発見する",
+      "contextMeaning": "発見する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "repeat": {
+      "lemma": "repeat",
+      "pos": "動詞",
+      "coreMeaning": "繰り返す",
+      "contextMeaning": "繰り返す",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "examine": {
+      "lemma": "examine",
+      "pos": "動詞",
+      "coreMeaning": "調べる",
+      "contextMeaning": "調べる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "remove": {
+      "lemma": "remove",
+      "pos": "動詞",
+      "coreMeaning": "取り除く",
+      "contextMeaning": "取り除く",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "share": {
+      "lemma": "share",
+      "pos": "動詞",
+      "coreMeaning": "分け合う",
+      "contextMeaning": "分け合う",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "fear": {
+      "lemma": "fear",
+      "pos": "動詞",
+      "coreMeaning": "恐れる",
+      "contextMeaning": "恐れる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "follow": {
+      "lemma": "follow",
+      "pos": "動詞",
+      "coreMeaning": "付いていく、従う",
+      "contextMeaning": "付いていく、従う",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "forgive": {
+      "lemma": "forgive",
+      "pos": "動詞",
+      "coreMeaning": "許す",
+      "contextMeaning": "許す",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "excuse": {
+      "lemma": "excuse",
+      "pos": "動詞",
+      "coreMeaning": "許す、言い訳する",
+      "contextMeaning": "許す、言い訳する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "fit": {
+      "lemma": "fit",
+      "pos": "動詞",
+      "coreMeaning": "合う、取り付ける",
+      "contextMeaning": "合う、取り付ける",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "plan": {
+      "lemma": "plan",
+      "pos": "動詞",
+      "coreMeaning": "計画する",
+      "contextMeaning": "計画する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "brush": {
+      "lemma": "brush",
+      "pos": "動詞",
+      "coreMeaning": "ブラシをかける",
+      "contextMeaning": "ブラシをかける",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "train": {
+      "lemma": "train",
+      "pos": "動詞",
+      "coreMeaning": "訓練する",
+      "contextMeaning": "訓練する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "touch": {
+      "lemma": "touch",
+      "pos": "動詞",
+      "coreMeaning": "触れる",
+      "contextMeaning": "触れる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "slip": {
+      "lemma": "slip",
+      "pos": "動詞",
+      "coreMeaning": "滑る、こっそり移動する",
+      "contextMeaning": "滑る、こっそり移動する",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "right": {
+      "lemma": "right",
+      "pos": "形容詞",
+      "coreMeaning": "正しい、右側の",
+      "contextMeaning": "正しい、右側の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "good": {
+      "lemma": "good",
+      "pos": "形容詞",
+      "coreMeaning": "良い",
+      "contextMeaning": "良い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "young": {
+      "lemma": "young",
+      "pos": "形容詞",
+      "coreMeaning": "若い",
+      "contextMeaning": "若い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "little": {
+      "lemma": "little",
+      "pos": "形容詞",
+      "coreMeaning": "小さい、少量の",
+      "contextMeaning": "小さい、少量の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "old": {
+      "lemma": "old",
+      "pos": "形容詞",
+      "coreMeaning": "古い、年を取った",
+      "contextMeaning": "古い、年を取った",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "true": {
+      "lemma": "true",
+      "pos": "形容詞",
+      "coreMeaning": "本当の",
+      "contextMeaning": "本当の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "long": {
+      "lemma": "long",
+      "pos": "形容詞",
+      "coreMeaning": "長い",
+      "contextMeaning": "長い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "dead": {
+      "lemma": "dead",
+      "pos": "形容詞",
+      "coreMeaning": "死んだ、動かない",
+      "contextMeaning": "死んだ、動かない",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "blind": {
+      "lemma": "blind",
+      "pos": "形容詞",
+      "coreMeaning": "目の見えない、盲目的な",
+      "contextMeaning": "目の見えない、盲目的な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "afraid": {
+      "lemma": "afraid",
+      "pos": "形容詞",
+      "coreMeaning": "恐れている",
+      "contextMeaning": "恐れている",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "sure": {
+      "lemma": "sure",
+      "pos": "形容詞",
+      "coreMeaning": "確信している",
+      "contextMeaning": "確信している",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "nice": {
+      "lemma": "nice",
+      "pos": "形容詞",
+      "coreMeaning": "感じのよい、すてきな",
+      "contextMeaning": "感じのよい、すてきな",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "first": {
+      "lemma": "first",
+      "pos": "形容詞",
+      "coreMeaning": "最初の",
+      "contextMeaning": "最初の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "crazy": {
+      "lemma": "crazy",
+      "pos": "形容詞",
+      "coreMeaning": "おかしな、夢中の",
+      "contextMeaning": "おかしな、夢中の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "kind": {
+      "lemma": "kind",
+      "pos": "形容詞",
+      "coreMeaning": "親切な、種類",
+      "contextMeaning": "親切な、種類",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "better": {
+      "lemma": "better",
+      "pos": "形容詞",
+      "coreMeaning": "よりよい、回復した",
+      "contextMeaning": "よりよい、回復した",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "alone": {
+      "lemma": "alone",
+      "pos": "形容詞",
+      "coreMeaning": "ひとりで、孤独な",
+      "contextMeaning": "ひとりで、孤独な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "horrible": {
+      "lemma": "horrible",
+      "pos": "形容詞",
+      "coreMeaning": "ひどい、恐ろしい",
+      "contextMeaning": "ひどい、恐ろしい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "cold": {
+      "lemma": "cold",
+      "pos": "形容詞",
+      "coreMeaning": "寒い、冷たい",
+      "contextMeaning": "寒い、冷たい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "poor": {
+      "lemma": "poor",
+      "pos": "形容詞",
+      "coreMeaning": "貧しい、気の毒な",
+      "contextMeaning": "貧しい、気の毒な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "married": {
+      "lemma": "married",
+      "pos": "形容詞",
+      "coreMeaning": "結婚している",
+      "contextMeaning": "結婚している",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "pretty": {
+      "lemma": "pretty",
+      "pos": "形容詞",
+      "coreMeaning": "かわいい、かなり",
+      "contextMeaning": "かわいい、かなり",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "interesting": {
+      "lemma": "interesting",
+      "pos": "形容詞",
+      "coreMeaning": "面白い、興味深い",
+      "contextMeaning": "面白い、興味深い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "difficult": {
+      "lemma": "difficult",
+      "pos": "形容詞",
+      "coreMeaning": "難しい",
+      "contextMeaning": "難しい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "dark": {
+      "lemma": "dark",
+      "pos": "形容詞",
+      "coreMeaning": "暗い、暗色の",
+      "contextMeaning": "暗い、暗色の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "heavy": {
+      "lemma": "heavy",
+      "pos": "形容詞",
+      "coreMeaning": "重い、激しい",
+      "contextMeaning": "重い、激しい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "soft": {
+      "lemma": "soft",
+      "pos": "形容詞",
+      "coreMeaning": "柔らかい、穏やかな",
+      "contextMeaning": "柔らかい、穏やかな",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "warm": {
+      "lemma": "warm",
+      "pos": "形容詞",
+      "coreMeaning": "暖かい",
+      "contextMeaning": "暖かい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "proper": {
+      "lemma": "proper",
+      "pos": "形容詞",
+      "coreMeaning": "適切な、きちんとした",
+      "contextMeaning": "適切な、きちんとした",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "lovely": {
+      "lemma": "lovely",
+      "pos": "形容詞",
+      "coreMeaning": "すてきな",
+      "contextMeaning": "すてきな",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "odd": {
+      "lemma": "odd",
+      "pos": "形容詞",
+      "coreMeaning": "奇妙な、奇数の",
+      "contextMeaning": "奇妙な、奇数の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "red": {
+      "lemma": "red",
+      "pos": "形容詞",
+      "coreMeaning": "赤い",
+      "contextMeaning": "赤い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "loud": {
+      "lemma": "loud",
+      "pos": "形容詞",
+      "coreMeaning": "大きな音の",
+      "contextMeaning": "大きな音の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "surprised": {
+      "lemma": "surprised",
+      "pos": "形容詞",
+      "coreMeaning": "驚いた",
+      "contextMeaning": "驚いた",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "easy": {
+      "lemma": "easy",
+      "pos": "形容詞",
+      "coreMeaning": "簡単な",
+      "contextMeaning": "簡単な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "bad": {
+      "lemma": "bad",
+      "pos": "形容詞",
+      "coreMeaning": "悪い",
+      "contextMeaning": "悪い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "dangerous": {
+      "lemma": "dangerous",
+      "pos": "形容詞",
+      "coreMeaning": "危険な",
+      "contextMeaning": "危険な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "ridiculous": {
+      "lemma": "ridiculous",
+      "pos": "形容詞",
+      "coreMeaning": "ばかげた",
+      "contextMeaning": "ばかげた",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "responsible": {
+      "lemma": "responsible",
+      "pos": "形容詞",
+      "coreMeaning": "責任がある",
+      "contextMeaning": "責任がある",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "unhappy": {
+      "lemma": "unhappy",
+      "pos": "形容詞",
+      "coreMeaning": "不幸な、悲しい",
+      "contextMeaning": "不幸な、悲しい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "hidden": {
+      "lemma": "hidden",
+      "pos": "形容詞",
+      "coreMeaning": "隠れた",
+      "contextMeaning": "隠れた",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "guilty": {
+      "lemma": "guilty",
+      "pos": "形容詞",
+      "coreMeaning": "有罪の、罪悪感がある",
+      "contextMeaning": "有罪の、罪悪感がある",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "fond": {
+      "lemma": "fond",
+      "pos": "形容詞",
+      "coreMeaning": "好きで、愛着がある",
+      "contextMeaning": "好きで、愛着がある",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "sensible": {
+      "lemma": "sensible",
+      "pos": "形容詞",
+      "coreMeaning": "分別のある、賢明な",
+      "contextMeaning": "分別のある、賢明な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "deadly": {
+      "lemma": "deadly",
+      "pos": "形容詞",
+      "coreMeaning": "致命的な",
+      "contextMeaning": "致命的な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "certain": {
+      "lemma": "certain",
+      "pos": "形容詞",
+      "coreMeaning": "確かな、特定の",
+      "contextMeaning": "確かな、特定の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "stupid": {
+      "lemma": "stupid",
+      "pos": "形容詞",
+      "coreMeaning": "愚かな",
+      "contextMeaning": "愚かな",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "frozen": {
+      "lemma": "frozen",
+      "pos": "形容詞",
+      "coreMeaning": "凍った",
+      "contextMeaning": "凍った",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "ready": {
+      "lemma": "ready",
+      "pos": "形容詞",
+      "coreMeaning": "準備ができた",
+      "contextMeaning": "準備ができた",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "heavenly": {
+      "lemma": "heavenly",
+      "pos": "形容詞",
+      "coreMeaning": "すばらしい、天の",
+      "contextMeaning": "すばらしい、天の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "purple": {
+      "lemma": "purple",
+      "pos": "形容詞",
+      "coreMeaning": "紫色の",
+      "contextMeaning": "紫色の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "beautiful": {
+      "lemma": "beautiful",
+      "pos": "形容詞",
+      "coreMeaning": "美しい",
+      "contextMeaning": "美しい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "english": {
+      "lemma": "english",
+      "pos": "形容詞",
+      "coreMeaning": "英語の、イングランドの",
+      "contextMeaning": "英語の、イングランドの",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "dry": {
+      "lemma": "dry",
+      "pos": "形容詞",
+      "coreMeaning": "乾いた",
+      "contextMeaning": "乾いた",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "local": {
+      "lemma": "local",
+      "pos": "形容詞",
+      "coreMeaning": "地元の、地域の",
+      "contextMeaning": "地元の、地域の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "indoor": {
+      "lemma": "indoor",
+      "pos": "形容詞",
+      "coreMeaning": "屋内の",
+      "contextMeaning": "屋内の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "original": {
+      "lemma": "original",
+      "pos": "形容詞",
+      "coreMeaning": "元の、独創的な",
+      "contextMeaning": "元の、独創的な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "sweet": {
+      "lemma": "sweet",
+      "pos": "形容詞",
+      "coreMeaning": "甘い、親切な",
+      "contextMeaning": "甘い、親切な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "comfortable": {
+      "lemma": "comfortable",
+      "pos": "形容詞",
+      "coreMeaning": "快適な",
+      "contextMeaning": "快適な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "lower": {
+      "lemma": "lower",
+      "pos": "形容詞",
+      "coreMeaning": "より低い、下の",
+      "contextMeaning": "より低い、下の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "easier": {
+      "lemma": "easier",
+      "pos": "形容詞",
+      "coreMeaning": "より簡単な",
+      "contextMeaning": "より簡単な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "thin": {
+      "lemma": "thin",
+      "pos": "形容詞",
+      "coreMeaning": "薄い、細い",
+      "contextMeaning": "薄い、細い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "amusing": {
+      "lemma": "amusing",
+      "pos": "形容詞",
+      "coreMeaning": "面白い、愉快な",
+      "contextMeaning": "面白い、愉快な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "hearty": {
+      "lemma": "hearty",
+      "pos": "形容詞",
+      "coreMeaning": "心のこもった、たっぷりの",
+      "contextMeaning": "心のこもった、たっぷりの",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "planned": {
+      "lemma": "planned",
+      "pos": "形容詞",
+      "coreMeaning": "計画された",
+      "contextMeaning": "計画された",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "abnormal": {
+      "lemma": "abnormal",
+      "pos": "形容詞",
+      "coreMeaning": "異常な",
+      "contextMeaning": "異常な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "fresh": {
+      "lemma": "fresh",
+      "pos": "形容詞",
+      "coreMeaning": "新鮮な",
+      "contextMeaning": "新鮮な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "healthy": {
+      "lemma": "healthy",
+      "pos": "形容詞",
+      "coreMeaning": "健康な",
+      "contextMeaning": "健康な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "fantastic": {
+      "lemma": "fantastic",
+      "pos": "形容詞",
+      "coreMeaning": "素晴らしい、信じがたい",
+      "contextMeaning": "素晴らしい、信じがたい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "natural": {
+      "lemma": "natural",
+      "pos": "形容詞",
+      "coreMeaning": "自然な",
+      "contextMeaning": "自然な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "curious": {
+      "lemma": "curious",
+      "pos": "形容詞",
+      "coreMeaning": "好奇心が強い、奇妙な",
+      "contextMeaning": "好奇心が強い、奇妙な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "unfinished": {
+      "lemma": "unfinished",
+      "pos": "形容詞",
+      "coreMeaning": "未完成の",
+      "contextMeaning": "未完成の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "steady": {
+      "lemma": "steady",
+      "pos": "形容詞",
+      "coreMeaning": "安定した、落ち着いた",
+      "contextMeaning": "安定した、落ち着いた",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "unstable": {
+      "lemma": "unstable",
+      "pos": "形容詞",
+      "coreMeaning": "不安定な",
+      "contextMeaning": "不安定な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "silly": {
+      "lemma": "silly",
+      "pos": "形容詞",
+      "coreMeaning": "ばかげた、軽率な",
+      "contextMeaning": "ばかげた、軽率な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "safe": {
+      "lemma": "safe",
+      "pos": "形容詞",
+      "coreMeaning": "安全な",
+      "contextMeaning": "安全な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "cruel": {
+      "lemma": "cruel",
+      "pos": "形容詞",
+      "coreMeaning": "残酷な",
+      "contextMeaning": "残酷な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "nasty": {
+      "lemma": "nasty",
+      "pos": "形容詞",
+      "coreMeaning": "嫌な、不快な",
+      "contextMeaning": "嫌な、不快な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "thick": {
+      "lemma": "thick",
+      "pos": "形容詞",
+      "coreMeaning": "厚い、濃い",
+      "contextMeaning": "厚い、濃い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "icy": {
+      "lemma": "icy",
+      "pos": "形容詞",
+      "coreMeaning": "氷の、凍るように冷たい",
+      "contextMeaning": "氷の、凍るように冷たい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "early": {
+      "lemma": "early",
+      "pos": "形容詞",
+      "coreMeaning": "早い",
+      "contextMeaning": "早い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "handsome": {
+      "lemma": "handsome",
+      "pos": "形容詞",
+      "coreMeaning": "ハンサムな、立派な",
+      "contextMeaning": "ハンサムな、立派な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "faded": {
+      "lemma": "faded",
+      "pos": "形容詞",
+      "coreMeaning": "色あせた、衰えた",
+      "contextMeaning": "色あせた、衰えた",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "grateful": {
+      "lemma": "grateful",
+      "pos": "形容詞",
+      "coreMeaning": "感謝している",
+      "contextMeaning": "感謝している",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "irritating": {
+      "lemma": "irritating",
+      "pos": "形容詞",
+      "coreMeaning": "いらいらさせる",
+      "contextMeaning": "いらいらさせる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "tiny": {
+      "lemma": "tiny",
+      "pos": "形容詞",
+      "coreMeaning": "とても小さい",
+      "contextMeaning": "とても小さい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "european": {
+      "lemma": "european",
+      "pos": "形容詞",
+      "coreMeaning": "ヨーロッパの",
+      "contextMeaning": "ヨーロッパの",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "unfortunate": {
+      "lemma": "unfortunate",
+      "pos": "形容詞",
+      "coreMeaning": "不運な、残念な",
+      "contextMeaning": "不運な、残念な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "tragic": {
+      "lemma": "tragic",
+      "pos": "形容詞",
+      "coreMeaning": "悲劇的な",
+      "contextMeaning": "悲劇的な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "polite": {
+      "lemma": "polite",
+      "pos": "形容詞",
+      "coreMeaning": "礼儀正しい",
+      "contextMeaning": "礼儀正しい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "cheap": {
+      "lemma": "cheap",
+      "pos": "形容詞",
+      "coreMeaning": "安い、安っぽい",
+      "contextMeaning": "安い、安っぽい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "unpleasant": {
+      "lemma": "unpleasant",
+      "pos": "形容詞",
+      "coreMeaning": "不快な",
+      "contextMeaning": "不快な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "depressed": {
+      "lemma": "depressed",
+      "pos": "形容詞",
+      "coreMeaning": "落ち込んだ",
+      "contextMeaning": "落ち込んだ",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "dramatic": {
+      "lemma": "dramatic",
+      "pos": "形容詞",
+      "coreMeaning": "劇的な",
+      "contextMeaning": "劇的な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "complete": {
+      "lemma": "complete",
+      "pos": "形容詞",
+      "coreMeaning": "完全な",
+      "contextMeaning": "完全な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "small": {
+      "lemma": "small",
+      "pos": "形容詞",
+      "coreMeaning": "小さい",
+      "contextMeaning": "小さい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "big": {
+      "lemma": "big",
+      "pos": "形容詞",
+      "coreMeaning": "大きい",
+      "contextMeaning": "大きい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "iron": {
+      "lemma": "iron",
+      "pos": "形容詞",
+      "coreMeaning": "鉄製の",
+      "contextMeaning": "鉄製の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "solid": {
+      "lemma": "solid",
+      "pos": "形容詞",
+      "coreMeaning": "固体の、しっかりした",
+      "contextMeaning": "固体の、しっかりした",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "plummy": {
+      "lemma": "plummy",
+      "pos": "形容詞",
+      "coreMeaning": "気取った上流階級風の（声など）",
+      "contextMeaning": "気取った上流階級風の（声など）",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "fake": {
+      "lemma": "fake",
+      "pos": "形容詞",
+      "coreMeaning": "偽物の",
+      "contextMeaning": "偽物の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "indian": {
+      "lemma": "indian",
+      "pos": "形容詞",
+      "coreMeaning": "インドの",
+      "contextMeaning": "インドの",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "delightful": {
+      "lemma": "delightful",
+      "pos": "形容詞",
+      "coreMeaning": "とても楽しい、素敵な",
+      "contextMeaning": "とても楽しい、素敵な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "wasted": {
+      "lemma": "wasted",
+      "pos": "形容詞",
+      "coreMeaning": "無駄になった",
+      "contextMeaning": "無駄になった",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "casual": {
+      "lemma": "casual",
+      "pos": "形容詞",
+      "coreMeaning": "何気ない、普段着の",
+      "contextMeaning": "何気ない、普段着の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "absolute": {
+      "lemma": "absolute",
+      "pos": "形容詞",
+      "coreMeaning": "完全な、絶対的な",
+      "contextMeaning": "完全な、絶対的な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "blocked": {
+      "lemma": "blocked",
+      "pos": "形容詞",
+      "coreMeaning": "塞がれた",
+      "contextMeaning": "塞がれた",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "peaceful": {
+      "lemma": "peaceful",
+      "pos": "形容詞",
+      "coreMeaning": "穏やかな",
+      "contextMeaning": "穏やかな",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "fierce": {
+      "lemma": "fierce",
+      "pos": "形容詞",
+      "coreMeaning": "激しい、獰猛な",
+      "contextMeaning": "激しい、獰猛な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "raw": {
+      "lemma": "raw",
+      "pos": "形容詞",
+      "coreMeaning": "生の、ひりひりした",
+      "contextMeaning": "生の、ひりひりした",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "ragged": {
+      "lemma": "ragged",
+      "pos": "形容詞",
+      "coreMeaning": "ぼろぼろの",
+      "contextMeaning": "ぼろぼろの",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "confident": {
+      "lemma": "confident",
+      "pos": "形容詞",
+      "coreMeaning": "自信のある",
+      "contextMeaning": "自信のある",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "brilliant": {
+      "lemma": "brilliant",
+      "pos": "形容詞",
+      "coreMeaning": "すばらしい、頭のよい",
+      "contextMeaning": "すばらしい、頭のよい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "educated": {
+      "lemma": "educated",
+      "pos": "形容詞",
+      "coreMeaning": "教育を受けた",
+      "contextMeaning": "教育を受けた",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "fishy": {
+      "lemma": "fishy",
+      "pos": "形容詞",
+      "coreMeaning": "怪しい、うさんくさい",
+      "contextMeaning": "怪しい、うさんくさい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "enchanting": {
+      "lemma": "enchanting",
+      "pos": "形容詞",
+      "coreMeaning": "魅力的な",
+      "contextMeaning": "魅力的な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "necessary": {
+      "lemma": "necessary",
+      "pos": "形容詞",
+      "coreMeaning": "必要な",
+      "contextMeaning": "必要な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "quick": {
+      "lemma": "quick",
+      "pos": "形容詞",
+      "coreMeaning": "速い",
+      "contextMeaning": "速い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "public": {
+      "lemma": "public",
+      "pos": "形容詞",
+      "coreMeaning": "公共の",
+      "contextMeaning": "公共の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "youngest": {
+      "lemma": "youngest",
+      "pos": "形容詞",
+      "coreMeaning": "最年少の",
+      "contextMeaning": "最年少の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "ill-mannered": {
+      "lemma": "ill-mannered",
+      "pos": "形容詞",
+      "coreMeaning": "行儀の悪い",
+      "contextMeaning": "行儀の悪い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "horrid": {
+      "lemma": "horrid",
+      "pos": "形容詞",
+      "coreMeaning": "ひどい、嫌な",
+      "contextMeaning": "ひどい、嫌な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "lucky": {
+      "lemma": "lucky",
+      "pos": "形容詞",
+      "coreMeaning": "運のよい",
+      "contextMeaning": "運のよい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "straight": {
+      "lemma": "straight",
+      "pos": "形容詞",
+      "coreMeaning": "まっすぐな、率直な",
+      "contextMeaning": "まっすぐな、率直な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "chilly": {
+      "lemma": "chilly",
+      "pos": "形容詞",
+      "coreMeaning": "肌寒い",
+      "contextMeaning": "肌寒い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "dumb": {
+      "lemma": "dumb",
+      "pos": "形容詞",
+      "coreMeaning": "口の利けない、ばかな",
+      "contextMeaning": "口の利けない、ばかな",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "toughest": {
+      "lemma": "toughest",
+      "pos": "形容詞",
+      "coreMeaning": "最も厳しい",
+      "contextMeaning": "最も厳しい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "mental": {
+      "lemma": "mental",
+      "pos": "形容詞",
+      "coreMeaning": "精神の、頭の",
+      "contextMeaning": "精神の、頭の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "childish": {
+      "lemma": "childish",
+      "pos": "形容詞",
+      "coreMeaning": "子どもっぽい",
+      "contextMeaning": "子どもっぽい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "alive": {
+      "lemma": "alive",
+      "pos": "形容詞",
+      "coreMeaning": "生きている",
+      "contextMeaning": "生きている",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "normal": {
+      "lemma": "normal",
+      "pos": "形容詞",
+      "coreMeaning": "普通の",
+      "contextMeaning": "普通の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "actual": {
+      "lemma": "actual",
+      "pos": "形容詞",
+      "coreMeaning": "実際の",
+      "contextMeaning": "実際の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "human": {
+      "lemma": "human",
+      "pos": "形容詞",
+      "coreMeaning": "人間の、人間らしい",
+      "contextMeaning": "人間の、人間らしい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "wider": {
+      "lemma": "wider",
+      "pos": "形容詞",
+      "coreMeaning": "より広い",
+      "contextMeaning": "より広い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "unlikely": {
+      "lemma": "unlikely",
+      "pos": "形容詞",
+      "coreMeaning": "ありそうもない",
+      "contextMeaning": "ありそうもない",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "careful": {
+      "lemma": "careful",
+      "pos": "形容詞",
+      "coreMeaning": "注意深い",
+      "contextMeaning": "注意深い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "fair": {
+      "lemma": "fair",
+      "pos": "形容詞",
+      "coreMeaning": "公平な、かなりの",
+      "contextMeaning": "公平な、かなりの",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "helpless": {
+      "lemma": "helpless",
+      "pos": "形容詞",
+      "coreMeaning": "無力な",
+      "contextMeaning": "無力な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "former": {
+      "lemma": "former",
+      "pos": "形容詞",
+      "coreMeaning": "以前の",
+      "contextMeaning": "以前の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "busy": {
+      "lemma": "busy",
+      "pos": "形容詞",
+      "coreMeaning": "忙しい",
+      "contextMeaning": "忙しい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "correct": {
+      "lemma": "correct",
+      "pos": "形容詞",
+      "coreMeaning": "正しい",
+      "contextMeaning": "正しい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "false": {
+      "lemma": "false",
+      "pos": "形容詞",
+      "coreMeaning": "誤った、偽りの",
+      "contextMeaning": "誤った、偽りの",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "exciting": {
+      "lemma": "exciting",
+      "pos": "形容詞",
+      "coreMeaning": "わくわくさせる",
+      "contextMeaning": "わくわくさせる",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "inconvenient": {
+      "lemma": "inconvenient",
+      "pos": "形容詞",
+      "coreMeaning": "不便な",
+      "contextMeaning": "不便な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "conveniently": {
+      "lemma": "conveniently",
+      "pos": "形容詞",
+      "coreMeaning": "都合よく",
+      "contextMeaning": "都合よく",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "delicious": {
+      "lemma": "delicious",
+      "pos": "形容詞",
+      "coreMeaning": "おいしい",
+      "contextMeaning": "おいしい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "deliciously": {
+      "lemma": "deliciously",
+      "pos": "形容詞",
+      "coreMeaning": "おいしそうに",
+      "contextMeaning": "おいしそうに",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "frightening": {
+      "lemma": "frightening",
+      "pos": "形容詞",
+      "coreMeaning": "恐ろしい",
+      "contextMeaning": "恐ろしい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "negative": {
+      "lemma": "negative",
+      "pos": "形容詞",
+      "coreMeaning": "否定的な、マイナスの",
+      "contextMeaning": "否定的な、マイナスの",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "dogged": {
+      "lemma": "dogged",
+      "pos": "形容詞",
+      "coreMeaning": "粘り強い",
+      "contextMeaning": "粘り強い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "financial": {
+      "lemma": "financial",
+      "pos": "形容詞",
+      "coreMeaning": "財政上の",
+      "contextMeaning": "財政上の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "social": {
+      "lemma": "social",
+      "pos": "形容詞",
+      "coreMeaning": "社会的な",
+      "contextMeaning": "社会的な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "quiet": {
+      "lemma": "quiet",
+      "pos": "形容詞",
+      "coreMeaning": "静かな",
+      "contextMeaning": "静かな",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "grand": {
+      "lemma": "grand",
+      "pos": "形容詞",
+      "coreMeaning": "壮大な、立派な",
+      "contextMeaning": "壮大な、立派な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "entertaining": {
+      "lemma": "entertaining",
+      "pos": "形容詞",
+      "coreMeaning": "面白い",
+      "contextMeaning": "面白い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "lost": {
+      "lemma": "lost",
+      "pos": "形容詞",
+      "coreMeaning": "失われた、道に迷った",
+      "contextMeaning": "失われた、道に迷った",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "full": {
+      "lemma": "full",
+      "pos": "形容詞",
+      "coreMeaning": "いっぱいの、完全な",
+      "contextMeaning": "いっぱいの、完全な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "thickly": {
+      "lemma": "thickly",
+      "pos": "形容詞",
+      "coreMeaning": "厚く、濃く",
+      "contextMeaning": "厚く、濃く",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "same": {
+      "lemma": "same",
+      "pos": "形容詞",
+      "coreMeaning": "同じ",
+      "contextMeaning": "同じ",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "last": {
+      "lemma": "last",
+      "pos": "形容詞",
+      "coreMeaning": "最後の、前回の",
+      "contextMeaning": "最後の、前回の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "great": {
+      "lemma": "great",
+      "pos": "形容詞",
+      "coreMeaning": "大きな、素晴らしい",
+      "contextMeaning": "大きな、素晴らしい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "perfect": {
+      "lemma": "perfect",
+      "pos": "形容詞",
+      "coreMeaning": "完璧な",
+      "contextMeaning": "完璧な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "terrible": {
+      "lemma": "terrible",
+      "pos": "形容詞",
+      "coreMeaning": "ひどい、恐ろしい",
+      "contextMeaning": "ひどい、恐ろしい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "glad": {
+      "lemma": "glad",
+      "pos": "形容詞",
+      "coreMeaning": "うれしい",
+      "contextMeaning": "うれしい",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "excellent": {
+      "lemma": "excellent",
+      "pos": "形容詞",
+      "coreMeaning": "優れた",
+      "contextMeaning": "優れた",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "simple": {
+      "lemma": "simple",
+      "pos": "形容詞",
+      "coreMeaning": "単純な、質素な",
+      "contextMeaning": "単純な、質素な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "serious": {
+      "lemma": "serious",
+      "pos": "形容詞",
+      "coreMeaning": "深刻な、真剣な",
+      "contextMeaning": "深刻な、真剣な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "wrong": {
+      "lemma": "wrong",
+      "pos": "形容詞",
+      "coreMeaning": "間違った",
+      "contextMeaning": "間違った",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "possible": {
+      "lemma": "possible",
+      "pos": "形容詞",
+      "coreMeaning": "可能な",
+      "contextMeaning": "可能な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "hard": {
+      "lemma": "hard",
+      "pos": "形容詞",
+      "coreMeaning": "難しい、硬い",
+      "contextMeaning": "難しい、硬い",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "private": {
+      "lemma": "private",
+      "pos": "形容詞",
+      "coreMeaning": "個人的な、非公開の",
+      "contextMeaning": "個人的な、非公開の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "tired": {
+      "lemma": "tired",
+      "pos": "形容詞",
+      "coreMeaning": "疲れた",
+      "contextMeaning": "疲れた",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "pale": {
+      "lemma": "pale",
+      "pos": "形容詞",
+      "coreMeaning": "青白い、薄い色の",
+      "contextMeaning": "青白い、薄い色の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "pink": {
+      "lemma": "pink",
+      "pos": "形容詞",
+      "coreMeaning": "桃色の",
+      "contextMeaning": "桃色の",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "pure": {
+      "lemma": "pure",
+      "pos": "形容詞",
+      "coreMeaning": "純粋な",
+      "contextMeaning": "純粋な",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "really": {
+      "lemma": "really",
+      "pos": "副詞",
+      "coreMeaning": "本当に、実際には",
+      "contextMeaning": "本当に、実際には",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "perhaps": {
+      "lemma": "perhaps",
+      "pos": "副詞",
+      "coreMeaning": "もしかすると、ひょっとしたら",
+      "contextMeaning": "もしかすると、ひょっとしたら",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "now": {
+      "lemma": "now",
+      "pos": "副詞",
+      "coreMeaning": "今",
+      "contextMeaning": "今",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "never": {
+      "lemma": "never",
+      "pos": "副詞",
+      "coreMeaning": "決して～ない、一度も～ない",
+      "contextMeaning": "決して～ない、一度も～ない",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "always": {
+      "lemma": "always",
+      "pos": "副詞",
+      "coreMeaning": "いつも",
+      "contextMeaning": "いつも",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "anyway": {
+      "lemma": "anyway",
+      "pos": "副詞",
+      "coreMeaning": "とにかく、それはそうと",
+      "contextMeaning": "とにかく、それはそうと",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "indeed": {
+      "lemma": "indeed",
+      "pos": "副詞",
+      "coreMeaning": "本当に、実に",
+      "contextMeaning": "本当に、実に",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "probably": {
+      "lemma": "probably",
+      "pos": "副詞",
+      "coreMeaning": "たぶん",
+      "contextMeaning": "たぶん",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "certainly": {
+      "lemma": "certainly",
+      "pos": "副詞",
+      "coreMeaning": "確かに、もちろん",
+      "contextMeaning": "確かに、もちろん",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "absolutely": {
+      "lemma": "absolutely",
+      "pos": "副詞",
+      "coreMeaning": "まったく、絶対に",
+      "contextMeaning": "まったく、絶対に",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "actually": {
+      "lemma": "actually",
+      "pos": "副詞",
+      "coreMeaning": "実際には、実は",
+      "contextMeaning": "実際には、実は",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "again": {
+      "lemma": "again",
+      "pos": "副詞",
+      "coreMeaning": "再び",
+      "contextMeaning": "再び",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "already": {
+      "lemma": "already",
+      "pos": "副詞",
+      "coreMeaning": "すでに",
+      "contextMeaning": "すでに",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "ever": {
+      "lemma": "ever",
+      "pos": "副詞",
+      "coreMeaning": "これまでに、いつか",
+      "contextMeaning": "これまでに、いつか",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "still": {
+      "lemma": "still",
+      "pos": "副詞",
+      "coreMeaning": "まだ、依然として",
+      "contextMeaning": "まだ、依然として",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "far": {
+      "lemma": "far",
+      "pos": "副詞",
+      "coreMeaning": "遠くに、はるかに",
+      "contextMeaning": "遠くに、はるかに",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "instead": {
+      "lemma": "instead",
+      "pos": "副詞",
+      "coreMeaning": "その代わりに",
+      "contextMeaning": "その代わりに",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "somewhere": {
+      "lemma": "somewhere",
+      "pos": "副詞",
+      "coreMeaning": "どこかに",
+      "contextMeaning": "どこかに",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "exactly": {
+      "lemma": "exactly",
+      "pos": "副詞",
+      "coreMeaning": "正確に、まさにその通り",
+      "contextMeaning": "正確に、まさにその通り",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "almost": {
+      "lemma": "almost",
+      "pos": "副詞",
+      "coreMeaning": "ほとんど",
+      "contextMeaning": "ほとんど",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "sometimes": {
+      "lemma": "sometimes",
+      "pos": "副詞",
+      "coreMeaning": "ときどき",
+      "contextMeaning": "ときどき",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "maybe": {
+      "lemma": "maybe",
+      "pos": "副詞",
+      "coreMeaning": "たぶん",
+      "contextMeaning": "たぶん",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "surely": {
+      "lemma": "surely",
+      "pos": "副詞",
+      "coreMeaning": "きっと、確かに",
+      "contextMeaning": "きっと、確かに",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "however": {
+      "lemma": "however",
+      "pos": "副詞",
+      "coreMeaning": "しかしながら、どんなに～でも",
+      "contextMeaning": "しかしながら、どんなに～でも",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "naturally": {
+      "lemma": "naturally",
+      "pos": "副詞",
+      "coreMeaning": "当然、自然に",
+      "contextMeaning": "当然、自然に",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "suddenly": {
+      "lemma": "suddenly",
+      "pos": "副詞",
+      "coreMeaning": "突然",
+      "contextMeaning": "突然",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "clearly": {
+      "lemma": "clearly",
+      "pos": "副詞",
+      "coreMeaning": "はっきりと",
+      "contextMeaning": "はっきりと",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "possibly": {
+      "lemma": "possibly",
+      "pos": "副詞",
+      "coreMeaning": "もしかすると",
+      "contextMeaning": "もしかすると",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "simply": {
+      "lemma": "simply",
+      "pos": "副詞",
+      "coreMeaning": "ただ、単に",
+      "contextMeaning": "ただ、単に",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "perfectly": {
+      "lemma": "perfectly",
+      "pos": "副詞",
+      "coreMeaning": "完全に、申し分なく",
+      "contextMeaning": "完全に、申し分なく",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "extremely": {
+      "lemma": "extremely",
+      "pos": "副詞",
+      "coreMeaning": "非常に",
+      "contextMeaning": "非常に",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "nearly": {
+      "lemma": "nearly",
+      "pos": "副詞",
+      "coreMeaning": "ほとんど、もう少しで",
+      "contextMeaning": "ほとんど、もう少しで",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "safely": {
+      "lemma": "safely",
+      "pos": "副詞",
+      "coreMeaning": "安全に",
+      "contextMeaning": "安全に",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "sadly": {
+      "lemma": "sadly",
+      "pos": "副詞",
+      "coreMeaning": "悲しいことに",
+      "contextMeaning": "悲しいことに",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "completely": {
+      "lemma": "completely",
+      "pos": "副詞",
+      "coreMeaning": "完全に",
+      "contextMeaning": "完全に",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "implicitly": {
+      "lemma": "implicitly",
+      "pos": "副詞",
+      "coreMeaning": "暗黙のうちに",
+      "contextMeaning": "暗黙のうちに",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "immediately": {
+      "lemma": "immediately",
+      "pos": "副詞",
+      "coreMeaning": "すぐに",
+      "contextMeaning": "すぐに",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "everywhere": {
+      "lemma": "everywhere",
+      "pos": "副詞",
+      "coreMeaning": "至る所に",
+      "contextMeaning": "至る所に",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "nowhere": {
+      "lemma": "nowhere",
+      "pos": "副詞",
+      "coreMeaning": "どこにも～ない",
+      "contextMeaning": "どこにも～ない",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "securely": {
+      "lemma": "securely",
+      "pos": "副詞",
+      "coreMeaning": "しっかりと",
+      "contextMeaning": "しっかりと",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "softly": {
+      "lemma": "softly",
+      "pos": "副詞",
+      "coreMeaning": "静かに、柔らかく",
+      "contextMeaning": "静かに、柔らかく",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "carefully": {
+      "lemma": "carefully",
+      "pos": "副詞",
+      "coreMeaning": "注意深く",
+      "contextMeaning": "注意深く",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "gradually": {
+      "lemma": "gradually",
+      "pos": "副詞",
+      "coreMeaning": "徐々に",
+      "contextMeaning": "徐々に",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "earlier": {
+      "lemma": "earlier",
+      "pos": "副詞",
+      "coreMeaning": "もっと早く、以前に",
+      "contextMeaning": "もっと早く、以前に",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "quickly": {
+      "lemma": "quickly",
+      "pos": "副詞",
+      "coreMeaning": "すばやく",
+      "contextMeaning": "すばやく",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "seriously": {
+      "lemma": "seriously",
+      "pos": "副詞",
+      "coreMeaning": "真剣に、ひどく",
+      "contextMeaning": "真剣に、ひどく",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "unfortunately": {
+      "lemma": "unfortunately",
+      "pos": "副詞",
+      "coreMeaning": "残念ながら",
+      "contextMeaning": "残念ながら",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "fortunately": {
+      "lemma": "fortunately",
+      "pos": "副詞",
+      "coreMeaning": "幸運にも",
+      "contextMeaning": "幸運にも",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "properly": {
+      "lemma": "properly",
+      "pos": "副詞",
+      "coreMeaning": "適切に、きちんと",
+      "contextMeaning": "適切に、きちんと",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "equally": {
+      "lemma": "equally",
+      "pos": "副詞",
+      "coreMeaning": "同じ程度に",
+      "contextMeaning": "同じ程度に",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "later": {
+      "lemma": "later",
+      "pos": "副詞",
+      "coreMeaning": "あとで",
+      "contextMeaning": "あとで",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "often": {
+      "lemma": "often",
+      "pos": "副詞",
+      "coreMeaning": "しばしば",
+      "contextMeaning": "しばしば",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "especially": {
+      "lemma": "especially",
+      "pos": "副詞",
+      "coreMeaning": "特に",
+      "contextMeaning": "特に",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "hardly": {
+      "lemma": "hardly",
+      "pos": "副詞",
+      "coreMeaning": "ほとんど～ない",
+      "contextMeaning": "ほとんど～ない",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "twice": {
+      "lemma": "twice",
+      "pos": "副詞",
+      "coreMeaning": "2回",
+      "contextMeaning": "2回",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "today": {
+      "lemma": "today",
+      "pos": "副詞",
+      "coreMeaning": "今日",
+      "contextMeaning": "今日",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "yesterday": {
+      "lemma": "yesterday",
+      "pos": "副詞",
+      "coreMeaning": "昨日",
+      "contextMeaning": "昨日",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "tomorrow": {
+      "lemma": "tomorrow",
+      "pos": "副詞",
+      "coreMeaning": "明日",
+      "contextMeaning": "明日",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "tonight": {
+      "lemma": "tonight",
+      "pos": "副詞",
+      "coreMeaning": "今夜",
+      "contextMeaning": "今夜",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "upstairs": {
+      "lemma": "upstairs",
+      "pos": "副詞",
+      "coreMeaning": "二階へ、上の階で",
+      "contextMeaning": "二階へ、上の階で",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "downstairs": {
+      "lemma": "downstairs",
+      "pos": "副詞",
+      "coreMeaning": "下の階へ、階下で",
+      "contextMeaning": "下の階へ、階下で",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "outside": {
+      "lemma": "outside",
+      "pos": "副詞",
+      "coreMeaning": "外で、外へ",
+      "contextMeaning": "外で、外へ",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "inside": {
+      "lemma": "inside",
+      "pos": "副詞",
+      "coreMeaning": "中で、内側で",
+      "contextMeaning": "中で、内側で",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "behind": {
+      "lemma": "behind",
+      "pos": "副詞",
+      "coreMeaning": "後ろに",
+      "contextMeaning": "後ろに",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "ahead": {
+      "lemma": "ahead",
+      "pos": "副詞",
+      "coreMeaning": "前方に",
+      "contextMeaning": "前方に",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "near": {
+      "lemma": "near",
+      "pos": "副詞",
+      "coreMeaning": "近くに",
+      "contextMeaning": "近くに",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "away": {
+      "lemma": "away",
+      "pos": "副詞",
+      "coreMeaning": "離れて、向こうへ",
+      "contextMeaning": "離れて、向こうへ",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "over": {
+      "lemma": "over",
+      "pos": "副詞",
+      "coreMeaning": "上方に、終わって",
+      "contextMeaning": "上方に、終わって",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "round": {
+      "lemma": "round",
+      "pos": "副詞",
+      "coreMeaning": "周囲に、ぐるりと",
+      "contextMeaning": "周囲に、ぐるりと",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "along": {
+      "lemma": "along",
+      "pos": "副詞",
+      "coreMeaning": "沿って、一緒に",
+      "contextMeaning": "沿って、一緒に",
+      "tags": [
+        "dictionary-expansion",
+        "general"
+      ]
+    },
+    "sir": {
+      "lemma": "sir",
+      "pos": "表現",
+      "coreMeaning": "男性への敬称、かしこまった呼びかけ",
+      "contextMeaning": "男性への敬称、かしこまった呼びかけ",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "madam": {
+      "lemma": "madam",
+      "pos": "表現",
+      "coreMeaning": "女性への敬称、丁寧な呼びかけ",
+      "contextMeaning": "女性への敬称、丁寧な呼びかけ",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "madame": {
+      "lemma": "madame",
+      "pos": "表現",
+      "coreMeaning": "マダム、女性への呼びかけ",
+      "contextMeaning": "マダム、女性への呼びかけ",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "miss": {
+      "lemma": "miss",
+      "pos": "表現",
+      "coreMeaning": "未婚女性などへの敬称",
+      "contextMeaning": "未婚女性などへの敬称",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "mrs": {
+      "lemma": "mrs",
+      "pos": "表現",
+      "coreMeaning": "既婚女性などに使う敬称",
+      "contextMeaning": "既婚女性などに使う敬称",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "mr": {
+      "lemma": "mr",
+      "pos": "表現",
+      "coreMeaning": "男性に使う敬称",
+      "contextMeaning": "男性に使う敬称",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "dear": {
+      "lemma": "dear",
+      "pos": "表現",
+      "coreMeaning": "親しい相手への呼びかけ、いとしい",
+      "contextMeaning": "親しい相手への呼びかけ、いとしい",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "darling": {
+      "lemma": "darling",
+      "pos": "表現",
+      "coreMeaning": "親しい相手への呼びかけ、いとしい人",
+      "contextMeaning": "親しい相手への呼びかけ、いとしい人",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "bravo": {
+      "lemma": "bravo",
+      "pos": "表現",
+      "coreMeaning": "ブラボー、よくやった",
+      "contextMeaning": "ブラボー、よくやった",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "ugh": {
+      "lemma": "ugh",
+      "pos": "表現",
+      "coreMeaning": "うえっ（嫌悪や不快を示す）",
+      "contextMeaning": "うえっ（嫌悪や不快を示す）",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "brr": {
+      "lemma": "brr",
+      "pos": "表現",
+      "coreMeaning": "ぶるっ（寒さを示す）",
+      "contextMeaning": "ぶるっ（寒さを示す）",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "humph": {
+      "lemma": "humph",
+      "pos": "表現",
+      "coreMeaning": "ふん（不満や疑いを示す）",
+      "contextMeaning": "ふん（不満や疑いを示す）",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "pardon": {
+      "lemma": "pardon",
+      "pos": "表現",
+      "coreMeaning": "失礼、もう一度お願いします",
+      "contextMeaning": "失礼、もう一度お願いします",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "goodness": {
+      "lemma": "goodness",
+      "pos": "表現",
+      "coreMeaning": "なんてこと、驚きの表現",
+      "contextMeaning": "なんてこと、驚きの表現",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "damn": {
+      "lemma": "damn",
+      "pos": "表現",
+      "coreMeaning": "ちくしょう、強い不満を示す語",
+      "contextMeaning": "ちくしょう、強い不満を示す語",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "hell": {
+      "lemma": "hell",
+      "pos": "表現",
+      "coreMeaning": "地獄、強い不満を示す語",
+      "contextMeaning": "地獄、強い不満を示す語",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    },
+    "nonsense": {
+      "lemma": "nonsense",
+      "pos": "表現",
+      "coreMeaning": "ばかな話、そんなはずはない",
+      "contextMeaning": "ばかな話、そんなはずはない",
+      "tags": [
+        "dictionary-expansion",
+        "conversation"
+      ]
+    }
+  }
+}
