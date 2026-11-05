@@ -89,6 +89,13 @@ try{
   return {next:state.quickMemorize.currentByRole[role],count:state.quickMemorize.counts[id]?.count};
  },{role:original,id:firstId});
  assert.equal(result.count,1,'a completed dialogue is recorded once');
+ const quickProgress=await page.evaluate(id=>{
+  const state=JSON.parse(localStorage.getItem('mt-state:mousetrap-private'));
+  const progress=JSON.parse(localStorage.getItem('mt-progress:mousetrap-private'));
+  return {level:progress[id]?.level,upgrade:state.quickMemorize.progressUpgrades[id]};
+ },firstId);
+ assert.equal(quickProgress.level,1,'quick completion upgrades normal progress to practicing');
+ assert.ok(quickProgress.upgrade>0,'one durable state record can restore progress after a crash');
  assert.notEqual(result.next,firstId,'completion immediately prepares a new dialogue');
  const beforeReload=result.next;
  await page.reload({waitUntil:'domcontentloaded'});
@@ -240,6 +247,19 @@ try{
  const beforeStick=await page.locator('#show-stick').isChecked();
  if(beforeStick)await page.locator('#show-stick').uncheck();else await page.locator('#show-stick').check();
  assert.notEqual(await page.locator('#show-stick').isChecked(),beforeStick,'Custom switch toggles');
+ await page.locator('#show-stick').check(); // Restore the enabled default for subsequent reader/cloze stick checks.
+ await page.locator('[data-action="stick-config"]').click();
+ assert.equal(await page.locator('#sheet [data-stick-screen]').count(),8,'screen-specific stick switches are configurable');
+ await page.locator('#sheet [data-stick-screen="cloze"]').uncheck();
+ assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mt-stick-settings-v2')).screens.cloze),false);
+ await page.locator('#sheet [data-stick-screen="cloze"]').check();
+ assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mt-stick-settings-v2')).screens.cloze),true);
+ await page.locator('#sheet [data-stick-field="speed"]').evaluate(el=>{
+  el.value='1.3';el.dispatchEvent(new Event('input',{bubbles:true}));
+ });
+ assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mt-stick-settings-v2')).speed),1.3);
+ await page.locator('#sheet .close-sheet').click();
+ await page.waitForFunction(()=>!document.querySelector('#sheet').open,{timeout:10000});
  const rate=page.locator('#playback-rate');
  assert.equal(await rate.isVisible(),false,'Playback rate uses hidden native select');
  const manage=page.locator('[data-action="manage-data"]');
@@ -346,22 +366,59 @@ try{
  await page.locator('#range-from').fill(String(firstOwn));
  await page.locator('#range-to').fill(String(firstOwn));
  await page.locator('[data-mode="cloze"]').click();
- const answerAudio=page.locator('[data-action="answer-audio"]');
- assert.equal(await answerAudio.isVisible(),false,'audio button must not reveal a hidden answer');
- await page.locator('.session-controls [data-action="advance"]').click();
- assert.equal(await answerAudio.isVisible(),true,'reveal exposes line-specific playback in cloze rehearsal');
- assert.equal(await answerAudio.getAttribute('aria-label'),'セリフの音声を再生');
- await answerAudio.click();
- await page.locator('[data-action="answer-audio"][data-audio-state="playing"]').waitFor({timeout:12000});
- await answerAudio.click();
- assert.equal(await answerAudio.getAttribute('data-audio-state'),'idle','rehearsal audio stops on second click');
- await page.locator('.session-controls [data-action="advance"]').click();
- assert.equal(await answerAudio.isVisible(),false,'rehearsal completion hides speech playback');
- await page.locator('[data-action="choose"]').click();
+ const toggle=page.locator('.rehearsal-free .cloze-toggle').first();
+ const clozeAudio=page.locator('.rehearsal-free .cloze-line-audio').first();
+ assert.equal(await toggle.getAttribute('aria-expanded'),'false','all own dialogue begins hidden');
+ assert.equal(await clozeAudio.isVisible(),false,'a hidden answer must not offer audio');
+ assert.equal(await page.locator('.rehearsal-free .speech').count(),1,'cloze remains inside the selected range');
+ assert.equal(await page.locator('.stick-dock').count(),1,'the shared stick is mounted in cloze');
+ await toggle.click();
+ assert.equal(await toggle.getAttribute('aria-expanded'),'true','tap independently reveals a line');
+ assert.equal(await clozeAudio.isVisible(),true,'revealed line offers original playback');
+ await clozeAudio.click();
+ await page.locator('.cloze-line-audio[data-audio-state="playing"]').waitFor({timeout:12000});
+ await clozeAudio.click();
+ assert.equal(await clozeAudio.getAttribute('data-audio-state'),'idle','line audio stops on a second click');
+ await toggle.click();
+ assert.equal(await toggle.getAttribute('aria-expanded'),'false','a second tap hides the same line');
+ assert.equal(await clozeAudio.isVisible(),false,'hiding the answer stops playback');
+ assert.equal(await page.locator('.rehearsal-free .speech').count(),1,'tapping never advances the script');
+ await page.locator('[data-action="exit"]').click();
+ const pair=await page.evaluate(async()=>{
+  const {normalizeBundle}=await import('./modules/data.js');
+  const d=normalizeBundle(await (await fetch('./data/mousetrap.json')).json());
+  const role=document.querySelector('#rehearsal-role').value;
+  const positions=d.lines.map((line,i)=>line.speaker===role?i:-1).filter(i=>i>=0);
+  return {from:positions[0]+1,to:positions[1]+1};
+ });
+ await page.locator('#range-from').fill(String(pair.from));
+ await page.locator('#range-to').fill(String(pair.to));
+ const progressBeforeCloze=await page.evaluate(()=>localStorage.getItem('mt-progress:mousetrap-private'));
+ await page.locator('[data-mode="cloze"]').click();
+ const pairToggles=page.locator('.rehearsal-free .cloze-toggle');
+ assert.equal(await pairToggles.count(),2,'full-range practice shows independent own lines');
+ assert.equal(await pairToggles.nth(0).getAttribute('aria-expanded'),'false');
+ assert.equal(await pairToggles.nth(1).getAttribute('aria-expanded'),'false');
+ await pairToggles.nth(0).click();
+ assert.equal(await pairToggles.nth(1).getAttribute('aria-expanded'),'false','first reveal never affects another line');
+ await page.locator('.stick-base').focus();
+ await page.locator('.stick-base').press('Alt+ArrowDown');
+ assert.equal(await pairToggles.nth(1).getAttribute('aria-expanded'),'false','jumping never exposes the next answer');
+ await pairToggles.nth(1).click();
+ assert.equal(await pairToggles.nth(0).getAttribute('aria-expanded'),'true','second reveal preserves the first answer');
+ await pairToggles.nth(0).click();
+ assert.equal(await pairToggles.nth(1).getAttribute('aria-expanded'),'true','re-hiding first leaves second revealed');
+ assert.equal(await page.evaluate(()=>localStorage.getItem('mt-progress:mousetrap-private')),progressBeforeCloze,'reveal/jump does not alter memorization state');
+ await page.locator('.cloze-mastered').nth(1).click();
+ const markedLevel=await page.evaluate(id=>JSON.parse(localStorage.getItem('mt-progress:mousetrap-private'))[id]?.level,
+  await pairToggles.nth(1).locator('..').locator('..').getAttribute('data-id'));
+ assert.equal(markedLevel,2,'explicit mastery action remains available without advancing');
+ await page.locator('[data-action="exit"]').click();
  await page.locator('[data-mode="audio"]').click();
- assert.equal(await page.locator('[data-action="answer-audio"]').isVisible(),false);
+ const answerAudio=page.locator('[data-action="answer-audio"]');
+ assert.equal(await answerAudio.isVisible(),false);
  await page.locator('.session-controls [data-action="advance"]').click();
- assert.equal(await page.locator('[data-action="answer-audio"]').isVisible(),true,'audio rehearsal answer exposes replay');
+ assert.equal(await answerAudio.isVisible(),true,'audio rehearsal answer exposes replay');
  console.log('PASS: analysis sheet and both revealed rehearsal modes have accessible per-line audio buttons');
 
  const desktop=await browser.newPage({viewport:{width:1280,height:800},locale:'ja-JP'});
@@ -474,6 +531,27 @@ try{
  assert.notEqual(readerAppearance.background,'rgb(255, 255, 255)','script own lines must not remain white');
  assert.match(readerAppearance.gradient,/linear-gradient/,'script rainbow highlights must paint multicolor');
  await page.screenshot({path:'test-results/theme-reader-dark-rainbow.png'});
+ const swiped=page.locator('.reader-scroll .speech.mine').first();
+ await swiped.scrollIntoViewIfNeeded();
+ const swipeBox=await swiped.boundingBox();
+ assert.ok(swipeBox&&swipeBox.width>160);
+ const swipeY=swipeBox.y+Math.min(35,swipeBox.height*.45),swipeX=swipeBox.x+swipeBox.width*.65;
+ await page.mouse.move(swipeX,swipeY);
+ await page.mouse.down();
+ await page.mouse.move(swipeX-55,swipeY,{steps:5});
+ const swipeSurface=await swiped.evaluate(el=>({
+  opacity:Number(el.querySelector('.swipe-hint').style.opacity),
+  background:getComputedStyle(el.querySelector('.swipe-hint')).backgroundColor,
+  transform:el.querySelector('.speech-inner').style.transform
+ }));
+ assert.ok(swipeSurface.opacity>.4,'horizontal gesture must reveal its action underlay');
+ assert.ok(swipeSurface.transform.includes('translateX'),'foreground must visibly shift');
+ assert.notEqual(swipeSurface.background,'rgb(255, 255, 255)','dark swipe must not expose a white underlay');
+ assert.notEqual(swipeSurface.background,'rgba(240, 245, 255, 0.94)','dark swipe must not expose the obsolete pale underlay');
+ await page.mouse.up();
+ await page.waitForTimeout(240);
+ assert.equal(await swiped.locator('.speech-inner').evaluate(el=>el.style.transform),'','swipe returns to its rest position');
+ console.log('PASS: dark rainbow horizontal swipe underlay and return animation');
  await page.locator('.bottom-nav a[href="#home"]').click();
  await page.locator('.home-progress-dashboard').waitFor();
  await page.locator('.global-settings').click();

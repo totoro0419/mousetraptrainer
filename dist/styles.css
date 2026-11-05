@@ -660,3 +660,41 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 }
 
 .notification-editorial-title {font-size:0.92rem;line-height:1.55;font-weight:600;margin:7px 0 5px;color:inherit}
+
+
+/* Shared stick: the overlay remains a single lightweight translucent control. */
+.stick-dock{width:var(--stick-size,62px);height:var(--stick-size,62px)}
+.stick-base{width:var(--stick-size,62px);height:var(--stick-size,62px)}
+.sheet .stick-dock{position:absolute;z-index:12}
+.sheet.quick-memory-sheet-mode .stick-dock{bottom:94px!important}
+.rehearsal-free .speech{content-visibility:visible}
+.rehearsal-free .cloze-toggle{cursor:pointer;color:var(--muted);outline-offset:4px}
+.rehearsal-free .cloze-toggle.is-revealed{
+ color:var(--ink);font-size:var(--font);font-weight:400;font-family:Inter,"Segoe UI","Noto Sans JP",system-ui,sans-serif;
+ line-height:var(--reader-leading);overflow-wrap:anywhere;white-space:normal;
+}
+.reader-scroll .speech .speech-inner{background:inherit}
+.reader-scroll .speech .swipe-hint{
+ background:color-mix(in srgb,var(--accent) 12%,var(--paper));
+ color:var(--accent-ink);
+ transition:opacity .14s ease;
+}
+.reader-scroll .speech .swipe-hint.left{
+ background:color-mix(in srgb,var(--ui-review) 12%,var(--paper));
+ color:var(--ui-review);
+}
+/* Device-wide controls live inside the existing display settings group. */
+.stick-config-link{width:100%;padding:13px 0}
+.stick-config{display:grid;gap:18px}
+.stick-screen-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stick-screen-option{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--paper);font-size:12px}
+.stick-screen-option input{width:18px;height:18px;accent-color:var(--accent)}
+.stick-range-grid{display:grid;gap:18px;padding-bottom:18px}
+.stick-range{display:grid;gap:6px}
+.stick-range>span{display:flex;justify-content:space-between;gap:12px;font-size:12px}
+.stick-range output{font-variant-numeric:tabular-nums;color:var(--muted)}
+.stick-range input{width:100%;accent-color:var(--accent)}
+@media(max-width:380px){.stick-screen-grid{grid-template-columns:1fr}}
+
+.rehearsal-free .cloze-progress-actions{justify-content:flex-start;gap:9px;margin:12px 0 0}
+.rehearsal-free .cloze-progress-actions .secondary{padding:7px 11px;font-size:11px}
