@@ -1184,9 +1184,9 @@
     },
     "central": {
       "lemma": "central",
-      "pos": "名詞",
-      "coreMeaning": "中央、中心部",
-      "contextMeaning": "中央、中心部",
+      "pos": "形容詞",
+      "coreMeaning": "中央の、中心的な",
+      "contextMeaning": "中央の、中心的な",
       "tags": [
         "dictionary-expansion",
         "noun"
@@ -2944,9 +2944,9 @@
     },
     "financial": {
       "lemma": "financial",
-      "pos": "名詞",
-      "coreMeaning": "財政の、金銭上の",
-      "contextMeaning": "財政の、金銭上の",
+      "pos": "形容詞",
+      "coreMeaning": "財政上の、金銭に関する",
+      "contextMeaning": "財政上の、金銭に関する",
       "tags": [
         "dictionary-expansion",
         "noun"
