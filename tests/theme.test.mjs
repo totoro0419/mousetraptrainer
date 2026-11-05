@@ -35,17 +35,29 @@ test('UI, stylesheet and offline app shell are integrated',async()=>{
  assert.ok(html.includes('href="./theme.css"'));
  assert.ok(sw.includes("'./theme.css'"));assert.ok(sw.includes("'./modules/theme.js'"));
 });
-test('rainbow chart rings and dialogue highlights are multicolored',async()=>{
+
+test('home charts and supporting controls share theme tokens, not static navy/blue',async()=>{
  const read=path=>readFile(new URL('../dist/'+path,import.meta.url),'utf8');
- const [app,css]=await Promise.all(['app.js','theme.css'].map(read));
- assert.match(app,/<linearGradient id="home-rainbow-progress"/);
- assert.match(app,/stop-color="#ff2b6d"/);
- assert.match(app,/stop-color="#ed36dd"/);
- assert.match(css,/\.home-festival-ring\{stroke:url\(#home-rainbow-progress\)\}/);
- assert.doesNotMatch(css,/data-theme-color="rainbow"\] \.home-ring-(?:completed|practicing)\{stroke:#[0-9a-f]+/);
- for(const cls of ['.reader-scroll .speech.mine','.speech.highlight','.rehearsal .speech.current','.quick-memory-speech.is-target']){
-  assert.ok(css.includes(cls),'missing rainbow highlight for '+cls);
+ const [app,home,theme,styles]=await Promise.all(['app.js','home-refresh.css','theme.css','styles.css'].map(read));
+ for(const id of ['mt-progress-rainbow','mt-practicing-rainbow','mt-festival-rainbow']){
+  assert.ok(app.includes('id="'+id+'"'),id+' gradient exists');
+  assert.ok(theme.includes('url(#'+id+')'),id+' gradient is referenced');
  }
- assert.match(css,/data-theme-mode="dark"\]\[data-theme-color="rainbow"\]\{[\s\S]*?--theme-rainbow-highlight:/);
+ for(const rule of ['.home-ring-completed{stroke:var(--home-ring-blue)}','.home-ring-practicing{stroke:var(--home-ring-light)}','.home-festival-ring{stroke:var(--home-festival-navy)','.home-ring-base-inner{stroke:var(--home-ring-empty)}','.home-festival-days{font-size:20px;fill:var(--ink)','.home-app-action.is-install{background:var(--theme-primary-gradient)'])assert.ok(home.includes(rule),rule);
+ assert.doesNotMatch(home,/#243f73|#1c3158|stroke:#e2e8f2/i);
+ assert.ok(theme.includes('--home-festival-navy:var(--accent-ink)'));
+ assert.ok(theme.includes(':root[data-theme-mode="dark"] .home-ring-base-inner{stroke:var(--home-ring-empty)}'));
+ assert.equal(styles.includes('rgba(69,104,223,'),false);
+ assert.ok(styles.includes('var(--theme-owned-bg,#eef6ff)'));
+ assert.ok(styles.includes('rgb(var(--theme-accent-rgb) / .085)'));
+});
+test('rainbow line selections use gradients in both display modes',async()=>{
+ const css=await readFile(new URL('../dist/theme.css',import.meta.url),'utf8');
+ for(const selector of ['.reader-scroll .speech.mine','.speech.highlight','.rehearsal .speech.current','.quick-memory-speech.is-target','.notification-entry.is-new']){
+  assert.ok(css.includes(selector),selector+' has rainbow highlight styles');
+ }
+ assert.match(css,/--theme-rainbow-wash:linear-gradient/);
+ assert.match(css,/--theme-rainbow-highlight:linear-gradient/);
+ assert.match(css,/data-theme-mode="dark"\]\[data-theme-color="rainbow"\]\{/);
  assert.match(css,/\.speech.highlight::before/);
 });

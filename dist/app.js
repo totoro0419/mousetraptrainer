@@ -205,11 +205,17 @@ function renderHome(main){
    <header class="home-progress-heading"><h1>学習の進捗</h1><button type="button" class="home-progress-more" data-action="progress-details">詳細 ${icon('chevron')}</button></header>
    <div class="home-progress-main">
     <svg class="home-double-ring" width="146" height="146" viewBox="0 0 140 140" role="img" aria-label="${esc(label+'。'+remaining.description)}">
-     <defs>
-      <linearGradient id="home-rainbow-progress" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="140" y2="140">
-       <stop offset="0%" stop-color="#ff2b6d"/><stop offset="19%" stop-color="#ff8327"/><stop offset="35%" stop-color="#ffe235"/><stop offset="52%" stop-color="#20d58c"/><stop offset="69%" stop-color="#00b8ff"/><stop offset="86%" stop-color="#8051ff"/><stop offset="100%" stop-color="#ed36dd"/>
-      </linearGradient>
-     </defs>
+      <defs>
+       <linearGradient id="mt-progress-rainbow" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ff2869"/><stop offset="20%" stop-color="#ff982d"/><stop offset="38%" stop-color="#ffdf2c"/><stop offset="55%" stop-color="#13df9c"/><stop offset="75%" stop-color="#099fff"/><stop offset="100%" stop-color="#cb3af5"/>
+       </linearGradient>
+       <linearGradient id="mt-practicing-rainbow" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#20e7b3"/><stop offset="50%" stop-color="#11b1ff"/><stop offset="100%" stop-color="#9d51fd"/>
+       </linearGradient>
+       <linearGradient id="mt-festival-rainbow" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ff9d26"/><stop offset="50%" stop-color="#ff3b95"/><stop offset="100%" stop-color="#8b4dff"/>
+       </linearGradient>
+      </defs>
      <circle cx="70" cy="70" r="55" class="home-ring-base home-ring-outer"/>
      <circle cx="70" cy="70" r="55" class="home-ring-completed home-ring-outer" stroke-dasharray="${ring.doneDash}" transform="rotate(-90 70 70)"/>
      <circle cx="70" cy="70" r="55" class="home-ring-practicing home-ring-outer" stroke-dasharray="${ring.doingDash}" stroke-dashoffset="${ring.doingOffset}" transform="rotate(-90 70 70)"/>
