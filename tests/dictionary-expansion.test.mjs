@@ -27,7 +27,7 @@ test('curated 300 new attested headwords and expressions are distinct and not fi
  const previous=mergeDictionaryEntries(original,packages.slice(0,2));
  assert.equal(Object.keys(previous.dictionary).length,1421);
  assert.ok(keys.every(key=>!Object.hasOwn(previous.dictionary,key)));
- for(const key of ['creak','snick','rubbish','crypt','shan't','hooked it','mixed up in','minced beef','drawing room','quite so']){
+ for(const key of ['creak','snick','rubbish','crypt',"shan't",'hooked it','mixed up in','minced beef','drawing room','quite so']){
   assert.ok(merged.dictionary[key]?.coreMeaning?.length>=3,key+' missing');
  }
 });
