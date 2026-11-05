@@ -35,6 +35,7 @@ export function mountQuickMemory(main,ctx){
  </div>
  <div class="quick-memory-footer"><button type="button" class="primary quick-memory-complete">${icon('check')}<span>完了</span></button></div>`;
  const scroller=main.querySelector('.quick-memory-scroll');
+ ctx.stickTarget?.('quick',scroller);
  const area=main.querySelector('.quick-memory-dialogue');
  const renderLine=line=>{
   const mine=line.id===target.id,direction=directionText(line.direction);
@@ -110,6 +111,7 @@ export function mountQuickMemory(main,ctx){
  document.addEventListener('mousetrap:sheetopen',attachSheetComplete);
  return ()=>{
   disposed=true;
+  ctx.stickTarget?.('quick',null);
   document.removeEventListener('mousetrap:sheetopen',attachSheetComplete);
   stopAudio();
  };
