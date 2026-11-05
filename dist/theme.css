@@ -173,3 +173,10 @@
 }
 @keyframes theme-rainbow-shift{0%{background-position:0% center}100%{background-position:200% center}}
 @media(prefers-reduced-motion:reduce){.theme-swatch,.theme-mode-choice span{transition:none!important}}
+
+/* Preserve saved dark mode on the boot screen. */
+:root[data-theme-mode="dark"] .boot-screen{background:var(--bg);color:var(--ink)}
+:root[data-theme-mode="dark"] .boot-emblem{background:var(--paper);border-color:var(--line)}
+:root[data-theme-mode="dark"] .boot-subtitle,:root[data-theme-mode="dark"] .boot-status{color:var(--muted)}
+:root[data-theme-mode="dark"] .boot-track{background:#35445a}
+:root[data-theme-mode="dark"] .boot-track span{background:var(--accent)}
