@@ -388,17 +388,57 @@ try{
  await page.locator('.theme-color-choices').waitFor();
  assert.equal(await page.locator('input[name="theme-mode"]').count(),2);
  assert.equal(await page.locator('input[name="theme-color"]').count(),6);
+ // Read computed properties from the live SVG on the home page, not merely the stored theme.
+ const chartSamples={};
  for(const mode of ['light','dark']){
   await page.locator('input[name="theme-mode"][value="'+mode+'"]').check({force:true});
+  chartSamples[mode]={};
   for(const color of ['blue','orange','pink','green','purple','rainbow']){
    await page.locator('input[name="theme-color"][value="'+color+'"]').check({force:true});
-   const state=await page.evaluate(()=>({
-    mode:document.documentElement.dataset.themeMode,
-    color:document.documentElement.dataset.themeColor
-   }));
-   assert.deepEqual(state,{mode,color},'appearance applies immediately');
+   await page.locator('.global-settings').click();
+   await page.locator('.home-progress-dashboard').waitFor();
+   const sample=await page.evaluate(()=>{
+    const value=(selector,key)=>getComputedStyle(document.querySelector(selector))[key];
+    return {
+     mode:document.documentElement.dataset.themeMode,
+     color:document.documentElement.dataset.themeColor,
+     completed:value('.home-ring-completed','stroke'),
+     practicing:value('.home-ring-practicing','stroke'),
+     empty:value('.home-ring-base','stroke'),
+     innerEmpty:value('.home-ring-base-inner','stroke'),
+     festival:value('.home-festival-ring','stroke'),
+     countdownText:value('.home-festival-days','fill'),
+     practiceDot:value('.home-progress-dot-practicing','backgroundColor'),
+     progressNumber:value('.home-progress-main-value','color'),
+     primary:value('.home-actions .primary','backgroundImage'),
+     gradients:[...document.querySelectorAll('.home-double-ring linearGradient')].map(el=>el.id)
+    };
+   });
+   assert.equal(sample.mode,mode);
+   assert.equal(sample.color,color);
+   assert.notEqual(sample.completed,'none','completed ring must be painted');
+   assert.notEqual(sample.festival,'none','countdown ring must be painted');
+   assert.notEqual(sample.countdownText,'none','countdown text must be painted');
+   if(color==='rainbow'){
+    for(const id of ['mt-progress-rainbow','mt-practicing-rainbow','mt-festival-rainbow'])
+     assert.ok(sample.gradients.includes(id),id+' definition must be mounted');
+    for(const key of ['completed','practicing','festival','empty'])
+     assert.ok(sample[key].includes('url('),'rainbow '+key+' needs an actual gradient');
+   }else{
+    assert.equal(sample.completed.includes('url('),false,'standard themes use a solid completed ring');
+    assert.equal(sample.empty,sample.innerEmpty,'both uncompleted circles share a themed shade');
+   }
+   chartSamples[mode][color]=sample;
+   await page.locator('.global-settings').click();
+   await page.locator('.theme-color-choices').waitFor();
+  }
+  for(const key of ['completed','practicing','empty','festival','practiceDot']){
+   const values=Object.values(chartSamples[mode]).map(sample=>sample[key]);
+   assert.equal(new Set(values).size,6,mode+': all 6 colors must change the chart '+key);
   }
  }
+ assert.notEqual(chartSamples.light.blue.completed,chartSamples.dark.blue.completed,'blue progress must change in dark mode');
+ assert.notEqual(chartSamples.light.blue.festival,chartSamples.dark.blue.festival,'blue countdown must change in dark mode');
  const picker=await page.locator('.theme-color-choice[data-color="rainbow"] .theme-swatch').evaluate(el=>getComputedStyle(el).backgroundImage);
  assert.ok(picker.includes('linear-gradient'),'rainbow swatch is a gradient');
  assert.ok(!picker.includes('rgb(255, 43, 109)'),'rainbow picker remains pastel');
@@ -411,6 +451,27 @@ try{
  const applied=await page.locator('.home-actions .primary').evaluate(el=>getComputedStyle(el).backgroundImage);
  assert.ok(applied.includes('linear-gradient'),'applied rainbow has vivid UI');
  await page.screenshot({path:'test-results/theme-home-dark-rainbow.png'});
+ // Dark palette must also reach the quick reader and the ordinary script screen.
+ await page.locator('.quick-memory-home-link').click();
+ await page.locator('.quick-memory-speech.is-target').waitFor({timeout:10000});
+ const quickAppearance=await page.locator('.quick-memory-speech.is-target').evaluate(el=>({
+  background:getComputedStyle(el).backgroundColor,
+  text:getComputedStyle(el.querySelector('.quick-memory-text')).color
+ }));
+ assert.notEqual(quickAppearance.background,'rgb(238, 246, 255)','quick memory must not retain the light-blue selected row');
+ assert.notEqual(quickAppearance.background,'rgb(255, 255, 255)','quick memory must not be white in dark mode');
+ await page.screenshot({path:'test-results/theme-quick-dark-rainbow.png'});
+ await page.locator('.bottom-nav a[href="#script"]').click();
+ await page.locator('.reader-scroll .speech.mine').first().waitFor({timeout:10000});
+ const readerAppearance=await page.locator('.reader-scroll .speech.mine').first().evaluate(el=>({
+  background:getComputedStyle(el).backgroundColor,
+  text:getComputedStyle(el.querySelector('.speech-text')).color
+ }));
+ assert.notEqual(readerAppearance.background,'rgb(238, 246, 255)','script own lines must respond to dark palette');
+ assert.notEqual(readerAppearance.background,'rgb(255, 255, 255)','script own lines must not remain white');
+ await page.screenshot({path:'test-results/theme-reader-dark-rainbow.png'});
+ await page.locator('.bottom-nav a[href="#home"]').click();
+ await page.locator('.home-progress-dashboard').waitFor();
  await page.locator('.global-settings').click();
  await page.locator('input[name="theme-mode"][value="light"]').check({force:true});
  await page.locator('input[name="theme-color"][value="blue"]').check({force:true});

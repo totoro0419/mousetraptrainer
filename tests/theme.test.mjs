@@ -35,3 +35,19 @@ test('UI, stylesheet and offline app shell are integrated',async()=>{
  assert.ok(html.includes('href="./theme.css"'));
  assert.ok(sw.includes("'./theme.css'"));assert.ok(sw.includes("'./modules/theme.js'"));
 });
+
+test('home charts and supporting controls share theme tokens, not static navy/blue',async()=>{
+ const read=path=>readFile(new URL('../dist/'+path,import.meta.url),'utf8');
+ const [app,home,theme,styles]=await Promise.all(['app.js','home-refresh.css','theme.css','styles.css'].map(read));
+ for(const id of ['mt-progress-rainbow','mt-practicing-rainbow','mt-festival-rainbow']){
+  assert.ok(app.includes('id="'+id+'"'),id+' gradient exists');
+  assert.ok(theme.includes('url(#'+id+')'),id+' gradient is referenced');
+ }
+ for(const rule of ['.home-ring-completed{stroke:var(--home-ring-blue)}','.home-ring-practicing{stroke:var(--home-ring-light)}','.home-festival-ring{stroke:var(--home-festival-navy)','.home-ring-base-inner{stroke:var(--home-ring-empty)}','.home-festival-days{font-size:20px;fill:var(--ink)','.home-app-action.is-install{background:var(--theme-primary-gradient)'])assert.ok(home.includes(rule),rule);
+ assert.doesNotMatch(home,/#243f73|#1c3158|stroke:#e2e8f2/i);
+ assert.ok(theme.includes('--home-festival-navy:var(--accent-ink)'));
+ assert.ok(theme.includes(':root[data-theme-mode="dark"] .home-ring-base-inner{stroke:var(--home-ring-empty)}'));
+ assert.equal(styles.includes('rgba(69,104,223,'),false);
+ assert.ok(styles.includes('var(--theme-owned-bg,#eef6ff)'));
+ assert.ok(styles.includes('rgb(var(--theme-accent-rgb) / .085)'));
+});
