@@ -251,3 +251,18 @@
  content:"";position:absolute;inset:0 auto 0 0;width:3px;pointer-events:none;background:linear-gradient(180deg,#ff2b6d,#ff8327,#ffe235,#20d58c,#00b8ff,#8051ff,#ed36dd)
 }
 :root[data-theme-color="rainbow"]:not([data-theme-color="blue"]) .boot-track span{background:var(--theme-rainbow)}
+
+
+/* Swipe action underlay uses semantic surfaces in every mode and accent. */
+:root[data-theme-mode="dark"] .reader-scroll .speech .swipe-hint{
+ background:color-mix(in srgb,var(--accent) 16%,var(--paper));
+ color:var(--accent-ink);
+}
+:root[data-theme-mode="dark"] .reader-scroll .speech .swipe-hint.left{
+ background:color-mix(in srgb,var(--ui-review) 16%,var(--paper));
+ color:var(--ui-review);
+}
+:root[data-theme-mode="dark"] .rehearsal-free .reveal-mask{
+ border-bottom-color:var(--line);
+ background:transparent;
+}
