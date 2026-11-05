@@ -304,6 +304,33 @@ function renderSettings(main){
  main.querySelector('#playback-rate').onchange=e=>{small.rate=+e.target.value;save();};
  main.querySelector('[data-action=manage-data]').onclick=openDataManagement;
 }
+function openStickSettings(){
+ const names={script:'台本',cloze:'穴埋め練習',quick:'今覚える！',analysis:'セリフの詳細解説',audio:'音声練習',home:'ホーム',notifications:'お知らせ',settings:'設定・役選択'};
+ const rows=STICK_SCREENS.map(id=>`<label class="stick-screen-option"><span>${names[id]}</span><input type="checkbox" data-stick-screen="${id}" ${stickSettings.screens[id]?'checked':''}></label>`).join('');
+ const controls=[
+  ['x','横位置',10,90,1,'%'],
+  ['bottom','下からの距離',24,220,2,'px'],
+  ['size','サイズ',44,94,2,'px'],
+  ['opacity','透明度',.25,1,.05,''],
+  ['speed','スクロール速度',.3,2.5,.1,'倍']
+ ].map(([name,label,min,max,step,unit])=>`<label class="stick-range"><span>${label}<output data-stick-output="${name}">${stickSettings[name]}${unit}</output></span><input type="range" data-stick-field="${name}" min="${min}" max="${max}" step="${step}" value="${stickSettings[name]}"></label>`).join('');
+ openSheet('スクロールスティック',`<div class="stick-config">
+  <p class="subtle">使う画面</p><div class="stick-screen-grid">${rows}</div>
+  <p class="subtle">操作感と位置</p><div class="stick-range-grid">${controls}</div>
+ </div>`,{setup:sheet=>{
+  const update=next=>{
+   const candidate=normalizeStickSettings(next);
+   if(!saveStickSettings(candidate)){toast('スティック設定を保存できませんでした');return;}
+   stickSettings=candidate;stickController?.reconfigure();
+  };
+  sheet.querySelectorAll('[data-stick-screen]').forEach(input=>input.onchange=()=>update({...stickSettings,screens:{...stickSettings.screens,[input.dataset.stickScreen]:input.checked}}));
+  sheet.querySelectorAll('[data-stick-field]').forEach(input=>input.oninput=()=>{
+   const key=input.dataset.stickField,value=Number(input.value);
+   sheet.querySelector('[data-stick-output="'+key+'"]').textContent=value+({x:'%',bottom:'px',size:'px',opacity:'',speed:'倍'}[key]||'');
+   update({...stickSettings,[key]:value});
+  });
+ }});
+}
 function openDataManagement(){
  openSheet('データとアプリ',`<div class="management-list">
   <button class="management-action" type="button" data-action="import"><span>台本・バックアップを読み込む</span>${icon('chevron')}</button>
