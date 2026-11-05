@@ -51,3 +51,13 @@ test('home charts and supporting controls share theme tokens, not static navy/bl
  assert.ok(styles.includes('var(--theme-owned-bg,#eef6ff)'));
  assert.ok(styles.includes('rgb(var(--theme-accent-rgb) / .085)'));
 });
+test('rainbow line selections use gradients in both display modes',async()=>{
+ const css=await readFile(new URL('../dist/theme.css',import.meta.url),'utf8');
+ for(const selector of ['.reader-scroll .speech.mine','.speech.highlight','.rehearsal .speech.current','.quick-memory-speech.is-target','.notification-entry.is-new']){
+  assert.ok(css.includes(selector),selector+' has rainbow highlight styles');
+ }
+ assert.match(css,/--theme-rainbow-wash:linear-gradient/);
+ assert.match(css,/--theme-rainbow-highlight:linear-gradient/);
+ assert.match(css,/data-theme-mode="dark"\]\[data-theme-color="rainbow"\]\{/);
+ assert.match(css,/\.speech.highlight::before/);
+});

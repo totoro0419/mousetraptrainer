@@ -456,19 +456,23 @@ try{
  await page.locator('.quick-memory-speech.is-target').waitFor({timeout:10000});
  const quickAppearance=await page.locator('.quick-memory-speech.is-target').evaluate(el=>({
   background:getComputedStyle(el).backgroundColor,
+  gradient:getComputedStyle(el).backgroundImage,
   text:getComputedStyle(el.querySelector('.quick-memory-text')).color
  }));
  assert.notEqual(quickAppearance.background,'rgb(238, 246, 255)','quick memory must not retain the light-blue selected row');
  assert.notEqual(quickAppearance.background,'rgb(255, 255, 255)','quick memory must not be white in dark mode');
+ assert.match(quickAppearance.gradient,/linear-gradient/,'quick memory rainbow target must paint multicolor');
  await page.screenshot({path:'test-results/theme-quick-dark-rainbow.png'});
  await page.locator('.bottom-nav a[href="#script"]').click();
  await page.locator('.reader-scroll .speech.mine').first().waitFor({timeout:10000});
  const readerAppearance=await page.locator('.reader-scroll .speech.mine').first().evaluate(el=>({
   background:getComputedStyle(el).backgroundColor,
+  gradient:getComputedStyle(el).backgroundImage,
   text:getComputedStyle(el.querySelector('.speech-text')).color
  }));
  assert.notEqual(readerAppearance.background,'rgb(238, 246, 255)','script own lines must respond to dark palette');
  assert.notEqual(readerAppearance.background,'rgb(255, 255, 255)','script own lines must not remain white');
+ assert.match(readerAppearance.gradient,/linear-gradient/,'script rainbow highlights must paint multicolor');
  await page.screenshot({path:'test-results/theme-reader-dark-rainbow.png'});
  await page.locator('.bottom-nav a[href="#home"]').click();
  await page.locator('.home-progress-dashboard').waitFor();
