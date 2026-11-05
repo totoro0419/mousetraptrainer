@@ -26,7 +26,7 @@ export function mountStick(parent,scroller,jumpMine=()=>{},onScroll=()=>{},{sett
  parent.append(dock);
  const base=dock.querySelector('.stick-base'),detector=new FlickDetector();
  let frame=0,last=0,value=0,pointer=null,center=0,centerX=0,press=null,disposed=false;
- const blocked=()=>disposed||document.hidden||(modal?!parent.open:isSheetOpen());
+ const blocked=()=>disposed||document.hidden||!!document.querySelector('.role-menu')||(modal?!parent.open:isSheetOpen());
  const typing=()=>document.activeElement?.matches?.('input,textarea,select,[contenteditable="true"]');
  const stop=()=>{value=0;pointer=null;cancelAnimationFrame(frame);frame=0;last=0;base.style.transform='';dock.classList.remove('active');};
  const tick=t=>{
