@@ -47,17 +47,20 @@ export function ensureQuickMemory(data,progress,raw,role,random=Math.random){
  const next=normalizeQuickMemory(raw);
  return currentQuickLine(data,next,role)?next:refreshQuickMemory(data,progress,next,role,random);
 }
-export function quickCompletedProgress(previous){
+export function quickCompletedProgress(previous,now=Date.now()){
  const old=object(previous);
  if(old.level===2||old.level===1)return old;
- return {...old,level:1,updatedAt:Date.now()};
+ return {...old,level:1,updatedAt:now};
 }
 export function reconcileQuickProgress(progress,raw){
  const upgraded=object(normalizeQuickMemory(raw).progressUpgrades);
  for(const id of Object.keys(upgraded)){
-  if(upgraded[id]!==1)continue;
+  const at=Number(upgraded[id]);
+  if(!Number.isFinite(at)||at<=0)continue;
   const old=progress[id];
-  if(old?.level!==1&&old?.level!==2)progress[id]=quickCompletedProgress(old);
+  // A deliberate later reset of this line takes precedence over a past completion.
+  if(old?.level!==1&&old?.level!==2&&(Number(old?.updatedAt)||0)<at)
+   progress[id]=quickCompletedProgress(old,at);
  }
  return progress;
 }
