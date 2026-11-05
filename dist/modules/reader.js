@@ -1,10 +1,24 @@
 import {sceneName,filterLines,tokenize,lookupDictionary,labels,advanceProgress,plain,grammarDescription} from './data.js';
 import {icon,esc,el,button,openSheet,isSheetOpen,toast,closeSheet,syncSelects} from './ui.js';
 import {bindLinePlayback} from './audio.js';
+// Show multi-word dictionary terms even when the line-specific vocabulary omits them.
+const dictionaryPhraseCache=new WeakMap();
+export function matchingDictionaryPhrases(dictionary,text){
+ if(!dictionary||typeof dictionary!=='object')return [];
+ let entries=dictionaryPhraseCache.get(dictionary);
+ if(!entries){
+  entries=Object.entries(dictionary).filter(([word,definition])=>word.includes(' ')&&typeof definition?.coreMeaning==='string').map(([word,definition])=>({surface:word,lemma:word,meaning:definition.coreMeaning}));
+  dictionaryPhraseCache.set(dictionary,entries);
+ }
+ const source=text.toLowerCase();
+ return entries.filter(entry=>source.includes(entry.surface.toLowerCase()));
+}
+
 export function directionText(d){return typeof d==='string'?d:plain(d?.ja);}
 export function showDirection(line){const d=line.direction;openSheet('ト書き',`<p>${esc(directionText(d)||'日本語要約は未収録です。')}</p>${typeof d==='object'&&d.original?`<div class="sheet-section"><h3>原文</h3><p lang="en">${esc(d.original)}</p><p class="subtle">出典: ${esc(d.source||'読み込みデータ')}</p></div>`:''}`);}
 export function showDictionary(line,token,ctx){const d=lookupDictionary(ctx.data.dictionary,token),v=token.entry;
- openSheet(v?.lemma||d?.lemma||token.text,`<div class="dictionary-word" lang="en">${esc(v?.lemma||d?.lemma||token.text)}</div><div class="dictionary-meta">${esc(d?.pos||'品詞未収録')} ${esc(d?.ipa||'')}</div>${d||v?`<p class="meaning">${esc(d?.coreMeaning||v?.meaning||d?.contextMeaning)}</p><div class="sheet-section"><h3>このセリフでは</h3><p>${esc(v?.meaning||d.contextMeaning||'個別の語釈は未収録です。')}</p>${d?.contextExplanation?`<p class="subtle" style="margin-top:10px">${esc(d.contextExplanation)}</p>`:''}</div>${d?.pattern||d?.forms?`<div class="sheet-section"><h3>語法・表現</h3>${d.pattern?`<p lang="en"><strong>${esc(d.pattern)}</strong></p>`:''}<p>${esc(d.patternDesc||d.forms)}</p></div>`:''}`:`<p>この単語の辞書データは未収録です。</p><p class="subtle" style="margin-top:12px">セリフの解説で、日本語訳や登録済みの表現を確認できます。</p>`}<div class="sheet-section"><h3>セリフ</h3><p lang="en" class="analysis-quote">${esc(line.text)}</p>${button('セリフの解説を見る','analyze-word','secondary')}</div>`,{setup:sheet=>{sheet.querySelector('[data-action=analyze-word]').onclick=()=>showAnalysis(line,ctx);}});
+ const isGeneric=Array.isArray(d?.tags)&&d.tags.includes('dictionary-expansion');
+ openSheet(v?.lemma||d?.lemma||token.text,`<div class="dictionary-word" lang="en">${esc(v?.lemma||d?.lemma||token.text)}</div><div class="dictionary-meta">${esc(d?.pos||'品詞未収録')} ${esc(d?.ipa||'')}</div>${d||v?`<p class="meaning">${esc(d?.coreMeaning||v?.meaning||d?.contextMeaning)}</p><div class="sheet-section"><h3>${isGeneric?'劇中での確認':'このセリフでは'}</h3><p>${isGeneric?'基本の意味を参考に、前後のセリフと日本語訳で実際の意味を確認してください。':esc(v?.meaning||d.contextMeaning||'個別の語釈は未収録です。')}</p>${d?.contextExplanation?`<p class="subtle" style="margin-top:10px">${esc(d.contextExplanation)}</p>`:''}</div>${d?.pattern||d?.forms?`<div class="sheet-section"><h3>語法・表現</h3>${d.pattern?`<p lang="en"><strong>${esc(d.pattern)}</strong></p>`:''}<p>${esc(d.patternDesc||d.forms)}</p></div>`:''}`:`<p>この単語の辞書データは未収録です。</p><p class="subtle" style="margin-top:12px">セリフの解説で、日本語訳や登録済みの表現を確認できます。</p>`}<div class="sheet-section"><h3>セリフ</h3><p lang="en" class="analysis-quote">${esc(line.text)}</p>${button('セリフの解説を見る','analyze-word','secondary')}</div>`,{setup:sheet=>{sheet.querySelector('[data-action=analyze-word]').onclick=()=>showAnalysis(line,ctx);}});
 }
 // The provided JSON contains translations, not a per-line intent/acting essay.
 // Resolve adjacent lines in the same scene without inferring dramatic intent.
@@ -66,7 +80,7 @@ export function speechNode(line,ctx,{words=true}={}){const p=ctx.progress[line.i
  let suppressed=false;
  node.addEventListener('click',e=>{if(suppressed){e.preventDefault();e.stopImmediatePropagation();}else if(!e.target.closest('button,a,input,select,textarea,[contenteditable]')&&!window.getSelection()?.toString())showAnalysis(line,ctx);},true);
  node.addEventListener('keydown',e=>{if(e.target===node&&(e.key==='Enter'||e.key===' ')){e.preventDefault();showAnalysis(line,ctx);}});
- node.renderWords=()=>{if(node.dataset.tokenized||!words)return;node.dataset.tokenized='1';const paragraph=node.querySelector('.speech-text');paragraph.replaceChildren();for(const token of tokenize(line.text,ctx.data.vocabulary[line.id]||[])){const d=(token.word||token.entry)&&lookupDictionary(ctx.data.dictionary,token),hasMeaning=plain(token.entry?.meaning).trim()||plain(d?.coreMeaning).trim()||plain(d?.contextMeaning).trim();if(hasMeaning){const b=document.createElement('button');b.type='button';b.className='word'+(token.entry?' phrase':'');b.textContent=token.text;b.setAttribute('aria-label',`${token.text} の意味`);b.onclick=()=>showDictionary(line,token,ctx);paragraph.append(b);}else paragraph.append(document.createTextNode(token.text));}};
+ node.renderWords=()=>{if(node.dataset.tokenized||!words)return;node.dataset.tokenized='1';const paragraph=node.querySelector('.speech-text');paragraph.replaceChildren();for(const token of tokenize(line.text,[...(ctx.data.vocabulary[line.id]||[]),...matchingDictionaryPhrases(ctx.data.dictionary,line.text)])){const d=(token.word||token.entry)&&lookupDictionary(ctx.data.dictionary,token),hasMeaning=plain(token.entry?.meaning).trim()||plain(d?.coreMeaning).trim()||plain(d?.contextMeaning).trim();if(hasMeaning){const b=document.createElement('button');b.type='button';b.className='word'+(token.entry?' phrase':'');b.textContent=token.text;b.setAttribute('aria-label',`${token.text} の意味`);b.onclick=()=>showDictionary(line,token,ctx);paragraph.append(b);}else paragraph.append(document.createTextNode(token.text));}};
  let gesture;
  node.addEventListener('pointerdown',e=>{if(e.button!==0||e.target.closest('button:not(.word)'))return;gesture={x:e.clientX,y:e.clientY,id:e.pointerId,dx:0,locked:false};},{passive:true});
  node.addEventListener('pointermove',e=>{if(!gesture||e.pointerId!==gesture.id)return;const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;if(!gesture.locked){if(Math.abs(dy)>10&&Math.abs(dy)>Math.abs(dx)){gesture=null;return;}if(Math.abs(dx)>12&&Math.abs(dx)>Math.abs(dy)*1.5){gesture.locked=true;node.setPointerCapture(e.pointerId);}else return;}gesture.dx=dx;const hint=node.querySelector('.swipe-hint');hint.style.opacity=Math.min(1,Math.abs(dx)/70);hint.textContent=dx>0?`→ ${labels[((ctx.progress[line.id]?.level||0)+1)%3]}`:'要復習を切り替え ←';hint.classList.toggle('left',dx<0);node.querySelector('.speech-inner').style.transform=`translateX(${Math.max(-100,Math.min(100,dx*.65))}px)`;});
