@@ -698,3 +698,30 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 
 .rehearsal-free .cloze-progress-actions{justify-content:flex-start;gap:9px;margin:12px 0 0}
 .rehearsal-free .cloze-progress-actions .secondary{padding:7px 11px;font-size:11px}
+
+/* Stage directions: distinct from speech, compact and legible in any theme. */
+.direction.direction-cue{
+ display:flex;align-items:flex-start;gap:10px;width:100%;max-width:100%;min-height:42px;
+ margin:8px 0 14px;padding:10px 12px;text-align:left;white-space:normal;
+ border:1px solid var(--line);border-left:2px solid var(--accent);
+ border-radius:9px;background:color-mix(in srgb,var(--accent) 5%,var(--paper));
+ color:var(--ink);font:inherit;font-size:13px;line-height:1.55;
+ touch-action:pan-y pinch-zoom;
+}
+.direction.direction-cue:hover,.direction.direction-cue:focus-visible{
+ border-color:var(--accent);
+ background:color-mix(in srgb,var(--accent) 9%,var(--paper));
+}
+.direction-cue-label{flex:none;font-size:10px;font-weight:750;line-height:1.9;color:var(--accent-ink);white-space:nowrap}
+.direction-cue-text{flex:1;min-width:0;overflow-wrap:anywhere}
+.direction-cue-chevron{width:13px;height:13px;margin-top:4px;flex:none;color:var(--muted)}
+.rehearsal .speech .direction-cue{width:calc(100% - 72px);margin:9px 36px 14px}
+.rehearsal-free .speech .direction-cue{width:calc(100% - 72px)}
+.audio-stage .direction-cue{max-width:600px;margin:16px auto;text-align:left}
+.direction-original{white-space:pre-line;overflow-wrap:anywhere}
+.direction-sheet-summary h3{font-size:11px;color:var(--muted);margin-bottom:8px}
+.direction-sheet-summary p{font-size:15px;line-height:1.8}
+.direction-source,.direction-timing{margin-top:12px}
+@media(max-width:1050px){.rehearsal .speech .direction-cue{width:calc(100% - 56px);margin-left:28px;margin-right:28px}}
+@media(max-width:700px){.rehearsal .speech .direction-cue{width:calc(100% - 40px);margin-left:20px;margin-right:20px}}
+@media(max-width:380px){.rehearsal .speech .direction-cue{width:calc(100% - 34px);margin-left:17px;margin-right:17px}}
