@@ -134,8 +134,7 @@ export function openSheet(title,content,{wide=false,onclose,setup,stickScreen=nu
    }
    touch.active=true;
   }
-  if(e.cancelable)e.preventDefault();
-  translate(Math.max(0,dy));
+  if(e.cancelable)e.preventDefault();translate(Math.max(0,dy));
  },{passive:false});
  body.addEventListener('touchend',e=>{
   if(!touch)return;
