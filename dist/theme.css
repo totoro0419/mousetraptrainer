@@ -180,3 +180,40 @@
 :root[data-theme-mode="dark"] .boot-subtitle,:root[data-theme-mode="dark"] .boot-status{color:var(--muted)}
 :root[data-theme-mode="dark"] .boot-track{background:#35445a}
 :root[data-theme-mode="dark"] .boot-track span{background:var(--accent)}
+
+/* Home SVG chart and its legend must use the same theme tokens. */
+:root[data-theme-color="blue"]{--home-ring-blue:#4568df;--home-ring-light:#aabcea;--home-festival-navy:#243f73}
+:root[data-theme-color="orange"]{--home-ring-blue:#b75220;--home-ring-light:#eebc95;--home-festival-navy:#98512d}
+:root[data-theme-color="pink"]{--home-ring-blue:#b33878;--home-ring-light:#eab0cd;--home-festival-navy:#923a70}
+:root[data-theme-color="green"]{--home-ring-blue:#13795e;--home-ring-light:#93d3bd;--home-festival-navy:#12604f}
+:root[data-theme-color="purple"]{--home-ring-blue:#7750b9;--home-ring-light:#c6b4ea;--home-festival-navy:#5b419a}
+:root[data-theme-color="rainbow"]{--home-ring-blue:#f05aaa;--home-ring-light:#51cbbb;--home-festival-navy:#9765ed}
+:root[data-theme-mode="dark"][data-theme-color="blue"]{--home-ring-blue:#8fa9ff;--home-ring-light:#7b91c4;--home-festival-navy:#9cb5e8}
+:root[data-theme-mode="dark"][data-theme-color="orange"]{--home-ring-blue:#f1a574;--home-ring-light:#c88c60;--home-festival-navy:#efb68e}
+:root[data-theme-mode="dark"][data-theme-color="pink"]{--home-ring-blue:#f2a0cf;--home-ring-light:#c981ab;--home-festival-navy:#e3a2d1}
+:root[data-theme-mode="dark"][data-theme-color="green"]{--home-ring-blue:#76d5b5;--home-ring-light:#5ca88e;--home-festival-navy:#8fddc3}
+:root[data-theme-mode="dark"][data-theme-color="purple"]{--home-ring-blue:#c0a0f6;--home-ring-light:#a087d0;--home-festival-navy:#bba1e9}
+:root[data-theme-mode="dark"][data-theme-color="rainbow"]{--home-ring-blue:#ff78b8;--home-ring-light:#5de5bf;--home-festival-navy:#b395ff}
+:root[data-theme-color] .home-ring-completed{stroke:var(--home-ring-blue)}
+:root[data-theme-color] .home-ring-practicing{stroke:var(--home-ring-light)}
+:root[data-theme-color] .home-festival-ring{stroke:var(--home-festival-navy)}
+:root[data-theme-color] .home-progress-dot-practicing{background:var(--home-ring-light)}
+:root[data-theme-color] .home-progress-dot-unstarted{background:var(--home-ring-empty)}
+:root[data-theme-color] .home-progress-dot-festival{background:var(--home-festival-navy)}
+:root[data-theme-color] .home-progress-key .home-progress-main-value{color:var(--home-ring-blue)}
+:root[data-theme-color] .home-ring-base{stroke:var(--home-ring-empty)}
+:root[data-theme-mode="dark"] .home-progress-dashboard{border-color:var(--line)}
+:root[data-theme-mode="dark"] .home-progress-key strong{color:var(--ink)}
+:root[data-theme-mode="dark"] .home-festival-label{color:var(--ink)}
+:root[data-theme-mode="dark"] .home-festival-label small{color:var(--muted)}
+:root[data-theme-mode="dark"] .home-progress-breakdown-row{border-color:var(--line)}
+:root[data-theme-mode="dark"] .home-ring-base-inner{stroke:var(--line)}
+/* Repair remaining hard-coded accent and light surfaces in shared controls. */
+:root[data-theme-color] input[type="checkbox"],:root[data-theme-color] input[type="radio"],:root[data-theme-color] input[type="range"]{accent-color:var(--accent)}
+:root[data-theme-color] button:focus-visible,:root[data-theme-color] a:focus-visible,:root[data-theme-color] input:focus-visible,:root[data-theme-color] select:focus-visible{outline-color:var(--ui-focus)}
+:root[data-theme-mode="dark"] .topbar{background:var(--paper)}
+:root[data-theme-mode="dark"] .reader-filter{background:var(--paper)}
+:root[data-theme-mode="dark"] .continue-panel{background:var(--paper);border-color:var(--line)}
+:root[data-theme-mode="dark"] .nav-item[aria-current="page"]{background:var(--accent-soft);color:var(--accent-ink)}
+:root[data-theme-mode="dark"] .speech:not(.mine) .speech-text{color:var(--ink)}
+:root[data-theme-mode="dark"] .home-progress-dashboard .home-festival-days{fill:var(--ink)}
