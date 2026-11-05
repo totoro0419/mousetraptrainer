@@ -13,13 +13,24 @@ const merged=mergeDictionaryEntries(original,packages);
 
 test('dictionary coverage at least doubles without replacing existing headwords',()=>{
  assert.equal(Object.keys(original.dictionary).length,578);
- assert.equal(Object.keys(merged.dictionary).length,1421);
+ assert.equal(Object.keys(merged.dictionary).length,1721);
  assert.ok(Object.keys(merged.dictionary).length>=2*Object.keys(original.dictionary).length);
  for(const [key,oldEntry] of Object.entries(original.dictionary))assert.deepEqual(merged.dictionary[key],oldEntry);
  assert.equal(merged.id,original.id);
  assert.deepEqual(merged.lines.map(line=>line.id),original.lines.map(line=>line.id));
 });
 
+test('curated 300 new attested headwords and expressions are distinct and not filler variants',()=>{
+ const latest=packages.slice(-2),keys=latest.flatMap(pkg=>Object.keys(pkg.entries));
+ assert.equal(keys.length,300);
+ assert.equal(new Set(keys).size,300);
+ const previous=mergeDictionaryEntries(original,packages.slice(0,2));
+ assert.equal(Object.keys(previous.dictionary).length,1421);
+ assert.ok(keys.every(key=>!Object.hasOwn(previous.dictionary,key)));
+ for(const key of ['creak','snick','rubbish','crypt',"shan't",'hooked it','mixed up in','minced beef','drawing room','quite so']){
+  assert.ok(merged.dictionary[key]?.coreMeaning?.length>=3,key+' missing');
+ }
+});
 test('noun expansion and native everyday vocabulary are available',()=>{
  const nouns=Object.values(merged.dictionary).filter(entry=>entry.pos.includes('名詞')).length;
  const originalNouns=Object.values(original.dictionary).filter(entry=>entry.pos.includes('名詞')).length;
