@@ -420,6 +420,37 @@ try{
  await page.locator('.session-controls [data-action="advance"]').click();
  assert.equal(await answerAudio.isVisible(),true,'audio rehearsal answer exposes replay');
  console.log('PASS: analysis sheet and both revealed rehearsal modes have accessible per-line audio buttons');
+ // Stage directions must be available while hiding dialogue, and tapping must not reveal or advance it.
+ await page.locator('[data-action="exit"]').click();
+ const cueRange=await page.evaluate(async()=>{
+  const {normalizeBundle}=await import('./modules/data.js');
+  const d=normalizeBundle(await (await fetch('./data/mousetrap.json')).json());
+  const role=document.querySelector('#rehearsal-role').value;
+  return d.lines.findIndex(line=>line.speaker===role&&line.direction)+1;
+ });
+ assert.ok(cueRange>0,'The role has a verified direction to rehearse');
+ await page.locator('#range-from').fill(String(cueRange));
+ await page.locator('#range-to').fill(String(cueRange));
+ await page.locator('[data-mode="cloze"]').click();
+ const stageCue=page.locator('.rehearsal-free .direction-cue');
+ assert.equal(await stageCue.count(),1,'Free cloze shows direction beside its linked speech');
+ assert.equal(await page.locator('.cloze-toggle').getAttribute('aria-expanded'),'false');
+ await stageCue.click();
+ assert.ok((await page.locator('#sheet .direction-original').textContent()).trim().length>0,'Free cloze opens source English');
+ assert.equal(await page.locator('.cloze-toggle').getAttribute('aria-expanded'),'false','Direction tap never reveals a hidden answer');
+ await page.locator('#sheet .close-sheet').click();
+ await page.locator('[data-action="exit"]').click();
+ await page.locator('[data-mode="audio"]').click();
+ const counterBeforeCue=await page.locator('#session-counter').textContent();
+ const audioCue=page.locator('.audio-stage .direction-cue');
+ assert.equal(await audioCue.count(),1,'Audio rehearsal shows a linked stage cue');
+ await audioCue.click();
+ assert.ok(await page.locator('#sheet .direction-original').isVisible(),'Audio mode opens original stage directions');
+ assert.equal(await page.locator('#session-counter').textContent(),counterBeforeCue,'Direction tap does not advance the audio session');
+ await page.locator('#sheet .close-sheet').click();
+ assert.equal(await page.locator('.audio-answer').count(),0,'Own hidden answer is still concealed');
+ console.log('PASS: stage directions work in reader, free cloze and audio rehearsal without revealing or advancing');
+
 
  const desktop=await browser.newPage({viewport:{width:1280,height:800},locale:'ja-JP'});
  await desktop.goto(base+'/',{waitUntil:'domcontentloaded'});
