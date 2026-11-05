@@ -59,7 +59,7 @@ function completeQuick(lineId){
  const next=completeQuickMemory(data,progress,small.quickMemorize,small.role,lineId);
  if(!next)return false;
  const old=progress[lineId],updated=quickCompletedProgress(old);
- if(updated!==old)next.progressUpgrades[lineId]=1;
+ if(updated!==old)next.progressUpgrades[lineId]=updated.updatedAt;
  // One durable state write commits both the completion and the progress promotion.
  // The progress mirror is repairable from progressUpgrades after a crash/quota failure.
  if(!saveQuickMemory(next))return false;
