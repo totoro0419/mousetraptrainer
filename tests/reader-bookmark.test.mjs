@@ -33,7 +33,7 @@ test('no ellipsis: independent bookmark button and row tapping preserve word and
 });
 
 test('reader highlights own lines subtly and prioritizes meaning and context over grammar',()=>{
- assert.match(css,/\.reader-scroll \.speech\.mine\{background:#eef6ff/);
+ assert.match(css,/\.reader-scroll \.speech\.mine\{background:var\(--theme-owned-bg,#eef6ff\)/);
  assert.match(css,/\.speech-bookmark\[aria-pressed="true"\]/);
  const template=reader.slice(reader.indexOf('export function showAnalysis'),reader.indexOf('export function speechNode'));
  const inOrder=['日本語訳','analysisNarrative(line,data)','analysisLanguageSections(grammar,vocab)','学習状態'].map(word=>template.indexOf(word));
