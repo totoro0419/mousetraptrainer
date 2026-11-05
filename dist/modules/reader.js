@@ -19,7 +19,7 @@ export function directionText(d){return typeof d==='string'?d:plain(d?.ja)||(pla
 // Keep the cue inside the speech card rather than inventing a more exact timestamp.
 export function directionCue(line){
  const summary=directionText(line.direction);
- return summary?`<button type="button" class="direction direction-cue" data-action="direction" title="英語原文と出典を確認"><span class="direction-cue-label">ト書き</span><span class="direction-cue-text">${esc(summary)}</span>${icon('chevron','direction-cue-chevron')}</button>`:'';
+ return summary?`<button type="button" class="direction direction-cue" data-action="direction" aria-label="ト書きの詳細：${esc(summary)}" title="英語原文と出典を確認"><span class="direction-cue-text">${esc(summary)}</span></button>`:'';
 }
 export function showDirection(line){
  const d=line.direction;
