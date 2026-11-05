@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {BUNDLED_SCRIPT,loadStartupScript} from '../dist/modules/bundled.js';
+import {BUNDLED_SCRIPT,DICTIONARY_ADDONS,loadStartupScript} from '../dist/modules/bundled.js';
 import {normalizeBundle} from '../dist/modules/data.js';
 
 const raw=JSON.parse(await readFile(new URL('../dist/data/mousetrap.json',import.meta.url),'utf8'));
@@ -11,7 +11,8 @@ function storage(initial=[]){
  const records=new Map(initial);
  return {records,get:async k=>records.get(k),atomicPut:async entries=>{for(const [k,v] of entries)records.set(k,v);}};
 }
-const load=async url=>{assert.equal(url,BUNDLED_SCRIPT.url);return raw;};
+const packages=await Promise.all(DICTIONARY_ADDONS.map(async url=>JSON.parse(await readFile(new URL('../dist/'+url.slice(2),import.meta.url),'utf8'))));
+const load=async url=>{if(url===BUNDLED_SCRIPT.url)return raw;const index=DICTIONARY_ADDONS.indexOf(url);assert.ok(index>=0,'unexpected URL: '+url);return packages[index];};
 test('built-in production data contains all real lines, supplements, dictionary and PDF directions',()=>{
  assert.equal(real.sample,false);assert.equal(real.id,'mousetrap-private');assert.equal(real.title,'The Mousetrap');
  assert.equal(real.lines.length,1164);assert.equal(real.scenes.length,3);assert.equal(Object.keys(real.dictionary).length,578);assert.equal(real.lines.filter(l=>l.direction).length,450);
@@ -21,6 +22,7 @@ test('built-in production data contains all real lines, supplements, dictionary 
 test('first launch opens the actual production script without a file picker',async()=>{
  const s=storage(),result=await loadStartupScript(s,load);
  assert.equal(result.data.lines.length,1164);assert.equal(result.warning,'');
+ assert.ok(Object.keys(result.data.dictionary).length>=1156,'startup must load at least twice as many headwords');
  assert.equal(s.records.get('active-script'),real.id);assert.deepEqual(s.records.get('script-list'),[real.id]);
 });
 test('old default sample migrates while learning and resume records stay unchanged',async()=>{

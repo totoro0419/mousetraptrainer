@@ -1,6 +1,34 @@
 import {normalizeBundle} from './data.js';
 
-export const BUNDLED_SCRIPT={id:'mousetrap-private',revision:'2026-10-30-builtin-1',url:'./data/mousetrap.json',lines:1164};
+export const BUNDLED_SCRIPT={id:'mousetrap-private',revision:'2026-11-05-dictionary-2x',url:'./data/mousetrap.json',lines:1164};
+
+
+// Extra glossaries supplement, never overwrite, the 578 original dictionary entries.
+export const DICTIONARY_ADDONS=['./data/dictionary-nouns.ja.json','./data/dictionary-general.ja.json'];
+export function mergeDictionaryEntries(data,packages){
+ const originalEntries=data.dictionary||{};
+ const originalKeys=new Set(Object.keys(originalEntries).map(key=>key.toLowerCase()));
+ const dictionary={...originalEntries};
+ for(const pkg of packages){
+  if(pkg?.version!==1||!pkg.entries||typeof pkg.entries!=='object'||Array.isArray(pkg.entries))throw Error('追加辞書の形式が正しくありません。');
+  for(const [rawKey,item] of Object.entries(pkg.entries)){
+   const key=rawKey.toLowerCase();
+   if(!/^[a-z][a-z ’'\-]*$/.test(key)||!item||typeof item.coreMeaning!=='string'||!item.coreMeaning.trim()||typeof item.pos!=='string')throw Error('追加辞書の項目が不正です: '+rawKey);
+   if(originalKeys.has(key))continue;
+   if(dictionary[key]){
+    const previous=dictionary[key];
+    dictionary[key]={
+     ...previous,
+     pos:[...new Set([...(previous.pos||'').split('・'),...(item.pos||'').split('・')])].join('・'),
+     coreMeaning:previous.coreMeaning===item.coreMeaning?previous.coreMeaning:previous.coreMeaning+'／'+item.coreMeaning,
+     contextMeaning:previous.contextMeaning===item.contextMeaning?previous.contextMeaning:previous.contextMeaning+'／'+item.contextMeaning,
+     tags:[...new Set([...(previous.tags||[]),...(item.tags||[])])]
+    };
+   }else dictionary[key]={...item};
+  }
+ }
+ return {...data,dictionary};
+}
 
 // Keep stable script/line IDs: learning records and recordings use those keys.
 // Old sample selections migrate to the actual script; no sample is shipped.
@@ -14,7 +42,9 @@ export async function loadStartupScript(storage,fetchJSON){
  const entries=[];
  if(revision!==spec.revision||!bundled){
   try{
-   const next=normalizeBundle(await fetchJSON(spec.url));
+   const [raw,...additions]=await Promise.all([fetchJSON(spec.url),...DICTIONARY_ADDONS.map(url=>fetchJSON(url))]);
+   const next=mergeDictionaryEntries(normalizeBundle(raw),additions);
+   if(Object.keys(next.dictionary).length<Object.keys(raw.dictionary||{}).length*2)throw Error('追加辞書が元の2倍に達していません。');
    if(next.id!==spec.id||next.sample||next.lines.length!==spec.lines||next.warnings.length)throw Error('収録台本の対応を確認できません。');
    bundled=next;
    entries.push([`script:${spec.id}`,next],['bundled-script-revision',spec.revision]);

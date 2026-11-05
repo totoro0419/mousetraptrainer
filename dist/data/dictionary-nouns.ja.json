@@ -1,0 +1,4286 @@
+{
+  "version": 1,
+  "source": "Mousetrap dialogue noun lexicon; reviewed Japanese glosses",
+  "entries": {
+    "room": {
+      "lemma": "room",
+      "pos": "名詞",
+      "coreMeaning": "部屋、室",
+      "contextMeaning": "部屋、室",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "people": {
+      "lemma": "people",
+      "pos": "名詞",
+      "coreMeaning": "人々",
+      "contextMeaning": "人々",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "police": {
+      "lemma": "police",
+      "pos": "名詞",
+      "coreMeaning": "警察、警察官たち",
+      "contextMeaning": "警察、警察官たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "sergeant": {
+      "lemma": "sergeant",
+      "pos": "名詞",
+      "coreMeaning": "巡査部長、軍曹",
+      "contextMeaning": "巡査部長、軍曹",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "major": {
+      "lemma": "major",
+      "pos": "名詞",
+      "coreMeaning": "少佐（階級）",
+      "contextMeaning": "少佐（階級）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "time": {
+      "lemma": "time",
+      "pos": "名詞",
+      "coreMeaning": "時間、時刻、回数",
+      "contextMeaning": "時間、時刻、回数",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "thing": {
+      "lemma": "thing",
+      "pos": "名詞",
+      "coreMeaning": "物、事柄",
+      "contextMeaning": "物、事柄",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "things": {
+      "lemma": "things",
+      "pos": "名詞",
+      "coreMeaning": "物事、持ち物",
+      "contextMeaning": "物事、持ち物",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "place": {
+      "lemma": "place",
+      "pos": "名詞",
+      "coreMeaning": "場所、位置",
+      "contextMeaning": "場所、位置",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "way": {
+      "lemma": "way",
+      "pos": "名詞",
+      "coreMeaning": "道、方法、やり方",
+      "contextMeaning": "道、方法、やり方",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "kitchen": {
+      "lemma": "kitchen",
+      "pos": "名詞",
+      "coreMeaning": "台所",
+      "contextMeaning": "台所",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "skis": {
+      "lemma": "skis",
+      "pos": "名詞",
+      "coreMeaning": "スキー板",
+      "contextMeaning": "スキー板",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "house": {
+      "lemma": "house",
+      "pos": "名詞",
+      "coreMeaning": "家、住宅",
+      "contextMeaning": "家、住宅",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "woman": {
+      "lemma": "woman",
+      "pos": "名詞",
+      "coreMeaning": "女性",
+      "contextMeaning": "女性",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "snow": {
+      "lemma": "snow",
+      "pos": "名詞",
+      "coreMeaning": "雪",
+      "contextMeaning": "雪",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "door": {
+      "lemma": "door",
+      "pos": "名詞",
+      "coreMeaning": "扉、ドア",
+      "contextMeaning": "扉、ドア",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "man": {
+      "lemma": "man",
+      "pos": "名詞",
+      "coreMeaning": "男性、人",
+      "contextMeaning": "男性、人",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "name": {
+      "lemma": "name",
+      "pos": "名詞",
+      "coreMeaning": "名前",
+      "contextMeaning": "名前",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "guest": {
+      "lemma": "guest",
+      "pos": "名詞",
+      "coreMeaning": "宿泊客、招待客",
+      "contextMeaning": "宿泊客、招待客",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "farm": {
+      "lemma": "farm",
+      "pos": "名詞",
+      "coreMeaning": "農場",
+      "contextMeaning": "農場",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "children": {
+      "lemma": "children",
+      "pos": "名詞",
+      "coreMeaning": "子どもたち",
+      "contextMeaning": "子どもたち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "child": {
+      "lemma": "child",
+      "pos": "名詞",
+      "coreMeaning": "子ども",
+      "contextMeaning": "子ども",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "husband": {
+      "lemma": "husband",
+      "pos": "名詞",
+      "coreMeaning": "夫",
+      "contextMeaning": "夫",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "stairs": {
+      "lemma": "stairs",
+      "pos": "名詞",
+      "coreMeaning": "階段",
+      "contextMeaning": "階段",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "mind": {
+      "lemma": "mind",
+      "pos": "名詞",
+      "coreMeaning": "心、考え、気",
+      "contextMeaning": "心、考え、気",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "matter": {
+      "lemma": "matter",
+      "pos": "名詞",
+      "coreMeaning": "問題、事柄",
+      "contextMeaning": "問題、事柄",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "course": {
+      "lemma": "course",
+      "pos": "名詞",
+      "coreMeaning": "進路、過程、講座",
+      "contextMeaning": "進路、過程、講座",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "lot": {
+      "lemma": "lot",
+      "pos": "名詞",
+      "coreMeaning": "たくさん、ひとまとまり",
+      "contextMeaning": "たくさん、ひとまとまり",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "bit": {
+      "lemma": "bit",
+      "pos": "名詞",
+      "coreMeaning": "少量、少し",
+      "contextMeaning": "少量、少し",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "telephone": {
+      "lemma": "telephone",
+      "pos": "名詞",
+      "coreMeaning": "電話",
+      "contextMeaning": "電話",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "mice": {
+      "lemma": "mice",
+      "pos": "名詞",
+      "coreMeaning": "ネズミ（mouseの複数形）",
+      "contextMeaning": "ネズミ（mouseの複数形）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "street": {
+      "lemma": "street",
+      "pos": "名詞",
+      "coreMeaning": "通り、街路",
+      "contextMeaning": "通り、街路",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "wife": {
+      "lemma": "wife",
+      "pos": "名詞",
+      "coreMeaning": "妻",
+      "contextMeaning": "妻",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "drawing": {
+      "lemma": "drawing",
+      "pos": "名詞",
+      "coreMeaning": "絵、図面、描くこと",
+      "contextMeaning": "絵、図面、描くこと",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "weather": {
+      "lemma": "weather",
+      "pos": "名詞",
+      "coreMeaning": "天気",
+      "contextMeaning": "天気",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "car": {
+      "lemma": "car",
+      "pos": "名詞",
+      "coreMeaning": "自動車",
+      "contextMeaning": "自動車",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "turn": {
+      "lemma": "turn",
+      "pos": "名詞",
+      "coreMeaning": "順番、方向転換",
+      "contextMeaning": "順番、方向転換",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "bedroom": {
+      "lemma": "bedroom",
+      "pos": "名詞",
+      "coreMeaning": "寝室",
+      "contextMeaning": "寝室",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "connection": {
+      "lemma": "connection",
+      "pos": "名詞",
+      "coreMeaning": "関係、つながり",
+      "contextMeaning": "関係、つながり",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "army": {
+      "lemma": "army",
+      "pos": "名詞",
+      "coreMeaning": "陸軍、軍隊",
+      "contextMeaning": "陸軍、軍隊",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "manor": {
+      "lemma": "manor",
+      "pos": "名詞",
+      "coreMeaning": "領主の屋敷、大邸宅",
+      "contextMeaning": "領主の屋敷、大邸宅",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "piano": {
+      "lemma": "piano",
+      "pos": "名詞",
+      "coreMeaning": "ピアノ",
+      "contextMeaning": "ピアノ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "country": {
+      "lemma": "country",
+      "pos": "名詞",
+      "coreMeaning": "国、田舎",
+      "contextMeaning": "国、田舎",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "day": {
+      "lemma": "day",
+      "pos": "名詞",
+      "coreMeaning": "日、昼間",
+      "contextMeaning": "日、昼間",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "idea": {
+      "lemma": "idea",
+      "pos": "名詞",
+      "coreMeaning": "考え、思いつき",
+      "contextMeaning": "考え、思いつき",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "guests": {
+      "lemma": "guests",
+      "pos": "名詞",
+      "coreMeaning": "宿泊客たち",
+      "contextMeaning": "宿泊客たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "cupboard": {
+      "lemma": "cupboard",
+      "pos": "名詞",
+      "coreMeaning": "戸棚、食器棚",
+      "contextMeaning": "戸棚、食器棚",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "statements": {
+      "lemma": "statements",
+      "pos": "名詞",
+      "coreMeaning": "供述、発言、陳述",
+      "contextMeaning": "供述、発言、陳述",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "night": {
+      "lemma": "night",
+      "pos": "名詞",
+      "coreMeaning": "夜",
+      "contextMeaning": "夜",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "minute": {
+      "lemma": "minute",
+      "pos": "名詞",
+      "coreMeaning": "分、短い時間",
+      "contextMeaning": "分、短い時間",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "front": {
+      "lemma": "front",
+      "pos": "名詞",
+      "coreMeaning": "正面、前面",
+      "contextMeaning": "正面、前面",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "hotel": {
+      "lemma": "hotel",
+      "pos": "名詞",
+      "coreMeaning": "ホテル",
+      "contextMeaning": "ホテル",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "home": {
+      "lemma": "home",
+      "pos": "名詞",
+      "coreMeaning": "家、家庭",
+      "contextMeaning": "家、家庭",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "moment": {
+      "lemma": "moment",
+      "pos": "名詞",
+      "coreMeaning": "瞬間、少しの間",
+      "contextMeaning": "瞬間、少しの間",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "pardon": {
+      "lemma": "pardon",
+      "pos": "名詞",
+      "coreMeaning": "許し、聞き返しの表現",
+      "contextMeaning": "許し、聞き返しの表現",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "writing": {
+      "lemma": "writing",
+      "pos": "名詞",
+      "coreMeaning": "文章、筆記",
+      "contextMeaning": "文章、筆記",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "nonsense": {
+      "lemma": "nonsense",
+      "pos": "名詞",
+      "coreMeaning": "ばかな話、意味のないこと",
+      "contextMeaning": "ばかな話、意味のないこと",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "address": {
+      "lemma": "address",
+      "pos": "名詞",
+      "coreMeaning": "住所",
+      "contextMeaning": "住所",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "letter": {
+      "lemma": "letter",
+      "pos": "名詞",
+      "coreMeaning": "手紙、文字",
+      "contextMeaning": "手紙、文字",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "fun": {
+      "lemma": "fun",
+      "pos": "名詞",
+      "coreMeaning": "楽しみ、面白さ",
+      "contextMeaning": "楽しみ、面白さ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "crime": {
+      "lemma": "crime",
+      "pos": "名詞",
+      "coreMeaning": "犯罪",
+      "contextMeaning": "犯罪",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "hat": {
+      "lemma": "hat",
+      "pos": "名詞",
+      "coreMeaning": "帽子",
+      "contextMeaning": "帽子",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "roads": {
+      "lemma": "roads",
+      "pos": "名詞",
+      "coreMeaning": "道路",
+      "contextMeaning": "道路",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "table": {
+      "lemma": "table",
+      "pos": "名詞",
+      "coreMeaning": "テーブル",
+      "contextMeaning": "テーブル",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "mother": {
+      "lemma": "mother",
+      "pos": "名詞",
+      "coreMeaning": "母",
+      "contextMeaning": "母",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "year": {
+      "lemma": "year",
+      "pos": "名詞",
+      "coreMeaning": "年",
+      "contextMeaning": "年",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "paper": {
+      "lemma": "paper",
+      "pos": "名詞",
+      "coreMeaning": "紙、新聞",
+      "contextMeaning": "紙、新聞",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "death": {
+      "lemma": "death",
+      "pos": "名詞",
+      "coreMeaning": "死",
+      "contextMeaning": "死",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "hall": {
+      "lemma": "hall",
+      "pos": "名詞",
+      "coreMeaning": "広間、廊下",
+      "contextMeaning": "広間、廊下",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "window": {
+      "lemma": "window",
+      "pos": "名詞",
+      "coreMeaning": "窓",
+      "contextMeaning": "窓",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "wire": {
+      "lemma": "wire",
+      "pos": "名詞",
+      "coreMeaning": "針金、電線",
+      "contextMeaning": "針金、電線",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "person": {
+      "lemma": "person",
+      "pos": "名詞",
+      "coreMeaning": "人、人物",
+      "contextMeaning": "人、人物",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "killer": {
+      "lemma": "killer",
+      "pos": "名詞",
+      "coreMeaning": "殺人犯",
+      "contextMeaning": "殺人犯",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "scarf": {
+      "lemma": "scarf",
+      "pos": "名詞",
+      "coreMeaning": "マフラー、スカーフ",
+      "contextMeaning": "マフラー、スカーフ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "motorists": {
+      "lemma": "motorists",
+      "pos": "名詞",
+      "coreMeaning": "自動車運転者たち",
+      "contextMeaning": "自動車運転者たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "village": {
+      "lemma": "village",
+      "pos": "名詞",
+      "coreMeaning": "村",
+      "contextMeaning": "村",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "chicken": {
+      "lemma": "chicken",
+      "pos": "名詞",
+      "coreMeaning": "鶏、鶏肉",
+      "contextMeaning": "鶏、鶏肉",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "pipes": {
+      "lemma": "pipes",
+      "pos": "名詞",
+      "coreMeaning": "配管、パイプ",
+      "contextMeaning": "配管、パイプ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "heating": {
+      "lemma": "heating",
+      "pos": "名詞",
+      "coreMeaning": "暖房",
+      "contextMeaning": "暖房",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "women": {
+      "lemma": "women",
+      "pos": "名詞",
+      "coreMeaning": "女性たち",
+      "contextMeaning": "女性たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "tins": {
+      "lemma": "tins",
+      "pos": "名詞",
+      "coreMeaning": "缶、缶詰",
+      "contextMeaning": "缶、缶詰",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "feet": {
+      "lemma": "feet",
+      "pos": "名詞",
+      "coreMeaning": "足（footの複数形）",
+      "contextMeaning": "足（footの複数形）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "news": {
+      "lemma": "news",
+      "pos": "名詞",
+      "coreMeaning": "ニュース、知らせ",
+      "contextMeaning": "ニュース、知らせ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "dinner": {
+      "lemma": "dinner",
+      "pos": "名詞",
+      "coreMeaning": "夕食",
+      "contextMeaning": "夕食",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "potatoes": {
+      "lemma": "potatoes",
+      "pos": "名詞",
+      "coreMeaning": "ジャガイモ",
+      "contextMeaning": "ジャガイモ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "hour": {
+      "lemma": "hour",
+      "pos": "名詞",
+      "coreMeaning": "時間（60分）",
+      "contextMeaning": "時間（60分）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "lunch": {
+      "lemma": "lunch",
+      "pos": "名詞",
+      "coreMeaning": "昼食",
+      "contextMeaning": "昼食",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "pie": {
+      "lemma": "pie",
+      "pos": "名詞",
+      "coreMeaning": "パイ料理",
+      "contextMeaning": "パイ料理",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "music": {
+      "lemma": "music",
+      "pos": "名詞",
+      "coreMeaning": "音楽",
+      "contextMeaning": "音楽",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "brush": {
+      "lemma": "brush",
+      "pos": "名詞",
+      "coreMeaning": "ブラシ、刷毛",
+      "contextMeaning": "ブラシ、刷毛",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "prison": {
+      "lemma": "prison",
+      "pos": "名詞",
+      "coreMeaning": "刑務所",
+      "contextMeaning": "刑務所",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "ski": {
+      "lemma": "ski",
+      "pos": "名詞",
+      "coreMeaning": "スキー、スキー板",
+      "contextMeaning": "スキー、スキー板",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "nerves": {
+      "lemma": "nerves",
+      "pos": "名詞",
+      "coreMeaning": "神経、緊張",
+      "contextMeaning": "神経、緊張",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "field": {
+      "lemma": "field",
+      "pos": "名詞",
+      "coreMeaning": "野原、分野",
+      "contextMeaning": "野原、分野",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "sister": {
+      "lemma": "sister",
+      "pos": "名詞",
+      "coreMeaning": "姉妹",
+      "contextMeaning": "姉妹",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "third": {
+      "lemma": "third",
+      "pos": "名詞",
+      "coreMeaning": "3番目、3分の1",
+      "contextMeaning": "3番目、3分の1",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "boys": {
+      "lemma": "boys",
+      "pos": "名詞",
+      "coreMeaning": "少年たち",
+      "contextMeaning": "少年たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "suitcase": {
+      "lemma": "suitcase",
+      "pos": "名詞",
+      "coreMeaning": "スーツケース、旅行かばん",
+      "contextMeaning": "スーツケース、旅行かばん",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "boiler": {
+      "lemma": "boiler",
+      "pos": "名詞",
+      "coreMeaning": "ボイラー、湯沸かし器",
+      "contextMeaning": "ボイラー、湯沸かし器",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "gate": {
+      "lemma": "gate",
+      "pos": "名詞",
+      "coreMeaning": "門",
+      "contextMeaning": "門",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "references": {
+      "lemma": "references",
+      "pos": "名詞",
+      "coreMeaning": "推薦状、照会先、参照",
+      "contextMeaning": "推薦状、照会先、参照",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "guineas": {
+      "lemma": "guineas",
+      "pos": "名詞",
+      "coreMeaning": "ギニー（旧英国通貨）",
+      "contextMeaning": "ギニー（旧英国通貨）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "taxi": {
+      "lemma": "taxi",
+      "pos": "名詞",
+      "coreMeaning": "タクシー",
+      "contextMeaning": "タクシー",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "coat": {
+      "lemma": "coat",
+      "pos": "名詞",
+      "coreMeaning": "コート、上着",
+      "contextMeaning": "コート、上着",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "hand": {
+      "lemma": "hand",
+      "pos": "名詞",
+      "coreMeaning": "手",
+      "contextMeaning": "手",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "morning": {
+      "lemma": "morning",
+      "pos": "名詞",
+      "coreMeaning": "朝、午前",
+      "contextMeaning": "朝、午前",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "hair": {
+      "lemma": "hair",
+      "pos": "名詞",
+      "coreMeaning": "髪",
+      "contextMeaning": "髪",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "girl": {
+      "lemma": "girl",
+      "pos": "名詞",
+      "coreMeaning": "少女、女の子",
+      "contextMeaning": "少女、女の子",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "question": {
+      "lemma": "question",
+      "pos": "名詞",
+      "coreMeaning": "質問、疑問",
+      "contextMeaning": "質問、疑問",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "evening": {
+      "lemma": "evening",
+      "pos": "名詞",
+      "coreMeaning": "夕方、夜",
+      "contextMeaning": "夕方、夜",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "chance": {
+      "lemma": "chance",
+      "pos": "名詞",
+      "coreMeaning": "機会、可能性",
+      "contextMeaning": "機会、可能性",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "finger": {
+      "lemma": "finger",
+      "pos": "名詞",
+      "coreMeaning": "指",
+      "contextMeaning": "指",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "bill": {
+      "lemma": "bill",
+      "pos": "名詞",
+      "coreMeaning": "請求書、紙幣",
+      "contextMeaning": "請求書、紙幣",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "trap": {
+      "lemma": "trap",
+      "pos": "名詞",
+      "coreMeaning": "わな",
+      "contextMeaning": "わな",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "scotland yard": {
+      "lemma": "scotland yard",
+      "pos": "固有名詞",
+      "coreMeaning": "ロンドン警視庁の通称",
+      "contextMeaning": "ロンドン警視庁の通称",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "paddington": {
+      "lemma": "paddington",
+      "pos": "固有名詞",
+      "coreMeaning": "ロンドンの地名、駅名",
+      "contextMeaning": "ロンドンの地名、駅名",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "monkswell manor": {
+      "lemma": "monkswell manor",
+      "pos": "固有名詞",
+      "coreMeaning": "劇中のゲストハウスの屋敷名",
+      "contextMeaning": "劇中のゲストハウスの屋敷名",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "north": {
+      "lemma": "north",
+      "pos": "名詞",
+      "coreMeaning": "北",
+      "contextMeaning": "北",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "central": {
+      "lemma": "central",
+      "pos": "形容詞",
+      "coreMeaning": "中央の、中心的な",
+      "contextMeaning": "中央の、中心的な",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "robin": {
+      "lemma": "robin",
+      "pos": "名詞",
+      "coreMeaning": "コマドリ",
+      "contextMeaning": "コマドリ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "face": {
+      "lemma": "face",
+      "pos": "名詞",
+      "coreMeaning": "顔、表情",
+      "contextMeaning": "顔、表情",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "eggs": {
+      "lemma": "eggs",
+      "pos": "名詞",
+      "coreMeaning": "卵（複数）",
+      "contextMeaning": "卵（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "library": {
+      "lemma": "library",
+      "pos": "名詞",
+      "coreMeaning": "図書室、図書館",
+      "contextMeaning": "図書室、図書館",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "afternoon": {
+      "lemma": "afternoon",
+      "pos": "名詞",
+      "coreMeaning": "午後",
+      "contextMeaning": "午後",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "lady": {
+      "lemma": "lady",
+      "pos": "名詞",
+      "coreMeaning": "女性、婦人",
+      "contextMeaning": "女性、婦人",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "joke": {
+      "lemma": "joke",
+      "pos": "名詞",
+      "coreMeaning": "冗談",
+      "contextMeaning": "冗談",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "information": {
+      "lemma": "information",
+      "pos": "名詞",
+      "coreMeaning": "情報",
+      "contextMeaning": "情報",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "danger": {
+      "lemma": "danger",
+      "pos": "名詞",
+      "coreMeaning": "危険",
+      "contextMeaning": "危険",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "actions": {
+      "lemma": "actions",
+      "pos": "名詞",
+      "coreMeaning": "行動、動作",
+      "contextMeaning": "行動、動作",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "age": {
+      "lemma": "age",
+      "pos": "名詞",
+      "coreMeaning": "年齢、時代",
+      "contextMeaning": "年齢、時代",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "school": {
+      "lemma": "school",
+      "pos": "名詞",
+      "coreMeaning": "学校",
+      "contextMeaning": "学校",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "questions": {
+      "lemma": "questions",
+      "pos": "名詞",
+      "coreMeaning": "質問（複数）",
+      "contextMeaning": "質問（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "yard": {
+      "lemma": "yard",
+      "pos": "名詞",
+      "coreMeaning": "庭、ヤード（長さの単位）",
+      "contextMeaning": "庭、ヤード（長さの単位）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "servants": {
+      "lemma": "servants",
+      "pos": "名詞",
+      "coreMeaning": "使用人たち",
+      "contextMeaning": "使用人たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "care": {
+      "lemma": "care",
+      "pos": "名詞",
+      "coreMeaning": "世話、注意",
+      "contextMeaning": "世話、注意",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "week": {
+      "lemma": "week",
+      "pos": "名詞",
+      "coreMeaning": "週",
+      "contextMeaning": "週",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "cooking": {
+      "lemma": "cooking",
+      "pos": "名詞",
+      "coreMeaning": "料理、調理",
+      "contextMeaning": "料理、調理",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "earth": {
+      "lemma": "earth",
+      "pos": "名詞",
+      "coreMeaning": "地球、地面",
+      "contextMeaning": "地球、地面",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "exercise": {
+      "lemma": "exercise",
+      "pos": "名詞",
+      "coreMeaning": "運動、練習",
+      "contextMeaning": "運動、練習",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "radio": {
+      "lemma": "radio",
+      "pos": "名詞",
+      "coreMeaning": "ラジオ",
+      "contextMeaning": "ラジオ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "doubt": {
+      "lemma": "doubt",
+      "pos": "名詞",
+      "coreMeaning": "疑い",
+      "contextMeaning": "疑い",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "head": {
+      "lemma": "head",
+      "pos": "名詞",
+      "coreMeaning": "頭、長",
+      "contextMeaning": "頭、長",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "fact": {
+      "lemma": "fact",
+      "pos": "名詞",
+      "coreMeaning": "事実",
+      "contextMeaning": "事実",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "friend": {
+      "lemma": "friend",
+      "pos": "名詞",
+      "coreMeaning": "友人",
+      "contextMeaning": "友人",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "extension": {
+      "lemma": "extension",
+      "pos": "名詞",
+      "coreMeaning": "内線電話、増築部分",
+      "contextMeaning": "内線電話、増築部分",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "cellars": {
+      "lemma": "cellars",
+      "pos": "名詞",
+      "coreMeaning": "地下室、貯蔵室",
+      "contextMeaning": "地下室、貯蔵室",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "fingerprints": {
+      "lemma": "fingerprints",
+      "pos": "名詞",
+      "coreMeaning": "指紋（複数）",
+      "contextMeaning": "指紋（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "light": {
+      "lemma": "light",
+      "pos": "名詞",
+      "coreMeaning": "光、明かり",
+      "contextMeaning": "光、明かり",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "road": {
+      "lemma": "road",
+      "pos": "名詞",
+      "coreMeaning": "道",
+      "contextMeaning": "道",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "life": {
+      "lemma": "life",
+      "pos": "名詞",
+      "coreMeaning": "生活、人生、命",
+      "contextMeaning": "生活、人生、命",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "half": {
+      "lemma": "half",
+      "pos": "名詞",
+      "coreMeaning": "半分",
+      "contextMeaning": "半分",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "parents": {
+      "lemma": "parents",
+      "pos": "名詞",
+      "coreMeaning": "両親",
+      "contextMeaning": "両親",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "experience": {
+      "lemma": "experience",
+      "pos": "名詞",
+      "coreMeaning": "経験",
+      "contextMeaning": "経験",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "father": {
+      "lemma": "father",
+      "pos": "名詞",
+      "coreMeaning": "父",
+      "contextMeaning": "父",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "boy": {
+      "lemma": "boy",
+      "pos": "名詞",
+      "coreMeaning": "少年",
+      "contextMeaning": "少年",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "sort": {
+      "lemma": "sort",
+      "pos": "名詞",
+      "coreMeaning": "種類、類",
+      "contextMeaning": "種類、類",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "game": {
+      "lemma": "game",
+      "pos": "名詞",
+      "coreMeaning": "遊び、試合",
+      "contextMeaning": "遊び、試合",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "rooms": {
+      "lemma": "rooms",
+      "pos": "名詞",
+      "coreMeaning": "部屋（複数）",
+      "contextMeaning": "部屋（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "oak": {
+      "lemma": "oak",
+      "pos": "名詞",
+      "coreMeaning": "オーク材、ナラの木",
+      "contextMeaning": "オーク材、ナラの木",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "addresses": {
+      "lemma": "addresses",
+      "pos": "名詞",
+      "coreMeaning": "住所（複数）",
+      "contextMeaning": "住所（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "drive": {
+      "lemma": "drive",
+      "pos": "名詞",
+      "coreMeaning": "車での移動、ドライブ",
+      "contextMeaning": "車での移動、ドライブ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "world": {
+      "lemma": "world",
+      "pos": "名詞",
+      "coreMeaning": "世界",
+      "contextMeaning": "世界",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "advice": {
+      "lemma": "advice",
+      "pos": "名詞",
+      "coreMeaning": "助言",
+      "contextMeaning": "助言",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "roof": {
+      "lemma": "roof",
+      "pos": "名詞",
+      "coreMeaning": "屋根",
+      "contextMeaning": "屋根",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "bench": {
+      "lemma": "bench",
+      "pos": "名詞",
+      "coreMeaning": "ベンチ、長椅子",
+      "contextMeaning": "ベンチ、長椅子",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "chair": {
+      "lemma": "chair",
+      "pos": "名詞",
+      "coreMeaning": "椅子",
+      "contextMeaning": "椅子",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "suit": {
+      "lemma": "suit",
+      "pos": "名詞",
+      "coreMeaning": "服一式、スーツ",
+      "contextMeaning": "服一式、スーツ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "coffee": {
+      "lemma": "coffee",
+      "pos": "名詞",
+      "coreMeaning": "コーヒー",
+      "contextMeaning": "コーヒー",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "beds": {
+      "lemma": "beds",
+      "pos": "名詞",
+      "coreMeaning": "ベッド（複数）",
+      "contextMeaning": "ベッド（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "tabbies": {
+      "lemma": "tabbies",
+      "pos": "名詞",
+      "coreMeaning": "トラ猫たち",
+      "contextMeaning": "トラ猫たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "asylum": {
+      "lemma": "asylum",
+      "pos": "名詞",
+      "coreMeaning": "精神科病院、保護施設",
+      "contextMeaning": "精神科病院、保護施設",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "shovel": {
+      "lemma": "shovel",
+      "pos": "名詞",
+      "coreMeaning": "シャベル",
+      "contextMeaning": "シャベル",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "carpet": {
+      "lemma": "carpet",
+      "pos": "名詞",
+      "coreMeaning": "カーペット、じゅうたん",
+      "contextMeaning": "カーペット、じゅうたん",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "responsibilities": {
+      "lemma": "responsibilities",
+      "pos": "名詞",
+      "coreMeaning": "責任（複数）",
+      "contextMeaning": "責任（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "teeth": {
+      "lemma": "teeth",
+      "pos": "名詞",
+      "coreMeaning": "歯（toothの複数形）",
+      "contextMeaning": "歯（toothの複数形）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "politics": {
+      "lemma": "politics",
+      "pos": "名詞",
+      "coreMeaning": "政治",
+      "contextMeaning": "政治",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "interest": {
+      "lemma": "interest",
+      "pos": "名詞",
+      "coreMeaning": "関心、利息",
+      "contextMeaning": "関心、利息",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "houses": {
+      "lemma": "houses",
+      "pos": "名詞",
+      "coreMeaning": "家（複数）",
+      "contextMeaning": "家（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "problems": {
+      "lemma": "problems",
+      "pos": "名詞",
+      "coreMeaning": "問題（複数）",
+      "contextMeaning": "問題（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "france": {
+      "lemma": "france",
+      "pos": "固有名詞",
+      "coreMeaning": "フランス",
+      "contextMeaning": "フランス",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "jug": {
+      "lemma": "jug",
+      "pos": "名詞",
+      "coreMeaning": "水差し",
+      "contextMeaning": "水差し",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "blanket": {
+      "lemma": "blanket",
+      "pos": "名詞",
+      "coreMeaning": "毛布",
+      "contextMeaning": "毛布",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "novel": {
+      "lemma": "novel",
+      "pos": "名詞",
+      "coreMeaning": "小説",
+      "contextMeaning": "小説",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "writer": {
+      "lemma": "writer",
+      "pos": "名詞",
+      "coreMeaning": "作家",
+      "contextMeaning": "作家",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "spade": {
+      "lemma": "spade",
+      "pos": "名詞",
+      "coreMeaning": "スコップ、スペード（トランプ）",
+      "contextMeaning": "スコップ、スペード（トランプ）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "jeep": {
+      "lemma": "jeep",
+      "pos": "名詞",
+      "coreMeaning": "ジープ",
+      "contextMeaning": "ジープ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "nylons": {
+      "lemma": "nylons",
+      "pos": "名詞",
+      "coreMeaning": "ナイロンのストッキング",
+      "contextMeaning": "ナイロンのストッキング",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "gibraltar": {
+      "lemma": "gibraltar",
+      "pos": "固有名詞",
+      "coreMeaning": "ジブラルタル",
+      "contextMeaning": "ジブラルタル",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "dresser": {
+      "lemma": "dresser",
+      "pos": "名詞",
+      "coreMeaning": "食器棚、化粧台",
+      "contextMeaning": "食器棚、化粧台",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "ministry": {
+      "lemma": "ministry",
+      "pos": "名詞",
+      "coreMeaning": "省庁",
+      "contextMeaning": "省庁",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "days": {
+      "lemma": "days",
+      "pos": "名詞",
+      "coreMeaning": "日々",
+      "contextMeaning": "日々",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "coalscuttles": {
+      "lemma": "coalscuttles",
+      "pos": "名詞",
+      "coreMeaning": "石炭入れ",
+      "contextMeaning": "石炭入れ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "stone": {
+      "lemma": "stone",
+      "pos": "名詞",
+      "coreMeaning": "石",
+      "contextMeaning": "石",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "manners": {
+      "lemma": "manners",
+      "pos": "名詞",
+      "coreMeaning": "礼儀作法",
+      "contextMeaning": "礼儀作法",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "ties": {
+      "lemma": "ties",
+      "pos": "名詞",
+      "coreMeaning": "ネクタイ、関係",
+      "contextMeaning": "ネクタイ、関係",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "story": {
+      "lemma": "story",
+      "pos": "名詞",
+      "coreMeaning": "物語、話",
+      "contextMeaning": "物語、話",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "law": {
+      "lemma": "law",
+      "pos": "名詞",
+      "coreMeaning": "法律",
+      "contextMeaning": "法律",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "devil": {
+      "lemma": "devil",
+      "pos": "名詞",
+      "coreMeaning": "悪魔",
+      "contextMeaning": "悪魔",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "example": {
+      "lemma": "example",
+      "pos": "名詞",
+      "coreMeaning": "例",
+      "contextMeaning": "例",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "thief": {
+      "lemma": "thief",
+      "pos": "名詞",
+      "coreMeaning": "泥棒",
+      "contextMeaning": "泥棒",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "robber": {
+      "lemma": "robber",
+      "pos": "名詞",
+      "coreMeaning": "強盗",
+      "contextMeaning": "強盗",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "justice": {
+      "lemma": "justice",
+      "pos": "名詞",
+      "coreMeaning": "正義、司法",
+      "contextMeaning": "正義、司法",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "madman": {
+      "lemma": "madman",
+      "pos": "名詞",
+      "coreMeaning": "正気を失った男",
+      "contextMeaning": "正気を失った男",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "stones": {
+      "lemma": "stones",
+      "pos": "名詞",
+      "coreMeaning": "石（複数）",
+      "contextMeaning": "石（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "price": {
+      "lemma": "price",
+      "pos": "名詞",
+      "coreMeaning": "価格、代償",
+      "contextMeaning": "価格、代償",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "drifts": {
+      "lemma": "drifts",
+      "pos": "名詞",
+      "coreMeaning": "吹きだまり、漂流",
+      "contextMeaning": "吹きだまり、漂流",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "winter": {
+      "lemma": "winter",
+      "pos": "名詞",
+      "coreMeaning": "冬",
+      "contextMeaning": "冬",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "skiing": {
+      "lemma": "skiing",
+      "pos": "名詞",
+      "coreMeaning": "スキーをすること",
+      "contextMeaning": "スキーをすること",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "brains": {
+      "lemma": "brains",
+      "pos": "名詞",
+      "coreMeaning": "頭脳、知恵",
+      "contextMeaning": "頭脳、知恵",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "glance": {
+      "lemma": "glance",
+      "pos": "名詞",
+      "coreMeaning": "ちらりと見ること",
+      "contextMeaning": "ちらりと見ること",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "sleuth": {
+      "lemma": "sleuth",
+      "pos": "名詞",
+      "coreMeaning": "探偵",
+      "contextMeaning": "探偵",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "west": {
+      "lemma": "west",
+      "pos": "名詞",
+      "coreMeaning": "西",
+      "contextMeaning": "西",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "record": {
+      "lemma": "record",
+      "pos": "名詞",
+      "coreMeaning": "記録",
+      "contextMeaning": "記録",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "file": {
+      "lemma": "file",
+      "pos": "名詞",
+      "coreMeaning": "書類、ファイル",
+      "contextMeaning": "書類、ファイル",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "farmer": {
+      "lemma": "farmer",
+      "pos": "名詞",
+      "coreMeaning": "農家の人",
+      "contextMeaning": "農家の人",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "neglect": {
+      "lemma": "neglect",
+      "pos": "名詞",
+      "coreMeaning": "放置、怠慢",
+      "contextMeaning": "放置、怠慢",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "state": {
+      "lemma": "state",
+      "pos": "名詞",
+      "coreMeaning": "状態、国家",
+      "contextMeaning": "状態、国家",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "names": {
+      "lemma": "names",
+      "pos": "名詞",
+      "coreMeaning": "名前（複数）",
+      "contextMeaning": "名前（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "body": {
+      "lemma": "body",
+      "pos": "名詞",
+      "coreMeaning": "体、遺体",
+      "contextMeaning": "体、遺体",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "words": {
+      "lemma": "words",
+      "pos": "名詞",
+      "coreMeaning": "言葉（複数）",
+      "contextMeaning": "言葉（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "bar": {
+      "lemma": "bar",
+      "pos": "名詞",
+      "coreMeaning": "棒、酒場、区切り",
+      "contextMeaning": "棒、酒場、区切り",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "rhyme": {
+      "lemma": "rhyme",
+      "pos": "名詞",
+      "coreMeaning": "韻、童謡",
+      "contextMeaning": "韻、童謡",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "throat": {
+      "lemma": "throat",
+      "pos": "名詞",
+      "coreMeaning": "喉",
+      "contextMeaning": "喉",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "manner": {
+      "lemma": "manner",
+      "pos": "名詞",
+      "coreMeaning": "態度、やり方",
+      "contextMeaning": "態度、やり方",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "fellows": {
+      "lemma": "fellows",
+      "pos": "名詞",
+      "coreMeaning": "仲間、男たち",
+      "contextMeaning": "仲間、男たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "patience": {
+      "lemma": "patience",
+      "pos": "名詞",
+      "coreMeaning": "忍耐",
+      "contextMeaning": "忍耐",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "reports": {
+      "lemma": "reports",
+      "pos": "名詞",
+      "coreMeaning": "報告書（複数）",
+      "contextMeaning": "報告書（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "milk": {
+      "lemma": "milk",
+      "pos": "名詞",
+      "coreMeaning": "牛乳",
+      "contextMeaning": "牛乳",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "couple": {
+      "lemma": "couple",
+      "pos": "名詞",
+      "coreMeaning": "二人組、夫婦",
+      "contextMeaning": "二人組、夫婦",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "duty": {
+      "lemma": "duty",
+      "pos": "名詞",
+      "coreMeaning": "義務、職務",
+      "contextMeaning": "義務、職務",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "powder": {
+      "lemma": "powder",
+      "pos": "名詞",
+      "coreMeaning": "粉、化粧粉",
+      "contextMeaning": "粉、化粧粉",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "lights": {
+      "lemma": "lights",
+      "pos": "名詞",
+      "coreMeaning": "照明（複数）",
+      "contextMeaning": "照明（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "pen": {
+      "lemma": "pen",
+      "pos": "名詞",
+      "coreMeaning": "ペン",
+      "contextMeaning": "ペン",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "power": {
+      "lemma": "power",
+      "pos": "名詞",
+      "coreMeaning": "力、電力",
+      "contextMeaning": "力、電力",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "lines": {
+      "lemma": "lines",
+      "pos": "名詞",
+      "coreMeaning": "行、線、セリフ",
+      "contextMeaning": "行、線、セリフ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "sofa": {
+      "lemma": "sofa",
+      "pos": "名詞",
+      "coreMeaning": "ソファ",
+      "contextMeaning": "ソファ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "ration books": {
+      "lemma": "ration books",
+      "pos": "名詞",
+      "coreMeaning": "戦時配給手帳（複数）",
+      "contextMeaning": "戦時配給手帳（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "hours": {
+      "lemma": "hours",
+      "pos": "名詞",
+      "coreMeaning": "時間（複数）",
+      "contextMeaning": "時間（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "facts": {
+      "lemma": "facts",
+      "pos": "名詞",
+      "coreMeaning": "事実（複数）",
+      "contextMeaning": "事実（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "study": {
+      "lemma": "study",
+      "pos": "名詞",
+      "coreMeaning": "勉強、研究",
+      "contextMeaning": "勉強、研究",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "human": {
+      "lemma": "human",
+      "pos": "名詞",
+      "coreMeaning": "人間",
+      "contextMeaning": "人間",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "bullying": {
+      "lemma": "bullying",
+      "pos": "名詞",
+      "coreMeaning": "いじめ",
+      "contextMeaning": "いじめ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "directions": {
+      "lemma": "directions",
+      "pos": "名詞",
+      "coreMeaning": "指示、方向",
+      "contextMeaning": "指示、方向",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "sign": {
+      "lemma": "sign",
+      "pos": "名詞",
+      "coreMeaning": "看板、標識、印",
+      "contextMeaning": "看板、標識、印",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "desk": {
+      "lemma": "desk",
+      "pos": "名詞",
+      "coreMeaning": "机",
+      "contextMeaning": "机",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "handbag": {
+      "lemma": "handbag",
+      "pos": "名詞",
+      "coreMeaning": "ハンドバッグ",
+      "contextMeaning": "ハンドバッグ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "box": {
+      "lemma": "box",
+      "pos": "名詞",
+      "coreMeaning": "箱",
+      "contextMeaning": "箱",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "brother": {
+      "lemma": "brother",
+      "pos": "名詞",
+      "coreMeaning": "兄弟",
+      "contextMeaning": "兄弟",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "fog": {
+      "lemma": "fog",
+      "pos": "名詞",
+      "coreMeaning": "霧",
+      "contextMeaning": "霧",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "neck": {
+      "lemma": "neck",
+      "pos": "名詞",
+      "coreMeaning": "首",
+      "contextMeaning": "首",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "animals": {
+      "lemma": "animals",
+      "pos": "名詞",
+      "coreMeaning": "動物たち",
+      "contextMeaning": "動物たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "pig": {
+      "lemma": "pig",
+      "pos": "名詞",
+      "coreMeaning": "豚",
+      "contextMeaning": "豚",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "bull": {
+      "lemma": "bull",
+      "pos": "名詞",
+      "coreMeaning": "雄牛",
+      "contextMeaning": "雄牛",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "party": {
+      "lemma": "party",
+      "pos": "名詞",
+      "coreMeaning": "集まり、パーティー",
+      "contextMeaning": "集まり、パーティー",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "baby": {
+      "lemma": "baby",
+      "pos": "名詞",
+      "coreMeaning": "赤ん坊",
+      "contextMeaning": "赤ん坊",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "war": {
+      "lemma": "war",
+      "pos": "名詞",
+      "coreMeaning": "戦争",
+      "contextMeaning": "戦争",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "families": {
+      "lemma": "families",
+      "pos": "名詞",
+      "coreMeaning": "家族たち",
+      "contextMeaning": "家族たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "air": {
+      "lemma": "air",
+      "pos": "名詞",
+      "coreMeaning": "空気、航空",
+      "contextMeaning": "空気、航空",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "backgrounds": {
+      "lemma": "backgrounds",
+      "pos": "名詞",
+      "coreMeaning": "生い立ち、背景",
+      "contextMeaning": "生い立ち、背景",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "relatives": {
+      "lemma": "relatives",
+      "pos": "名詞",
+      "coreMeaning": "親戚",
+      "contextMeaning": "親戚",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "engagement": {
+      "lemma": "engagement",
+      "pos": "名詞",
+      "coreMeaning": "婚約、予定",
+      "contextMeaning": "婚約、予定",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "clerk": {
+      "lemma": "clerk",
+      "pos": "名詞",
+      "coreMeaning": "事務員、店員",
+      "contextMeaning": "事務員、店員",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "sale": {
+      "lemma": "sale",
+      "pos": "名詞",
+      "coreMeaning": "販売、売却",
+      "contextMeaning": "販売、売却",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "miles": {
+      "lemma": "miles",
+      "pos": "名詞",
+      "coreMeaning": "マイル（距離の単位）",
+      "contextMeaning": "マイル（距離の単位）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "streets": {
+      "lemma": "streets",
+      "pos": "名詞",
+      "coreMeaning": "通り（複数）",
+      "contextMeaning": "通り（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "ideas": {
+      "lemma": "ideas",
+      "pos": "名詞",
+      "coreMeaning": "考え（複数）",
+      "contextMeaning": "考え（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "service": {
+      "lemma": "service",
+      "pos": "名詞",
+      "coreMeaning": "奉仕、サービス",
+      "contextMeaning": "奉仕、サービス",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "pair": {
+      "lemma": "pair",
+      "pos": "名詞",
+      "coreMeaning": "一組、二つで一対",
+      "contextMeaning": "一組、二つで一対",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "step": {
+      "lemma": "step",
+      "pos": "名詞",
+      "coreMeaning": "一歩、階段",
+      "contextMeaning": "一歩、階段",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "market": {
+      "lemma": "market",
+      "pos": "名詞",
+      "coreMeaning": "市場",
+      "contextMeaning": "市場",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "situation": {
+      "lemma": "situation",
+      "pos": "名詞",
+      "coreMeaning": "状況",
+      "contextMeaning": "状況",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "communication": {
+      "lemma": "communication",
+      "pos": "名詞",
+      "coreMeaning": "連絡、伝達",
+      "contextMeaning": "連絡、伝達",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "thimble": {
+      "lemma": "thimble",
+      "pos": "名詞",
+      "coreMeaning": "指ぬき",
+      "contextMeaning": "指ぬき",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "livers": {
+      "lemma": "livers",
+      "pos": "名詞",
+      "coreMeaning": "肝臓、レバー（複数）",
+      "contextMeaning": "肝臓、レバー（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "toast": {
+      "lemma": "toast",
+      "pos": "名詞",
+      "coreMeaning": "トースト",
+      "contextMeaning": "トースト",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "foie gras": {
+      "lemma": "foie gras",
+      "pos": "名詞",
+      "coreMeaning": "フォアグラ（料理）",
+      "contextMeaning": "フォアグラ（料理）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "rasher": {
+      "lemma": "rasher",
+      "pos": "名詞",
+      "coreMeaning": "ベーコンの薄切り一枚",
+      "contextMeaning": "ベーコンの薄切り一枚",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "bacon": {
+      "lemma": "bacon",
+      "pos": "名詞",
+      "coreMeaning": "ベーコン",
+      "contextMeaning": "ベーコン",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "soup": {
+      "lemma": "soup",
+      "pos": "名詞",
+      "coreMeaning": "スープ",
+      "contextMeaning": "スープ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "tendencies": {
+      "lemma": "tendencies",
+      "pos": "名詞",
+      "coreMeaning": "傾向、性向",
+      "contextMeaning": "傾向、性向",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "fears": {
+      "lemma": "fears",
+      "pos": "名詞",
+      "coreMeaning": "恐れ（複数）",
+      "contextMeaning": "恐れ（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "inconvenience": {
+      "lemma": "inconvenience",
+      "pos": "名詞",
+      "coreMeaning": "不便、迷惑",
+      "contextMeaning": "不便、迷惑",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "neighbourhood": {
+      "lemma": "neighbourhood",
+      "pos": "名詞",
+      "coreMeaning": "近所、地域",
+      "contextMeaning": "近所、地域",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "reason": {
+      "lemma": "reason",
+      "pos": "名詞",
+      "coreMeaning": "理由、理性",
+      "contextMeaning": "理由、理性",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "chances": {
+      "lemma": "chances",
+      "pos": "名詞",
+      "coreMeaning": "見込み、機会（複数）",
+      "contextMeaning": "見込み、機会（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "tails": {
+      "lemma": "tails",
+      "pos": "名詞",
+      "coreMeaning": "しっぽ（複数）",
+      "contextMeaning": "しっぽ（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "knife": {
+      "lemma": "knife",
+      "pos": "名詞",
+      "coreMeaning": "ナイフ",
+      "contextMeaning": "ナイフ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "food": {
+      "lemma": "food",
+      "pos": "名詞",
+      "coreMeaning": "食べ物",
+      "contextMeaning": "食べ物",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "pieces": {
+      "lemma": "pieces",
+      "pos": "名詞",
+      "coreMeaning": "かけら、部分（複数）",
+      "contextMeaning": "かけら、部分（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "markets": {
+      "lemma": "markets",
+      "pos": "名詞",
+      "coreMeaning": "市場（複数）",
+      "contextMeaning": "市場（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "sense": {
+      "lemma": "sense",
+      "pos": "名詞",
+      "coreMeaning": "感覚、意味",
+      "contextMeaning": "感覚、意味",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "humour": {
+      "lemma": "humour",
+      "pos": "名詞",
+      "coreMeaning": "ユーモア",
+      "contextMeaning": "ユーモア",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "villa": {
+      "lemma": "villa",
+      "pos": "名詞",
+      "coreMeaning": "別荘、邸宅",
+      "contextMeaning": "別荘、邸宅",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "pine": {
+      "lemma": "pine",
+      "pos": "名詞",
+      "coreMeaning": "松",
+      "contextMeaning": "松",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "financial": {
+      "lemma": "financial",
+      "pos": "形容詞",
+      "coreMeaning": "財政上の、金銭に関する",
+      "contextMeaning": "財政上の、金銭に関する",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "degree": {
+      "lemma": "degree",
+      "pos": "名詞",
+      "coreMeaning": "程度、学位",
+      "contextMeaning": "程度、学位",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "queen": {
+      "lemma": "queen",
+      "pos": "名詞",
+      "coreMeaning": "女王",
+      "contextMeaning": "女王",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "ghost": {
+      "lemma": "ghost",
+      "pos": "名詞",
+      "coreMeaning": "幽霊",
+      "contextMeaning": "幽霊",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "bat": {
+      "lemma": "bat",
+      "pos": "名詞",
+      "coreMeaning": "コウモリ、バット",
+      "contextMeaning": "コウモリ、バット",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "meals": {
+      "lemma": "meals",
+      "pos": "名詞",
+      "coreMeaning": "食事（複数）",
+      "contextMeaning": "食事（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "meal": {
+      "lemma": "meal",
+      "pos": "名詞",
+      "coreMeaning": "食事",
+      "contextMeaning": "食事",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "chapter": {
+      "lemma": "chapter",
+      "pos": "名詞",
+      "coreMeaning": "章",
+      "contextMeaning": "章",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "truth": {
+      "lemma": "truth",
+      "pos": "名詞",
+      "coreMeaning": "真実",
+      "contextMeaning": "真実",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "plan": {
+      "lemma": "plan",
+      "pos": "名詞",
+      "coreMeaning": "計画",
+      "contextMeaning": "計画",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "chestnut": {
+      "lemma": "chestnut",
+      "pos": "名詞",
+      "coreMeaning": "栗、古くさい話",
+      "contextMeaning": "栗、古くさい話",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "movements": {
+      "lemma": "movements",
+      "pos": "名詞",
+      "coreMeaning": "動き、行動（複数）",
+      "contextMeaning": "動き、行動（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "persons": {
+      "lemma": "persons",
+      "pos": "名詞",
+      "coreMeaning": "人々（複数）",
+      "contextMeaning": "人々（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "performance": {
+      "lemma": "performance",
+      "pos": "名詞",
+      "coreMeaning": "演技、上演",
+      "contextMeaning": "演技、上演",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "roles": {
+      "lemma": "roles",
+      "pos": "名詞",
+      "coreMeaning": "役割、配役",
+      "contextMeaning": "役割、配役",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "stations": {
+      "lemma": "stations",
+      "pos": "名詞",
+      "coreMeaning": "駅、持ち場（複数）",
+      "contextMeaning": "駅、持ち場（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "eye": {
+      "lemma": "eye",
+      "pos": "名詞",
+      "coreMeaning": "目",
+      "contextMeaning": "目",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "job": {
+      "lemma": "job",
+      "pos": "名詞",
+      "coreMeaning": "仕事、任務",
+      "contextMeaning": "仕事、任務",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "objection": {
+      "lemma": "objection",
+      "pos": "名詞",
+      "coreMeaning": "反対、異議",
+      "contextMeaning": "反対、異議",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "torch": {
+      "lemma": "torch",
+      "pos": "名詞",
+      "coreMeaning": "懐中電灯（英国英語）",
+      "contextMeaning": "懐中電灯（英国英語）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "curtain": {
+      "lemma": "curtain",
+      "pos": "名詞",
+      "coreMeaning": "カーテン、幕",
+      "contextMeaning": "カーテン、幕",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "maiden": {
+      "lemma": "maiden",
+      "pos": "名詞",
+      "coreMeaning": "未婚の女性、少女",
+      "contextMeaning": "未婚の女性、少女",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "teacher": {
+      "lemma": "teacher",
+      "pos": "名詞",
+      "coreMeaning": "教師",
+      "contextMeaning": "教師",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "control": {
+      "lemma": "control",
+      "pos": "名詞",
+      "coreMeaning": "支配、管理",
+      "contextMeaning": "支配、管理",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "hatter": {
+      "lemma": "hatter",
+      "pos": "名詞",
+      "coreMeaning": "帽子屋",
+      "contextMeaning": "帽子屋",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "wheel": {
+      "lemma": "wheel",
+      "pos": "名詞",
+      "coreMeaning": "車輪、ハンドル",
+      "contextMeaning": "車輪、ハンドル",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "goods": {
+      "lemma": "goods",
+      "pos": "名詞",
+      "coreMeaning": "商品、品物",
+      "contextMeaning": "商品、品物",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "shop": {
+      "lemma": "shop",
+      "pos": "名詞",
+      "coreMeaning": "店",
+      "contextMeaning": "店",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "smell": {
+      "lemma": "smell",
+      "pos": "名詞",
+      "coreMeaning": "におい",
+      "contextMeaning": "におい",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "burning": {
+      "lemma": "burning",
+      "pos": "名詞",
+      "coreMeaning": "燃焼、燃えること",
+      "contextMeaning": "燃焼、燃えること",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "appearance": {
+      "lemma": "appearance",
+      "pos": "名詞",
+      "coreMeaning": "外見、登場",
+      "contextMeaning": "外見、登場",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "messages": {
+      "lemma": "messages",
+      "pos": "名詞",
+      "coreMeaning": "伝言（複数）",
+      "contextMeaning": "伝言（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "robbery": {
+      "lemma": "robbery",
+      "pos": "名詞",
+      "coreMeaning": "強盗、盗難",
+      "contextMeaning": "強盗、盗難",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "bath": {
+      "lemma": "bath",
+      "pos": "名詞",
+      "coreMeaning": "入浴、浴槽",
+      "contextMeaning": "入浴、浴槽",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "peas": {
+      "lemma": "peas",
+      "pos": "名詞",
+      "coreMeaning": "エンドウ豆",
+      "contextMeaning": "エンドウ豆",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "figs": {
+      "lemma": "figs",
+      "pos": "名詞",
+      "coreMeaning": "イチジク",
+      "contextMeaning": "イチジク",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "bottle": {
+      "lemma": "bottle",
+      "pos": "名詞",
+      "coreMeaning": "瓶",
+      "contextMeaning": "瓶",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "drinks": {
+      "lemma": "drinks",
+      "pos": "名詞",
+      "coreMeaning": "飲み物（複数）",
+      "contextMeaning": "飲み物（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "fortune": {
+      "lemma": "fortune",
+      "pos": "名詞",
+      "coreMeaning": "財産、運勢",
+      "contextMeaning": "財産、運勢",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "prayer": {
+      "lemma": "prayer",
+      "pos": "名詞",
+      "coreMeaning": "祈り",
+      "contextMeaning": "祈り",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "iron": {
+      "lemma": "iron",
+      "pos": "名詞",
+      "coreMeaning": "鉄、アイロン",
+      "contextMeaning": "鉄、アイロン",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "gates": {
+      "lemma": "gates",
+      "pos": "名詞",
+      "coreMeaning": "門（複数）",
+      "contextMeaning": "門（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "joy": {
+      "lemma": "joy",
+      "pos": "名詞",
+      "coreMeaning": "喜び",
+      "contextMeaning": "喜び",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "storm": {
+      "lemma": "storm",
+      "pos": "名詞",
+      "coreMeaning": "嵐",
+      "contextMeaning": "嵐",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "mystery": {
+      "lemma": "mystery",
+      "pos": "名詞",
+      "coreMeaning": "謎、推理小説",
+      "contextMeaning": "謎、推理小説",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "picture": {
+      "lemma": "picture",
+      "pos": "名詞",
+      "coreMeaning": "絵、写真、全体像",
+      "contextMeaning": "絵、写真、全体像",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "arrivals": {
+      "lemma": "arrivals",
+      "pos": "名詞",
+      "coreMeaning": "到着した人々",
+      "contextMeaning": "到着した人々",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "departures": {
+      "lemma": "departures",
+      "pos": "名詞",
+      "coreMeaning": "出発、出発者たち",
+      "contextMeaning": "出発、出発者たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "butcher": {
+      "lemma": "butcher",
+      "pos": "名詞",
+      "coreMeaning": "肉屋",
+      "contextMeaning": "肉屋",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "baker": {
+      "lemma": "baker",
+      "pos": "名詞",
+      "coreMeaning": "パン屋",
+      "contextMeaning": "パン屋",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "milkman": {
+      "lemma": "milkman",
+      "pos": "名詞",
+      "coreMeaning": "牛乳配達員",
+      "contextMeaning": "牛乳配達員",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "postman": {
+      "lemma": "postman",
+      "pos": "名詞",
+      "coreMeaning": "郵便配達員",
+      "contextMeaning": "郵便配達員",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "partnership": {
+      "lemma": "partnership",
+      "pos": "名詞",
+      "coreMeaning": "共同経営、協力関係",
+      "contextMeaning": "共同経営、協力関係",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "aunt": {
+      "lemma": "aunt",
+      "pos": "名詞",
+      "coreMeaning": "おば",
+      "contextMeaning": "おば",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "disaster": {
+      "lemma": "disaster",
+      "pos": "名詞",
+      "coreMeaning": "災難",
+      "contextMeaning": "災難",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "impressions": {
+      "lemma": "impressions",
+      "pos": "名詞",
+      "coreMeaning": "印象（複数）",
+      "contextMeaning": "印象（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "shoulders": {
+      "lemma": "shoulders",
+      "pos": "名詞",
+      "coreMeaning": "肩（複数）",
+      "contextMeaning": "肩（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "mugs": {
+      "lemma": "mugs",
+      "pos": "名詞",
+      "coreMeaning": "マグカップ（複数）",
+      "contextMeaning": "マグカップ（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "correspondence": {
+      "lemma": "correspondence",
+      "pos": "名詞",
+      "coreMeaning": "手紙のやり取り",
+      "contextMeaning": "手紙のやり取り",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "attempt": {
+      "lemma": "attempt",
+      "pos": "名詞",
+      "coreMeaning": "試み",
+      "contextMeaning": "試み",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "widow": {
+      "lemma": "widow",
+      "pos": "名詞",
+      "coreMeaning": "未亡人",
+      "contextMeaning": "未亡人",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "proportions": {
+      "lemma": "proportions",
+      "pos": "名詞",
+      "coreMeaning": "割合、規模",
+      "contextMeaning": "割合、規模",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "wax": {
+      "lemma": "wax",
+      "pos": "名詞",
+      "coreMeaning": "ろう、ワックス",
+      "contextMeaning": "ろう、ワックス",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "flowers": {
+      "lemma": "flowers",
+      "pos": "名詞",
+      "coreMeaning": "花（複数）",
+      "contextMeaning": "花（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "birds": {
+      "lemma": "birds",
+      "pos": "名詞",
+      "coreMeaning": "鳥（複数）",
+      "contextMeaning": "鳥（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "paradise": {
+      "lemma": "paradise",
+      "pos": "名詞",
+      "coreMeaning": "楽園",
+      "contextMeaning": "楽園",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "fruits": {
+      "lemma": "fruits",
+      "pos": "名詞",
+      "coreMeaning": "果物（複数）",
+      "contextMeaning": "果物（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "bedrock": {
+      "lemma": "bedrock",
+      "pos": "名詞",
+      "coreMeaning": "岩盤、基礎",
+      "contextMeaning": "岩盤、基礎",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "centre": {
+      "lemma": "centre",
+      "pos": "名詞",
+      "coreMeaning": "中心（英国綴り）",
+      "contextMeaning": "中心（英国綴り）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "portrait": {
+      "lemma": "portrait",
+      "pos": "名詞",
+      "coreMeaning": "肖像画",
+      "contextMeaning": "肖像画",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "painters": {
+      "lemma": "painters",
+      "pos": "名詞",
+      "coreMeaning": "画家たち",
+      "contextMeaning": "画家たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "canvas": {
+      "lemma": "canvas",
+      "pos": "名詞",
+      "coreMeaning": "キャンバス",
+      "contextMeaning": "キャンバス",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "painter": {
+      "lemma": "painter",
+      "pos": "名詞",
+      "coreMeaning": "画家",
+      "contextMeaning": "画家",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "nests": {
+      "lemma": "nests",
+      "pos": "名詞",
+      "coreMeaning": "巣（複数）",
+      "contextMeaning": "巣（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "history": {
+      "lemma": "history",
+      "pos": "名詞",
+      "coreMeaning": "歴史、経歴",
+      "contextMeaning": "歴史、経歴",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "englishwoman": {
+      "lemma": "englishwoman",
+      "pos": "名詞",
+      "coreMeaning": "英国人女性",
+      "contextMeaning": "英国人女性",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "spirit": {
+      "lemma": "spirit",
+      "pos": "名詞",
+      "coreMeaning": "精神、気力",
+      "contextMeaning": "精神、気力",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "trains": {
+      "lemma": "trains",
+      "pos": "名詞",
+      "coreMeaning": "列車（複数）",
+      "contextMeaning": "列車（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "bags": {
+      "lemma": "bags",
+      "pos": "名詞",
+      "coreMeaning": "かばん（複数）",
+      "contextMeaning": "かばん（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "condition": {
+      "lemma": "condition",
+      "pos": "名詞",
+      "coreMeaning": "状態、条件",
+      "contextMeaning": "状態、条件",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "paint": {
+      "lemma": "paint",
+      "pos": "名詞",
+      "coreMeaning": "塗料、絵の具",
+      "contextMeaning": "塗料、絵の具",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "servant": {
+      "lemma": "servant",
+      "pos": "名詞",
+      "coreMeaning": "使用人",
+      "contextMeaning": "使用人",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "wind": {
+      "lemma": "wind",
+      "pos": "名詞",
+      "coreMeaning": "風",
+      "contextMeaning": "風",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "rhymes": {
+      "lemma": "rhymes",
+      "pos": "名詞",
+      "coreMeaning": "韻、童謡（複数）",
+      "contextMeaning": "韻、童謡（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "comfort": {
+      "lemma": "comfort",
+      "pos": "名詞",
+      "coreMeaning": "快適さ、慰め",
+      "contextMeaning": "快適さ、慰め",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "month": {
+      "lemma": "month",
+      "pos": "名詞",
+      "coreMeaning": "月（一か月）",
+      "contextMeaning": "月（一か月）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "pleasure": {
+      "lemma": "pleasure",
+      "pos": "名詞",
+      "coreMeaning": "楽しみ、喜び",
+      "contextMeaning": "楽しみ、喜び",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "mile": {
+      "lemma": "mile",
+      "pos": "名詞",
+      "coreMeaning": "マイル",
+      "contextMeaning": "マイル",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "manager": {
+      "lemma": "manager",
+      "pos": "名詞",
+      "coreMeaning": "管理者、支配人",
+      "contextMeaning": "管理者、支配人",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "crisis": {
+      "lemma": "crisis",
+      "pos": "名詞",
+      "coreMeaning": "危機",
+      "contextMeaning": "危機",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "tour": {
+      "lemma": "tour",
+      "pos": "名詞",
+      "coreMeaning": "旅行、見学",
+      "contextMeaning": "旅行、見学",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "childhood": {
+      "lemma": "childhood",
+      "pos": "名詞",
+      "coreMeaning": "幼少期",
+      "contextMeaning": "幼少期",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "psychologists": {
+      "lemma": "psychologists",
+      "pos": "名詞",
+      "coreMeaning": "心理学者たち",
+      "contextMeaning": "心理学者たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "quarrels": {
+      "lemma": "quarrels",
+      "pos": "名詞",
+      "coreMeaning": "口論（複数）",
+      "contextMeaning": "口論（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "clue": {
+      "lemma": "clue",
+      "pos": "名詞",
+      "coreMeaning": "手掛かり",
+      "contextMeaning": "手掛かり",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "attention": {
+      "lemma": "attention",
+      "pos": "名詞",
+      "coreMeaning": "注意、関心",
+      "contextMeaning": "注意、関心",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "dogs": {
+      "lemma": "dogs",
+      "pos": "名詞",
+      "coreMeaning": "犬（複数）",
+      "contextMeaning": "犬（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "spot": {
+      "lemma": "spot",
+      "pos": "名詞",
+      "coreMeaning": "場所、しみ",
+      "contextMeaning": "場所、しみ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "smoke": {
+      "lemma": "smoke",
+      "pos": "名詞",
+      "coreMeaning": "煙",
+      "contextMeaning": "煙",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "coast": {
+      "lemma": "coast",
+      "pos": "名詞",
+      "coreMeaning": "海岸",
+      "contextMeaning": "海岸",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "nose": {
+      "lemma": "nose",
+      "pos": "名詞",
+      "coreMeaning": "鼻",
+      "contextMeaning": "鼻",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "cigarette": {
+      "lemma": "cigarette",
+      "pos": "名詞",
+      "coreMeaning": "紙巻きたばこ",
+      "contextMeaning": "紙巻きたばこ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "artists": {
+      "lemma": "artists",
+      "pos": "名詞",
+      "coreMeaning": "芸術家たち",
+      "contextMeaning": "芸術家たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "beard": {
+      "lemma": "beard",
+      "pos": "名詞",
+      "coreMeaning": "ひげ",
+      "contextMeaning": "ひげ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "family": {
+      "lemma": "family",
+      "pos": "名詞",
+      "coreMeaning": "家族",
+      "contextMeaning": "家族",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "breakfast": {
+      "lemma": "breakfast",
+      "pos": "名詞",
+      "coreMeaning": "朝食",
+      "contextMeaning": "朝食",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "housework": {
+      "lemma": "housework",
+      "pos": "名詞",
+      "coreMeaning": "家事",
+      "contextMeaning": "家事",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "classes": {
+      "lemma": "classes",
+      "pos": "名詞",
+      "coreMeaning": "階級、授業",
+      "contextMeaning": "階級、授業",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "conditions": {
+      "lemma": "conditions",
+      "pos": "名詞",
+      "coreMeaning": "条件（複数）",
+      "contextMeaning": "条件（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "wood": {
+      "lemma": "wood",
+      "pos": "名詞",
+      "coreMeaning": "木材、森",
+      "contextMeaning": "木材、森",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "enquiries": {
+      "lemma": "enquiries",
+      "pos": "名詞",
+      "coreMeaning": "問い合わせ（複数）",
+      "contextMeaning": "問い合わせ（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "concerns": {
+      "lemma": "concerns",
+      "pos": "名詞",
+      "coreMeaning": "懸念、関心事",
+      "contextMeaning": "懸念、関心事",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "word": {
+      "lemma": "word",
+      "pos": "名詞",
+      "coreMeaning": "単語、言葉",
+      "contextMeaning": "単語、言葉",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "detective": {
+      "lemma": "detective",
+      "pos": "名詞",
+      "coreMeaning": "刑事、探偵",
+      "contextMeaning": "刑事、探偵",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "force": {
+      "lemma": "force",
+      "pos": "名詞",
+      "coreMeaning": "力、警察組織",
+      "contextMeaning": "力、警察組織",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "sports": {
+      "lemma": "sports",
+      "pos": "名詞",
+      "coreMeaning": "スポーツ",
+      "contextMeaning": "スポーツ",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "result": {
+      "lemma": "result",
+      "pos": "名詞",
+      "coreMeaning": "結果",
+      "contextMeaning": "結果",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "ladies": {
+      "lemma": "ladies",
+      "pos": "名詞",
+      "coreMeaning": "女性たち、婦人たち",
+      "contextMeaning": "女性たち、婦人たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "accident": {
+      "lemma": "accident",
+      "pos": "名詞",
+      "coreMeaning": "事故",
+      "contextMeaning": "事故",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "affairs": {
+      "lemma": "affairs",
+      "pos": "名詞",
+      "coreMeaning": "事情、用事（複数）",
+      "contextMeaning": "事情、用事（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "flight": {
+      "lemma": "flight",
+      "pos": "名詞",
+      "coreMeaning": "飛行、逃走",
+      "contextMeaning": "飛行、逃走",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "steps": {
+      "lemma": "steps",
+      "pos": "名詞",
+      "coreMeaning": "段、歩み（複数）",
+      "contextMeaning": "段、歩み（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "gloves": {
+      "lemma": "gloves",
+      "pos": "名詞",
+      "coreMeaning": "手袋",
+      "contextMeaning": "手袋",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "frame": {
+      "lemma": "frame",
+      "pos": "名詞",
+      "coreMeaning": "枠、骨組み",
+      "contextMeaning": "枠、骨組み",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "rest": {
+      "lemma": "rest",
+      "pos": "名詞",
+      "coreMeaning": "休息、残り",
+      "contextMeaning": "休息、残り",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "possibilities": {
+      "lemma": "possibilities",
+      "pos": "名詞",
+      "coreMeaning": "可能性（複数）",
+      "contextMeaning": "可能性（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "relations": {
+      "lemma": "relations",
+      "pos": "名詞",
+      "coreMeaning": "関係、親族（複数）",
+      "contextMeaning": "関係、親族（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "training": {
+      "lemma": "training",
+      "pos": "名詞",
+      "coreMeaning": "訓練",
+      "contextMeaning": "訓練",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "chickens": {
+      "lemma": "chickens",
+      "pos": "名詞",
+      "coreMeaning": "鶏（複数）",
+      "contextMeaning": "鶏（複数）",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "pocket": {
+      "lemma": "pocket",
+      "pos": "名詞",
+      "coreMeaning": "ポケット",
+      "contextMeaning": "ポケット",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "countryside": {
+      "lemma": "countryside",
+      "pos": "名詞",
+      "coreMeaning": "田園地帯",
+      "contextMeaning": "田園地帯",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "friends": {
+      "lemma": "friends",
+      "pos": "名詞",
+      "coreMeaning": "友人たち",
+      "contextMeaning": "友人たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "lovers": {
+      "lemma": "lovers",
+      "pos": "名詞",
+      "coreMeaning": "恋人たち",
+      "contextMeaning": "恋人たち",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    },
+    "island": {
+      "lemma": "island",
+      "pos": "名詞",
+      "coreMeaning": "島",
+      "contextMeaning": "島",
+      "tags": [
+        "dictionary-expansion",
+        "noun"
+      ]
+    }
+  }
+}
