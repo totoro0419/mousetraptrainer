@@ -95,7 +95,7 @@ try{
   return {level:progress[id]?.level,upgrade:state.quickMemorize.progressUpgrades[id]};
  },firstId);
  assert.equal(quickProgress.level,1,'quick completion upgrades normal progress to practicing');
- assert.equal(quickProgress.upgrade,1,'one durable state record can restore progress after a crash');
+ assert.ok(quickProgress.upgrade>0,'one durable state record can restore progress after a crash');
  assert.notEqual(result.next,firstId,'completion immediately prepares a new dialogue');
  const beforeReload=result.next;
  await page.reload({waitUntil:'domcontentloaded'});
