@@ -1,10 +1,10 @@
 import {normalizeBundle} from './data.js';
 
-export const BUNDLED_SCRIPT={id:'mousetrap-private',revision:'2026-11-05-directions-ja-450',url:'./data/mousetrap.json',lines:1164};
+export const BUNDLED_SCRIPT={id:'mousetrap-private',revision:'2026-11-05-dictionary-300-more-directions-ja-450',url:'./data/mousetrap.json',lines:1164};
 
 
 // Extra glossaries supplement, never overwrite, the 578 original dictionary entries.
-export const DICTIONARY_ADDONS=['./data/dictionary-nouns.ja.json','./data/dictionary-general.ja.json'];
+export const DICTIONARY_ADDONS=['./data/dictionary-nouns.ja.json','./data/dictionary-general.ja.json','./data/dictionary-next-words.ja.json','./data/dictionary-next-expressions.ja.json'];
 export function mergeDictionaryEntries(data,packages){
  const originalEntries=data.dictionary||{};
  const originalKeys=new Set(Object.keys(originalEntries).map(key=>key.toLowerCase()));
@@ -44,7 +44,7 @@ export async function loadStartupScript(storage,fetchJSON){
   try{
    const [raw,...additions]=await Promise.all([fetchJSON(spec.url),...DICTIONARY_ADDONS.map(url=>fetchJSON(url))]);
    const next=mergeDictionaryEntries(normalizeBundle(raw),additions);
-   if(Object.keys(next.dictionary).length<Object.keys(raw.dictionary||{}).length*2)throw Error('追加辞書が元の2倍に達していません。');
+   if(Object.keys(next.dictionary).length<1721)throw Error('追加辞書の必要項目が不足しています。');
    if(next.id!==spec.id||next.sample||next.lines.length!==spec.lines||next.warnings.length)throw Error('収録台本の対応を確認できません。');
    bundled=next;
    entries.push([`script:${spec.id}`,next],['bundled-script-revision',spec.revision]);

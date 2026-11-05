@@ -1,0 +1,1062 @@
+{
+  "version": 1,
+  "source": "Curated British conversational expressions and significant uncommon words; all attested in the supplied script",
+  "entries": {
+    "rubbish": {
+      "lemma": "rubbish",
+      "pos": "名詞",
+      "coreMeaning": "くだらない話、でたらめ",
+      "contextMeaning": "くだらない話、でたらめ",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "creak": {
+      "lemma": "creak",
+      "pos": "名詞・動詞",
+      "coreMeaning": "きしみ音／きしむ",
+      "contextMeaning": "きしみ音／きしむ",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "snick": {
+      "lemma": "snick",
+      "pos": "擬音語",
+      "coreMeaning": "チョキン、パチンという鋭い切断音",
+      "contextMeaning": "チョキン、パチンという鋭い切断音",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "doth": {
+      "lemma": "doth",
+      "pos": "動詞（古語）",
+      "coreMeaning": "does に相当する古い表現（詩や童謡で用いる）",
+      "contextMeaning": "does に相当する古い表現（詩や童謡で用いる）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "civilly": {
+      "lemma": "civilly",
+      "pos": "副詞",
+      "coreMeaning": "礼儀正しく、丁寧に",
+      "contextMeaning": "礼儀正しく、丁寧に",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "worth": {
+      "lemma": "worth",
+      "pos": "形容詞",
+      "coreMeaning": "～する価値がある、～に値する",
+      "contextMeaning": "～する価値がある、～に値する",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "jeunesse": {
+      "lemma": "jeunesse",
+      "pos": "フランス語",
+      "coreMeaning": "青春、若さ（フランス語由来）",
+      "contextMeaning": "青春、若さ（フランス語由来）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "amour": {
+      "lemma": "amour",
+      "pos": "名詞（フランス語由来）",
+      "coreMeaning": "恋愛、情事",
+      "contextMeaning": "恋愛、情事",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "minced": {
+      "lemma": "minced",
+      "pos": "形容詞",
+      "coreMeaning": "細かく刻んだ、ひき肉にした",
+      "contextMeaning": "細かく刻んだ、ひき肉にした",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "stewed": {
+      "lemma": "stewed",
+      "pos": "形容詞",
+      "coreMeaning": "煮込んだ、弱火で煮た",
+      "contextMeaning": "煮込んだ、弱火で煮た",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "spare": {
+      "lemma": "spare",
+      "pos": "形容詞",
+      "coreMeaning": "予備の、余分の",
+      "contextMeaning": "予備の、余分の",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "forged": {
+      "lemma": "forged",
+      "pos": "形容詞",
+      "coreMeaning": "偽造された",
+      "contextMeaning": "偽造された",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "overturned": {
+      "lemma": "overturned",
+      "pos": "動詞・形容詞",
+      "coreMeaning": "ひっくり返った、横転した",
+      "contextMeaning": "ひっくり返った、横転した",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "smeared": {
+      "lemma": "smeared",
+      "pos": "動詞・形容詞",
+      "coreMeaning": "塗り広げた、べったり塗った",
+      "contextMeaning": "塗り広げた、べったり塗った",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "whistling": {
+      "lemma": "whistling",
+      "pos": "名詞・動名詞",
+      "coreMeaning": "口笛、口笛を吹くこと",
+      "contextMeaning": "口笛、口笛を吹くこと",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "shivering": {
+      "lemma": "shivering",
+      "pos": "形容詞・動名詞",
+      "coreMeaning": "震えている、寒さや恐怖で震えること",
+      "contextMeaning": "震えている、寒さや恐怖で震えること",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "numbed": {
+      "lemma": "numbed",
+      "pos": "形容詞",
+      "coreMeaning": "感覚が麻痺した、頭が働かない",
+      "contextMeaning": "感覚が麻痺した、頭が働かない",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "engaged": {
+      "lemma": "engaged",
+      "pos": "形容詞",
+      "coreMeaning": "取り組んでいる、～に従事している",
+      "contextMeaning": "取り組んでいる、～に従事している",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "upset": {
+      "lemma": "upset",
+      "pos": "形容詞・動詞",
+      "coreMeaning": "動揺した、取り乱した／動揺させる",
+      "contextMeaning": "動揺した、取り乱した／動揺させる",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "mixed": {
+      "lemma": "mixed",
+      "pos": "形容詞",
+      "coreMeaning": "混ざった、入り組んだ",
+      "contextMeaning": "混ざった、入り組んだ",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "unhappiness": {
+      "lemma": "unhappiness",
+      "pos": "名詞",
+      "coreMeaning": "不幸、不幸せな気持ち",
+      "contextMeaning": "不幸、不幸せな気持ち",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "probability": {
+      "lemma": "probability",
+      "pos": "名詞",
+      "coreMeaning": "可能性、蓋然性",
+      "contextMeaning": "可能性、蓋然性",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "mayn't": {
+      "lemma": "mayn't",
+      "pos": "助動詞の縮約形",
+      "coreMeaning": "may not の縮約（～でないかもしれない、やや古風）",
+      "contextMeaning": "may not の縮約（～でないかもしれない、やや古風）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "oughtn't": {
+      "lemma": "oughtn't",
+      "pos": "助動詞の縮約形",
+      "coreMeaning": "ought not の縮約（～すべきでない）",
+      "contextMeaning": "ought not の縮約（～すべきでない）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "shan't": {
+      "lemma": "shan't",
+      "pos": "助動詞の縮約形",
+      "coreMeaning": "shall not の縮約（主に英国英語）",
+      "contextMeaning": "shall not の縮約（主に英国英語）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "needn't": {
+      "lemma": "needn't",
+      "pos": "助動詞の縮約形",
+      "coreMeaning": "need not の縮約（～する必要はない）",
+      "contextMeaning": "need not の縮約（～する必要はない）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "h'm": {
+      "lemma": "h'm",
+      "pos": "間投詞",
+      "coreMeaning": "うーん、ふむ（考え込む声）",
+      "contextMeaning": "うーん、ふむ（考え込む声）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "hist": {
+      "lemma": "hist",
+      "pos": "間投詞",
+      "coreMeaning": "しっ、静かに（注意を引く呼びかけ）",
+      "contextMeaning": "しっ、静かに（注意を引く呼びかけ）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "fancy": {
+      "lemma": "fancy",
+      "pos": "動詞・形容詞",
+      "coreMeaning": "～と思う、～を好む／凝った、気取った",
+      "contextMeaning": "～と思う、～を好む／凝った、気取った",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "skidding": {
+      "lemma": "skidding",
+      "pos": "動名詞",
+      "coreMeaning": "滑ること、車がスリップすること",
+      "contextMeaning": "滑ること、車がスリップすること",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "bleeding": {
+      "lemma": "bleeding",
+      "pos": "形容詞・名詞",
+      "coreMeaning": "出血している／出血",
+      "contextMeaning": "出血している／出血",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "ah": {
+      "lemma": "ah",
+      "pos": "間投詞",
+      "coreMeaning": "ああ（理解・驚き・気づき）",
+      "contextMeaning": "ああ（理解・驚き・気づき）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "eh": {
+      "lemma": "eh",
+      "pos": "間投詞",
+      "coreMeaning": "えっ、そうだろう？（聞き返しや同意の確認）",
+      "contextMeaning": "えっ、そうだろう？（聞き返しや同意の確認）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "er": {
+      "lemma": "er",
+      "pos": "間投詞",
+      "coreMeaning": "ええと（言いよどみ）",
+      "contextMeaning": "ええと（言いよどみ）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "bitch": {
+      "lemma": "bitch",
+      "pos": "名詞（侮蔑表現）",
+      "coreMeaning": "女性を侮辱する強い言葉（人に向けると攻撃的）",
+      "contextMeaning": "女性を侮辱する強い言葉（人に向けると攻撃的）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "hooked it": {
+      "lemma": "hooked it",
+      "pos": "英国口語表現",
+      "coreMeaning": "逃げた、立ち去った（hook it の過去形）",
+      "contextMeaning": "逃げた、立ち去った（hook it の過去形）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "mixed up in": {
+      "lemma": "mixed up in",
+      "pos": "口語表現",
+      "coreMeaning": "～に巻き込まれている、関わっている",
+      "contextMeaning": "～に巻き込まれている、関わっている",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "spare wheel": {
+      "lemma": "spare wheel",
+      "pos": "名詞句",
+      "coreMeaning": "車のスペアタイヤ、予備の車輪",
+      "contextMeaning": "車のスペアタイヤ、予備の車輪",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "minced beef": {
+      "lemma": "minced beef",
+      "pos": "名詞句",
+      "coreMeaning": "牛ひき肉",
+      "contextMeaning": "牛ひき肉",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "stewed figs": {
+      "lemma": "stewed figs",
+      "pos": "名詞句",
+      "coreMeaning": "煮たイチジク、イチジクの煮込み",
+      "contextMeaning": "煮たイチジク、イチジクの煮込み",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "civilly spoken": {
+      "lemma": "civilly spoken",
+      "pos": "形容表現",
+      "coreMeaning": "礼儀正しい話しぶりの",
+      "contextMeaning": "礼儀正しい話しぶりの",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "bank it up": {
+      "lemma": "bank it up",
+      "pos": "句動詞",
+      "coreMeaning": "炉に燃料をくべて火を保つ",
+      "contextMeaning": "炉に燃料をくべて火を保つ",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "worth listening to": {
+      "lemma": "worth listening to",
+      "pos": "文法表現",
+      "coreMeaning": "聴く価値のある（worth＋動名詞）",
+      "contextMeaning": "聴く価値のある（worth＋動名詞）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "guest house": {
+      "lemma": "guest house",
+      "pos": "名詞句",
+      "coreMeaning": "宿泊客を泊める小規模な宿、ゲストハウス",
+      "contextMeaning": "宿泊客を泊める小規模な宿、ゲストハウス",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "drawing room": {
+      "lemma": "drawing room",
+      "pos": "名詞句",
+      "coreMeaning": "応接室、客間（英国の住宅）",
+      "contextMeaning": "応接室、客間（英国の住宅）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "three blind mice": {
+      "lemma": "three blind mice",
+      "pos": "作品名・文化表現",
+      "coreMeaning": "英国の童謡『三匹の盲目のネズミ』",
+      "contextMeaning": "英国の童謡『三匹の盲目のネズミ』",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "back stairs": {
+      "lemma": "back stairs",
+      "pos": "名詞句",
+      "coreMeaning": "裏階段、使用人などが使う階段",
+      "contextMeaning": "裏階段、使用人などが使う階段",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "all right": {
+      "lemma": "all right",
+      "pos": "口語表現",
+      "coreMeaning": "大丈夫、よろしい、分かった",
+      "contextMeaning": "大丈夫、よろしい、分かった",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "quite so": {
+      "lemma": "quite so",
+      "pos": "英国口語表現",
+      "coreMeaning": "まったくそのとおり、そうですね",
+      "contextMeaning": "まったくそのとおり、そうですね",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "i'm afraid": {
+      "lemma": "i'm afraid",
+      "pos": "会話表現",
+      "coreMeaning": "残念ですが～です、申し訳ないのですが（控えめな言い方）",
+      "contextMeaning": "残念ですが～です、申し訳ないのですが（控えめな言い方）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "you know": {
+      "lemma": "you know",
+      "pos": "会話表現",
+      "coreMeaning": "ほら、ね、あの（相手の理解を求める挿入語）",
+      "contextMeaning": "ほら、ね、あの（相手の理解を求める挿入語）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "have to": {
+      "lemma": "have to",
+      "pos": "助動詞的表現",
+      "coreMeaning": "～しなければならない",
+      "contextMeaning": "～しなければならない",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "seem to": {
+      "lemma": "seem to",
+      "pos": "動詞句",
+      "coreMeaning": "～するように見える、～らしい",
+      "contextMeaning": "～するように見える、～らしい",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "come on": {
+      "lemma": "come on",
+      "pos": "口語表現",
+      "coreMeaning": "さあ、早く、そんなこと言わずに",
+      "contextMeaning": "さあ、早く、そんなこと言わずに",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "a lot of": {
+      "lemma": "a lot of",
+      "pos": "数量表現",
+      "coreMeaning": "たくさんの",
+      "contextMeaning": "たくさんの",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "what about": {
+      "lemma": "what about",
+      "pos": "会話表現",
+      "coreMeaning": "～はどうなの、～については",
+      "contextMeaning": "～はどうなの、～については",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "even if": {
+      "lemma": "even if",
+      "pos": "接続表現",
+      "coreMeaning": "たとえ～でも",
+      "contextMeaning": "たとえ～でも",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "so far": {
+      "lemma": "so far",
+      "pos": "副詞句",
+      "coreMeaning": "今のところ、これまでのところ",
+      "contextMeaning": "今のところ、これまでのところ",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "as far as": {
+      "lemma": "as far as",
+      "pos": "接続・前置詞表現",
+      "coreMeaning": "～する限り、～まで",
+      "contextMeaning": "～する限り、～まで",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "going to": {
+      "lemma": "going to",
+      "pos": "助動詞的表現",
+      "coreMeaning": "～するつもりだ、～になりそうだ",
+      "contextMeaning": "～するつもりだ、～になりそうだ",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "i've got to": {
+      "lemma": "i've got to",
+      "pos": "会話表現",
+      "coreMeaning": "～しなければならない（have got to）",
+      "contextMeaning": "～しなければならない（have got to）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "used to": {
+      "lemma": "used to",
+      "pos": "助動詞的表現",
+      "coreMeaning": "以前はよく～した、かつては～だった",
+      "contextMeaning": "以前はよく～した、かつては～だった",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "under the circumstances": {
+      "lemma": "under the circumstances",
+      "pos": "定型表現",
+      "coreMeaning": "そのような事情では、その状況を考えれば",
+      "contextMeaning": "そのような事情では、その状況を考えれば",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "be able to": {
+      "lemma": "be able to",
+      "pos": "助動詞的表現",
+      "coreMeaning": "～できる",
+      "contextMeaning": "～できる",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "you see": {
+      "lemma": "you see",
+      "pos": "会話表現",
+      "coreMeaning": "ほら、というのはね（事情を説明するとき）",
+      "contextMeaning": "ほら、というのはね（事情を説明するとき）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "what do you mean": {
+      "lemma": "what do you mean",
+      "pos": "会話表現",
+      "coreMeaning": "どういう意味ですか、何が言いたいの",
+      "contextMeaning": "どういう意味ですか、何が言いたいの",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "mind if": {
+      "lemma": "mind if",
+      "pos": "会話表現",
+      "coreMeaning": "～しても構いませんか",
+      "contextMeaning": "～しても構いませんか",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "why not": {
+      "lemma": "why not",
+      "pos": "会話表現",
+      "coreMeaning": "なぜ駄目なの、いいじゃないか",
+      "contextMeaning": "なぜ駄目なの、いいじゃないか",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "a bit of": {
+      "lemma": "a bit of",
+      "pos": "数量表現",
+      "coreMeaning": "少しの、ちょっとした",
+      "contextMeaning": "少しの、ちょっとした",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "a good deal": {
+      "lemma": "a good deal",
+      "pos": "数量表現",
+      "coreMeaning": "かなりの量、相当な程度",
+      "contextMeaning": "かなりの量、相当な程度",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "dear me": {
+      "lemma": "dear me",
+      "pos": "間投詞",
+      "coreMeaning": "まあ、何てこと（驚き・困惑）",
+      "contextMeaning": "まあ、何てこと（驚き・困惑）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "oh dear": {
+      "lemma": "oh dear",
+      "pos": "間投詞",
+      "coreMeaning": "あらまあ、困ったな（驚き・困惑）",
+      "contextMeaning": "あらまあ、困ったな（驚き・困惑）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "hang on": {
+      "lemma": "hang on",
+      "pos": "句動詞",
+      "coreMeaning": "ちょっと待つ、つかまる",
+      "contextMeaning": "ちょっと待つ、つかまる",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "not at all": {
+      "lemma": "not at all",
+      "pos": "定型表現",
+      "coreMeaning": "全く～ない、どういたしまして",
+      "contextMeaning": "全く～ない、どういたしまして",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "doesn't matter": {
+      "lemma": "doesn't matter",
+      "pos": "会話表現",
+      "coreMeaning": "構わない、問題ではない",
+      "contextMeaning": "構わない、問題ではない",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "i daresay": {
+      "lemma": "i daresay",
+      "pos": "英国口語表現",
+      "coreMeaning": "おそらく～だろう、きっと～でしょう",
+      "contextMeaning": "おそらく～だろう、きっと～でしょう",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "i suppose": {
+      "lemma": "i suppose",
+      "pos": "会話表現",
+      "coreMeaning": "そうだと思います、まあ～でしょう",
+      "contextMeaning": "そうだと思います、まあ～でしょう",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "at first": {
+      "lemma": "at first",
+      "pos": "副詞句",
+      "coreMeaning": "最初は、初めのうちは",
+      "contextMeaning": "最初は、初めのうちは",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "at last": {
+      "lemma": "at last",
+      "pos": "副詞句",
+      "coreMeaning": "ついに、ようやく",
+      "contextMeaning": "ついに、ようやく",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "at the moment": {
+      "lemma": "at the moment",
+      "pos": "副詞句",
+      "coreMeaning": "今のところ、今現在",
+      "contextMeaning": "今のところ、今現在",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "just a minute": {
+      "lemma": "just a minute",
+      "pos": "会話表現",
+      "coreMeaning": "ちょっと待って、少しの間",
+      "contextMeaning": "ちょっと待って、少しの間",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "not quite": {
+      "lemma": "not quite",
+      "pos": "副詞句",
+      "coreMeaning": "完全には～でない、もう少し",
+      "contextMeaning": "完全には～でない、もう少し",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "no doubt": {
+      "lemma": "no doubt",
+      "pos": "定型表現",
+      "coreMeaning": "間違いなく、おそらく",
+      "contextMeaning": "間違いなく、おそらく",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "no idea": {
+      "lemma": "no idea",
+      "pos": "口語表現",
+      "coreMeaning": "全く分からない、見当がつかない",
+      "contextMeaning": "全く分からない、見当がつかない",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "never mind": {
+      "lemma": "never mind",
+      "pos": "会話表現",
+      "coreMeaning": "気にしないで、もういい",
+      "contextMeaning": "気にしないで、もういい",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "thank goodness": {
+      "lemma": "thank goodness",
+      "pos": "間投詞",
+      "coreMeaning": "ああよかった、ありがたいことに",
+      "contextMeaning": "ああよかった、ありがたいことに",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "in a way": {
+      "lemma": "in a way",
+      "pos": "副詞句",
+      "coreMeaning": "ある意味では",
+      "contextMeaning": "ある意味では",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "what a pity": {
+      "lemma": "what a pity",
+      "pos": "会話表現",
+      "coreMeaning": "なんて残念なことだ",
+      "contextMeaning": "なんて残念なことだ",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "as well as": {
+      "lemma": "as well as",
+      "pos": "接続表現",
+      "coreMeaning": "～だけでなく、～に加えて",
+      "contextMeaning": "～だけでなく、～に加えて",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "as soon as": {
+      "lemma": "as soon as",
+      "pos": "接続表現",
+      "coreMeaning": "～するとすぐに",
+      "contextMeaning": "～するとすぐに",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "all of a sudden": {
+      "lemma": "all of a sudden",
+      "pos": "副詞句",
+      "coreMeaning": "突然、不意に",
+      "contextMeaning": "突然、不意に",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "by accident": {
+      "lemma": "by accident",
+      "pos": "副詞句",
+      "coreMeaning": "偶然に、うっかり",
+      "contextMeaning": "偶然に、うっかり",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "just in case": {
+      "lemma": "just in case",
+      "pos": "副詞句",
+      "coreMeaning": "念のため、万一に備えて",
+      "contextMeaning": "念のため、万一に備えて",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "except for": {
+      "lemma": "except for",
+      "pos": "前置詞句",
+      "coreMeaning": "～を除いて、～は別として",
+      "contextMeaning": "～を除いて、～は別として",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "what on earth": {
+      "lemma": "what on earth",
+      "pos": "強調表現",
+      "coreMeaning": "いったい何を、いったいどうして",
+      "contextMeaning": "いったい何を、いったいどうして",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    },
+    "my dear": {
+      "lemma": "my dear",
+      "pos": "呼びかけ表現",
+      "coreMeaning": "親愛なる人、あなた（親しみや皮肉を帯びることも）",
+      "contextMeaning": "親愛なる人、あなた（親しみや皮肉を帯びることも）",
+      "tags": [
+        "dictionary-expansion",
+        "curated-2026-11-05",
+        "script-attested"
+      ]
+    }
+  }
+}

@@ -60,6 +60,7 @@ test('role selectors use anchored menus while preserving stored role behavior',a
 test('automated swipe decision checks avoid depending on browser animations',()=>{
  // Unit tests exercise threshold/velocity; browser QA still required.
  assert.equal(sheetSwipeDecision(98,0,1000),'dismiss');
- assert.equal(sheetSwipeDecision(38,0,60),'snap');
+ assert.equal(sheetSwipeDecision(38,0,60),'dismiss');
+ assert.equal(sheetSwipeDecision(20,0,60),'snap');
  assert.equal(sheetSwipeDecision(39,0,48),'dismiss');
 });
