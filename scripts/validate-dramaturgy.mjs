@@ -4,7 +4,7 @@ import {pathToFileURL} from 'node:url';
 
 export const DATA_URL=new URL('../dist/data/mousetrap-dramaturgy.ja.json',import.meta.url);
 export const SOURCE_URL=new URL('../dist/data/mousetrap.json',import.meta.url);
-export const SOURCE_SHA256='022dc48dd68c85773e9ce8307a7d3f1e2a3bceafc20a4a9b8db83e472a81a7b6';
+export const SOURCE_SHA256='02686b74d3160810ae0889136a28abd61ae736066c32be8978ca52d3d3d5a134';
 export const sha256=text=>createHash('sha256').update(text).digest('hex');
 const stringFields=new Set(['explanation','premise','cause','emotion','intention','subtext','spoiler','acting']);
 const arrayFields=new Set(['devices','relatedLineIds']);
