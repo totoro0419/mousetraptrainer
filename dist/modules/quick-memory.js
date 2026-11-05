@@ -8,6 +8,7 @@ export function normalizeQuickMemory(raw){
   currentByRole:{...object(state.currentByRole)},
   recentByRole:{...object(state.recentByRole)},
   counts:{...object(state.counts)},
+  progressUpgrades:{...object(state.progressUpgrades)},
   daily:{...object(state.daily)},
   recentCompletions:Array.isArray(state.recentCompletions)?state.recentCompletions.slice(0,30):[]
  };
@@ -45,6 +46,20 @@ export function refreshQuickMemory(data,progress,raw,role,random=Math.random){
 export function ensureQuickMemory(data,progress,raw,role,random=Math.random){
  const next=normalizeQuickMemory(raw);
  return currentQuickLine(data,next,role)?next:refreshQuickMemory(data,progress,next,role,random);
+}
+export function quickCompletedProgress(previous){
+ const old=object(previous);
+ if(old.level===2||old.level===1)return old;
+ return {...old,level:1,updatedAt:Date.now()};
+}
+export function reconcileQuickProgress(progress,raw){
+ const upgraded=object(normalizeQuickMemory(raw).progressUpgrades);
+ for(const id of Object.keys(upgraded)){
+  if(upgraded[id]!==1)continue;
+  const old=progress[id];
+  if(old?.level!==1&&old?.level!==2)progress[id]=quickCompletedProgress(old);
+ }
+ return progress;
 }
 export function localDay(now=new Date()){
  const d=new Date(now);
