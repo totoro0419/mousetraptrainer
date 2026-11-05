@@ -7,21 +7,23 @@ import {loadDramaturgy} from './modules/dramaturgy.js';
 import {loadQuickContexts} from './modules/quick-context.js';
 import {FESTIVAL,festivalCountdown} from './modules/festival-countdown.js';
 import {homeProgressRings,festivalRemainingRing} from './modules/home-progress.js';
-import {normalizeQuickMemory,currentQuickLine,refreshQuickMemory,ensureQuickMemory,completeQuickMemory,quickMemoryStats} from './modules/quick-memory.js';
+import {normalizeQuickMemory,currentQuickLine,refreshQuickMemory,ensureQuickMemory,completeQuickMemory,quickMemoryStats,quickCompletedProgress,reconcileQuickProgress} from './modules/quick-memory.js';
+import {readStickSettings,saveStickSettings,normalizeStickSettings,STICK_SCREENS} from './modules/stick-settings.js';
+import {createStickController} from './modules/stick-controller.js';
 async function fetchData(url){const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error(`HTTP ${response.status}`);return response.json();}
 import {openRoleMenu,closeRoleMenu} from './modules/role-menu.js';
 import {fetchAnnouncements,notificationFeed,unreadNotifications,openNotificationSnapshot,recordInstalledWelcome} from './modules/notifications.js';
 import {receiveDailyToday,quoteSentence,festivalDaysRemaining} from './modules/daily-notifications.js';
 import {isInstalledPwa,offlineAudioStatus,downloadEntireAudio,isAudioDownloadRunning,OFFLINE_AUDIO_CACHE,OFFLINE_AUDIO_TOTAL} from './modules/offline-audio.js';
 import {createUpdateManager} from './modules/update-manager.js';
-let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,lastContentRoute='home',announcements=[],pwaJustInstalled=false,headerActionEpoch=0;
+let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,lastContentRoute='home',announcements=[],pwaJustInstalled=false,headerActionEpoch=0,stickSettings,stickController=null;
 const defaults={role:'',scene:'all',font:20,leading:1.9,stick:true,read:{},sessions:{},range:{scene:'all',from:1,to:0},rate:1,bookmarkOnly:false};
 const app=document.querySelector('#app');
 let appearance=applyTheme(readTheme());
 let quickWasHidden=false,lastQuickDrawAt=0;
 const roles=()=>[...new Set(data.lines.map(l=>l.speaker))];
 const key=()=>`mt-state:${data.id}`;
-function loadState(){small={...structuredClone(defaults),...storage.loadSmall(key(),{})};progress=storage.loadSmall(`mt-progress:${data.id}`,{});if(!progress||typeof progress!=='object'||Array.isArray(progress))progress={};if(!roles().includes(small.role))small.role=roles()[0];small.font=Math.max(16,Math.min(32,Number(small.font)||20));small.leading=[1.6,1.9,2.2].includes(Number(small.leading))?Number(small.leading):1.9;small.rate=[.75,1,1.25,1.5].includes(Number(small.rate))?Number(small.rate):1;small.stick=small.stick!==false;if(!data.scenes.some(s=>s.id===small.scene))small.scene='all';small.range={scene:small.range?.scene==='all'||data.scenes.some(s=>s.id===small.range?.scene)?small.range.scene:'all',from:Number(small.range?.from)||1,to:Number(small.range?.to)||0};if(!small.read||typeof small.read!=='object')small.read={};if(!small.sessions||typeof small.sessions!=='object'||Array.isArray(small.sessions))small.sessions={};for(const [mode,s] of Object.entries(small.sessions))if(!['cloze','audio'].includes(mode)||!s||!s.range||!Number.isInteger(s.index)||typeof s.lineId!=='string')delete small.sessions[mode];for(const [id,p] of Object.entries(progress))if(!p||![0,1,2].includes(p.level||0))delete progress[id];small.quickMemorize=normalizeQuickMemory(small.quickMemorize);} 
+function loadState(){small={...structuredClone(defaults),...storage.loadSmall(key(),{})};progress=storage.loadSmall(`mt-progress:${data.id}`,{});if(!progress||typeof progress!=='object'||Array.isArray(progress))progress={};if(!roles().includes(small.role))small.role=roles()[0];small.font=Math.max(16,Math.min(32,Number(small.font)||20));small.leading=[1.6,1.9,2.2].includes(Number(small.leading))?Number(small.leading):1.9;small.rate=[.75,1,1.25,1.5].includes(Number(small.rate))?Number(small.rate):1;small.stick=small.stick!==false;if(!data.scenes.some(s=>s.id===small.scene))small.scene='all';small.range={scene:small.range?.scene==='all'||data.scenes.some(s=>s.id===small.range?.scene)?small.range.scene:'all',from:Number(small.range?.from)||1,to:Number(small.range?.to)||0};if(!small.read||typeof small.read!=='object')small.read={};if(!small.sessions||typeof small.sessions!=='object'||Array.isArray(small.sessions))small.sessions={};for(const [mode,s] of Object.entries(small.sessions))if(!['cloze','audio'].includes(mode)||!s||!s.range||!Number.isInteger(s.index)||typeof s.lineId!=='string')delete small.sessions[mode];for(const [id,p] of Object.entries(progress))if(!p||![0,1,2].includes(p.level||0))delete progress[id];small.quickMemorize=normalizeQuickMemory(small.quickMemorize);reconcileQuickProgress(progress,small.quickMemorize);stickSettings=readStickSettings(small.stick);} 
 function save(){try{storage.saveSmall(key(),small);storage.saveSmall(`mt-progress:${data.id}`,progress);if(saveFailed){saveFailed=false;document.querySelector('.save-error')?.remove();}}catch{saveFailed=true;if(!document.querySelector('.save-error')){const b=el(`<div class="save-error" role="alert">端末に保存できません。バックアップを保存してください。${button('バックアップ','export','secondary')}</div>`);b.querySelector('button').onclick=exportBackup;document.body.append(b);}}}
 // Persist quick-memory completion and the next prompt together in mt-state.
 // A failure does not advance the in-memory prompt or record a false completion.
@@ -55,13 +57,25 @@ function ensureQuickForRole(){
 }
 function completeQuick(lineId){
  const next=completeQuickMemory(data,progress,small.quickMemorize,small.role,lineId);
- return next?saveQuickMemory(next):false;
+ if(!next)return false;
+ const old=progress[lineId],updated=quickCompletedProgress(old);
+ if(updated!==old)next.progressUpgrades[lineId]=1;
+ // One durable state write commits both the completion and the progress promotion.
+ // The progress mirror is repairable from progressUpgrades after a crash/quota failure.
+ if(!saveQuickMemory(next))return false;
+ if(updated!==old){
+  progress[lineId]=updated;
+  try{storage.saveSmall(`mt-progress:${data.id}`,progress);}
+  catch{toast('記録は保存しました。暗記進捗は次回起動時にも復元されます。');}
+  window.dispatchEvent(new CustomEvent('progresschange',{detail:lineId}));
+ }
+ return true;
 }
 function setProgress(id,value){const old=progress[id]?{...progress[id]}:undefined;progress[id]=value;save();toast(value.bookmarked!==old?.bookmarked?(value.bookmarked?'栞を付けました':'栞を外しました'):value.review!==old?.review?(value.review?'復習リストに追加しました':'復習リストから外しました'):`暗記状況：${labels[value.level||0]}`,()=>{if(old)progress[id]=old;else delete progress[id];save();window.dispatchEvent(new CustomEvent('progresschange',{detail:id}));});window.dispatchEvent(new CustomEvent('progresschange',{detail:id}));}
 function navItem(route,text,ico){return `<a class="nav-item" href="#${route}" ${route===(location.hash.slice(1)||'home')?'aria-current="page"':''}>${icon(ico)}<span>${text}</span></a>`;}
 document.querySelector('.skip').onclick=e=>{e.preventDefault();const m=document.querySelector('#main .page-scroll')||document.querySelector('#main');m?.setAttribute('tabindex','-1');m?.focus({preventScroll:true});};
 function shell(){app.innerHTML=`<div class="app-layout" data-route="${esc(location.hash.slice(1)||'home')}" data-installed="${isInstalledPwa()?'true':'false'}"><aside class="sidebar"><a href="#home" class="brand"><img src="./icon-v2-192.png" alt=""><span>Mousetrap<br>Trainer</span></a><nav class="nav-items" aria-label="メイン">${navItem('home','ホーム','home')}${navItem('script','台本','book')}${navItem('rehearse','練習','play')}</nav></aside><div class="main-shell"><button type="button" class="home-app-action is-install" data-action="home-app-action" hidden></button>${isInstalledPwa()?`<button type="button" class="icon-button global-notifications" data-action="open-notifications" aria-label="お知らせを開く" title="お知らせ">${icon('bell')}<span class="notification-badge" hidden></span></button>`:''}<button type="button" class="icon-button global-settings" data-action="open-settings" aria-label="設定を開く" title="設定">${icon('settings')}</button><header class="topbar"><a class="home-topbar-brand" href="#home" aria-label="Mousetrap Trainer ホームへ"><img src="./icon-v2-512.png" width="36" height="36" alt="" decoding="async"><span class="home-brand-name">Mousetrap<span>Trainer</span></span></a><a class="brand mobile-brand" href="#home"><img src="./icon-v2-192.png" alt=""><span>Mousetrap Trainer</span></a><div class="toolbar-actions"><button type="button" class="role-trigger" data-action="choose-role" aria-haspopup="listbox" aria-expanded="false" aria-label="担当する役を変更。現在: ${esc(small.role)}"><span><small>担当する役</small><strong>${esc(small.role)}</strong></span>${icon('down')}</button></div></header><main id="main" class="main-content" style="display:contents"></main></div><nav class="bottom-nav" aria-label="メイン">${navItem('home','ホーム','home')}${navItem('script','台本','book')}${navItem('rehearse','練習','play')}</nav></div>`;}
-async function render(){const epoch=++renderEpoch;closeRoleMenu({immediate:true});cleanup();cleanup=()=>{};if(document.querySelector('#sheet').open)closeSheet({immediate:true});if(location.hash==='#notifications'&&!isInstalledPwa()){location.replace(location.pathname+location.search+'#home');return;}shell();const main=app.querySelector('#main'),route=location.hash.slice(1)||'home';
+async function render(){const epoch=++renderEpoch;closeRoleMenu({immediate:true});cleanup();cleanup=()=>{};if(document.querySelector('#sheet').open)closeSheet({immediate:true});if(location.hash==='#notifications'&&!isInstalledPwa()){location.replace(location.pathname+location.search+'#home');return;}stickController?.destroy();shell();stickController=createStickController(app.querySelector('.main-shell'),()=>stickSettings);const main=app.querySelector('#main'),route=location.hash.slice(1)||'home';
  if(route!=='settings')lastContentRoute=route;
  const gear=app.querySelector('[data-action=open-settings]');
  gear.setAttribute('aria-label',route==='settings'?'設定を閉じる':'設定を開く');
@@ -75,6 +89,7 @@ async function render(){const epoch=++renderEpoch;closeRoleMenu({immediate:true}
  else if(route==='script'){const {mountReader}=await import('./modules/reader.js');if(epoch!==renderEpoch)return;cleanup=mountReader(main,context());}
  else if(route==='rehearse'){const {mountRehearsal}=await import('./modules/rehearsal.js');if(epoch!==renderEpoch)return;cleanup=mountRehearsal(main,context());}
  else if(route==='settings')renderSettings(main);else renderHome(main);
+ if(route==='home'||route==='settings'||route==='notifications')stickController?.setTarget(route,main.querySelector('.page-scroll'));
  if(route==='notifications')queueMicrotask(()=>{if(epoch===renderEpoch)openNotificationInbox();});
  app.querySelector('[data-action=choose-role]')?.addEventListener('click',openRolePicker);
  enhanceSelects(main);
@@ -151,7 +166,7 @@ function greetInstalledDevice(){
  }
 }
 
-function context(){return {data,small,progress,save,setProgress,roles,currentQuickLine:()=>currentQuickLine(data,small.quickMemorize,small.role),completeQuick,go:(route)=>{location.hash=route;},openImport,changeRole,openRolePicker,settings:()=>{location.hash='settings';}};}
+function context(){return {data,small,progress,save,setProgress,roles,stickTarget:(...args)=>stickController?.setTarget(...args),currentQuickLine:()=>currentQuickLine(data,small.quickMemorize,small.role),completeQuick,go:(route)=>{location.hash=route;},openImport,changeRole,openRolePicker,settings:()=>{location.hash='settings';}};}
 async function changeRole(next){
  if(!roles().includes(next)||next===small.role)return;
  // Persist/stop the current rehearsal under its original role before changing it.
@@ -263,7 +278,7 @@ function renderSettings(main){
    </div>
    <div class="setting-row"><label for="font-size">文字サイズ</label><div class="setting-control"><output id="font-output" for="font-size">${small.font}px</output><input id="font-size" type="range" min="16" max="32" step="1" value="${small.font}"></div></div>
    <div class="setting-row"><label for="line-height">行間</label><select id="line-height"><option value="1.6">狭い</option><option value="1.9">標準</option><option value="2.2">広い</option></select></div>
-   <div class="setting-row"><label for="show-stick">スクロールスティック</label><input id="show-stick" type="checkbox" ${small.stick?'checked':''}></div>
+   <div class="setting-row"><label for="show-stick">スクロールスティック</label><input id="show-stick" type="checkbox" ${stickSettings.master?'checked':''}></div><button type="button" class="setting-link stick-config-link" data-action="stick-config"><span>画面別・位置・操作感を設定</span>${icon('chevron')}</button>
   </section>
   <section class="setting-group" aria-labelledby="settings-audio"><h2 id="settings-audio">音声</h2>
    <div class="setting-row"><label for="playback-rate">再生速度</label><select id="playback-rate">${[.75,1,1.25,1.5].map(n=>`<option value="${n}">${n}倍</option>`).join('')}</select></div>
@@ -284,7 +299,8 @@ function renderSettings(main){
   small.font=+e.target.value;main.querySelector('#font-output').textContent=small.font+'px';save();
  };
  main.querySelector('#line-height').onchange=e=>{small.leading=+e.target.value;save();};
- main.querySelector('#show-stick').onchange=e=>{small.stick=e.target.checked;save();};
+ main.querySelector('#show-stick').onchange=e=>{small.stick=e.target.checked;stickSettings=normalizeStickSettings({...stickSettings,master:e.target.checked});if(!saveStickSettings(stickSettings))toast('スティック設定を保存できませんでした');save();stickController?.reconfigure();};
+ main.querySelector('[data-action=stick-config]').onclick=openStickSettings;
  main.querySelector('#playback-rate').onchange=e=>{small.rate=+e.target.value;save();};
  main.querySelector('[data-action=manage-data]').onclick=openDataManagement;
 }
