@@ -24,8 +24,13 @@ try{
  await cueLine.scrollIntoViewIfNeeded();
  const cue=cueLine.locator('.direction-cue');
  assert.equal((await cue.locator('.direction-cue-text').textContent()).trim(),expectedCue.ja,'Inline cue matches the production Japanese summary');
- assert.equal(await cue.locator('.direction-cue-label').textContent(),'ト書き');
- assert.equal((await cue.evaluate(el=>getComputedStyle(el).backgroundColor))!=='rgba(0, 0, 0, 0)',true,'Cue is visually distinct from a plain text hint');
+ assert.equal(await cue.locator('.direction-cue-label').count(),0,'No visible direction label');
+ assert.equal(await cue.locator('.direction-cue-chevron').count(),0,'No decorative chevron');
+ const quietStyle=await cue.evaluate(el=>{const style=getComputedStyle(el);return {border:style.borderTopWidth,bg:style.backgroundColor,size:parseFloat(style.fontSize),color:style.color};});
+ assert.equal(quietStyle.border,'0px','Inline stage direction has no prominent card border');
+ assert.equal(quietStyle.bg,'rgba(0, 0, 0, 0)','Inline stage direction has no card background');
+ assert.ok(quietStyle.size<=12,'Stage direction is smaller than dialogue');
+ assert.equal(await cue.getAttribute('aria-label'),`ト書きの詳細：${expectedCue.ja}`,'Meaning remains accessible to screen readers');
  await cue.press('Enter');
  assert.equal(await page.locator('#sheet .direction-sheet-summary p').textContent(),expectedCue.ja,'Cue opens the correct translation');
  assert.equal(await page.locator('#sheet .direction-original').textContent(),expectedCue.original,'Full source survives line breaks');
