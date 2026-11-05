@@ -22,7 +22,7 @@ test('450 production cues appear with their audited Japanese summary',()=>{
 
 test('missing directions stay absent; imported original-only entries remain discoverable',()=>{
  assert.equal(directionCue({direction:null}),'');
- assert.equal(directionText({original:'[walks]'}),'英語のト書きを確認');
+ assert.equal(directionText({original:'[walks]'}),'英語原文を確認');
  assert.ok(directionCue({direction:{original:'[walks]'}}).includes('data-action="direction"'));
  const html=directionCue({direction:{ja:'<b onload="bad">',original:'[test]'}});
  assert.ok(html.includes('&lt;b onload=&quot;bad&quot;&gt;'));
