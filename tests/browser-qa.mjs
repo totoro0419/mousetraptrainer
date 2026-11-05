@@ -25,6 +25,17 @@ try{
  assert.ok(original,'The original source of truth retains a role');
  assert.equal(await page.locator('#home-role').isVisible(),false,'Native picker is hidden');
  await page.screenshot({path:'test-results/home-mobile.png'});
+ // Actual computed styles: all three ring arcs must use the multicolor SVG gradient.
+ const rainbowRings=await page.evaluate(()=>{
+  const root=document.documentElement,oldColor=root.dataset.themeColor,oldMode=root.dataset.themeMode;
+  root.dataset.themeColor='rainbow';
+  const values=['.home-ring-completed','.home-ring-practicing','.home-festival-ring'].map(selector=>getComputedStyle(document.querySelector(selector)).stroke);
+  const percent=getComputedStyle(document.querySelector('.home-progress-main-value')).backgroundImage;
+  root.dataset.themeColor=oldColor;root.dataset.themeMode=oldMode;
+  return {values,percent};
+ });
+ assert.ok(rainbowRings.values.every(stroke=>stroke.includes('home-rainbow-progress')),'rainbow chart must not render as three solid strokes');
+ assert.match(rainbowRings.percent,/linear-gradient/,'rainbow progress percentage must be multicolored');
 
  // Quick-memory smoke test: live role, contextual script, completion, history, and startup refresh.
  const quickHome=page.locator('.quick-memory-home');
@@ -39,6 +50,14 @@ try{
  await page.locator('.quick-memory-home-link').click();
  await page.locator('.quick-memory-speech.is-target').waitFor({timeout:10000});
  assert.equal(new URL(page.url()).hash,'#quick','the prompt opens its dedicated route');
+ const rainbowTarget=await page.locator('.quick-memory-speech.is-target').evaluate(el=>{
+  const root=document.documentElement,oldColor=root.dataset.themeColor,oldMode=root.dataset.themeMode;
+  root.dataset.themeColor='rainbow';root.dataset.themeMode='dark';
+  const background=getComputedStyle(el).backgroundImage;
+  root.dataset.themeColor=oldColor;root.dataset.themeMode=oldMode;
+  return background;
+ });
+ assert.match(rainbowTarget,/linear-gradient/,'dark rainbow current line must have a multicolor highlight');
  assert.equal((await page.locator('.quick-memory-speech.is-target .quick-memory-speaker').textContent()).trim(),original,'only the selected actor is prompted');
  assert.ok(await page.locator('.quick-memory-speech:not(.is-target)').count()>=1,'surrounding dialogue remains available');
  assert.equal(await page.locator('#quick-context-title').textContent(),'状況・コンテクスト','dedicated situation section is visible');
