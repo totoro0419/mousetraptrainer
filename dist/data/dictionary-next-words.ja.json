@@ -398,17 +398,6 @@
         "script-attested"
       ]
     },
-    "ice": {
-      "lemma": "ice",
-      "pos": "名詞",
-      "coreMeaning": "氷",
-      "contextMeaning": "氷",
-      "tags": [
-        "dictionary-expansion",
-        "curated-2026-11-05",
-        "script-attested"
-      ]
-    },
     "shave": {
       "lemma": "shave",
       "pos": "名詞・動詞",
@@ -607,17 +596,6 @@
         "script-attested"
       ]
     },
-    "son": {
-      "lemma": "son",
-      "pos": "名詞",
-      "coreMeaning": "息子",
-      "contextMeaning": "息子",
-      "tags": [
-        "dictionary-expansion",
-        "curated-2026-11-05",
-        "script-attested"
-      ]
-    },
     "soldier": {
       "lemma": "soldier",
       "pos": "名詞",
@@ -667,17 +645,6 @@
       "pos": "名詞・動詞",
       "coreMeaning": "踊り、舞踏会／踊る",
       "contextMeaning": "踊り、舞踏会／踊る",
-      "tags": [
-        "dictionary-expansion",
-        "curated-2026-11-05",
-        "script-attested"
-      ]
-    },
-    "bus": {
-      "lemma": "bus",
-      "pos": "名詞",
-      "coreMeaning": "バス",
-      "contextMeaning": "バス",
       "tags": [
         "dictionary-expansion",
         "curated-2026-11-05",
@@ -1019,61 +986,6 @@
       "pos": "形容詞",
       "coreMeaning": "スイスの、スイス人の",
       "contextMeaning": "スイスの、スイス人の",
-      "tags": [
-        "dictionary-expansion",
-        "curated-2026-11-05",
-        "script-attested"
-      ]
-    },
-    "fifteenth": {
-      "lemma": "fifteenth",
-      "pos": "序数詞",
-      "coreMeaning": "第15の、15番目の",
-      "contextMeaning": "第15の、15番目の",
-      "tags": [
-        "dictionary-expansion",
-        "curated-2026-11-05",
-        "script-attested"
-      ]
-    },
-    "twenty-two": {
-      "lemma": "twenty-two",
-      "pos": "数詞",
-      "coreMeaning": "22",
-      "contextMeaning": "22",
-      "tags": [
-        "dictionary-expansion",
-        "curated-2026-11-05",
-        "script-attested"
-      ]
-    },
-    "thirteen": {
-      "lemma": "thirteen",
-      "pos": "数詞",
-      "coreMeaning": "13",
-      "contextMeaning": "13",
-      "tags": [
-        "dictionary-expansion",
-        "curated-2026-11-05",
-        "script-attested"
-      ]
-    },
-    "twenty-three": {
-      "lemma": "twenty-three",
-      "pos": "数詞",
-      "coreMeaning": "23",
-      "contextMeaning": "23",
-      "tags": [
-        "dictionary-expansion",
-        "curated-2026-11-05",
-        "script-attested"
-      ]
-    },
-    "thousand": {
-      "lemma": "thousand",
-      "pos": "数詞",
-      "coreMeaning": "千、千の",
-      "contextMeaning": "千、千の",
       "tags": [
         "dictionary-expansion",
         "curated-2026-11-05",
@@ -1437,17 +1349,6 @@
       "pos": "形容詞",
       "coreMeaning": "熱い、暑い",
       "contextMeaning": "熱い、暑い",
-      "tags": [
-        "dictionary-expansion",
-        "curated-2026-11-05",
-        "script-attested"
-      ]
-    },
-    "new": {
-      "lemma": "new",
-      "pos": "形容詞",
-      "coreMeaning": "新しい",
-      "contextMeaning": "新しい",
       "tags": [
         "dictionary-expansion",
         "curated-2026-11-05",
@@ -2015,17 +1916,6 @@
         "script-attested"
       ]
     },
-    "every": {
-      "lemma": "every",
-      "pos": "限定詞",
-      "coreMeaning": "すべての、それぞれの",
-      "contextMeaning": "すべての、それぞれの",
-      "tags": [
-        "dictionary-expansion",
-        "curated-2026-11-05",
-        "script-attested"
-      ]
-    },
     "under": {
       "lemma": "under",
       "pos": "前置詞・副詞",
@@ -2202,17 +2092,6 @@
         "script-attested"
       ]
     },
-    "anybody": {
-      "lemma": "anybody",
-      "pos": "代名詞",
-      "coreMeaning": "誰でも、誰か",
-      "contextMeaning": "誰でも、誰か",
-      "tags": [
-        "dictionary-expansion",
-        "curated-2026-11-05",
-        "script-attested"
-      ]
-    },
     "nobody": {
       "lemma": "nobody",
       "pos": "代名詞",
@@ -2270,17 +2149,6 @@
     },
     "somebody": {
       "lemma": "somebody",
-      "pos": "代名詞",
-      "coreMeaning": "誰か",
-      "contextMeaning": "誰か",
-      "tags": [
-        "dictionary-expansion",
-        "curated-2026-11-05",
-        "script-attested"
-      ]
-    },
-    "someone": {
-      "lemma": "someone",
       "pos": "代名詞",
       "coreMeaning": "誰か",
       "contextMeaning": "誰か",
