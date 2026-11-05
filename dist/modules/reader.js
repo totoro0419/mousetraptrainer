@@ -14,7 +14,7 @@ export function matchingDictionaryPhrases(dictionary,text){
  return entries.filter(entry=>source.includes(entry.surface.toLowerCase()));
 }
 
-export function directionText(d){return typeof d==='string'?d:plain(d?.ja)||(plain(d?.original)?'英語のト書きを確認':'');}
+export function directionText(d){return typeof d==='string'?d:plain(d?.ja)||(plain(d?.original)?'英語原文を確認':'');}
 // A stage direction belongs to its linked speech, but may continue after that speech.
 // Keep the cue inside the speech card rather than inventing a more exact timestamp.
 export function directionCue(line){
