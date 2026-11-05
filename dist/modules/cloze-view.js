@@ -40,7 +40,25 @@ export function mountCloze(holder,ctx,lines,range,savedIndex=0,onExit=()=>{}){
    ownNodes.push({index:i,node});
    const toggle=node.querySelector('.cloze-toggle');
    const audio=el('<button type="button" class="icon-button line-audio-button cloze-line-audio" aria-label="セリフの音声を再生" hidden>'+icon('audio')+'</button>');
-   toggle.after(audio);let stopAudio=()=>{};
+   const actions=el('<div class="button-row cloze-progress-actions" hidden><button type="button" class="secondary cloze-review">要復習</button><button type="button" class="secondary cloze-mastered">覚えた</button></div>');
+   toggle.after(audio,actions);
+   const reviewButton=actions.querySelector('.cloze-review'),masterButton=actions.querySelector('.cloze-mastered');
+   const syncReview=()=>{
+    const checked=!!ctx.progress[line.id]?.review;
+    reviewButton.setAttribute('aria-pressed',String(checked));
+    reviewButton.textContent=checked?'要復習を解除':'要復習';
+   };
+   syncReview();
+   reviewButton.addEventListener('click',()=>{
+    const current=ctx.progress[line.id]||{};
+    ctx.setProgress(line.id,{...current,review:!current.review,updatedAt:Date.now()});
+    syncReview();
+   });
+   masterButton.addEventListener('click',()=>{
+    const current=ctx.progress[line.id]||{};
+    ctx.setProgress(line.id,{...current,level:2,updatedAt:Date.now()});
+   });
+   let stopAudio=()=>{};
    audioStops.push(()=>stopAudio());
    toggle.addEventListener('click',()=>{
     if(disposed)return;
@@ -50,6 +68,7 @@ export function mountCloze(holder,ctx,lines,range,savedIndex=0,onExit=()=>{}){
     toggle.classList.toggle('is-revealed',show);
     stopAudio();stopAudio=()=>{};
     audio.hidden=!show;
+    actions.hidden=!show;
     if(show)stopAudio=bindLinePlayback(audio,{dataset:ctx.data.id,id:line.id,rate:()=>small.rate});
     toggle.setAttribute('aria-expanded',String(show));
     toggle.setAttribute('aria-label',`セリフ ${line.ordinal} を${show?'隠す':'表示'}`);
