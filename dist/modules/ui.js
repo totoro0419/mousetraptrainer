@@ -40,7 +40,7 @@ function animateSheetDismiss(d,offset=0){
   if(d.open)d.close();
  },()=>{}).finally(()=>animation.cancel());
 }
-export function openSheet(title,content,{wide=false,onclose,setup}={}){
+export function openSheet(title,content,{wide=false,onclose,setup,stickScreen=null}={}){
  const d=document.querySelector('#sheet'),wasOpen=d.open;
  // A new sheet may replace one that is still closing.
  if(dismissAnimation){const animation=dismissAnimation;dismissAnimation=null;animation.cancel();}
@@ -49,6 +49,7 @@ export function openSheet(title,content,{wide=false,onclose,setup}={}){
  onClose=onclose;
  d.style.transform='';d.style.pointerEvents='';delete d.dataset.dismissing;
  d.className=wide?'sheet expanded':'sheet';
+ if(stickScreen)d.dataset.stickScreen=stickScreen;else delete d.dataset.stickScreen;
  d.innerHTML=`<header class="sheet-head"><button class="sheet-handle" type="button" aria-label="シートを上下に動かす" aria-expanded="${wide}"><span></span></button><div class="sheet-heading"><h2 id="sheet-title">${esc(title)}</h2><div><button type="button" class="icon-button expand-sheet" aria-label="${wide?'小さく表示':'大きく表示'}">${icon(wide?'down':'up')}</button><button type="button" class="icon-button close-sheet" aria-label="閉じる">${icon('close')}</button></div></div></header><div class="sheet-body">${content}</div>`;
  const header=d.querySelector('.sheet-head'),body=d.querySelector('.sheet-body'),handle=d.querySelector('.sheet-handle');
  const toggleExpanded=()=>{
