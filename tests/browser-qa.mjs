@@ -380,6 +380,42 @@ try{
  console.log('PASS: desktop layout booted');
  await desktop.close();
  await page.bringToFront();
+ await page.locator('.bottom-nav a[href="#home"]').click();
+ await page.locator('.home-progress-dashboard').waitFor();
+
+ // Verify all 12 combinations, saved preference and pastel-preview/vivid-UI split.
+ await page.locator('.global-settings').click();
+ await page.locator('.theme-color-choices').waitFor();
+ assert.equal(await page.locator('input[name="theme-mode"]').count(),2);
+ assert.equal(await page.locator('input[name="theme-color"]').count(),6);
+ for(const mode of ['light','dark']){
+  await page.locator('input[name="theme-mode"][value="'+mode+'"]').check({force:true});
+  for(const color of ['blue','orange','pink','green','purple','rainbow']){
+   await page.locator('input[name="theme-color"][value="'+color+'"]').check({force:true});
+   const state=await page.evaluate(()=>({
+    mode:document.documentElement.dataset.themeMode,
+    color:document.documentElement.dataset.themeColor
+   }));
+   assert.deepEqual(state,{mode,color},'appearance applies immediately');
+  }
+ }
+ const picker=await page.locator('.theme-color-choice[data-color="rainbow"] .theme-swatch').evaluate(el=>getComputedStyle(el).backgroundImage);
+ assert.ok(picker.includes('linear-gradient'),'rainbow swatch is a gradient');
+ assert.ok(!picker.includes('rgb(255, 43, 109)'),'rainbow picker remains pastel');
+ await page.screenshot({path:'test-results/theme-settings-dark-rainbow.png'});
+ await page.reload({waitUntil:'domcontentloaded'});
+ await page.locator('.theme-color-choices').waitFor({timeout:25000});
+ assert.equal(await page.locator('input[name="theme-mode"][value="dark"]').isChecked(),true);
+ assert.equal(await page.locator('input[name="theme-color"][value="rainbow"]').isChecked(),true);
+ await page.locator('.global-settings').click();
+ const applied=await page.locator('.home-actions .primary').evaluate(el=>getComputedStyle(el).backgroundImage);
+ assert.ok(applied.includes('linear-gradient'),'applied rainbow has vivid UI');
+ await page.screenshot({path:'test-results/theme-home-dark-rainbow.png'});
+ await page.locator('.global-settings').click();
+ await page.locator('input[name="theme-mode"][value="light"]').check({force:true});
+ await page.locator('input[name="theme-color"][value="blue"]').check({force:true});
+ await page.locator('.global-settings').click();
+ console.log('PASS: 12 appearance combinations, preview, vivid rainbow and reload');
 
  // Full real 1,164-file browser cache test, including offline fetch of a previously saved clip.
  await page.locator('.bottom-nav a[href="#home"]').click();

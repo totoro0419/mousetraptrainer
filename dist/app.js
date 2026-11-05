@@ -1,5 +1,6 @@
 import {sceneName,stats,labels,normalizeBundle,readFiles,plain} from './modules/data.js';
 import * as storage from './modules/storage.js';
+import {THEME_COLORS,readTheme,saveTheme,applyTheme} from './modules/theme.js';
 import {icon,esc,button,el,toast,openSheet,closeSheet,enhanceSelects} from './modules/ui.js';
 import {loadStartupScript} from './modules/bundled.js';
 import {loadDramaturgy} from './modules/dramaturgy.js';
@@ -16,6 +17,7 @@ import {createUpdateManager} from './modules/update-manager.js';
 let data,small,progress={},cleanup=()=>{},saveFailed=false,renderEpoch=0,lastContentRoute='home',announcements=[],pwaJustInstalled=false,headerActionEpoch=0;
 const defaults={role:'',scene:'all',font:20,leading:1.9,stick:true,read:{},sessions:{},range:{scene:'all',from:1,to:0},rate:1,bookmarkOnly:false};
 const app=document.querySelector('#app');
+let appearance=applyTheme(readTheme());
 let quickWasHidden=false,lastQuickDrawAt=0;
 const roles=()=>[...new Set(data.lines.map(l=>l.speaker))];
 const key=()=>`mt-state:${data.id}`;
@@ -237,9 +239,17 @@ function renderHome(main){
  main.querySelectorAll('[data-scene]').forEach(b=>b.onclick=()=>{small.scene=b.dataset.scene;small.read={};save();location.hash='script';});
 }
 function renderSettings(main){
+ const colorOptions=THEME_COLORS.map(item=>`<label class="theme-color-choice" data-color="${item.id}"><input type="radio" name="theme-color" value="${item.id}" aria-label="${item.label}" ${appearance.color===item.id?'checked':''}><span class="theme-swatch" aria-hidden="true"></span><span class="theme-choice-label">${item.label}</span></label>`).join('');
  main.innerHTML=`<div class="page-scroll"><div class="page settings-page">
   <header class="page-intro"><h1>設定</h1></header>
   <section class="setting-group" aria-labelledby="settings-display"><h2 id="settings-display">表示</h2>
+   <div class="theme-settings" aria-label="外観設定">
+    <fieldset class="theme-fieldset"><legend>表示モード</legend><div class="theme-mode-choices">
+     <label class="theme-mode-choice"><input type="radio" name="theme-mode" value="light" ${appearance.mode==='light'?'checked':''}><span>ライト</span></label>
+     <label class="theme-mode-choice"><input type="radio" name="theme-mode" value="dark" ${appearance.mode==='dark'?'checked':''}><span>ダーク</span></label>
+    </div></fieldset>
+    <fieldset class="theme-fieldset"><legend>メインカラー</legend><div class="theme-color-choices">${colorOptions}</div></fieldset>
+   </div>
    <div class="setting-row"><label for="font-size">文字サイズ</label><div class="setting-control"><output id="font-output" for="font-size">${small.font}px</output><input id="font-size" type="range" min="16" max="32" step="1" value="${small.font}"></div></div>
    <div class="setting-row"><label for="line-height">行間</label><select id="line-height"><option value="1.6">狭い</option><option value="1.9">標準</option><option value="2.2">広い</option></select></div>
    <div class="setting-row"><label for="show-stick">スクロールスティック</label><input id="show-stick" type="checkbox" ${small.stick?'checked':''}></div>
@@ -250,6 +260,13 @@ function renderSettings(main){
   </section>
   <button class="setting-link setting-manage" type="button" data-action="manage-data"><span>データとアプリ</span>${icon('chevron')}</button>
  </div></div>`;
+ main.querySelectorAll('input[name="theme-mode"],input[name="theme-color"]').forEach(control=>{
+  control.onchange=()=>{
+   if(!control.checked)return;
+   appearance=applyTheme({...appearance,[control.name==='theme-mode'?'mode':'color']:control.value});
+   if(!saveTheme(appearance))toast('外観の設定を保存できませんでした。次回起動時は元のテーマに戻る可能性があります。');
+  };
+ });
  main.querySelector('#line-height').value=small.leading;
  main.querySelector('#playback-rate').value=small.rate;
  main.querySelector('#font-size').oninput=e=>{
