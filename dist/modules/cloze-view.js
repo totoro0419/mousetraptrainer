@@ -1,4 +1,5 @@
 import {sceneName} from './data.js';
+import {practiceRangeLabel} from './practice-scenes.js';
 import {icon,esc,el,toast} from './ui.js';
 import {directionCue,showDirection} from './reader.js';
 import {bindLinePlayback} from './audio.js';
@@ -15,7 +16,7 @@ export function mountCloze(holder,ctx,lines,range,savedIndex=0,onExit=()=>{}){
  let disposed=false,scrollTimer=0,highlightTimer=0;
  holder.innerHTML=`<div class="reader-top"><div class="reader-heading">
   <button class="icon-button" data-action="exit" aria-label="練習方法を選び直す">${icon('back')}</button>
-  <div><h1>穴埋め練習</h1><span class="reader-count">${esc(role)} · ${esc(sceneName(range.scene))}</span></div>
+  <div><h1>穴埋め練習</h1><span class="reader-count">${esc(role)} · ${esc(practiceRangeLabel(range,sceneName(range.scene)))}</span></div>
  </div><span class="reader-count">自分のセリフ ${lines.filter(line=>line.speaker===role).length}件</span></div>
  <div class="page-scroll rehearsal rehearsal-free" tabindex="0" aria-label="穴埋め練習">
  <div class="script-body" style="--font:${small.font}px;--reader-leading:${small.leading}"></div></div>`;
