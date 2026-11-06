@@ -34,8 +34,8 @@ try{
  await cue.press('Enter');
  assert.equal(await page.locator('#sheet .direction-sheet-summary p').textContent(),expectedCue.ja,'Cue opens the correct translation');
  assert.equal(await page.locator('#sheet .direction-original').textContent(),expectedCue.original,'Full source survives line breaks');
- assert.ok((await page.locator('#sheet .direction-source').textContent()).includes(expectedCue.source),'Attribution is available');
- assert.ok((await page.locator('#sheet .direction-timing').textContent()).includes(expectedCue.timingNote),'Timing caveat is visible');
+ assert.equal(await page.locator('#sheet .direction-source, #sheet .direction-timing').count(),0,'Stage sheet does not display attribution or timing metadata');
+ assert.ok(!(await page.locator('#sheet .sheet-body').innerText()).includes('位置の補足:'),'No metadata label appears in the stage sheet');
  assert.equal(await page.locator('#sheet .analysis-explanation').count(),0,'Direction tap does not open the dialogue analysis');
  await page.keyboard.press('Escape');
  await page.locator('.speech .speaker').first().click();
