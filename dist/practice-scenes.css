@@ -39,3 +39,7 @@
  .practice-part-status small{font-size:9px}
 }
 @media(prefers-reduced-motion:reduce){.practice-disclosure{transition:none}}
+
+/* The old .reader-count is intentionally hidden on narrow screens; the practice label must remain visible. */
+.practice-current-label{display:block;min-width:0;max-width:min(60vw,480px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px;font-size:11px;color:var(--muted);line-height:1.5}
+@media(max-width:600px){.practice-current-label{max-width:min(58vw,290px);font-size:10px}}
