@@ -54,7 +54,7 @@ try {
  assert.equal(await noLines.getAttribute('class').then(v=>v.includes('has-role')),false,
   'no speaking lines are not falsely highlighted after a role change');
  // The no-lines part remains selectable (context/rehearsal of other cast members).
- await page.locator('.practice-group').nth(2).locator('summary').click();
+ await page.locator('.practice-group').nth(2).evaluate(group=>{group.open=true;});
  await noLines.click();
  assert.equal(await noLines.getAttribute('aria-pressed'),'true');
  assert.deepEqual(pageErrors,[],'no browser exceptions');
