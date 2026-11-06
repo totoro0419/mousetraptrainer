@@ -19,15 +19,13 @@ export function directionText(d){return typeof d==='string'?d:plain(d?.ja)||(pla
 // Keep the cue inside the speech card rather than inventing a more exact timestamp.
 export function directionCue(line){
  const summary=directionText(line.direction);
- return summary?`<button type="button" class="direction direction-cue" data-action="direction" aria-label="ト書きの詳細：${esc(summary)}" title="英語原文と出典を確認"><span class="direction-cue-text">${esc(summary)}</span></button>`:'';
+ return summary?`<button type="button" class="direction direction-cue" data-action="direction" aria-label="ト書きの詳細：${esc(summary)}" title="英語原文を確認"><span class="direction-cue-text">${esc(summary)}</span></button>`:'';
 }
 export function showDirection(line){
  const d=line.direction;
  if(!d)return;
  const original=typeof d==='object'?plain(d.original):'';
- const source=typeof d==='object'?plain(d.source):'';
- const timing=typeof d==='object'?plain(d.timingNote):'';
- openSheet('ト書き',`<div class="direction-sheet-summary"><h3>日本語要約</h3><p>${esc(typeof d==='string'?d:plain(d.ja)||'日本語要約は未収録です。')}</p></div>${original?`<div class="sheet-section"><h3>英語原文</h3><p class="direction-original" lang="en">${esc(original)}</p>${source?`<p class="subtle direction-source">出典: ${esc(source)}</p>`:''}${timing?`<p class="subtle direction-timing">位置の補足: ${esc(timing)}</p>`:''}</div>`:''}`);
+ openSheet('ト書き',`<div class="direction-sheet-summary"><h3>日本語要約</h3><p>${esc(typeof d==='string'?d:plain(d.ja)||'日本語要約は未収録です。')}</p></div>${original?`<div class="sheet-section"><h3>英語原文</h3><p class="direction-original" lang="en">${esc(original)}</p></div>`:''}`);
 }
 export function showDictionary(line,token,ctx){const d=lookupDictionary(ctx.data.dictionary,token),v=token.entry;
  const isGeneric=Array.isArray(d?.tags)&&d.tags.includes('dictionary-expansion');

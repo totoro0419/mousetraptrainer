@@ -716,7 +716,6 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 .direction-original{white-space:pre-line;overflow-wrap:anywhere}
 .direction-sheet-summary h3{font-size:11px;color:var(--muted);margin-bottom:8px}
 .direction-sheet-summary p{font-size:15px;line-height:1.8}
-.direction-source,.direction-timing{margin-top:12px}
 @media(max-width:1050px){.rehearsal .speech .direction-cue{width:calc(100% - 56px);margin-left:28px;margin-right:28px}}
 @media(max-width:700px){.rehearsal .speech .direction-cue{width:calc(100% - 40px);margin-left:20px;margin-right:20px}}
 @media(max-width:380px){.rehearsal .speech .direction-cue{width:calc(100% - 34px);margin-left:17px;margin-right:17px}}
