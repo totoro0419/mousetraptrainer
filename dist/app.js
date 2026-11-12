@@ -1,5 +1,5 @@
 import {sceneName,stats,labels,normalizeBundle,readFiles,plain} from './modules/data.js';
-import {bookmarkedLines,openBookmarkPicker,prepareBookmarkJump} from './modules/bookmarks.js';
+import {newestBookmark,normalizeSingleBookmark,prepareBookmarkJump} from './modules/bookmarks.js';
 import * as storage from './modules/storage.js';
 import {THEME_COLORS,readTheme,saveTheme,applyTheme} from './modules/theme.js';
 import {icon,esc,button,el,toast,openSheet,closeSheet,enhanceSelects} from './modules/ui.js';
@@ -24,7 +24,7 @@ let appearance=applyTheme(readTheme());
 let quickWasHidden=false,lastQuickDrawAt=0;
 const roles=()=>[...new Set(data.lines.map(l=>l.speaker))];
 const key=()=>`mt-state:${data.id}`;
-function loadState(){small={...structuredClone(defaults),...storage.loadSmall(key(),{})};progress=storage.loadSmall(`mt-progress:${data.id}`,{});if(!progress||typeof progress!=='object'||Array.isArray(progress))progress={};if(!roles().includes(small.role))small.role=roles()[0];small.font=Math.max(16,Math.min(32,Number(small.font)||20));small.leading=[1.6,1.9,2.2].includes(Number(small.leading))?Number(small.leading):1.9;small.rate=[.75,1,1.25,1.5].includes(Number(small.rate))?Number(small.rate):1;small.stick=small.stick!==false;if(!data.scenes.some(s=>s.id===small.scene))small.scene='all';small.range={scene:small.range?.scene==='all'||data.scenes.some(s=>s.id===small.range?.scene)?small.range.scene:'all',from:Number(small.range?.from)||1,to:Number(small.range?.to)||0};if(!small.read||typeof small.read!=='object')small.read={};if(!small.sessions||typeof small.sessions!=='object'||Array.isArray(small.sessions))small.sessions={};for(const [mode,s] of Object.entries(small.sessions))if(!['cloze','audio'].includes(mode)||!s||!s.range||!Number.isInteger(s.index)||typeof s.lineId!=='string')delete small.sessions[mode];for(const [id,p] of Object.entries(progress))if(!p||![0,1,2].includes(p.level||0))delete progress[id];small.quickMemorize=normalizeQuickMemory(small.quickMemorize);reconcileQuickProgress(progress,small.quickMemorize);stickSettings=readStickSettings(small.stick);} 
+function loadState(){small={...structuredClone(defaults),...storage.loadSmall(key(),{})};progress=storage.loadSmall(`mt-progress:${data.id}`,{});if(!progress||typeof progress!=='object'||Array.isArray(progress))progress={};if(!roles().includes(small.role))small.role=roles()[0];small.font=Math.max(16,Math.min(32,Number(small.font)||20));small.leading=[1.6,1.9,2.2].includes(Number(small.leading))?Number(small.leading):1.9;small.rate=[.75,1,1.25,1.5].includes(Number(small.rate))?Number(small.rate):1;small.stick=small.stick!==false;if(!data.scenes.some(s=>s.id===small.scene))small.scene='all';small.range={scene:small.range?.scene==='all'||data.scenes.some(s=>s.id===small.range?.scene)?small.range.scene:'all',from:Number(small.range?.from)||1,to:Number(small.range?.to)||0};if(!small.read||typeof small.read!=='object')small.read={};if(!small.sessions||typeof small.sessions!=='object'||Array.isArray(small.sessions))small.sessions={};for(const [mode,s] of Object.entries(small.sessions))if(!['cloze','audio'].includes(mode)||!s||!s.range||!Number.isInteger(s.index)||typeof s.lineId!=='string')delete small.sessions[mode];for(const [id,p] of Object.entries(progress))if(!p||![0,1,2].includes(p.level||0))delete progress[id];const bookmarkMigrated=normalizeSingleBookmark(data,progress);small.quickMemorize=normalizeQuickMemory(small.quickMemorize);reconcileQuickProgress(progress,small.quickMemorize);stickSettings=readStickSettings(small.stick);if(bookmarkMigrated)save();} 
 function save(){try{storage.saveSmall(key(),small);storage.saveSmall(`mt-progress:${data.id}`,progress);if(saveFailed){saveFailed=false;document.querySelector('.save-error')?.remove();}}catch{saveFailed=true;if(!document.querySelector('.save-error')){const b=el(`<div class="save-error" role="alert">端末に保存できません。バックアップを保存してください。${button('バックアップ','export','secondary')}</div>`);b.querySelector('button').onclick=exportBackup;document.body.append(b);}}}
 // Persist quick-memory completion and the next prompt together in mt-state.
 // A failure does not advance the in-memory prompt or record a false completion.
@@ -72,7 +72,32 @@ function completeQuick(lineId){
  }
  return true;
 }
-function setProgress(id,value){const old=progress[id]?{...progress[id]}:undefined;progress[id]=value;save();toast(value.bookmarked!==old?.bookmarked?(value.bookmarked?'栞を付けました':'栞を外しました'):value.review!==old?.review?(value.review?'復習リストに追加しました':'復習リストから外しました'):`暗記状況：${labels[value.level||0]}`,()=>{if(old)progress[id]=old;else delete progress[id];save();window.dispatchEvent(new CustomEvent('progresschange',{detail:id}));});window.dispatchEvent(new CustomEvent('progresschange',{detail:id}));}
+function setProgress(id,value){
+ const old=progress[id]?{...progress[id]}:undefined;
+ const previous=new Map([[id,old]]);
+ const newlyBookmarked=value.bookmarked===true&&old?.bookmarked!==true;
+ if(newlyBookmarked){
+  for(const [otherId,entry] of Object.entries(progress)){
+   if(otherId===id||entry?.bookmarked!==true)continue;
+   previous.set(otherId,{...entry});
+   progress[otherId]={...entry,bookmarked:false};
+  }
+  value={...value,bookmarkAt:Date.now()};
+ }
+ progress[id]=value;
+ const notify=()=>{for(const changedId of previous.keys())window.dispatchEvent(new CustomEvent('progresschange',{detail:changedId}));};
+ save();
+ const changedBookmark=value.bookmarked!==old?.bookmarked;
+ const message=changedBookmark?(value.bookmarked?(previous.size>1?'栞を移動しました':'栞を付けました'):'栞を外しました'):value.review!==old?.review?(value.review?'復習リストに追加しました':'復習リストから外しました'):`暗記状況：${labels[value.level||0]}`;
+ toast(message,()=>{
+  for(const [changedId,oldValue] of previous){
+   if(oldValue)progress[changedId]=oldValue;
+   else delete progress[changedId];
+  }
+  save();notify();
+ });
+ notify();
+}
 function navItem(route,text,ico){return `<a class="nav-item" href="#${route}" ${route===(location.hash.slice(1)||'home')?'aria-current="page"':''}>${icon(ico)}<span>${text}</span></a>`;}
 document.querySelector('.skip').onclick=e=>{e.preventDefault();const m=document.querySelector('#main .page-scroll')||document.querySelector('#main');m?.setAttribute('tabindex','-1');m?.focus({preventScroll:true});};
 function shell(){app.innerHTML=`<div class="app-layout" data-route="${esc(location.hash.slice(1)||'home')}" data-installed="${isInstalledPwa()?'true':'false'}"><aside class="sidebar"><a href="#home" class="brand"><img src="./icon-v2-192.png" alt=""><span>Mousetrap<br>Trainer</span></a><nav class="nav-items" aria-label="メイン">${navItem('home','ホーム','home')}${navItem('script','台本','book')}${navItem('rehearse','練習','play')}</nav></aside><div class="main-shell"><button type="button" class="home-app-action is-install" data-action="home-app-action" hidden></button>${isInstalledPwa()?`<button type="button" class="icon-button global-notifications" data-action="open-notifications" aria-label="お知らせを開く" title="お知らせ">${icon('bell')}<span class="notification-badge" hidden></span></button>`:''}<button type="button" class="icon-button global-settings" data-action="open-settings" aria-label="設定を開く" title="設定">${icon('settings')}</button><header class="topbar"><a class="home-topbar-brand" href="#home" aria-label="Mousetrap Trainer ホームへ"><img src="./icon-v2-512.png" width="36" height="36" alt="" decoding="async"><span class="home-brand-name">Mousetrap<span>Trainer</span></span></a><a class="brand mobile-brand" href="#home"><img src="./icon-v2-192.png" alt=""><span>Mousetrap Trainer</span></a><div class="toolbar-actions"><button type="button" class="role-trigger" data-action="choose-role" aria-haspopup="listbox" aria-expanded="false" aria-label="担当する役を変更。現在: ${esc(small.role)}"><span><small>担当する役</small><strong>${esc(small.role)}</strong></span>${icon('down')}</button></div></header><main id="main" class="main-content" style="display:contents"></main></div><nav class="bottom-nav" aria-label="メイン">${navItem('home','ホーム','home')}${navItem('script','台本','book')}${navItem('rehearse','練習','play')}</nav></div>`;}
@@ -210,7 +235,7 @@ function showHomeProgressDetails(st){
  </div>`,{setup:d=>d.querySelector('[data-action=review]')?.addEventListener('click',()=>{closeSheet();openHomeReview();})});
 }
 function renderHome(main){
- const st=stats(data,progress,small.role),ring=homeProgressRings(st),quickLine=currentQuickLine(data,small.quickMemorize,small.role),bookmarksCount=bookmarkedLines(data,progress).length;
+ const st=stats(data,progress,small.role),ring=homeProgressRings(st),quickLine=currentQuickLine(data,small.quickMemorize,small.role),bookmarkLine=newestBookmark(data,progress);
  const festival=festivalCountdown(),remaining=festivalRemainingRing(festival);
  const last=data.lines.find(l=>l.id===small.read.id);
  const active=last?.scene||(small.scene==='all'?data.scenes[0].id:small.scene);
@@ -256,12 +281,12 @@ function renderHome(main){
   </section>
   <div class="home-role-row"><label for="home-role">担当する役</label>${roleHTML()}</div>
   <section class="home-actions" aria-label="学習を始める">${button(last?'続きから読む':'台本を読む','read','primary','book')}${button('練習を始める','practice','secondary','play')}</section>
-   ${bookmarksCount?`<button type="button" class="home-bookmarks-shortcut" data-action="open-bookmarks">${icon('bookmark')}<span>栞から読む</span><small>${bookmarksCount}件</small>${icon('chevron')}</button>`:''}
+   ${bookmarkLine?`<button type="button" class="home-bookmarks-shortcut" data-action="open-bookmarks">${icon('bookmark')}<span>栞に戻る</span><small>${esc(bookmarkLine.speaker)}</small>${icon('chevron')}</button>`:''}
   ${sessions.length?`<section class="home-resume"><h2>練習の続き</h2>${sessions.map(([mode,session])=>`<button class="scene-link" data-action="practice"><span class="scene-link-text"><strong>${mode==='cloze'?'穴埋め練習':'音声練習'}</strong><small>${esc(sceneName(session.range?.scene||'all'))} · ${session.index+1}番目</small></span>${icon('chevron')}</button>`).join('')}</section>`:''}
   <section class="home-scenes"><div class="section-heading"><h2>幕・場面</h2></div><div class="scene-list">${data.scenes.map(scene=>`<button class="scene-link" data-scene="${esc(scene.id)}"><span class="scene-link-text"><strong>${esc(scene.title)}</strong></span>${icon('chevron')}</button>`).join('')}</div></section>
  </div></div>`;
  main.querySelector('[data-action=read]').onclick=()=>{if(!last)small.scene=active;save();location.hash='script';};
- main.querySelector('[data-action=open-bookmarks]')?.addEventListener('click',()=>openBookmarkPicker(data,progress,line=>{if(!prepareBookmarkJump(small,line))return;save();closeSheet();location.hash='script';}));
+ main.querySelector('[data-action=open-bookmarks]')?.addEventListener('click',()=>{const line=newestBookmark(data,progress);if(!prepareBookmarkJump(small,line))return;save();location.hash='script';});
  main.querySelectorAll('[data-action=practice]').forEach(b=>b.onclick=()=>{location.hash='rehearse';});
  main.querySelector('#home-role').onchange=e=>changeRole(e.target.value);
  main.querySelector('[data-action=progress-details]').onclick=()=>showHomeProgressDetails(st);
@@ -453,7 +478,7 @@ let installPrompt,updateManager;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;});window.addEventListener('appinstalled',()=>{installPrompt=null;pwaJustInstalled=true;if(isInstalledPwa())greetInstalledDevice();void refreshHeaderAppAction();});
 async function installApp(){if(installPrompt){await installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;}else openSheet('ホーム画面に追加',`<p>Android / Chrome：ブラウザーのメニューから「アプリをインストール」または「ホーム画面に追加」を選びます。</p><div class="sheet-section"><p>iPhone / iPad：Safariの共有メニューから「ホーム画面に追加」を選びます。</p></div><div class="sheet-section"><p class="subtle">すでにインストール済みの場合は、そのまま使えます。ブラウザーによってインストール操作は異なります。</p></div>`);}
 window.addEventListener('hashchange',render);window.addEventListener('pageshow',event=>{if(event.persisted)refreshQuickOnResume();refreshFestivalCountdown();void refreshHeaderAppAction();});window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden){quickWasHidden=true;save();}else{if(quickWasHidden){quickWasHidden=false;refreshQuickOnResume();}refreshFestivalCountdown();void refreshHeaderAppAction();void refreshNotifications();}});
-window.addEventListener('storage',e=>{if(e.key===`mt-progress:${data?.id}`){progress=storage.loadSmall(e.key,{});render();}if(e.key==='mt-notifications-read-v1'||e.key==='mt-welcome-installed-v1')updateNotificationBadge();});
+window.addEventListener('storage',e=>{if(e.key===`mt-progress:${data?.id}`){progress=storage.loadSmall(e.key,{});if(normalizeSingleBookmark(data,progress))save();render();}if(e.key==='mt-notifications-read-v1'||e.key==='mt-welcome-installed-v1')updateNotificationBadge();});
 window.addEventListener('offline',()=>toast('オフラインです。端末に保存した台本を使えます。'));
 // Keep the same data object alive: reader/rehearsal components may already hold references.
 function attachSupplement(target,field,result){

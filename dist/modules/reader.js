@@ -1,5 +1,5 @@
 import {sceneName,filterLines,tokenize,lookupDictionary,labels,advanceProgress,plain,grammarDescription} from './data.js';
-import {bookmarkedLines,openBookmarkPicker,prepareBookmarkJump} from './bookmarks.js';
+import {newestBookmark,prepareBookmarkJump} from './bookmarks.js';
 import {icon,esc,el,button,openSheet,isSheetOpen,toast,closeSheet,syncSelects} from './ui.js';
 import {bindLinePlayback} from './audio.js';
 // Show multi-word dictionary terms even when the line-specific vocabulary omits them.
@@ -106,17 +106,18 @@ export function updateSpeech(node,p={}){
  const bookmark=node.querySelector('[data-action=bookmark]');if(bookmark){bookmark.setAttribute('aria-pressed',String(!!p.bookmarked));bookmark.setAttribute('aria-label',p.bookmarked?'栞を外す':'栞を付ける');}
 }
 export function mountReader(main,ctx){const {data,small,save,progress}=ctx;let observer,scrollFrame,saveTimer,disposed=false;const visible=new Set();let lines=[],lastJump=null;
- const root=el(`<div class="reader-top"><div class="reader-heading"><h1>台本</h1><span class="reader-count"></span></div><div class="reader-tools"><button class="reader-role" data-action="role" aria-haspopup="listbox" aria-expanded="false" aria-label="担当する役を変更。現在: ${esc(small.role)}">${esc(small.role)} ${icon('down')}</button><button class="icon-button reader-bookmarks" data-action="bookmarks" aria-label="栞を付けたセリフを開く" title="栞から読む">${icon('bookmark')}</button><button class="icon-button" data-action="search" aria-label="検索と絞り込み" aria-expanded="false">${icon('search')}</button><button class="icon-button" data-action="scene" aria-label="場面を選ぶ">${icon('book')}</button></div></div>`);main.append(root);
+ const root=el(`<div class="reader-top"><div class="reader-heading"><h1>台本</h1><span class="reader-count"></span></div><div class="reader-tools"><button class="reader-role" data-action="role" aria-haspopup="listbox" aria-expanded="false" aria-label="担当する役を変更。現在: ${esc(small.role)}">${esc(small.role)} ${icon('down')}</button><button class="icon-button reader-bookmarks" data-action="bookmarks" aria-label="栞に戻る" title="栞に戻る">${icon('bookmark')}</button><button class="icon-button" data-action="search" aria-label="検索・場面・絞り込み" aria-expanded="false">${icon('search')}</button></div></div>`);main.append(root);
  root.querySelector('[data-action=role]').onclick=ctx.openRolePicker;
- const filters=el(`<div class="reader-filter hide" aria-hidden="true" inert><label class="search-field">セリフを検索<input type="search" placeholder="英文・日本語訳・役名" value="${esc(small.query||'')}" aria-label="セリフを検索"></label><label>役<select id="speaker-filter"><option value="all">すべての役</option>${ctx.roles().map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('')}</select></label><label>表示<select id="review-filter"><option value="all">すべて</option><option value="review">要復習のみ</option><option value="bookmarked">栞を付けたセリフ</option></select></label><button class="text-button" data-action="clear-filters">条件をクリア</button></div>`);main.append(filters);
+ const filters=el(`<div class="reader-filter hide" aria-hidden="true" inert><label class="search-field">セリフを検索<input type="search" placeholder="英文・日本語訳・役名" value="${esc(small.query||'')}" aria-label="セリフを検索"></label><label>役<select id="speaker-filter"><option value="all">すべての役</option>${ctx.roles().map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('')}</select></label><label>表示<select id="review-filter"><option value="all">すべて</option><option value="review">要復習のみ</option><option value="bookmarked">栞を付けたセリフ</option></select></label><button class="text-button" data-action="clear-filters">条件をクリア</button><button class="reader-scene-link" type="button" data-action="scene">${icon('book')}<span>幕・場面を選ぶ</span>${icon('chevron')}</button></div>`);main.append(filters);
  const scroller=el('<div class="page-scroll reader-scroll" tabindex="0" aria-label="台本本文"></div>'),body=el('<div class="script-body"></div>');scroller.append(body);main.append(scroller);body.style.setProperty('--font',small.font+'px');body.style.setProperty('--reader-leading',small.leading);
  filters.querySelector('#speaker-filter').value=small.speaker||'all';filters.querySelector('#review-filter').value=small.bookmarkOnly?'bookmarked':small.reviewOnly?'review':'all';
  const nodeById=new Map();
  const bookmarkButton=root.querySelector('[data-action=bookmarks]');
  function updateBookmarkTrigger(){
-  const count=bookmarkedLines(data,progress).length;
-  bookmarkButton.dataset.hasBookmarks=String(count>0);
-  bookmarkButton.setAttribute('aria-label',count?'栞を付けたセリフ '+count+'件を開く':'栞を付けたセリフを開く');
+  const hasBookmark=!!newestBookmark(data,progress);
+  bookmarkButton.dataset.hasBookmarks=String(hasBookmark);
+  bookmarkButton.setAttribute('aria-label',hasBookmark?'栞に戻る':'栞は未設定');
+  bookmarkButton.setAttribute('title',hasBookmark?'栞に戻る':'栞は未設定');
  }
  updateBookmarkTrigger();
  function current(anchor=55){let best=null,dist=Infinity;const top=scroller.getBoundingClientRect().top,point=top+anchor;for(const n of visible){const r=n.getBoundingClientRect();if(r.bottom<top)continue;if(r.top<=point&&r.bottom>point)return n;const d=Math.abs(r.top-point);if(d<dist){best=n;dist=d;}}return best;}
@@ -129,18 +130,26 @@ export function mountReader(main,ctx){const {data,small,save,progress}=ctx;let o
  let scene='';const frag=document.createDocumentFragment();for(const line of lines){if(line.scene!==scene){scene=line.scene;frag.append(el(`<div class="scene-divider"><h2>${esc(sceneName(scene))}</h2></div>`));}const n=speechNode(line,ctx);nodeById.set(line.id,n);frag.append(n);}body.append(frag);for(const n of nodeById.values())observer.observe(n);body.dataset.renderMs=(performance.now()-started).toFixed(1);
  if(restore&&small.read.id&&nodeById.has(small.read.id)){const fromNotification=small.read.highlight===true;jump(small.read.id,fromNotification,fromNotification?null:small.read.offset??40);if(fromNotification){small.read.highlight=false;save();}}else scroller.scrollTop=0;
  }
- bookmarkButton.onclick=()=>openBookmarkPicker(data,progress,line=>{
+ bookmarkButton.onclick=()=>{
+  const line=newestBookmark(data,progress);
+  if(!line){toast('栞はまだありません。セリフの栞アイコンで設定できます。');return;}
   clearTimeout(saveTimer);
   if(scrollFrame){cancelAnimationFrame(scrollFrame);scrollFrame=0;}
+  const direct=nodeById.has(line.id)&&small.scene===line.scene&&(!small.speaker||small.speaker==='all')&&!small.query&&!small.reviewOnly&&!small.bookmarkOnly;
   if(!prepareBookmarkJump(small,line))return;
   filters.querySelector('input').value='';
   filters.querySelector('#speaker-filter').value='all';
   filters.querySelector('#review-filter').value='all';
   syncSelects(filters);
+  const searchToggle=root.querySelector('[data-action=search]');
+  if(searchToggle.getAttribute('aria-expanded')==='true')searchToggle.click();
   save();
-  closeSheet();
-  void draw(true);
- });
+  if(direct){
+   jump(line.id);
+   small.read.highlight=false;
+   save();
+  }else void draw(true);
+ };
  const change=()=>{small.query=filters.querySelector('input').value;small.speaker=filters.querySelector('#speaker-filter').value;small.reviewOnly=filters.querySelector('#review-filter').value==='review';small.bookmarkOnly=filters.querySelector('#review-filter').value==='bookmarked';save();draw();};let queryTimer;
  filters.querySelector('input').oninput=()=>{clearTimeout(queryTimer);queryTimer=setTimeout(change,160);};filters.querySelectorAll('select').forEach(s=>s.onchange=change);filters.querySelector('[data-action=clear-filters]').onclick=()=>{filters.querySelector('input').value='';filters.querySelector('#speaker-filter').value='all';filters.querySelector('#review-filter').value='all';syncSelects(filters);change();};
  let filterAnimation=null;
@@ -174,7 +183,7 @@ export function mountReader(main,ctx){const {data,small,save,progress}=ctx;let o
   }
   if(expanded)filters.querySelector('input').focus({preventScroll:true});
  };
- root.querySelector('[data-action=scene]').onclick=()=>openSheet('場面を選ぶ',`<div class="reader-shortcuts"><button class="secondary" data-jump="-1">前の自分のセリフ</button><button class="secondary" data-jump="1">次の自分のセリフ</button></div><button class="scene-link" data-scene="all"><strong>すべての場面を表示</strong></button>${data.scenes.map(s=>`<button class="scene-link" data-scene="${esc(s.id)}"><span class="scene-link-text"><strong>${esc(s.title)}</strong><small>${s.lines.length}件のセリフ</small></span>${icon('chevron')}</button>`).join('')}`,{setup:sheet=>{sheet.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>{closeSheet();jumpMine(+b.dataset.jump);});sheet.querySelectorAll('[data-scene]').forEach(b=>b.onclick=()=>{remember();small.scene=b.dataset.scene;small.read={};save();closeSheet();draw();});}});
+ filters.querySelector('[data-action=scene]').onclick=()=>openSheet('場面を選ぶ',`<div class="reader-shortcuts"><button class="secondary" data-jump="-1">前の自分のセリフ</button><button class="secondary" data-jump="1">次の自分のセリフ</button></div><button class="scene-link" data-scene="all"><strong>すべての場面を表示</strong></button>${data.scenes.map(s=>`<button class="scene-link" data-scene="${esc(s.id)}"><span class="scene-link-text"><strong>${esc(s.title)}</strong><small>${s.lines.length}件のセリフ</small></span>${icon('chevron')}</button>`).join('')}`,{setup:sheet=>{sheet.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>{closeSheet();jumpMine(+b.dataset.jump);});sheet.querySelectorAll('[data-scene]').forEach(b=>b.onclick=()=>{remember();small.scene=b.dataset.scene;small.read={};save();closeSheet();draw();});}});
 
  scroller.addEventListener('scroll',()=>{if(scrollFrame)return;scrollFrame=requestAnimationFrame(()=>{scrollFrame=0;clearTimeout(saveTimer);saveTimer=setTimeout(remember,180);});},{passive:true});
  const onProgress=e=>{updateBookmarkTrigger();const n=nodeById.get(e.detail);if(!n)return;if((small.bookmarkOnly&&!progress[e.detail]?.bookmarked)||(small.reviewOnly&&!progress[e.detail]?.review)){const top=scroller.scrollTop;void draw().then(()=>{if(!disposed)scroller.scrollTop=top;});return;}updateSpeech(n,progress[e.detail]);};window.addEventListener('progresschange',onProgress);

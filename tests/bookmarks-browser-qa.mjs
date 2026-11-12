@@ -23,29 +23,41 @@ try{
   const line=node.getBoundingClientRect(),viewport=scroller.getBoundingClientRect();
   return line.bottom>viewport.top+5&&line.top<viewport.bottom-5;
  },id,{timeout:12000});
+ const setScene=async scene=>{
+  const search=page.locator('.reader-top [data-action="search"]');
+  if(await search.getAttribute('aria-expanded')!=='true')await search.click();
+  await page.locator('.reader-filter [data-action="scene"]').click();
+  await page.locator('#sheet [data-scene="'+scene+'"]').click();
+ };
+ const progressState=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('mt-progress:mousetrap-private')));
 
  await page.goto(base+'/#script',{waitUntil:'domcontentloaded'});
  await page.locator('[data-action="bookmarks"]').waitFor({timeout:30000});
+ assert.equal(await page.locator('.reader-top [data-action="scene"]').count(),0,'scene moved out of crowded toolbar');
+ assert.equal(await page.locator('.reader-filter [data-action="scene"]').count(),1,'scene accessible within search');
+
+ // First marker, followed by a marker in Act II, leaves just the second one.
  await page.locator('[data-id="'+act1+'"] [data-action="bookmark"]').click();
- assert.equal(await page.locator('[data-id="'+act1+'"] [data-action="bookmark"]').getAttribute('aria-pressed'),'true');
-
- // Add a bookmark in another act through the existing scene selector.
- await page.locator('[data-action="scene"]').click();
- await page.locator('#sheet [data-scene="act2"]').click();
+ assert.equal((await progressState())[act1].bookmarked,true);
+ await setScene('act2');
  await page.locator('[data-id="'+act2+'"] [data-action="bookmark"]').click();
- await page.locator('[data-action="bookmarks"]').click();
- assert.equal(await page.locator('.bookmark-jump').count(),2);
- await page.locator('.bookmark-jump[data-bookmark-id="'+act1+'"]').click();
- await expectVisibleTarget(act1);
- assert.equal(await page.locator('#line-'+act1).count(),1,'cross-scene bookmark jump');
+ let progress=await progressState();
+ assert.equal(progress[act1].bookmarked,false,'replaces previous bookmark');
+ assert.equal(progress[act2].bookmarked,true);
+ assert.equal(await page.locator('[data-action="bookmarks"]').getAttribute('aria-label'),'栞に戻る');
 
- // Even an impossible search filter must not block direct bookmark navigation.
- await page.locator('[data-action="search"]').click();
- await page.locator('.reader-filter input[type="search"]').fill('never_matching_bookmark_qa_2026');
- await page.waitForTimeout(300);
- assert.equal(await page.locator('.reader-scroll .speech').count(),0);
+ // Return to another scene, then one-tap directly to the latest marker.
+ await setScene('act1-scene1');
  await page.locator('[data-action="bookmarks"]').click();
- await page.locator('.bookmark-jump[data-bookmark-id="'+act2+'"]').click();
+ await expectVisibleTarget(act2);
+ assert.equal(await page.locator('#sheet').evaluate(el=>el.open),false,'no bookmark list sheet');
+ assert.equal(await page.locator('#line-'+act2).count(),1);
+
+ // Search results can be empty; direct return resets filters and reveals target.
+ await page.locator('.reader-top [data-action="search"]').click();
+ await page.locator('.reader-filter input[type="search"]').fill('never_matching_bookmark_qa_2026');
+ await page.waitForFunction(()=>document.querySelectorAll('.reader-scroll .speech').length===0);
+ await page.locator('[data-action="bookmarks"]').click();
  await expectVisibleTarget(act2);
  const state=await page.evaluate(()=>JSON.parse(localStorage.getItem('mt-state:mousetrap-private')));
  assert.equal(state.scene,'act2');
@@ -54,22 +66,54 @@ try{
  assert.equal(state.bookmarkOnly,false);
  assert.equal(state.read.id,act2);
 
- // Home also provides a direct route back to the same saved lines.
+ // Home is also a direct, uncluttered one-tap return.
  await page.locator('.bottom-nav a[href="#home"]').click();
  await page.locator('.home-bookmarks-shortcut').waitFor();
- assert.match(await page.locator('.home-bookmarks-shortcut').innerText(),/2件/);
+ assert.match(await page.locator('.home-bookmarks-shortcut').innerText(),/栞に戻る/);
  await page.locator('.home-bookmarks-shortcut').click();
- await page.locator('.bookmark-jump[data-bookmark-id="'+act1+'"]').click();
- await page.locator('#line-'+act1).waitFor();
- await expectVisibleTarget(act1);
+ await expectVisibleTarget(act2);
  assert.equal(new URL(page.url()).hash,'#script');
 
+ // Persist across reload and migrate legacy multiple bookmarks to the latest.
  await page.reload({waitUntil:'domcontentloaded'});
  await page.locator('[data-action="bookmarks"]').waitFor({timeout:30000});
+ // Exit the app before injecting legacy data, otherwise pagehide saves stale in-memory progress.
+ await page.goto(base+'/manifest.webmanifest',{waitUntil:'domcontentloaded'});
+ await page.evaluate(([a,b])=>{
+  const key='mt-progress:mousetrap-private',p=JSON.parse(localStorage.getItem(key));
+  p[a]={...p[a],bookmarked:true,bookmarkAt:100,level:2,review:true};
+  p[b]={...p[b],bookmarked:true,bookmarkAt:200};
+  localStorage.setItem(key,JSON.stringify(p));
+ },[act1,act2]);
+ await page.goto(base+'/#script',{waitUntil:'domcontentloaded'});
+ await page.locator('[data-action="bookmarks"]').waitFor({timeout:30000});
+ progress=await progressState();
+ assert.equal(progress[act1].bookmarked,false,'migrate old bookmark');
+ assert.equal(progress[act1].review,true,'keep review state');
+ assert.equal(progress[act1].level,2,'keep mastery state');
+ assert.equal(progress[act2].bookmarked,true,'retain latest');
+
+ // Removing the only bookmark leaves no return destination.
+ await page.locator('[data-id="'+act2+'"] [data-action="bookmark"]').click();
+ assert.equal((await progressState())[act2].bookmarked,false);
  await page.locator('[data-action="bookmarks"]').click();
- assert.equal(await page.locator('.bookmark-jump').count(),2,'bookmarks persist across reload');
+ assert.match(await page.locator('#toast').innerText(),/栞はまだありません/);
+ await page.locator('.bottom-nav a[href="#home"]').click();
+ assert.equal(await page.locator('.home-bookmarks-shortcut').count(),0);
+
+ // Narrow mobile layout must not let toolbar buttons overlap the settings control.
+ await page.setViewportSize({width:320,height:740});
+ await page.locator('.bottom-nav a[href="#script"]').click();
+ await page.locator('.reader-top [data-action="search"]').waitFor();
+ const overlaps=await page.evaluate(()=>{
+  const heading=document.querySelector('.reader-heading').getBoundingClientRect();
+  const tools=[...document.querySelectorAll('.reader-top .reader-tools button')].map(e=>e.getBoundingClientRect());
+  const settings=document.querySelector('.global-settings').getBoundingClientRect();
+  return tools.some(r=>r.right>settings.left+1||r.left<heading.right-1||r.right>innerWidth);
+ });
+ assert.equal(overlaps,false,'320px reader toolbar has no overlapping controls');
  assert.deepEqual(errors,[],'no browser exceptions');
- console.log('PASS: bookmark picker from reader and home, cross-act/filter jump, persisted bookmarks');
+ console.log('PASS: latest-only bookmark, replacement, migration, direct jumps, compact 320px toolbar');
 }finally{
  if(browser)await browser.close();
  server.kill('SIGTERM');
