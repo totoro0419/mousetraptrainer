@@ -24,7 +24,8 @@ try{
   return line.bottom>viewport.top+5&&line.top<viewport.bottom-5;
  },id,{timeout:12000});
  const setScene=async scene=>{
-  await page.locator('.reader-top [data-action="search"]').click();
+  const search=page.locator('.reader-top [data-action="search"]');
+  if(await search.getAttribute('aria-expanded')!=='true')await search.click();
   await page.locator('.reader-filter [data-action="scene"]').click();
   await page.locator('#sheet [data-scene="'+scene+'"]').click();
  };
