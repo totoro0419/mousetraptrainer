@@ -141,6 +141,7 @@ try{
  assert.equal(await page.locator('[data-action="open-notifications"]').count(),0,'website never renders notification button');
  assert.equal(await page.locator('.notification-badge').count(),0,'website does not show unread badge');
  const installedPage=await browser.newPage({...devices['Pixel 7'],locale:'ja-JP'});
+ const installedPageErrors=[];installedPage.on('pageerror',err=>installedPageErrors.push(err.message));
  // Simulate a genuine standalone PWA launch, not only an appinstalled event
  // dispatched in a browser tab. The latter must never unlock the inbox.
  await installedPage.addInitScript(()=>{
@@ -177,6 +178,8 @@ try{
  assert.ok((await installedPage.locator('#sheet .notification-entry-heading').allTextContents()).some(text=>text.includes('聖光祭まであと175日！')),'editorial headline shows correct remaining days');
  await linkedQuote.click();
  assert.equal(new URL(installedPage.url()).hash,'#script','quote opens script route');
+ await installedPage.waitForTimeout(500);
+ console.log('READER_DEBUG',JSON.stringify({errors:installedPageErrors,info:await installedPage.evaluate(()=>({route:document.querySelector('.app-layout')?.dataset.route,html:document.querySelector('#main')?.innerHTML.slice(0,350),count:document.querySelectorAll('.reader-scroll .speech').length,selected:document.querySelector('#line-act1-scene1-speech-0040')?.outerHTML.slice(0,100),toast:document.querySelector('#toast')?.textContent,sheet:document.querySelector('#sheet')?.open}))}));
  await installedPage.locator('#line-act1-scene1-speech-0040').waitFor({state:'visible',timeout:10000});
  await installedPage.close();
  console.log('PASS: browser inbox read state and quote-to-exact-speech navigation');
