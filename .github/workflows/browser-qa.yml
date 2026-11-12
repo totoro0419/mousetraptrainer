@@ -29,6 +29,7 @@ jobs:
           node tests/browser-qa.mjs
           node tests/dramaturgy-browser-qa.mjs
           node tests/practice-scenes-browser-qa.mjs
+          node tests/bookmarks-browser-qa.mjs
       - name: Screenshots
         if: always()
         uses: actions/upload-artifact@v4
