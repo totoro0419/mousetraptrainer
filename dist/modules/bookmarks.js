@@ -1,9 +1,34 @@
-import {sceneName} from './data.js';
-import {esc,icon,openSheet} from './ui.js';
+// A script has a single bookmark. Existing multi-bookmark states are migrated
+// deterministically by the saved bookmark timestamp, falling back to updatedAt.
+export function newestBookmark(data,progress){
+ let latest=null,latestAt=-Infinity;
+ for(const line of data?.lines||[]){
+  const entry=progress?.[line.id];
+  if(entry?.bookmarked!==true)continue;
+  const raw=Number(entry.bookmarkAt??entry.updatedAt);
+  const at=Number.isFinite(raw)?raw:0;
+  if(at>=latestAt){latest=line;latestAt=at;}
+ }
+ return latest;
+}
 
-// Bookmark state lives in the existing per-script progress map. Preserve script order.
 export function bookmarkedLines(data,progress){
- return (data?.lines||[]).filter(line=>progress?.[line.id]?.bookmarked===true);
+ const line=newestBookmark(data,progress);
+ return line?[line]:[];
+}
+
+// Remove older bookmarks without touching mastery, review, notes, or timestamps.
+export function normalizeSingleBookmark(data,progress){
+ if(!progress||typeof progress!=='object')return false;
+ const current=newestBookmark(data,progress);
+ let changed=false;
+ for(const [id,entry] of Object.entries(progress)){
+  if(entry?.bookmarked===true&&id!==current?.id){
+   progress[id]={...entry,bookmarked:false};
+   changed=true;
+  }
+ }
+ return changed;
 }
 
 // Opening a saved line must work even when another scene or filter is selected.
@@ -16,25 +41,4 @@ export function prepareBookmarkJump(small,line){
  small.bookmarkOnly=false;
  small.read={id:line.id,scene:line.scene,highlight:true};
  return true;
-}
-
-export function openBookmarkPicker(data,progress,onSelect){
- const entries=bookmarkedLines(data,progress);
- const byId=new Map(entries.map(line=>[line.id,line]));
- const content=entries.length?
-  '<p class="bookmark-list-summary">栞を付けたセリフ '+entries.length+'件</p><div class="bookmark-jump-list">'+
-  entries.map(line=>'<button type="button" class="bookmark-jump" data-bookmark-id="'+esc(line.id)+'">'+
-   '<span class="bookmark-jump-content"><span class="bookmark-jump-meta">'+
-   esc(sceneName(line.scene))+' · '+esc(line.speaker)+(line.ordinal?' · '+esc(line.ordinal):'')+
-   '</span><span class="bookmark-jump-text" lang="en">'+esc(line.text||'')+'</span></span>'+icon('chevron')+
-   '</button>').join('')+'</div>':
-  '<p class="bookmark-list-empty">栞はまだありません。台本の各セリフにある栞アイコンを押すと、ここから戻れるようになります。</p>';
- return openSheet('栞から読む',content,{setup:sheet=>{
-  sheet.querySelectorAll('[data-bookmark-id]').forEach(button=>{
-   button.onclick=()=>{
-    const line=byId.get(button.dataset.bookmarkId);
-    if(line)onSelect(line);
-   };
-  });
- }});
 }
