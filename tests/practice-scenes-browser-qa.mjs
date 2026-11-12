@@ -43,7 +43,8 @@ try {
  assert.match(await page.locator('.reader-heading').innerText(),/S40/);
  assert.match(await page.locator('#session-counter').innerText(),/1\s*\/\s*45/);
  await page.locator('[data-action="exit"]').click();
- await page.locator('.practice-part').first().waitFor();
+ // S40 remains selected, so only its Act II group is expanded on return.
+ await page.locator('[data-practice-id="S40"]').waitFor();
  const select=page.locator('#rehearsal-role');
  await select.evaluate(element=>{
   element.value='VOICE ON THE RADIO';
