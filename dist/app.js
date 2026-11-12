@@ -88,7 +88,7 @@ function setProgress(id,value){
  const notify=()=>{for(const changedId of previous.keys())window.dispatchEvent(new CustomEvent('progresschange',{detail:changedId}));};
  save();
  const changedBookmark=value.bookmarked!==old?.bookmarked;
- const message=changedBookmark?(value.bookmarked?'栞を更新しました':'栞を外しました'):value.review!==old?.review?(value.review?'復習リストに追加しました':'復習リストから外しました'):`暗記状況：${labels[value.level||0]}`;
+ const message=changedBookmark?(value.bookmarked?(previous.size>1?'栞を移動しました':'栞を付けました'):'栞を外しました'):value.review!==old?.review?(value.review?'復習リストに追加しました':'復習リストから外しました'):`暗記状況：${labels[value.level||0]}`;
  toast(message,()=>{
   for(const [changedId,oldValue] of previous){
    if(oldValue)progress[changedId]=oldValue;
