@@ -1,4 +1,5 @@
 import {sceneName,stats,labels,normalizeBundle,readFiles,plain} from './modules/data.js';
+import {bookmarkedLines,openBookmarkPicker,prepareBookmarkJump} from './modules/bookmarks.js';
 import * as storage from './modules/storage.js';
 import {THEME_COLORS,readTheme,saveTheme,applyTheme} from './modules/theme.js';
 import {icon,esc,button,el,toast,openSheet,closeSheet,enhanceSelects} from './modules/ui.js';
@@ -209,7 +210,7 @@ function showHomeProgressDetails(st){
  </div>`,{setup:d=>d.querySelector('[data-action=review]')?.addEventListener('click',()=>{closeSheet();openHomeReview();})});
 }
 function renderHome(main){
- const st=stats(data,progress,small.role),ring=homeProgressRings(st),quickLine=currentQuickLine(data,small.quickMemorize,small.role);
+ const st=stats(data,progress,small.role),ring=homeProgressRings(st),quickLine=currentQuickLine(data,small.quickMemorize,small.role),bookmarksCount=bookmarkedLines(data,progress).length;
  const festival=festivalCountdown(),remaining=festivalRemainingRing(festival);
  const last=data.lines.find(l=>l.id===small.read.id);
  const active=last?.scene||(small.scene==='all'?data.scenes[0].id:small.scene);
@@ -255,10 +256,12 @@ function renderHome(main){
   </section>
   <div class="home-role-row"><label for="home-role">担当する役</label>${roleHTML()}</div>
   <section class="home-actions" aria-label="学習を始める">${button(last?'続きから読む':'台本を読む','read','primary','book')}${button('練習を始める','practice','secondary','play')}</section>
+   ${bookmarksCount?`<button type="button" class="home-bookmarks-shortcut" data-action="open-bookmarks">${icon('bookmark')}<span>栞から読む</span><small>${bookmarksCount}件</small>${icon('chevron')}</button>`:''}
   ${sessions.length?`<section class="home-resume"><h2>練習の続き</h2>${sessions.map(([mode,session])=>`<button class="scene-link" data-action="practice"><span class="scene-link-text"><strong>${mode==='cloze'?'穴埋め練習':'音声練習'}</strong><small>${esc(sceneName(session.range?.scene||'all'))} · ${session.index+1}番目</small></span>${icon('chevron')}</button>`).join('')}</section>`:''}
   <section class="home-scenes"><div class="section-heading"><h2>幕・場面</h2></div><div class="scene-list">${data.scenes.map(scene=>`<button class="scene-link" data-scene="${esc(scene.id)}"><span class="scene-link-text"><strong>${esc(scene.title)}</strong></span>${icon('chevron')}</button>`).join('')}</div></section>
  </div></div>`;
  main.querySelector('[data-action=read]').onclick=()=>{if(!last)small.scene=active;save();location.hash='script';};
+ main.querySelector('[data-action=open-bookmarks]')?.addEventListener('click',()=>openBookmarkPicker(data,progress,line=>{if(!prepareBookmarkJump(small,line))return;save();closeSheet();location.hash='script';}));
  main.querySelectorAll('[data-action=practice]').forEach(b=>b.onclick=()=>{location.hash='rehearse';});
  main.querySelector('#home-role').onchange=e=>changeRole(e.target.value);
  main.querySelector('[data-action=progress-details]').onclick=()=>showHomeProgressDetails(st);
