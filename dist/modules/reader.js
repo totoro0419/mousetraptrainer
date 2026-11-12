@@ -141,6 +141,8 @@ export function mountReader(main,ctx){const {data,small,save,progress}=ctx;let o
   filters.querySelector('#speaker-filter').value='all';
   filters.querySelector('#review-filter').value='all';
   syncSelects(filters);
+  const searchToggle=root.querySelector('[data-action=search]');
+  if(searchToggle.getAttribute('aria-expanded')==='true')searchToggle.click();
   save();
   if(direct){
    jump(line.id);
