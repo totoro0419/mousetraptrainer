@@ -77,13 +77,15 @@ try{
  // Persist across reload and migrate legacy multiple bookmarks to the latest.
  await page.reload({waitUntil:'domcontentloaded'});
  await page.locator('[data-action="bookmarks"]').waitFor({timeout:30000});
+ // Exit the app before injecting legacy data, otherwise pagehide saves stale in-memory progress.
+ await page.goto(base+'/manifest.webmanifest',{waitUntil:'domcontentloaded'});
  await page.evaluate(([a,b])=>{
   const key='mt-progress:mousetrap-private',p=JSON.parse(localStorage.getItem(key));
   p[a]={...p[a],bookmarked:true,bookmarkAt:100,level:2,review:true};
   p[b]={...p[b],bookmarked:true,bookmarkAt:200};
   localStorage.setItem(key,JSON.stringify(p));
  },[act1,act2]);
- await page.reload({waitUntil:'domcontentloaded'});
+ await page.goto(base+'/#script',{waitUntil:'domcontentloaded'});
  await page.locator('[data-action="bookmarks"]').waitFor({timeout:30000});
  progress=await progressState();
  assert.equal(progress[act1].bookmarked,false,'migrate old bookmark');
